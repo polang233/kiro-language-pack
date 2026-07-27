@@ -37,6 +37,17 @@ const locales = config.locales
   .filter((l) => l.enabled !== false)
   .filter((l) => (flags.locale ? l.id === flags.locale : true));
 
+// Only Standalone-style builds embed the workbench baseline. When no enabled mode
+// needs it there is nothing to download, so this becomes a no-op instead of a
+// pointless 90 file fetch on every CI run.
+const upstreamNeeded = Object.values(config.modes)
+  .some((mode) => mode.enabled !== false && mode.includeUpstream);
+if (!upstreamNeeded && !flags.force) {
+  log.info('No enabled build mode embeds the workbench baseline, nothing to sync.');
+  log.plain('  Enable a mode with "includeUpstream": true in config.json, or pass --force.');
+  process.exit(0);
+}
+
 const rawUrl = (repoPath) =>
   `https://raw.githubusercontent.com/${repo}/${encodeURIComponent(ref)}/${repoPath.split('/').map(encodeURIComponent).join('/')}`;
 

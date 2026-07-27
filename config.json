@@ -27,8 +27,9 @@
       "languageName": "Chinese Simplified",
       "localizedLanguageName": "中文（简体）",
       "displayName": "Chinese (Simplified) (简体中文) Language Pack for Kiro",
-      "description": "Kiro IDE 简体中文语言包，覆盖编辑器界面与 Kiro 专有界面。Simplified Chinese language pack for the Kiro IDE.",
-      "descriptionAddon": "Kiro 专有界面的简体中文补充包，与已安装的 VS Code 中文语言包并存。Kiro-only Simplified Chinese strings, installs alongside an existing VS Code language pack.",
+      "description": "Kiro 专有界面的简体中文语言包，与 VS Code 官方中文语言包并存互补。Simplified Chinese for the Kiro specific UI. Complements the official VS Code language pack.",
+      "descriptionStandalone": "Kiro IDE 简体中文语言包，同时覆盖编辑器界面与 Kiro 专有界面，无需再装 VS Code 官方语言包。Self-contained Simplified Chinese language pack for the Kiro IDE.",
+      "companionExtension": "ms-ceintl.vscode-language-pack-zh-hans",
       "upstreamPackDir": "i18n/vscode-language-pack-zh-hans",
       "enabled": true
     }
@@ -36,17 +37,24 @@
   "$locales": "Add a locale by appending an entry here and creating src/i18n/<id>/. No script changes are needed. Set upstreamPackDir to null if microsoft/vscode-loc has no pack for that language; `full` mode will then be skipped for it.",
 
   "modes": {
-    "addon": {
-      "enabled": true,
-      "nameSuffix": "-addon",
-      "includeUpstream": false,
-      "$note": "Small pack: Kiro strings only. Intended to sit next to an already installed VS Code language pack. Whether two packs declaring the same languageId can coexist is host-dependent - see README."
-    },
-    "full": {
+    "kiro": {
       "enabled": true,
       "nameSuffix": "",
+      "displayNameSuffix": "",
+      "includeUpstream": false,
+      "kiroOnly": true,
+      "requireCompanion": false,
+      "$note": "The primary product: Kiro strings only, ~10 KB. Verified to coexist with the official VS Code language pack - the host merges the `translations` maps of every extension contributing the same languageId, and this pack only claims the `kiro.kiroAgent` id, which the official pack does not provide.",
+      "$requireCompanion": "Set to true to emit extensionDependencies for the locale's companionExtension, so installing this pack pulls in the official VS Code language pack automatically. Off by default: it hard-couples the two and fails if the companion is unavailable in the target registry."
+    },
+    "standalone": {
+      "enabled": false,
+      "nameSuffix": "-standalone",
+      "displayNameSuffix": " (Standalone)",
       "includeUpstream": true,
-      "$note": "Self-contained pack: Code OSS baseline from vscode-loc plus Kiro strings. Replaces the official VS Code language pack. Recommended."
+      "kiroOnly": false,
+      "requireCompanion": false,
+      "$note": "Self-contained pack: vscode-loc baseline plus Kiro strings, ~430 KB. Replaces the official VS Code language pack rather than complementing it. Disabled by default because most users already run the official pack and prefer to keep it. Enable when you want a single-extension install."
     }
   },
 

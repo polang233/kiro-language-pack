@@ -2,7 +2,7 @@
 /**
  * Packages every directory produced by `npm run build` into a .vsix.
  *
- * Usage: npm run package [-- --locale=zh-cn] [--mode=full] [--skip-build]
+ * Usage: npm run package [-- --locale=zh-cn] [--mode=kiro] [--skip-build]
  */
 import fs from 'node:fs';
 import path from 'node:path';

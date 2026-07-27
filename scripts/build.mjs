@@ -12,7 +12,7 @@
  * that do not exist in the local Kiro build are dropped. When absent - as in CI -
  * filtering is skipped so the build still succeeds.
  *
- * Usage: npm run build [-- --locale=zh-cn] [--mode=full] [--no-filter]
+ * Usage: npm run build [-- --locale=zh-cn] [--mode=kiro] [--no-filter] [--no-repair]
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -59,7 +59,18 @@ if (!locales.length) fail(`No enabled locale matched${flags.locale ? ` --locale=
 const modes = Object.entries(config.modes)
   .filter(([, m]) => m.enabled !== false)
   .filter(([id]) => (flags.mode ? id === flags.mode : true));
-if (!modes.length) fail(`No enabled mode matched${flags.mode ? ` --mode=${flags.mode}` : ''}.`);
+if (!modes.length) {
+  if (flags.mode && flags.mode in config.modes) {
+    fail(
+      `Build mode "${flags.mode}" is disabled. Set modes.${flags.mode}.enabled to true in config.json.\n` +
+      `  Available: ${Object.entries(config.modes).map(([id, m]) => `${id}${m.enabled === false ? ' (disabled)' : ''}`).join(', ')}`
+    );
+  }
+  fail(
+    `No enabled mode matched${flags.mode ? ` --mode=${flags.mode}` : ''}.\n` +
+    `  Known modes: ${Object.keys(config.modes).join(', ')}`
+  );
+}
 
 const template = fs.readFileSync(p('src', 'manifest.template.json'), 'utf8');
 
@@ -307,13 +318,13 @@ for (const locale of locales) {
       fail(`${name}: nothing to ship. Check src/i18n/${locale.id}/ and, for full mode, run npm run sync.`);
     }
 
-    const displayName = locale.displayName
-      ? (modeId === 'addon' ? `${locale.displayName} (Add-on)` : locale.displayName)
-      : `${locale.languageName} (${locale.localizedLanguageName}) Language Pack for Kiro${modeId === 'addon' ? ' (Add-on)' : ''}`;
+    const baseDisplayName = locale.displayName
+      ?? `${locale.languageName} (${locale.localizedLanguageName}) Language Pack for Kiro`;
+    const displayName = `${baseDisplayName}${mode.displayNameSuffix ?? ''}`;
 
-    const description = modeId === 'addon'
-      ? (locale.descriptionAddon ?? `${locale.localizedLanguageName} translations for the Kiro specific user interface. Install alongside an existing VS Code language pack.`)
-      : (locale.description ?? `${locale.localizedLanguageName} language pack for the Kiro IDE, covering both the editor workbench and the Kiro specific user interface.`);
+    const description = mode.kiroOnly
+      ? (locale.description ?? `${locale.localizedLanguageName} translations for the Kiro specific user interface. Complements an existing VS Code language pack.`)
+      : (locale.descriptionStandalone ?? `${locale.localizedLanguageName} language pack for the Kiro IDE, covering both the editor workbench and the Kiro specific user interface.`);
 
     const manifest = renderManifest({
       NAME: name,
@@ -332,9 +343,19 @@ for (const locale of locales) {
       BUGS_URL: config.bugs
     }, translations);
 
+    // Optionally pull the companion workbench pack in automatically. Off by default:
+    // it hard-couples the two extensions and fails when the companion is missing from
+    // the target registry.
+    if (mode.requireCompanion && locale.companionExtension) {
+      manifest.extensionDependencies = [locale.companionExtension];
+      log.info(`declared dependency on ${locale.companionExtension}`);
+    }
+
     manifest.kiroLanguagePack = {
       mode: modeId,
+      kiroOnly: mode.kiroOnly === true,
       locale: locale.id,
+      companionExtension: mode.kiroOnly ? (locale.companionExtension ?? null) : null,
       targetExtension: config.target.kiroExtensionId,
       verifiedKiroVersions: config.target.verifiedKiroVersions,
       builtAgainst: metadata
@@ -376,7 +397,8 @@ for (const locale of locales) {
 
     log.ok(`${name}: ${translations.length} translation file(s), ${(bytes / 1024).toFixed(0)} KiB -> dist/${name}/`);
     summaries.push({
-      name, locale: locale.id, mode: modeId, translationFiles: translations.length,
+      name, locale: locale.id, mode: modeId, kiroOnly: mode.kiroOnly === true,
+      translationFiles: translations.length,
       extensionBundlesKept: extKeptCount, extensionBundlesDropped: extDroppedCount,
       coreIncluded: !isEmpty(core), repairedStrings: repaired, bytes
     });

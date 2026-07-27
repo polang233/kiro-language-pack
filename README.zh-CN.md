@@ -16,27 +16,40 @@ Kiro 目前只有英文界面，并且没有提供切换自有面板语言的入
 
 | Locale | 语言 | Kiro 界面 | 编辑器主体 | 状态 |
 | --- | --- | --- | --- | --- |
-| `zh-cn` | 中文（简体） | 72 / 72（100%） | 14184 / 15630（90.7%） | 可用 |
+| `zh-cn` | 中文（简体） | 72 / 72（100%） | 由配套语言包提供 | 可用 |
 
 数据基于 Kiro 1.0.228（Code OSS 1.107.1）实测。欢迎新增语言，且**不需要改任何代码**，
 见[新增语言](#新增语言)。
 
-## 每种语言两个版本
+## 设计取向：互补，而不是替代
 
-因为大多数人已经装了 VS Code 官方语言包，所以每个 locale 发两个版本。
+发布的语言包只汉化 **Kiro 自有界面**，与 VS Code 官方中文语言包并存，编辑器主体仍由官方包
+负责。原因很实际：大多数人已经在用官方包，不愿意为了汉化 Kiro 面板把它换掉。
 
-| 版本 | 扩展名 | 内容 | 体积 |
-| --- | --- | --- | --- |
-| **完整版**（推荐） | `kiro-language-pack-<locale>` | 编辑器主体译文 + Kiro 译文。自包含，用来替代 VS Code 官方语言包。 | 约 430 KB |
-| **补充版** | `kiro-language-pack-<locale>-addon` | 只含 Kiro 译文，给想继续用官方语言包的人。 | 约 10 KB |
+这不是权宜之计。宿主会把所有声明同一 `languageId` 的扩展的译文表**合并**成
+`languagepacks.json` 里一张扁平的 `id -> 路径` 表。本包只声明 `kiro.kiroAgent` 这一个 id，
+官方包不提供它，因此没有可争的东西。已在 Kiro 1.0.228 上双装实测：每个 id 都解析到预期的扩展。
 
-两个版本声明的是同一个 `languageId`，所以**只能装其中一个**。完整版也不要和 VS Code 官方
-中文包同时装 —— 两个扩展抢同一个 locale，谁生效由宿主决定，不可预期。
+| 版本 | 扩展名 | 内容 | 体积 | 默认 |
+| --- | --- | --- | --- | --- |
+| **Kiro 版** | `kiro-language-pack-<locale>` | 只含 Kiro 译文，与官方语言包配套 | 约 11 KB | 发布 |
+| **Standalone 版** | `kiro-language-pack-<locale>-standalone` | 编辑器主体译文 + Kiro 译文，自包含，替代官方包 | 约 430 KB | 仅本地构建 |
+
+Standalone 在 `config.json` 里默认关闭。想只装一个扩展搞定全部就打开它，但那种情况下不要再留
+着官方包 —— 两者都会声明 `vscode` 这个 id。
 
 ## 安装
 
-在 Kiro 的扩展视图（`Ctrl+Shift+X` / `Cmd+Shift+X`）里搜索并安装即可。Kiro 默认使用
-[Open VSX](https://open-vsx.org/) 市场。
+两个扩展各管一半界面：
+
+| 扩展 | 负责 |
+| --- | --- |
+| 本语言包 | Kiro 自有界面：命令、视图标题、规格编辑器工具栏 |
+| Chinese (Simplified) Language Pack for Visual Studio Code | 编辑器主体：菜单、命令面板、设置、源代码管理、终端 |
+
+在 Kiro 的扩展视图（`Ctrl+Shift+X` / `Cmd+Shift+X`）里把两个都装上。Kiro 默认使用
+[Open VSX](https://open-vsx.org/) 市场。如果你已经在用官方语言包，那只有本包是新增的，
+原有设置一切不变。
 
 也可以从 [Releases](../../releases) 下载 `.vsix`：
 
@@ -74,11 +87,11 @@ Kiro 目前只有英文界面，并且没有提供切换自有面板语言的入
 
 | 界面 | 可达 | 说明 |
 | --- | --- | --- |
-| 编辑器主体：菜单、命令面板、设置、源代码管理、终端、通知 | 可以 | 仅完整版。基线来自 `microsoft/vscode-loc`。 |
-| 内置扩展：Git、Markdown、npm、各语言支持、主题 | 可以 | 仅完整版，共 92 个译文包。 |
+| 编辑器主体：菜单、命令面板、设置、源代码管理、终端、通知 | 可以 | 由配套的官方语言包负责，或用 Standalone 版 |
+| 内置扩展：Git、Markdown、npm、各语言支持、主题 | 可以 | 同上，Standalone 版内含 92 个译文包 |
 | Kiro 命令标题、视图名、规格编辑器工具栏、树视图引导文案 | 可以 | 183 条可本地化清单字符串中有 107 条走了 `%key%`，背后是 `package.nls.json` 的 72 条 key。 |
 | Kiro 设置项描述、部分命令标题、部分视图名 | **不能** | 有 76 条清单字符串是直接写死的英文字面量，没有 `%key%` 间接层，语言包无能为力。 |
-| Kiro 聊天面板、Spec 面板、钩子编辑器、能力包面板 | **不能** | 346 个 webview bundle，约 12.9 MiB，打包时没有做国际化抽取。 |
+| Kiro 聊天面板、Spec 面板、钩子编辑器、能力包面板、Settings 面板 | **不能** | 346 个 webview bundle，约 12.9 MiB，打包时没有做国际化抽取。 |
 | Kiro 运行时消息（`vscode.l10n.t()`） | 已就绪 | Kiro 清单里声明了 `"l10n"` 但还没调用该 API。构建已经预留 `contents.bundle` 段，Kiro 一旦开始用就能立刻翻译。 |
 
 最后两行是上游的限制，不是这里偷懒。`npm run audit` 生成的报告会列出每一条无法触及的字符串，
@@ -125,11 +138,13 @@ src/i18n/<locale>/{overrides,kiro} ───────────────
 
 `metadata/kiro.json` 是当前安装里所有可本地化 key 的快照，连英文原文一起存。它有三个用途：
 
-- **过滤**：丢掉 Kiro 里不存在的 key —— 中文包丢了 8108 条，这就是产物能保持小体积的原因。
+- **过滤**：丢掉 Kiro 里不存在的 key —— 中文 Standalone 版丢了 8108 条，这就是产物能保持小
+  体积的原因。
 - **修复**：`vscode-loc` 跟的是最新版 VS Code，而 Kiro 的内核偏旧，于是有些继承来的译文
   已经和原文对不上了 —— 多出来的 `{2}` 会原样显示成字面量 `{2}`，被翻译过的 `command:`
-  目标会让链接变成死文本。构建会把这些丢掉（中文包 21 条），让它回退成英文，而不是显示错的
+  目标会让链接变成死文本。构建会把这些丢掉（中文 21 条），让它回退成英文，而不是显示错的
   内容。属于本仓库维护的文件里出现同类问题则会报警而不是静默丢弃，因为那是我们自己的 bug。
+  这一项只对携带基线的 Standalone 版有意义。
 - **覆盖率**：给 `coverage` 一个真实的分母，而不是估算。
 
 这份快照是可选的，所以 CI 在没装 Kiro 的情况下也能构建，只是过滤和修复会跳过。
@@ -154,8 +169,10 @@ npm run package    # 产出 .vsix
 常用参数写在 `--` 之后：
 
 ```bash
-npm run build -- --locale=zh-cn --mode=full
+npm run build -- --locale=zh-cn --mode=kiro
+npm run build -- --mode=standalone    # 需先在 config.json 里启用
 npm run build -- --no-filter          # 保留本机 Kiro 里不存在的 key
+npm run build -- --no-repair          # 保留标记已漂移的上游译文
 npm run sync -- --force               # 忽略缓存重新下载
 npm run sync -- --strategy=api        # 用 GitHub API 列文件（需要 GITHUB_TOKEN）
 npm run package -- --skip-build
@@ -170,35 +187,39 @@ $env:KIRO_INSTALL_DIR = "C:\Users\<你>\AppData\Local\Programs\Kiro"
 
 ### 安装自己构建的包
 
-产物在 `dist/` 下，两个版本各一个 `.vsix`：
+产物在 `dist/` 下：
 
 ```
-dist/kiro-language-pack-zh-cn-0.1.0.vsix          完整版
-dist/kiro-language-pack-zh-cn-addon-0.1.0.vsix    补充版
+dist/kiro-language-pack-zh-cn-0.1.0.vsix                 Kiro 版（默认构建）
+dist/kiro-language-pack-zh-cn-standalone-0.1.0.vsix      Standalone 版（需在 config.json 里启用）
 ```
-
-装完整版的完整步骤（**只装一个**，装之前先卸载 VS Code 官方中文语言包）：
-
-1. 命令面板 → `Extensions: Install from VSIX...` → 选 `kiro-language-pack-zh-cn-0.1.0.vsix`
-2. 命令面板 → `Configure Display Language` → 选 **中文（简体）**
-3. 重启 Kiro
 
 **不要双击 `.vsix` 文件。** 如果机器上装了 Visual Studio，这个后缀会被它的 VSIX Installer
 接管，然后报 `NoApplicableSKUsException`。那是文件关联的问题，不是包的问题。
 
-命令行安装更稳妥。`kiro` 不在 PATH 里时用安装目录下的 `bin\kiro.cmd`：
+命令行安装最稳妥。`kiro` 不在 PATH 里时用安装目录下的 `bin\kiro.cmd`：
 
 ```powershell
 $kiro = 'F:\AI\Kiro\bin\kiro.cmd'          # 换成你的安装路径
 & $kiro --install-extension dist\kiro-language-pack-zh-cn-0.1.0.vsix
-& $kiro --uninstall-extension ms-ceintl.vscode-language-pack-zh-hans
 & $kiro --list-extensions | Select-String language-pack
 ```
 
-验证是否生效：看侧边栏 Kiro 视图的标题是否变成"智能体钩子""智能体引导与技能""MCP 服务器"，
-以及打开 `.kiro/specs/*/requirements.md` 时工具栏是否显示"需求 / 设计 / 任务列表 / 同步文件"。
+装 Kiro 版**不需要**卸载官方语言包，两者是配套关系。装完重启 Kiro。
 
-想还原：卸载该扩展，并把 `argv.json` 的 `locale` 改回 `"en"` 或删掉该字段，然后重启。
+验证是否生效：看侧边栏 Kiro 视图的标题是否变成「智能体钩子」「智能体引导与技能」
+「MCP 服务器」，以及打开 `.kiro/specs/*/requirements.md` 时工具栏是否显示
+「需求 / 设计 / 任务列表 / 同步文件 / 全部运行」。
+
+还可以直接查宿主合并后的结果，确认每个 id 解析到了哪个扩展：
+
+```powershell
+node -e "const j=require(process.env.APPDATA+'/Kiro/languagepacks.json');console.log(j['zh-cn'].translations['kiro.kiroAgent'])"
+```
+
+该文件在 Kiro 启动时重建，所以 CLI 装完要重启一次才会更新。
+
+想还原：卸载该扩展即可，官方包和 `argv.json` 都不用动。
 
 ## 仓库结构
 

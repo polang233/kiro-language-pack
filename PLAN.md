@@ -115,16 +115,40 @@ stub，真正的应用在 `assets/` 下的 chunk 里），以及 `hook-editor`�
 
 ## 4. 已定的设计决策
 
-### 4.1 双版本，而不是单一形态
+### 4.1 主推共存版 —— 已实测确认
 
-同 locale 两个语言包时宿主的选择行为不确定，所以：
+原先担心同 locale 两个语言包会互斥，所以一度把自包含的完整版当主推。**装机实测推翻了这个
+担心**：宿主不是二选一，而是**合并**。
 
-- **完整版**（`kiro-language-pack-zh-cn`，430 KB）：vscode-loc 基线 + Kiro 译文，自包含，
-  替代官方包。**主推**。
-- **补充版**（`-addon` 后缀，10 KB）：只含 Kiro 译文，给坚持用官方包的人。
+`%APPDATA%\Kiro\languagepacks.json` 的结构是：
 
-两者都声明 `zh-cn`，README 明确要求只装一个。补充版能否与官方包稳定并存仍需装机实测，
-这是唯一一个还没验证的行为。
+```
+zh-cn: { label, hash,
+         extensions:   [ 每个贡献该语言的扩展 ],
+         translations: { "vscode": 路径, "vscode.git": 路径, "kiro.kiroAgent": 路径, ... } }
+```
+
+`translations` 是一张扁平的 `id -> 路径` 表，所有声明同一 `languageId` 的扩展都会往里写。
+官方包 + 本包同装后的实测结果：
+
+```
+contributor: <本项目的 Kiro 版> 0.1.0
+contributor: ms-ceintl.vscode-language-pack-zh-hans 1.106.0
+vscode         -> ms-ceintl...\translations\main.i18n.json
+vscode.git     -> ms-ceintl...\translations\extensions\vscode.git.i18n.json
+kiro.kiroAgent -> <本项目的 Kiro 版>\translations\extensions\kiro.kiroAgent.i18n.json
+```
+
+**只有争抢同一个 id 才会冲突。** 本包只声明 `kiro.kiroAgent`，官方包不提供它，所以两者
+天然互补。于是形态调整为：
+
+- **Kiro 版**（`kiro-language-pack-zh-cn`，11 KB）：只含 Kiro 译文，与官方包配套。**默认发布**。
+- **Standalone 版**（`-standalone` 后缀，430 KB）：vscode-loc 基线 + Kiro 译文，替代官方包。
+  `config.json` 里默认关闭，需要单扩展安装时再打开。
+
+这个决定也符合用户的实际偏好：大多数人已经在用官方包，不愿意为了汉化 Kiro 面板换掉它。
+
+注意 `languagepacks.json` 在 Kiro 启动时重建，用 CLI 装完扩展后要重启一次才会更新。
 
 ### 4.2 不手写译文，做流水线
 
@@ -179,13 +203,14 @@ tr: [开始调试](命令: javascript-walkthrough.commands.debugJsFile)   ← �
 | `extract` | core 1385 模块 / 15630 key；95 内置扩展 / 92 带 nls；`kiro.kiroAgent` 72 条 |
 | `audit` | 183 条清单字符串，107 externalized（58.5%），76 硬编码；webview 346 bundle / 12.9 MiB |
 | `sync` | metadata 策略，93 候选 → 92 下载 + 1 上游缺失 |
-| `build` | addon 1 文件 4 KiB；full 93 文件 1372 KiB（过滤丢 8108，修复丢 21） |
-| `validate` | 通过，仅 3 条无害的换行数警告 |
-| `coverage` | full: core 14184/15630 = **90.7%**，`kiro.kiroAgent` **72/72 = 100%** |
-| `package` | `kiro-language-pack-zh-cn-0.1.0.vsix` 430 KB；`-addon-0.1.0.vsix` 10 KB |
+| `build` | Kiro 版 1 文件 4 KiB；Standalone 93 文件 1372 KiB（过滤丢 8108，修复丢 21） |
+| `validate` | 通过（Standalone 时另有 3 条无害的换行数警告） |
+| `coverage` | `kiro.kiroAgent` **72/72 = 100%**；Standalone core 14184/15630 = **90.7%** |
+| `package` | `kiro-language-pack-zh-cn-0.1.0.vsix` 11 KB；Standalone 430 KB |
+| 装机 | 两版都装过；官方包 + Kiro 版共存已通过 `languagepacks.json` 验证（见 4.1） |
 
-**尚未验证**：把 `.vsix` 装进 Kiro 看实际界面效果，以及补充版与官方包并存的行为。
-这两项需要重启 IDE，只能手动做。
+**尚未验证**：重启后逐项核对界面文案的实际渲染效果（视图标题、规格工具栏、命令面板）。
+这一步只能手动看。
 
 ---
 
@@ -193,7 +218,8 @@ tr: [开始调试](命令: javascript-walkthrough.commands.debugJsFile)   ← �
 
 | 风险 | 影响 | 应对 |
 | --- | --- | --- |
-| 补充版与官方包同 locale 冲突 | 官方包可能失效 | 装机实测；主推自包含的完整版 |
+| ~~同 locale 两个语言包冲突~~ | 已排除 | 实测宿主合并 `translations` 表，只争抢同一 id 才冲突；本包只声明 `kiro.kiroAgent` |
+| 用户同时装 Standalone 版和官方包 | 两者都声明 `vscode` id，行为不可预期 | Standalone 默认关闭；README 明确警告 |
 | Kiro 升级导致 72 条 key 变动 | 对应条目回退英文（不崩） | 每版重跑 `extract` + `coverage`，按 `untranslated` 补齐 |
 | vscode-loc 与 Kiro 内核版本继续拉大 | 被丢弃的译文变多，覆盖率下降 | 把 `upstream.ref` 锁到接近 1.107 的 tag |
 | 聊天面板始终无 i18n | 最有辨识度的界面译不了 | README 讲清边界；用 audit 报告推上游 |
@@ -204,9 +230,10 @@ tr: [开始调试](命令: javascript-walkthrough.commands.debugJsFile)   ← �
 
 ## 7. 待办
 
+- [x] 验证与官方中文包并存的行为 —— 通过，据此把 Kiro 版定为默认发布形态
+- [x] 装机实测安装流程（CLI 安装，双击 `.vsix` 会被 Visual Studio 安装器截走）
 - [ ] 把 `config.json` 里的 `publisher` / `repository` / `homepage` / `bugs` 换成真实值
-- [ ] 装机实测两个版本，补截图
-- [ ] 验证补充版与官方中文包并存的行为，据此决定是否双发
+- [ ] 重启后逐项核对界面渲染效果，补截图
 - [ ] 申请 Open VSX 发布者，配置 `OVSX_PAT` secret
 - [ ] 给 [kirodotdev/Kiro](https://github.com/kirodotdev/Kiro) 提 issue，附
       `reports/manifest-audit-kiro.kiroAgent.json`，请求：

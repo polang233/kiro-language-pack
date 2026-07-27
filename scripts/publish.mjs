@@ -9,7 +9,7 @@
  *   OVSX_PAT   Open VSX personal access token
  *   VSCE_PAT   Visual Studio Marketplace personal access token
  *
- * Usage: npm run publish:ovsx [-- --locale=zh-cn] [--mode=full] [--dry-run]
+ * Usage: npm run publish:ovsx [-- --locale=zh-cn] [--mode=kiro] [--dry-run]
  */
 import fs from 'node:fs';
 import path from 'node:path';

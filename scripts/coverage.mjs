@@ -6,7 +6,7 @@
  *
  * Requires `metadata/kiro.json` (npm run extract) and `dist/` (npm run build).
  *
- * Usage: npm run coverage [-- --locale=zh-cn] [--mode=full] [--json]
+ * Usage: npm run coverage [-- --locale=zh-cn] [--mode=kiro] [--json]
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -86,6 +86,7 @@ for (const build of builds) {
     build: build.name,
     locale: build.locale,
     mode: build.mode,
+    kiroOnly: build.kiroOnly === true,
     against: {
       kiroVersion: metadata.kiroVersion,
       vscodeVersion: metadata.vscodeVersion,
@@ -107,13 +108,13 @@ if (flags.json) {
 }
 
 for (const r of reports) {
-  // An add-on pack deliberately ships no workbench baseline, so reporting 0%
-  // for the core and for every other built-in extension would be noise.
-  const kiroOnly = r.mode === 'addon';
+  // A Kiro-only pack deliberately ships no workbench baseline, so reporting 0% for
+  // the core and for every other built-in extension would be noise.
+  const kiroOnly = r.kiroOnly;
 
   log.step(`${r.build}   (Kiro ${r.against.kiroVersion} / Code OSS ${r.against.vscodeVersion})`);
   if (kiroOnly) {
-    log.plain('  add-on build: workbench strings come from a separate language pack');
+    log.plain('  Kiro-only build: workbench strings come from the companion language pack');
   } else {
     log.plain(`  core workbench            ${String(r.core.translated).padStart(6)} / ${String(r.core.total).padEnd(6)} ${r.core.percent}%`);
   }
