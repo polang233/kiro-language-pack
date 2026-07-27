@@ -183,10 +183,16 @@ dist/kiro-language-pack-zh-cn-addon-0.1.0.vsix    补充版
 2. 命令面板 → `Configure Display Language` → 选 **中文（简体）**
 3. 重启 Kiro
 
-也可以用命令行安装，如果 `kiro` 命令在 PATH 里：
+**不要双击 `.vsix` 文件。** 如果机器上装了 Visual Studio，这个后缀会被它的 VSIX Installer
+接管，然后报 `NoApplicableSKUsException`。那是文件关联的问题，不是包的问题。
+
+命令行安装更稳妥。`kiro` 不在 PATH 里时用安装目录下的 `bin\kiro.cmd`：
 
 ```powershell
-kiro --install-extension dist\kiro-language-pack-zh-cn-0.1.0.vsix
+$kiro = 'F:\AI\Kiro\bin\kiro.cmd'          # 换成你的安装路径
+& $kiro --install-extension dist\kiro-language-pack-zh-cn-0.1.0.vsix
+& $kiro --uninstall-extension ms-ceintl.vscode-language-pack-zh-hans
+& $kiro --list-extensions | Select-String language-pack
 ```
 
 验证是否生效：看侧边栏 Kiro 视图的标题是否变成"智能体钩子""智能体引导与技能""MCP 服务器"，

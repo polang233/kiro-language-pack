@@ -199,10 +199,19 @@ are installing the full edition:
 2. Command Palette -> `Configure Display Language` -> pick the language
 3. Restart Kiro
 
-Or from a shell, if `kiro` is on your PATH:
+**Do not double-click the `.vsix`.** On a machine with Visual Studio installed, that file
+extension is handled by the Visual Studio VSIX Installer, which fails with
+`NoApplicableSKUsException`. That is a file association problem, not a problem with the
+package.
+
+Installing from a shell is more reliable. When `kiro` is not on PATH, use `bin/kiro` from the
+install directory:
 
 ```powershell
-kiro --install-extension dist\kiro-language-pack-zh-cn-0.1.0.vsix
+$kiro = 'F:\AI\Kiro\bin\kiro.cmd'          # adjust to your install path
+& $kiro --install-extension dist\kiro-language-pack-zh-cn-0.1.0.vsix
+& $kiro --uninstall-extension ms-ceintl.vscode-language-pack-zh-hans
+& $kiro --list-extensions | Select-String language-pack
 ```
 
 To verify, check that the Kiro sidebar view titles are translated and that the spec editor
