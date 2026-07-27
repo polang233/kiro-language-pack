@@ -1,0 +1,1197 @@
+// Chat, inline chat and agent session strings in the Code OSS core that the upstream
+// baseline does not cover. Kiro rewrote large parts of the chat contrib, so these
+// module paths and keys no longer line up with what microsoft/vscode-loc ships.
+//
+// Rules: keep {0} placeholders, $(codicon) markers and (command:...) links intact.
+{
+  "version": "1.0.0",
+  "contents": {
+    "vs/workbench/contrib/chat/browser/actions/chatActions": {
+      "interactiveSession.history.clear": "清除本工作区的所有聊天",
+      "interactiveSession.history.editor": "在编辑器中打开",
+      "interactiveSession.history.delete": "删除",
+      "chat.history.rename": "重命名",
+      "currentChatLabel": "当前",
+      "interactiveSession.history.title": "工作区聊天历史",
+      "interactiveSession.history.pick": "切换到聊天",
+      "newChatTitle": "新的聊天标题",
+      "chat.history.showMore": "显示更多...",
+      "chat.history.showMoreAgents": "显示更多...",
+      "chat.history.recent": "最近的聊天",
+      "interactiveSession.history.titleAll": "全部工作区聊天历史",
+      "switchChat.confirmPhrase": "切换聊天会结束你当前的编辑会话。",
+      "title4": "聊天",
+      "toggle.chatControl": "聊天控件",
+      "toggle.chatControlsDescription": "切换标题栏中聊天控件的可见性",
+      "more": "更多...",
+      "signInToChatSetup": "登录以使用 AI 功能...",
+      "chatQuotaExceededButton": "GitHub Copilot 免费版聊天消息配额已用尽。点击查看详情。",
+      "chat.sessionsOrientation": "会话方向",
+      "chat.history.label": "显示聊天...",
+      "chatSessions.openNewChatInNewWindow": "在新窗口中打开新聊天",
+      "chatSessions.newChatInSideBar": "在侧边栏中打开新聊天",
+      "chat.openNewChatToTheSide.label": "在侧边打开新的聊天编辑器",
+      "chat.clear.label": "清除本工作区的所有聊天",
+      "generateInstructions.short": "生成聊天指令",
+      "config.label": "配置聊天",
+      "chat.toggleChatViewSessions.label": "显示会话",
+      "chat.toggleChatViewTitle.label": "显示聊天标题",
+      "chat.sessionsOrientation.auto": "自动",
+      "chat.sessionsOrientation.stacked": "堆叠",
+      "chat.sessionsOrientation.sideBySide": "并排",
+      "chat.toggleChatViewWelcome.label": "显示欢迎页"
+    },
+    "vs/workbench/contrib/chat/browser/actions/chatCloseNotification": {
+      "chat.closeWithActiveResponse": "有一个聊天会话正在进行中，它将在后台继续运行。",
+      "chat.openAgentSessions": "打开智能体会话"
+    },
+    "vs/workbench/contrib/chat/browser/actions/chatContext": {
+      "chatContext.relatedFiles": "相关文件",
+      "relatedFiles": "把相关文件添加到你的工作集"
+    },
+    "vs/workbench/contrib/chat/browser/actions/chatExecuteActions": {
+      "interactive.submit.panel.label": "发送到编辑会话"
+    },
+    "vs/workbench/contrib/chat/browser/actions/chatSessionActions": {
+      "renameSession": "重命名",
+      "renameSession.emptyName": "名称不能为空",
+      "renameSession.nameTooLong": "名称过长（最多 100 个字符）",
+      "renameSession.placeholder": "输入聊天会话的新名称",
+      "renameSession.error": "重命名聊天会话失败：{0}",
+      "deleteSession": "删除",
+      "deleteSession.confirm": "确定要删除此聊天会话吗？",
+      "deleteSession.detail": "此操作无法撤销。",
+      "deleteSession.delete": "删除",
+      "chat.openSessionInSidebar.label": "将聊天移入侧边栏",
+      "chatSessions.toggleDescriptionDisplay.label": "显示详细描述",
+      "chatSessions.toggleViewLocation.label": "合并会话视图",
+      "openSessionInSidebar": "在侧边栏中打开",
+      "interactiveSession.open": "新建聊天编辑器"
+    },
+    "vs/workbench/contrib/chat/browser/actions/chatToolActions": {
+      "chatTools.tooManyEnabled": "已启用超过 {0} 个工具，工具调用效果可能下降。"
+    },
+    "vs/workbench/contrib/chat/browser/actions/chatToolPicker": {
+      "toolLimitExceeded": "已启用 {0} 个工具。超过 {1} 个工具后，工具调用效果可能下降。"
+    },
+    "vs/workbench/contrib/chat/browser/agentSessions/agentSessions.contribution": {
+      "agentSessions.view.label": "智能体"
+    },
+    "vs/workbench/contrib/chat/browser/agentSessions/agentSessionsFilter": {
+      "chatSessionStatus.completed": "已完成",
+      "chatSessionStatus.inProgress": "进行中",
+      "chatSessionStatus.failed": "失败",
+      "chatSessionStatus.needsInput": "需要输入"
+    },
+    "vs/workbench/contrib/chat/browser/agentSessions/agentSessionsView": {
+      "agentSessions.refreshing": "正在刷新智能体会话...",
+      "agentSessions.newSession": "新建会话",
+      "agentSessions.newSessionAriaLabel": "新建会话",
+      "newChatSessionDefault": "新建本地会话",
+      "newBackgroundSession": "新建后台会话",
+      "newCloudSession": "新建云端会话",
+      "newChatSessionFromProvider": "新建 {0}"
+    },
+    "vs/workbench/contrib/chat/browser/agentSessions/agentSessionsViewer": {
+      "diffFile": "1 个文件",
+      "diffFiles": "{0} 个文件",
+      "chat.session.status.failedAfter": "在 {0} 后失败。",
+      "chat.session.status.completedAfter": "耗时 {0} 完成。",
+      "chat.session.status.completed": "已完成"
+    },
+    "vs/workbench/contrib/chat/browser/attachments/implicitContextAttachment": {
+      "chat.fileAttachmentWithRange": "已附加 {0}，{1}，第 {2} 行到第 {3} 行",
+      "chat.fileAttachment": "已附加 {0}，{1}"
+    },
+    "vs/workbench/contrib/chat/browser/chat.contribution": {
+      "interactiveSessionConfigurationTitle": "聊天",
+      "chat.fontSize": "控制聊天消息的字号（像素）。",
+      "chat.fontFamily": "控制聊天消息的字体。",
+      "interactiveSession.editor.fontSize": "控制聊天代码块的字号（像素）。",
+      "interactiveSession.editor.fontFamily": "控制聊天代码块的字体。",
+      "interactiveSession.editor.fontWeight": "控制聊天代码块的字重。",
+      "interactiveSession.editor.wordWrap": "控制聊天代码块是否自动换行。",
+      "interactiveSession.editor.lineHeight": "控制聊天代码块的行高（像素）。设为 0 则根据字号自动计算行高。",
+      "chat.commandCenter.enabled": "控制命令中心是否显示用于控制聊天的操作菜单（需要 {0}）。",
+      "chat.implicitContext.enabled.1": "在指定的聊天位置自动把当前编辑器作为聊天上下文。",
+      "chat.implicitContext.value": "隐式上下文的取值。",
+      "chat.implicitContext.value.never": "从不启用隐式上下文。",
+      "chat.implicitContext.value.first": "仅首次交互时启用隐式上下文。",
+      "chat.implicitContext.value.always": "始终启用隐式上下文。",
+      "chat.implicitContext.suggestedContext": "控制是否使用新的隐式上下文流程。在询问和编辑模式下会自动包含上下文；使用智能体时，上下文会以附件形式推荐。选中的内容始终作为上下文包含在内。",
+      "chat.editing.autoAcceptDelay": "聊天所做的更改在多久之后自动接受。单位为秒，`0` 表示禁用，最大值为 `100` 秒。",
+      "chat.editing.confirmEditRequestRemoval": "移除请求及其关联的编辑之前是否显示确认。",
+      "chat.editing.confirmEditRequestRetry": "重试请求及其关联的编辑之前是否显示确认。",
+      "chat.experimental.detectParticipant.enabled.deprecated": "此设置已弃用，请改用 `chat.detectParticipant.enabled`。",
+      "chat.experimental.detectParticipant.enabled": "为面板聊天启用聊天参与者自动检测。",
+      "chat.detectParticipant.enabled": "为面板聊天启用聊天参与者自动检测。",
+      "chat.renderRelatedFiles": "控制是否在聊天输入框中显示相关文件。",
+      "chat.notifyWindowOnConfirmation": "控制当窗口未获得焦点且聊天会话需要确认时，是否向用户发送操作系统通知。这包括窗口徽标和通知气泡。",
+      "autoApprove2.description": "全局自动批准（也叫 \"YOLO 模式\"）会对所有工作区中的所有工具完全关闭人工批准，让智能体完全自主行动。这极其危险，*绝不*推荐使用；即使是 Codespaces 和开发容器这类容器化环境，也会把用户密钥转发进容器，存在被泄露的风险。\n\n此功能会关闭关键的安全防护，大幅降低攻击者攻陷本机的难度。",
+      "chat.tools.autoApprove.edits": "控制聊天所做的编辑是否自动批准。默认批准所有编辑，但排除那些可能立即引发意外副作用的文件，例如 `**/.vscode/*.json`。\n\n设为 `true` 表示自动批准对匹配文件的编辑，`false` 表示始终要求显式批准。最后一个匹配某文件的模式决定该编辑是否自动批准。",
+      "chat.tools.fetchPage.approvedUrls": "控制聊天工具请求哪些 URL 时自动批准。键为 URL 模式，值可以是 `true`（同时批准请求与响应）、`false`（拒绝），或一个带 `approveRequest` 和 `approveResponse` 属性的对象以做精细控制。\n\n示例：\n- `\"https://example.com\": true` - 批准所有到 example.com 的请求\n- `\"https://*.example.com\": true` - 批准所有到 example.com 任意子域的请求\n- `\"https://example.com/api/*\": { \"approveRequest\": true, \"approveResponse\": false }` - 对 example.com/api 路径批准请求但不批准响应",
+      "chat.tools.eligibleForAutoApproval": "控制哪些工具可以被自动批准。设为 'false' 的工具将始终弹出确认，并且不会提供自动批准选项。默认行为（或把工具设为 'true'）可能会让该工具提供自动批准选项。",
+      "chat.sendElementsToChat.enabled": "控制是否可以从简易浏览器把元素发送到聊天。",
+      "chat.sendElementsToChat.attachCSS": "控制是否把所选元素的 CSS 添加到聊天。需要启用 {0}。",
+      "chat.sendElementsToChat.attachImages": "控制是否把所选元素的截图添加到聊天。需要启用 {0}。",
+      "chat.undoRequests.restoreInput": "控制撤销请求时是否恢复聊天输入内容。输入框会填入被恢复请求的文本。",
+      "chat.editRequests": "允许在聊天中编辑请求。你可以修改请求内容并重新提交给模型。",
+      "chat.welcome.enabled": "聊天为空时显示欢迎横幅。",
+      "chat.viewSessions.enabled": "聊天为空时显示智能体会话；聊天视图足够宽时显示在侧边。",
+      "chat.viewSessions.orientation.auto": "根据可用空间自动决定方向。",
+      "chat.viewSessions.orientation.stacked": "除非有聊天会话可见，否则纵向堆叠显示会话。",
+      "chat.viewSessions.orientation.sideBySide": "空间足够时并排显示会话，否则堆叠显示。",
+      "chat.viewSessions.orientation": "控制智能体会话视图与聊天并列显示时的方向。",
+      "chat.viewTitle.enabled": "在聊天视图中于聊天内容上方显示聊天标题。",
+      "chat.notifyWindowOnResponseReceived": "控制当窗口未获得焦点且聊天会话收到回复时，是否向用户发送操作系统通知。这包括窗口徽标和通知气泡。",
+      "chat.checkpoints.enabled": "在聊天中启用检查点。检查点可以把聊天恢复到之前的状态。",
+      "chat.checkpoints.showFileChanges": "控制是否显示聊天检查点的文件更改。",
+      "chat.mcp.assisted.nuget.enabled.description": "为 AI 辅助的 MCP 服务器安装启用 NuGet 包。用于按名称从 .NET 包的中央注册表（NuGet.org）安装 MCP 服务器。",
+      "chat.edits2Enabled": "启用基于工具调用的新版编辑模式。启用后，不支持工具调用的模型将无法用于编辑模式。",
+      "chat.extensionToolsEnabled": "允许使用第三方扩展提供的工具。",
+      "chat.agent.enabled.description": "启用后，可以从聊天中激活智能体模式，并且可以在有副作用的智能体场景中使用工具。",
+      "chat.mathEnabled.description": "使用 KaTeX 在聊天回复中渲染数学公式。",
+      "chat.codeBlock.showProgressAnimation.description": "应用编辑时，在代码块标签上显示进度动画。禁用时改为显示进度百分比。",
+      "chat.statusWidget.sku.free": "为免费版用户显示状态小组件。",
+      "chat.statusWidget.sku.anonymous": "为匿名用户显示状态小组件。",
+      "chat.statusWidget.enabled.description": "控制配额超出时，哪类用户可以在新的聊天会话中看到状态小组件。",
+      "chat.sessionsViewLocation.description": "控制智能体会话菜单的显示位置。",
+      "chat.instructions.config.locations.title": "指令文件位置",
+      "chat.instructions.config.locations.description": "指定可在聊天会话中附加的指令文件（`*{0}`）的位置。[了解更多]({1})。\n\n相对路径基于工作区根文件夹解析。",
+      "chat.reusablePrompts.config.locations.title": "提示文件位置",
+      "chat.reusablePrompts.config.locations.description": "指定可在聊天会话中运行的可复用提示文件（`*{0}`）的位置。[了解更多]({1})。\n\n相对路径基于工作区根文件夹解析。",
+      "chat.mode.config.locations.title": "模式文件位置",
+      "chat.mode.config.locations.description": "指定自定义聊天模式文件（`*{0}`）的位置。[了解更多]({1})。\n\n相对路径基于工作区根文件夹解析。",
+      "chat.mode.config.locations.deprecated": "此设置已弃用，并将在未来版本中移除。聊天模式现已改称自定义智能体，位于 `.github/agents`",
+      "chat.useAgentMd.title": "使用 AGENTS.MD 文件",
+      "chat.useAgentMd.description": "控制是否把工作区根目录下 `AGENTS.MD` 文件中的指令附加到所有聊天请求。",
+      "chat.useNestedAgentMd.title": "使用嵌套的 AGENTS.MD 文件",
+      "chat.useNestedAgentMd.description": "控制是否在所有聊天请求中列出工作区内嵌套的 `AGENTS.MD` 文件中的指令。若 `read` 工具可用，语言模型可按需加载这些技能。",
+      "chat.useClaudeSkills.title": "使用 Claude 技能",
+      "chat.useClaudeSkills.description": "控制是否在所有聊天请求中列出工作区和用户主目录下 `.claude/skills` 中的 Claude 技能。若 `read` 工具可用，语言模型可按需加载这些技能。",
+      "chat.promptFilesRecommendations.title": "提示文件推荐",
+      "chat.promptFilesRecommendations.description": "配置在聊天欢迎视图中推荐哪些提示文件。每个键是一个提示文件名，值可以是 `true`（始终推荐）、`false`（从不推荐），或一个 [when 子句](https://aka.ms/vscode-when-clause) 表达式，例如 `resourceExtname == .js` 或 `resourceLangId == markdown`。",
+      "chat.tools.todos.showWidget": "控制是否在聊天输入框上方显示待办列表小组件。启用后，该小组件会显示智能体创建的待办项，并随进度更新。",
+      "chat.todoListTool.writeOnly": "启用后，待办工具以只写模式运行，要求智能体在上下文中自行记住待办项。",
+      "chat.todoListTool.descriptionField": "启用后，待办项会包含用于实现的详细描述。这能提供更多信息，但会消耗额外 token，并可能拖慢回复速度。",
+      "chat.agent.thinkingMode.collapsed": "思考内容默认折叠。",
+      "chat.agent.thinkingMode.collapsedPreview": "思考内容先展开，遇到非思考内容后折叠。",
+      "chat.agent.thinkingMode.fixedScrolling": "在固定高度的流式面板中显示思考内容并自动滚动；点击标题可展开到完整高度。",
+      "chat.agent.thinkingStyle": "控制思考内容的呈现方式。",
+      "chat.agent.thinking.generateTitles": "控制是否使用大语言模型为思考片段生成摘要标题。",
+      "chat.agent.thinking.collapsedTools.off": "工具调用单独显示，不折叠进思考内容。",
+      "chat.agent.thinking.collapsedTools.withThinking": "存在思考内容时，把工具调用折叠进思考片段。",
+      "chat.agent.thinking.collapsedTools.always": "始终折叠工具调用，即使没有思考内容。",
+      "chat.agent.thinking.collapsedTools": "控制工具调用相对于思考片段的显示方式。",
+      "chat.disableAIFeatures": "禁用并隐藏 GitHub Copilot 提供的内置 AI 功能，包括聊天和内联建议。",
+      "chat.showAgentSessionsViewDescription": "控制是否在聊天会话视图中用第二行显示会话描述。",
+      "chat.allowAnonymousAccess": "控制聊天是否允许匿名访问。",
+      "chat.restoreLastPanelSession": "控制重启后是否在面板中恢复上一个会话。",
+      "chat.exitAfterDelegation": "控制把请求委派给其他会话后，聊天面板是否自动退出。",
+      "chat.extensionUnification.enabled": "启用 GitHub Copilot 扩展的统一化。启用后，所有 GitHub Copilot 功能都由 GitHub Copilot Chat 扩展提供；禁用后，GitHub Copilot 与 GitHub Copilot Chat 扩展各自独立运行。",
+      "chat.subagentTool.customAgents": "runSubagent 工具是否可以使用自定义智能体。启用后，该工具可以接受自定义智能体的名称，但必须给出智能体的准确名称。",
+      "chat": "聊天",
+      "chat.agent.maxRequests": "使用智能体时每轮允许的最大请求数。达到上限时会询问是否继续。",
+      "chat.toolReferenceName.description": "{0} - {1}",
+      "clear": "开始新的聊天"
+    },
+    "vs/workbench/contrib/chat/browser/chatAccessibilityProvider": {
+      "toolPostApprovalTitle": "批准工具的结果",
+      "toolInvocationsHintKb": "聊天需要确认：{0}。按 {1} 接受，或按 {2} 取消。",
+      "toolInvocationsHint": "聊天需要确认：{0}",
+      "toolInvocationsHintDetails": "详情：{0}",
+      "chat": "聊天",
+      "singleTableHint": "1 个表格 ",
+      "multiTableHint": "{0} 个表格 ",
+      "singleFileTreeHint": "1 个文件树 ",
+      "multiFileTreeHint": "{0} 个文件树 ",
+      "noCodeBlocksHint": "{0}{1}{2}{3}{4} {5}",
+      "noCodeBlocks": "{0}{1}{2} {3}",
+      "singleCodeBlockHint": "{0}{1}{2}1 个代码块：{3} {4}{5}",
+      "singleCodeBlock": "{0}{1}1 个代码块：{2} {3}",
+      "multiCodeBlockHint": "{0}{1}{2}{3} 个代码块：{4}{5} {6}",
+      "multiCodeBlock": "{0}{1}{2} 个代码块：{3} {4}"
+    },
+    "vs/workbench/contrib/chat/browser/chatAccessibilityService": {
+      "chatTitle": "聊天：{0}",
+      "chat.untitledChat": "未命名聊天",
+      "notificationDetail": "有新的聊天回复。"
+    },
+    "vs/workbench/contrib/chat/browser/chatAgentHover": {
+      "reservedName": "此聊天扩展使用了保留名称。",
+      "viewExtensionLabel": "查看扩展"
+    },
+    "vs/workbench/contrib/chat/browser/chatAttachmentResolveService": {
+      "imageTooLarge": "图片过大",
+      "imageTooLargeMessage": "图片 {0} 过大，无法附加。"
+    },
+    "vs/workbench/contrib/chat/browser/chatAttachmentWidgets": {
+      "chat.attachment.clearButton": "从上下文中移除",
+      "chat.fileAttachmentWithRange": "已附加文件，{0}，第 {1} 行到第 {2} 行",
+      "chat.fileAttachment": "已附加文件，{0}",
+      "chat.omittedFileAttachment": "已省略此文件：{0}",
+      "chat.fileAttachmentHover": "{0} 不支持该文件类型。",
+      "chat.terminalCommand": "终端命令，{0}",
+      "chat.terminalCommandHoverCommandTitleExit": "命令：{0}，退出码：{1}",
+      "chat.terminalCommandHoverCommandTitle": "命令",
+      "chat.terminalCommandHoverOutputTitle": "输出：",
+      "chat.terminalCommandHoverHint": "点击可在终端中聚焦该命令。",
+      "chat.omittedImageAttachment": "已省略此图片：{0}",
+      "chat.partiallyOmittedImageAttachment": "已部分省略此图片：{0}",
+      "chat.imageAttachment": "已附加图片，{0}",
+      "chat.imageAttachmentHover": "{0} 不支持图片。",
+      "chat.imageAttachmentWarning": "此 GIF 已被部分省略 - 将只发送当前帧。",
+      "chat.attachment": "已附加上下文，{0}",
+      "chat.promptAttachment": "提示文件，{0}",
+      "chat.instructionsAttachment": "指令附件，{0}",
+      "prompt": "提示",
+      "instructions": "指令",
+      "instructions.label": "附加指令",
+      "toolset": "{0} - {1}",
+      "tool": "{0} - {1}",
+      "chat.NotebookImageAttachment": "已附加笔记本输出，{0}",
+      "chat.omittedNotebookImageAttachment": "已省略此笔记本输出：{0}",
+      "chat.partiallyOmittedNotebookImageAttachment": "已部分省略此笔记本输出：{0}",
+      "chat.elementAttachment": "已附加元素，{0}",
+      "chat.clickToViewContents": "点击查看内容：{0}",
+      "resource": "聊天附件资源的完整值，包含协议和路径"
+    },
+    "vs/workbench/contrib/chat/browser/chatContentParts/chatAgentCommandContentPart": {
+      "rerun": "不使用 {0}{1} 重新运行"
+    },
+    "vs/workbench/contrib/chat/browser/chatContentParts/chatAnonymousRateLimitedPart": {
+      "anonymousRateLimited": "登录即可继续对话。免费账户每月可获得 50 次高级请求，并可使用更多模型和 AI 功能。",
+      "enableMoreAIFeatures": "启用更多 AI 功能"
+    },
+    "vs/workbench/contrib/chat/browser/chatContentParts/chatChangesSummaryPart": {
+      "chat.viewFileChangesSummary": "查看所有文件更改"
+    },
+    "vs/workbench/contrib/chat/browser/chatContentParts/chatCodeCitationContentPart": {
+      "viewMatches": "查看匹配项"
+    },
+    "vs/workbench/contrib/chat/browser/chatContentParts/chatCollapsibleContentPart": {
+      "usedReferencesExpanded": "{0}，已展开",
+      "usedReferencesCollapsed": "{0}，已折叠"
+    },
+    "vs/workbench/contrib/chat/browser/chatContentParts/chatCommandContentPart": {
+      "commandButtonDisabled": "按钮在已恢复的聊天中不可用"
+    },
+    "vs/workbench/contrib/chat/browser/chatContentParts/chatConfirmationContentPart": {
+      "accept": "接受",
+      "dismiss": "忽略"
+    },
+    "vs/workbench/contrib/chat/browser/chatContentParts/chatConfirmationWidget": {
+      "chatTitle": "聊天：{0}",
+      "chat.untitledChat": "未命名聊天",
+      "notificationDetail": "需要批准才能继续。",
+      "chat.confirmationWidget.ariaLabel": "聊天确认对话框 {0} {1}"
+    },
+    "vs/workbench/contrib/chat/browser/chatContentParts/chatExtensionsContentPart": {
+      "chat.extensions.loading": "正在加载扩展..."
+    },
+    "vs/workbench/contrib/chat/browser/chatContentParts/chatMarkdownContentPart": {
+      "chat.codeblock.applyingEdits": "正在应用编辑",
+      "chat.codeblock.generating": "正在生成编辑...",
+      "chat.codeblock.applyingPercentage": "（{0}%）...",
+      "chat.codeblock.edited": "已编辑",
+      "chat.codeblock.insertions.one": "1 处插入",
+      "chat.codeblock.insertions": "{0} 处插入",
+      "chat.codeblock.deletions.one": "1 处删除",
+      "chat.codeblock.deletions": "{0} 处删除",
+      "summary": "已编辑 {0}，{1}，{2}"
+    },
+    "vs/workbench/contrib/chat/browser/chatContentParts/chatMcpServersInteractionContentPart": {
+      "mcp.skip.link": "跳过？",
+      "mcp.working.mcp": "正在激活 MCP 扩展...",
+      "mcp.starting.servers": "正在启动 MCP 服务器 {0}...",
+      "mcp.start.single": "MCP 服务器 {0} 可能有新工具，需要交互才能启动。[现在启动？]({1})",
+      "mcp.start.multiple": "MCP 服务器 {0} 可能有新工具，需要交互才能启动。[现在启动？]({1})",
+      "mcp.starting": "正在启动 {0}..."
+    },
+    "vs/workbench/contrib/chat/browser/chatContentParts/chatMultiDiffContentPart": {
+      "chatMultiDiff.oneFile": "已更改 1 个文件",
+      "chatMultiDiff.manyFiles": "已更改 {0} 个文件",
+      "chatMultiDiff.openAllChanges": "打开更改",
+      "chatMultiDiffList": "文件更改",
+      "chatEditingSession.fileCounts": "新增 {0} 行，删除 {1} 行"
+    },
+    "vs/workbench/contrib/chat/browser/chatContentParts/chatProgressContentPart": {
+      "chat.autoapprove.setting": "已由 {0} 自动批准",
+      "chat.autoapprove.lmServicePerTool.session": "已在本会话中自动批准",
+      "chat.autoapprove.lmServicePerTool.workspace": "已在本工作区中自动批准",
+      "chat.autoapprove.lmServicePerTool.profile": "已在本配置文件中自动批准",
+      "edit": "编辑",
+      "workingMessage": "正在处理...",
+      "toolCallUnresponsive": "正在等待工具 '{0}' 响应..."
+    },
+    "vs/workbench/contrib/chat/browser/chatContentParts/chatPullRequestContentPart": {
+      "chatPullRequest.seeMore": "查看更多"
+    },
+    "vs/workbench/contrib/chat/browser/chatContentParts/chatQuotaExceededPart": {
+      "enableAdditionalUsage": "管理付费高级请求",
+      "upgradeToCopilotPro": "升级到 GitHub Copilot Pro",
+      "waitWarning": "更改可能需要几分钟才会生效。",
+      "clickToContinue": "点击重试"
+    },
+    "vs/workbench/contrib/chat/browser/chatContentParts/chatReferencesContentPart": {
+      "usedReferencesPlural": "使用了 {0} 个引用",
+      "usedReferencesSingular": "使用了 {0} 个引用",
+      "chatCollapsibleList": "可折叠的聊天引用列表",
+      "setting.hover": "打开设置 '{0}'",
+      "chatEditingSession.fileCounts": "新增 {0} 行，删除 {1} 行"
+    },
+    "vs/workbench/contrib/chat/browser/chatContentParts/chatSuggestNextWidget": {
+      "chat.currentMode": "当前模式",
+      "chat.proceedFrom": "从 {0} 继续",
+      "chat.suggestNext.item": "{0}",
+      "chat.suggestNext.moreOptions": "{0} 的更多选项",
+      "continueIn": "在 {0} 中继续"
+    },
+    "vs/workbench/contrib/chat/browser/chatContentParts/chatTextEditContentPart": {
+      "edits0": "更改操作已中止。",
+      "editsSummary": "已做出更改。"
+    },
+    "vs/workbench/contrib/chat/browser/chatContentParts/chatThinkingContentPart": {
+      "chat.thinking.header": "正在思考...",
+      "chat.thinking.finished.withTools": "思考完毕，并调用了 {0} 个工具{1}",
+      "chat.thinking.finished": "思考完毕"
+    },
+    "vs/workbench/contrib/chat/browser/chatContentParts/chatTodoListWidget": {
+      "chat.todoList.itemWithDescription": "{0}，{1}，{2}",
+      "chat.todoList.item": "{0}，{1}",
+      "chat.todoList.status.completed": "已完成",
+      "chat.todoList.status.inProgress": "进行中",
+      "chat.todoList.status.notStarted": "未开始",
+      "chat.todoList.title": "待办",
+      "chatTodoList": "聊天待办列表",
+      "chat.todoList.clearButton.disabled": "任务进行中，无法清除待办",
+      "chat.todoList.clearButton": "清除所有待办",
+      "chat.todoList.collapseButton": "折叠待办",
+      "chat.todoList.expandButton": "展开待办",
+      "chat.todoList.titleWithCount": "待办（{0}/{1}）",
+      "chat.todoList.currentTask": "{0}（{1}/{2}）"
+    },
+    "vs/workbench/contrib/chat/browser/chatContentParts/chatToolInputOutputContentPart": {
+      "chat.input": "输入",
+      "chat.output": "输出"
+    },
+    "vs/workbench/contrib/chat/browser/chatContentParts/chatToolOutputContentSubPart": {
+      "chat.saveResources.error": "保存 {0} 失败：{1}",
+      "chat.saveResources.progress": "正在保存资源...",
+      "chat.saveResources.reveal": "资源已保存到 {0}",
+      "chat.saveResources.title": "选择保存资源的文件夹",
+      "chat.saveResources": "另存为..."
+    },
+    "vs/workbench/contrib/chat/browser/chatContentParts/chatTreeContentPart": {
+      "treeAriaLabel": "文件树"
+    },
+    "vs/workbench/contrib/chat/browser/chatContentParts/toolInvocationParts/abstractToolConfirmationSubPart": {
+      "skip": "跳过"
+    },
+    "vs/workbench/contrib/chat/browser/chatContentParts/toolInvocationParts/chatExtensionsInstallToolSubPart": {
+      "allow": "允许",
+      "cancel": "取消",
+      "installExtensions": "安装扩展",
+      "installExtensionsConfirmation": "在扩展上点击“安装”按钮，完成后按“允许”。"
+    },
+    "vs/workbench/contrib/chat/browser/chatContentParts/toolInvocationParts/chatInputOutputMarkdownProgressPart": {
+      "chat.autoapprove.setting": "已由 {0} 自动批准",
+      "chat.autoapprove.lmServicePerTool.session": "已在本会话中自动批准",
+      "chat.autoapprove.lmServicePerTool.workspace": "已在本工作区中自动批准",
+      "chat.autoapprove.lmServicePerTool.profile": "已在本配置文件中自动批准",
+      "edit": "编辑"
+    },
+    "vs/workbench/contrib/chat/browser/chatContentParts/toolInvocationParts/chatTerminalToolConfirmationSubPart": {
+      "autoApprove.enable": "启用自动批准...",
+      "ruleTooltip": "在设置中查看规则",
+      "newRule": "已添加自动批准规则 {0}",
+      "newRule.plural": "已添加自动批准规则 {0}",
+      "sessionApproval": "本会话中的所有命令都将自动批准",
+      "sessionApproval.disable": "禁用",
+      "tool.allow": "允许",
+      "tool.skip": "跳过",
+      "skip.detail": "不执行此命令并继续",
+      "autoApprove.title": "启用终端自动批准？",
+      "autoApprove.button.enable": "启用",
+      "autoApprove.markdown": "这将允许一部分可配置的命令在终端中自主运行。它只提供*尽力而为的防护*，并假定智能体没有恶意行为。",
+      "autoApprove.markdown2": "了解潜在风险以及如何规避。"
+    },
+    "vs/workbench/contrib/chat/browser/chatContentParts/toolInvocationParts/chatTerminalToolProgressPart": {
+      "terminalToolCommand": "{0}",
+      "chatTerminalOutputAriaLabel": "{0} 的终端输出",
+      "chatTerminalOutputAccessibleViewHeader": "命令：{0}",
+      "chat.terminalOutputEmpty": "该命令没有产生输出。",
+      "chatTerminalOutputUnavailable": "命令输出已不可用。",
+      "chatTerminalOutputTruncated": "输出已截断。",
+      "chat.terminalOutputTerminalMissing": "终端已不可用。",
+      "chat.terminalOutputCommandMissing": "命令信息不可用。",
+      "showTerminalOutput": "显示输出",
+      "hideTerminalOutput": "隐藏输出",
+      "showTerminal": "显示并聚焦终端",
+      "focusTerminal": "聚焦终端"
+    },
+    "vs/workbench/contrib/chat/browser/chatContentParts/toolInvocationParts/chatToolConfirmationSubPart": {
+      "allowReview": "允许并审阅",
+      "allow": "允许",
+      "skip.detail": "不运行此工具并继续",
+      "allowSkip": "允许并跳过结果审阅",
+      "showMore": "显示更多",
+      "chat.input": "输入",
+      "seeMore": "查看更多"
+    },
+    "vs/workbench/contrib/chat/browser/chatContentParts/toolInvocationParts/chatToolOutputPart": {
+      "loading": "正在渲染工具输出...",
+      "chat.toolOutputError": "渲染工具输出时出错"
+    },
+    "vs/workbench/contrib/chat/browser/chatContentParts/toolInvocationParts/chatToolPostExecuteConfirmationPart": {
+      "allow": "允许",
+      "skip.post": "跳过结果",
+      "approveToolResult": "批准工具结果",
+      "noResults": "没有可显示的结果",
+      "noDisplayableResults": "没有可展示的结果"
+    },
+    "vs/workbench/contrib/chat/browser/chatContext.contribution": {
+      "chatContextExtPoint": "向聊天组件贡献聊天上下文集成。",
+      "chatContextExtPoint.id": "该项的唯一标识符。",
+      "chatContextExtPoint.icon": "与该聊天上下文项关联的图标。",
+      "chatContextExtPoint.title": "该项的友好名称，用于在菜单中显示。"
+    },
+    "vs/workbench/contrib/chat/browser/chatDragAndDrop": {
+      "file": "文件",
+      "folder": "文件夹",
+      "image": "图片",
+      "symbol": "符号",
+      "problem": "问题",
+      "url": "URL",
+      "notebookOutput": "输出",
+      "scmHistoryItem": "更改",
+      "dragAndDroppedImageName": "来自 URL 的图片",
+      "attacAsContext": "将 {0} 作为上下文附加"
+    },
+    "vs/workbench/contrib/chat/browser/chatEditing/chatEditingActions": {
+      "chatEditing.allChanges.title": "本会话的所有更改",
+      "chatEditing.viewAllSessionChanges": "查看所有更改"
+    },
+    "vs/workbench/contrib/chat/browser/chatEditing/chatEditingEditorOverlay": {
+      "working": "正在处理...",
+      "tooltip": "{0}（{1}）"
+    },
+    "vs/workbench/contrib/chat/browser/chatEditing/simpleBrowserEditorOverlay": {
+      "elementSelectionMessage": "将元素添加到聊天",
+      "selectElementDropdown": "选择一个元素",
+      "continuousSelectionDropdown": "连续选择",
+      "elementSelectionInProgress": "正在选择元素...",
+      "finishSelectionLabel": "完成",
+      "elementSelectionComplete": "元素已添加到聊天",
+      "selectAnElement": "点击以选择一个元素。",
+      "startSelection": "开始",
+      "cancelSelection": "点击以取消选择。",
+      "cancelSelectionLabel": "取消",
+      "chat.configureElements": "配置发送的附件",
+      "chat.hideOverlay": "折叠浮层",
+      "chat.nextSelection": "再次选择",
+      "chat.expandOverlay": "展开浮层",
+      "elementCancelMessage": "已取消选择",
+      "connectingWebviewElement": "正在连接到 Webview...",
+      "reopenErrorWebviewElement": "请重新打开预览。"
+    },
+    "vs/workbench/contrib/chat/browser/chatEditor": {
+      "chatEditor.loadingSession": "正在加载..."
+    },
+    "vs/workbench/contrib/chat/browser/chatEditorInput": {
+      "chatEditorLabelIcon": "聊天编辑器标签的图标。",
+      "chatEditorConfirmTitle": "关闭聊天编辑器",
+      "chat.startEditing.confirmation.pending.message.default": "关闭聊天编辑器会结束你当前的编辑会话。",
+      "chatEditorName": "聊天",
+      "chat.startEditing.confirmation.pending.message.default1": "开始新的聊天会结束你当前的编辑会话。",
+      "chat.startEditing.confirmation.title": "开始新的聊天？",
+      "chat.startEditing.confirmation.pending.message.2": "要保留对 {0} 个文件的待定编辑吗？",
+      "chat.startEditing.confirmation.acceptEdits": "保留并继续",
+      "chat.startEditing.confirmation.discardEdits": "撤销并继续"
+    },
+    "vs/workbench/contrib/chat/browser/chatFollowups": {
+      "followUpAriaLabel": "追问：{0}"
+    },
+    "vs/workbench/contrib/chat/browser/chatInlineAnchorWidget": {
+      "chat.inlineAnchor.ariaLabel.line": "{0} 第 {1} 行",
+      "chat.inlineAnchor.ariaLabel.range": "{0} 第 {1} 到 {2} 行",
+      "miGotoDefinition": "转到定义(&&D)",
+      "miGotoTypeDefinition": "转到类型定义(&&T)",
+      "miGotoImplementations": "转到实现(&&I)",
+      "miGotoReference": "转到引用(&&R)",
+      "actions.copy.label": "复制",
+      "actions.openToSide.label": "在侧边打开",
+      "actions.goToDecl.label": "转到定义",
+      "goToTypeDefinitions.label": "转到类型定义",
+      "goToImplementations.label": "转到实现",
+      "goToReferences.label": "转到引用"
+    },
+    "vs/workbench/contrib/chat/browser/chatInputPart": {
+      "chatInput.model": "，{0}。 ",
+      "chatInput.mode.custom": "（{0}），{1}",
+      "chatInput.mode.agent": "（智能体），修改工作区中的文件。",
+      "chatInput.mode.edit": "（编辑），修改工作区中的文件。",
+      "chatInput.mode.ask": "（询问），提问或输入 / 查看主题。",
+      "actions.chat.accessibiltyHelp": "聊天输入 {0}{1} 按 Enter 发送请求。使用 {2} 查看聊天辅助功能帮助。",
+      "chatInput.accessibilityHelpNoKb": "聊天输入 {0}{1} 按 Enter 发送请求。使用“聊天辅助功能帮助”命令了解更多信息。",
+      "chatInput.accessibilityHelp": "聊天输入 {0}{1}。",
+      "chatAttachFiles": "搜索要添加到请求中的文件和上下文",
+      "chatEditingSession.toggleWorkingSet": "切换已更改的文件。",
+      "chatEditingSession.oneFile.1": "已更改 1 个文件",
+      "chatEditingSession.manyFiles.1": "已更改 {0} 个文件",
+      "chatEditingSession.oneFile.2": "1 个文件可合并",
+      "chatEditingSession.manyFiles.2": "{0} 个文件可合并",
+      "chatEditingSession.ariaLabelWithCounts": "{0}，新增 {1} 行，删除 {2} 行",
+      "chatEditingSession.allChanges": "工作树更改",
+      "suggeste.title": "{0} - {1}",
+      "chatEditingSession.addSuggestion": "添加建议 {0}",
+      "chatEditingSession.addSuggested": "添加建议"
+    },
+    "vs/workbench/contrib/chat/browser/chatListRenderer": {
+      "checkpointRestore": "检查点已恢复",
+      "usedAgentSlashCommand": "使用了 {0} [[(不使用它重新运行)]]",
+      "usedAgent": "[[(不使用它重新运行)]]",
+      "working": "正在处理",
+      "chatConfirmationAction": "已选择 \"{0}\"",
+      "renderFailMsg": "内容渲染失败",
+      "requestMarkdownPartTitle": "点击编辑",
+      "incorrectCode": "建议的代码有误",
+      "didNotFollowInstructions": "未遵循指令",
+      "missingContext": "缺少上下文",
+      "offensiveOrUnsafe": "含攻击性或不安全内容",
+      "poorlyWrittenOrFormatted": "表述或格式糟糕",
+      "refusedAValidRequest": "拒绝了一个合理的请求",
+      "incompleteCode": "代码不完整",
+      "reportIssue": "反馈问题",
+      "other": "其他"
+    },
+    "vs/workbench/contrib/chat/browser/chatManagement/chatManagement.contribution": {
+      "chatManagementEditor": "聊天管理编辑器"
+    },
+    "vs/workbench/contrib/chat/browser/chatManagement/chatManagementEditor": {
+      "chatManagementSashBorder": "聊天管理编辑器分栏视图拖动条的边框颜色。",
+      "plan.usage": "用量",
+      "plan.models": "模型",
+      "sectionsListAriaLabel": "分区",
+      "plan.copilot": "Copilot",
+      "plan.free": "免费版",
+      "plan.upgradeToProPlus": "升级到 Copilot Pro+",
+      "plan.upgradeToPro": "升级到 Copilot Pro",
+      "upgradeToCopilotPro": "升级到 Copilot Pro",
+      "enableAIFeatures": "使用 AI 功能",
+      "enableMoreAIFeatures": "启用更多 AI 功能",
+      "enableCopilotButton": "启用 AI 功能",
+      "signInToUseAIFeatures": "登录以使用 AI 功能",
+      "plan.proName": "Copilot Pro",
+      "plan.proPlusName": "Copilot Pro+",
+      "plan.businessName": "Copilot Business",
+      "plan.enterpriseName": "Copilot Enterprise",
+      "plan.freeName": "Copilot Free"
+    },
+    "vs/workbench/contrib/chat/browser/chatManagement/chatManagementEditorInput": {
+      "aiManagementEditorLabelIcon": "AI 管理编辑器标签的图标。",
+      "aiManagementEditorInputName": "管理 Copilot"
+    },
+    "vs/workbench/contrib/chat/browser/chatManagement/chatModelsViewModel": {
+      "visible": "可见",
+      "hidden": "已隐藏"
+    },
+    "vs/workbench/contrib/chat/browser/chatManagement/chatModelsWidget": {
+      "models.cost": "倍率",
+      "models.input": "输入",
+      "models.output": "输出",
+      "groupByTooltip": "按 {0} 分组",
+      "filterByVisible": "按 {0} 筛选",
+      "filter.visible": "可见",
+      "filter.hidden": "已隐藏",
+      "groupBy.provider": "提供方",
+      "groupBy.visibility": "可见性",
+      "groupBy": "分组方式",
+      "models.hide": "隐藏",
+      "models.show": "显示",
+      "models.visible": "在聊天模型选择器中隐藏",
+      "models.hidden": "在聊天模型选择器中显示",
+      "models.userSelectable": "此模型在聊天模型选择器中处于隐藏状态",
+      "multiplier.tooltip": "每条聊天消息按 {0} 计入你的高级模型请求配额",
+      "provider": "提供方",
+      "model.contextSize": "上下文大小：{0} 个输入 token 和 {1} 个输出 token",
+      "model.visible": "此模型在聊天模型选择器中可见",
+      "model.hidden": "此模型在聊天模型选择器中处于隐藏状态"
+    },
+    "vs/workbench/contrib/chat/browser/chatManagement/chatUsageWidget": {
+      "completionsLabel": "内联建议",
+      "chatsLabel": "聊天消息",
+      "plan.inlineSuggestions": "内联建议",
+      "plan.chatMessages": "聊天消息",
+      "plan.premiumRequests": "高级请求",
+      "plan.additionalPaidEnabled": "已启用额外的付费高级请求。",
+      "plan.allowanceResets": "额度将于 {0} 重置。",
+      "plan.included": "已包含",
+      "quotaLimited": "受限"
+    },
+    "vs/workbench/contrib/chat/browser/chatPasteProviders": {
+      "pastedImageName": "粘贴的图片",
+      "pastedImageAttachment": "粘贴的图片附件",
+      "pastedChatAttachments": "插入提示与附件",
+      "pastedCodeAttachment": "粘贴的代码附件",
+      "pastedAttachment.oneLine": "1 行",
+      "pastedAttachment.multipleLines": "{0} 行",
+      "pastedAttachment.multiple": "{0} 以及另外 {1} 项"
+    },
+    "vs/workbench/contrib/chat/browser/chatQuick": {
+      "termsDisclaimer": "继续使用 {0} Copilot 表示你同意 {1} 的[条款]({2})和[隐私声明]({3})"
+    },
+    "vs/workbench/contrib/chat/browser/chatResponseAccessibleView": {
+      "toolPostApprovalA11yView": "批准 {0} 的结果？结果： "
+    },
+    "vs/workbench/contrib/chat/browser/chatSessions.contribution": {
+      "chatSessionsExtPoint": "向聊天组件贡献聊天会话集成。",
+      "chatSessionsExtPoint.chatSessionType": "聊天会话类型的唯一标识符。",
+      "chatSessionsExtPoint.name": "动态注册的聊天参与者名称（例如 @agent）。不能包含空白字符。",
+      "chatSessionsExtPoint.displayName": "该项的较长名称，用于在菜单中显示。",
+      "chatSessionsExtPoint.description": "聊天会话的描述，用于菜单和工具提示。",
+      "chatSessionsExtPoint.when": "显示该项所需满足的条件。",
+      "chatSessionsExtPoint.icon": "聊天会话编辑器选项卡的图标标识符（codicon ID），例如 \"$(github)\" 或 \"$(cloud)\"。",
+      "icon.light": "使用浅色主题时的图标路径",
+      "icon.dark": "使用深色主题时的图标路径",
+      "chatSessionsExtPoint.order": "该项的显示顺序。",
+      "chatSessionsExtPoint.alternativeIds": "用于向后兼容的备用标识符。",
+      "chatSessionsExtPoint.welcomeTitle": "为该会话类型在聊天欢迎视图中显示的标题文本。",
+      "chatSessionsExtPoint.welcomeMessage": "为该会话类型在聊天欢迎视图中显示的消息文本（支持 Markdown）。",
+      "chatSessionsExtPoint.welcomeTips": "为该会话类型在聊天欢迎视图中显示的提示文本（支持 Markdown 和主题图标）。",
+      "chatSessionsExtPoint.inputPlaceholder": "为该会话类型在聊天输入框中显示的占位文本。",
+      "chatSessionsExtPoint.capabilities": "该聊天会话的可选能力。",
+      "chatSessionsExtPoint.supportsFileAttachments": "该聊天会话是否支持附加文件或文件引用。",
+      "chatSessionsExtPoint.supportsToolAttachments": "该聊天会话是否支持附加工具或工具引用。",
+      "chatSessionsExtPoint.supportsMCPAttachments": "该聊天会话是否支持附加 MCP 资源。",
+      "chatSessionsExtPoint.supportsImageAttachments": "该聊天会话是否支持附加图片。",
+      "chatSessionsExtPoint.supportsSearchResultAttachments": "该聊天会话是否支持附加搜索结果。",
+      "chatSessionsExtPoint.supportsInstructionAttachments": "该聊天会话是否支持附加指令。",
+      "chatSessionsExtPoint.supportsSourceControlAttachments": "该聊天会话是否支持附加源代码管理的更改。",
+      "chatSessionsExtPoint.supportsProblemAttachments": "该聊天会话是否支持附加问题。",
+      "chatSessionsExtPoint.supportsSymbolAttachments": "该聊天会话是否支持附加符号。",
+      "chatCommandsDescription": "该聊天会话可用的命令，用户可通过 `/` 调用。",
+      "chatCommand": "该命令在界面中的简称，例如修复问题用 `fix`、解释代码用 `explain`。名称在该参与者提供的命令中必须唯一。",
+      "chatCommandDescription": "该命令的描述。",
+      "chatCommandWhen": "启用该命令所需满足的条件。",
+      "chatSessionsExtPoint.canDelegate": "是否支持委派。默认为 false。注意启用此项属于实验性功能，可能不会始终生效。",
+      "interactiveSession.chatSessionSubMenuTitle": "创建聊天会话",
+      "interactiveSession.openNewSessionEditor": "新建 {0}",
+      "chatEditorContributionName": "{0}",
+      "chat.sessions.description.waitingForConfirmation": "等待确认：{0}",
+      "chat.sessions.description.thinking": "正在思考...",
+      "interactiveSession.openSessionWithPrompt": "带提示新建 {0}",
+      "interactiveSession.openNewSessionSidebar": "新建 {0}"
+    },
+    "vs/workbench/contrib/chat/browser/chatSessions/view/chatSessionsView": {
+      "chatSessions.noResults": "没有本地智能体会话\n[启动智能体会话](command:{0})",
+      "chat.sessions.gettingStarted": "入门",
+      "chat.agent.sessions.title": "智能体会话",
+      "chat.agent.sessions": "智能体会话"
+    },
+    "vs/workbench/contrib/chat/browser/chatSessions/view/sessionsTreeRenderer": {
+      "chat.sessions.groupNode.single": "1 个会话",
+      "chat.sessions.groupNode.multiple": "{0} 个会话",
+      "chat.sessions.lastActivity": "最后活动：{0}",
+      "chatSessionInputAriaLabel": "输入会话名称。按 Enter 确认，按 Escape 取消。",
+      "chat.sessions.archivedSessions": "历史"
+    },
+    "vs/workbench/contrib/chat/browser/chatSessions/view/sessionsViewPane": {
+      "chatSessions": "聊天会话",
+      "chatSession.selectOption": "更多...",
+      "chatSessions.refreshing": "正在刷新聊天会话...",
+      "chatSessions.loading": "正在加载聊天会话...",
+      "chatSessions.dragLabel": "{0} 个智能体会话",
+      "chatSessions.installExtensions": "安装智能体...",
+      "chatSessions.learnMoreGHCodingAgent": "详细了解 GitHub Copilot 编码智能体"
+    },
+    "vs/workbench/contrib/chat/browser/chatSetup/chatSetupContributions": {
+      "generateDocs": "生成文档",
+      "generateTests": "生成测试",
+      "manageOverages": "管理 GitHub Copilot 超额用量"
+    },
+    "vs/workbench/contrib/chat/browser/chatSetup/chatSetupRunner": {
+      "skipForNow": "暂时跳过"
+    },
+    "vs/workbench/contrib/chat/browser/chatStatus/chatStatusDashboard": {
+      "gaugeForeground": "仪表前景色。",
+      "gaugeBackground": "仪表背景色。",
+      "gaugeBorder": "仪表边框颜色。",
+      "gaugeWarningForeground": "仪表警告前景色。",
+      "gaugeWarningBackground": "仪表警告背景色。",
+      "gaugeErrorForeground": "仪表错误前景色。",
+      "gaugeErrorBackground": "仪表错误背景色。",
+      "usageTitle": "Copilot 用量",
+      "limitQuota": "额度将于 {0} 重置。",
+      "upgradeToCopilotPro": "升级到 GitHub Copilot Pro",
+      "anonymousTitle": "Copilot 用量",
+      "chatAgentSessionsTitle": "智能体会话",
+      "viewChatSessionsLabel": "查看智能体会话",
+      "viewChatSessionsTooltip": "查看智能体会话",
+      "inProgressChatSession": "$(loading~spin) {0} 进行中",
+      "inlineSuggestions": "内联建议",
+      "settingsLabel": "设置",
+      "settingsTooltip": "打开设置",
+      "enableAdditionalUsage": "管理付费高级请求",
+      "quotaUnlimited": "已包含",
+      "quotaDisplayWithOverage": "+{0} 个请求",
+      "additionalUsageEnabled": "已启用额外的付费高级请求。",
+      "additionalUsageDisabled": "已禁用额外的付费高级请求。",
+      "currentModel.description": "当前已选择",
+      "selectModelFor": "为 {0} 选择模型"
+    },
+    "vs/workbench/contrib/chat/browser/chatStatus/chatStatusEntry": {
+      "finishSetup": "完成设置",
+      "chatSessionsInProgressStatus": "{0} 个智能体会话进行中",
+      "chatSessionInProgressStatus": "1 个智能体会话进行中",
+      "notSignedIn": "已登出",
+      "completionsQuotaExceededStatus": "内联建议配额已用尽",
+      "chatAndCompletionsQuotaExceededStatus": "配额已用尽"
+    },
+    "vs/workbench/contrib/chat/browser/chatStatusWidget": {
+      "chat.anonymousRateLimited.message": "你的聊天消息已达上限。可免费试用 Copilot Pro。",
+      "chat.anonymousRateLimited.signIn": "登录",
+      "chat.anonymousRateLimited.signIn.ariaLabel": "{0} {1}",
+      "chat.freeQuotaExceeded.message": "你的聊天消息已达上限。",
+      "chat.freeQuotaExceeded.upgrade": "升级",
+      "chat.freeQuotaExceeded.upgrade.ariaLabel": "{0} {1}"
+    },
+    "vs/workbench/contrib/chat/browser/chatViewPane": {
+      "recentSessions": "最近的会话",
+      "allSessions": "所有会话",
+      "showAllSessions": "显示所有会话",
+      "showRecentSessions": "显示最近的会话"
+    },
+    "vs/workbench/contrib/chat/browser/chatViewTitleControl": {
+      "chat": "聊天",
+      "backgroundSession": "{0} 智能体会话",
+      "chatTitleWithPrefixCustom": "聊天：{0}"
+    },
+    "vs/workbench/contrib/chat/browser/chatWidget": {
+      "chatDisclaimer": "AI 的回复可能不准确。",
+      "scrollDownButtonLabel": "向下滚动",
+      "settings": "继续使用 {0} Copilot 表示你同意 {1} 的[条款]({2})和[隐私声明]({3})。",
+      "chatWidget.instructions": "[生成智能体指令]({0})，让 AI 熟悉你的代码库。",
+      "copilotCodingAgentMessage": "此聊天会话将转交给 {0} [编码智能体]({1})，在后台完成工作。 ",
+      "genericCodingAgentMessage": "此聊天会话将转交给 {0} 编码智能体，在后台完成工作。 ",
+      "codingAgentTitle": "委派给 {0}",
+      "chatDescription": "询问你的代码",
+      "editsTitle": "在上下文中编辑",
+      "agentTitle": "用智能体构建",
+      "chatWidget.suggestedPrompts.newProject": "创建项目",
+      "chatWidget.suggestedPrompts.newProjectPrompt": "用 TypeScript 创建一个 #new Hello World 项目",
+      "chatWidget.suggestedPrompts.buildWorkspace": "构建工作区",
+      "chatWidget.suggestedPrompts.buildWorkspacePrompt": "我该如何构建这个工作区？",
+      "chatWidget.suggestedPrompts.findConfig": "显示配置",
+      "chatWidget.suggestedPrompts.findConfigPrompt": "这个项目的配置定义在哪里？",
+      "chatWidget.promptFile.commandLabel": "{0}",
+      "chat.input.placeholder.lockedToAgent": "与 {0} 聊天"
+    },
+    "vs/workbench/contrib/chat/browser/codeBlockPart": {
+      "chat.codeBlockHelp": "代码块",
+      "chat.codeBlockLabel": "代码块 {0}",
+      "chat.codeBlockToolbarLabel": "代码块 {0}",
+      "vulnerabilitiesPlural": "{0} 个漏洞",
+      "vulnerabilitiesSingular": "{0} 个漏洞",
+      "original": "原始",
+      "modified": "修改后",
+      "chat.codeBlock.toolbar": "代码块工具栏",
+      "chat.compareCodeBlockLabel": "代码编辑",
+      "chat.edits.1": "已在 [[``{0}``]] 中应用 1 处更改",
+      "chat.edits.rejected": "[[``{0}``]] 中的编辑已被拒绝",
+      "chat.edits.N": "已在 [[``{1}``]] 中应用 {0} 处更改",
+      "interactive.compare.apply.confirm": "原始文件已被修改。",
+      "interactive.compare.apply.confirm.detail": "仍要应用这些更改吗？"
+    },
+    "vs/workbench/contrib/chat/browser/contrib/chatInputCompletions": {
+      "installLabel": "安装聊天扩展...",
+      "mcp.prompt.error": "解析提示时出错：{0}",
+      "mcp.prompt.resource": "提示资源",
+      "mcp.prompt.image": "提示图片",
+      "fileEntryDescription": "{0}（{1}）",
+      "activeFile": "活动文件",
+      "tool_source_completion": "{0}：{1}"
+    },
+    "vs/workbench/contrib/chat/browser/contrib/chatInputEditorHover": {
+      "hoverAccessibilityChatAgent": "此处有一个聊天智能体悬停部分。"
+    },
+    "vs/workbench/contrib/chat/browser/contrib/chatInputRelatedFilesContrib": {
+      "relatedFile": "{0}（推荐）"
+    },
+    "vs/workbench/contrib/chat/browser/contrib/screenshot": {
+      "screenshot": "截图"
+    },
+    "vs/workbench/contrib/chat/browser/languageModelToolsConfirmationService": {
+      "runWithoutApproval": "无需批准",
+      "continueWithoutReviewingResults": "无需审阅结果",
+      "allowSession": "在本会话中允许",
+      "allowSessionTooltip": "允许该工具在本会话中无需确认即可运行。",
+      "allowWorkspace": "在本工作区中允许",
+      "allowWorkspaceTooltip": "允许该工具在本工作区中无需确认即可运行。",
+      "allowGlobally": "始终允许",
+      "allowGloballyTooltip": "始终允许该工具无需确认即可运行。",
+      "allowServerSession": "在本会话中允许来自 {0} 的工具",
+      "allowServerSessionTooltip": "允许该服务器的所有工具在本会话中无需确认即可运行。",
+      "allowServerWorkspace": "在本工作区中允许来自 {0} 的工具",
+      "allowServerWorkspaceTooltip": "允许该服务器的所有工具在本工作区中无需确认即可运行。",
+      "allowServerGlobally": "始终允许来自 {0} 的工具",
+      "allowServerGloballyTooltip": "始终允许该服务器的所有工具无需确认即可运行。",
+      "allowSessionPost": "在本会话中允许不经审阅",
+      "allowSessionPostTooltip": "允许该工具的结果在本会话中无需确认即可发送。",
+      "allowWorkspacePost": "在本工作区中允许不经审阅",
+      "allowWorkspacePostTooltip": "允许该工具的结果在本工作区中无需确认即可发送。",
+      "allowGloballyPost": "始终允许不经审阅",
+      "allowGloballyPostTooltip": "始终允许该工具的结果无需确认即可发送。",
+      "allowServerSessionPost": "在本会话中允许来自 {0} 的工具不经审阅",
+      "allowServerSessionPostTooltip": "允许该服务器所有工具的结果在本会话中无需确认即可发送。",
+      "allowServerWorkspacePost": "在本工作区中允许来自 {0} 的工具不经审阅",
+      "allowServerWorkspacePostTooltip": "允许该服务器所有工具的结果在本工作区中无需确认即可发送。",
+      "allowServerGloballyPost": "始终允许来自 {0} 的工具不经审阅",
+      "allowServerGloballyPostTooltip": "始终允许该服务器所有工具的结果无需确认即可发送。",
+      "continueWithoutReviewing": "继续且不审阅任何工具结果",
+      "runToolsWithoutApproval": "无需批准即运行任何工具",
+      "workspaceScope": "仅为本工作区配置",
+      "configureSessionToolApprovals": "配置会话级工具批准",
+      "configureWorkspaceToolApprovals": "配置工作区级工具批准",
+      "configureGlobalToolApprovals": "配置全局工具批准"
+    },
+    "vs/workbench/contrib/chat/browser/languageModelToolsService": {
+      "copilot.toolSet.vscode.description": "使用 VS Code 的功能",
+      "copilot.toolSet.execute.description": "在你的机器上执行代码和应用程序",
+      "copilot.toolSet.read.description": "读取工作区中的文件",
+      "defaultToolConfirmation.title": "允许工具执行？",
+      "defaultToolConfirmation.message": "运行 '{0}' 工具？",
+      "defaultToolConfirmation.disclaimer": "'{0}' 的自动批准受 {1} 限制。",
+      "autoApprove2.title": "启用全局自动批准？",
+      "autoApprove2.button.enable": "启用",
+      "autoApprove2.button.disable": "禁用",
+      "autoApprove2.markdown": "全局自动批准（也叫 \"YOLO 模式\"）会对_所有工作区中的所有工具_完全关闭人工批准，让智能体完全自主行动。这极其危险，*绝不*推荐使用；即使是 [Codespaces](https://github.com/features/codespaces) 和[开发容器](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)这类容器化环境，也会把用户密钥转发进容器，存在被泄露的风险。\n\n**此功能会关闭[关键的安全防护](https://code.visualstudio.com/docs/copilot/security)，大幅降低攻击者攻陷本机的难度。**"
+    },
+    "vs/workbench/contrib/chat/browser/modelPicker/modePickerActionItem": {
+      "built-in": "内置",
+      "custom": "自定义",
+      "managedByOrganization": "由你所属的组织管理"
+    },
+    "vs/workbench/contrib/chat/browser/modelPicker/modelPickerActionItem": {
+      "chat.modelPicker.auto": "自动",
+      "chat.manageModels": "管理模型...",
+      "chat.manageModels.tooltip": "管理语言模型",
+      "chat.moreModels": "添加语言模型",
+      "chat.morePremiumModels": "添加高级模型",
+      "chat.moreModels.tooltip": "添加语言模型",
+      "chat.morePremiumModels.tooltip": "添加高级模型",
+      "chat.modelPicker.label": "选择模型"
+    },
+    "vs/workbench/contrib/chat/browser/promptSyntax/pickers/askForPromptSourceFolder": {
+      "commands.prompts.create.source-folder.current-workspace": "当前工作区"
+    },
+    "vs/workbench/contrib/chat/browser/promptSyntax/pickers/promptFilePickers": {
+      "commands.update-instructions.select-dialog.label": "生成智能体指令...",
+      "copy": "复制"
+    },
+    "vs/workbench/contrib/chat/browser/viewsWelcome/chatViewWelcomeController": {
+      "chatWidget.suggestedActions": "推荐操作",
+      "suggestedPromptAriaLabelWithDescription": "推荐提示：{0}，{1}",
+      "suggestedPromptAriaLabel": "推荐提示：{0}",
+      "runPromptTitle": "推荐提示：{0}",
+      "editPromptFile": "编辑提示文件"
+    },
+    "vs/workbench/contrib/chat/common/chatColors": {
+      "chat.requestBorder": "聊天请求的边框颜色。",
+      "chat.requestBackground": "聊天请求的背景色。",
+      "chat.slashCommandBackground": "聊天斜杠命令的背景色。",
+      "chat.slashCommandForeground": "聊天斜杠命令的前景色。",
+      "chat.avatarBackground": "聊天头像的背景色。",
+      "chat.avatarForeground": "聊天头像的前景色。",
+      "chat.editedFileForeground": "已编辑文件列表中聊天已编辑文件的前景色。",
+      "chat.requestCodeBorder": "聊天请求气泡内代码块的边框颜色。",
+      "chat.requestBubbleBackground": "聊天请求气泡的背景色。",
+      "chat.requestBubbleHoverBackground": "悬停时聊天请求气泡的背景色。",
+      "chatCheckpointSeparator": "聊天检查点分隔线的颜色。",
+      "chat.linesAddedForeground": "聊天代码块标签中新增行的前景色。",
+      "chat.linesRemovedForeground": "聊天代码块标签中删除行的前景色。"
+    },
+    "vs/workbench/contrib/chat/common/chatContextKeys": {
+      "interactiveSessionResponseVote": "回复被点赞时为 'up'，被点踩时为 'down'，否则为空字符串。",
+      "chatSessionResponseDetectedAgentOrCommand": "智能体或命令是自动检测到的",
+      "chatResponseSupportsIssueReporting": "当前聊天回复支持问题反馈时为 true。",
+      "chatResponseFiltered": "聊天回复被服务端过滤时为 true。",
+      "chatResponseErrored": "聊天回复出错时为 true。",
+      "interactiveSessionRequestInProgress": "当前请求仍在进行中时为 true。",
+      "interactiveSessionCurrentlyEditing": "当前请求正在被编辑时为 true。",
+      "interactiveSessionCurrentlyEditingInput": "底部的当前请求输入正在被编辑时为 true。",
+      "chatResponse": "该聊天项是一条回复。",
+      "chatRequest": "该聊天项是一条请求",
+      "chatItemId": "该聊天项的 id。",
+      "chatLastItemId": "最后一个聊天项的 id。",
+      "chatEditApplied": "聊天的文本编辑已应用时为 true。",
+      "interactiveInputHasText": "聊天输入框有文本时为 true。",
+      "interactiveInputHasFocus": "聊天输入框获得焦点时为 true。",
+      "inInteractiveInput": "焦点在聊天输入框内时为 true，否则为 false。",
+      "inChat": "焦点在聊天组件内时为 true，否则为 false。",
+      "inChatEditor": "焦点是否在聊天编辑器内。",
+      "inChatTerminalToolOutput": "焦点在聊天终端输出区域内时为 true。",
+      "agentKind": "当前智能体的类别。",
+      "chatToolCount": "当前智能体可用的工具数量。",
+      "chatToolGroupingThreshold": "开始进行虚拟分组的工具数量阈值。",
+      "chatIsEnabled": "因某个默认聊天参与者已带实现激活而启用聊天时为 true。",
+      "lockedToCodingAgent": "聊天组件锁定到编码智能体会话时为 true。",
+      "agentSupportsAttachments": "聊天智能体支持附件时为 true。",
+      "withinEditSessionDiff": "聊天组件转交给编辑会话聊天时为 true。",
+      "filePartOfEditSession": "聊天组件位于带编辑会话的文件内时为 true。",
+      "chatPanelExtensionParticipantRegistered": "面板已由某个扩展注册默认聊天参与者时为 true。",
+      "chatParticipantRegistered": "面板已注册默认聊天参与者时为 true。",
+      "chatEditingCanUndo": "可以在编辑面板中撤销某次交互时为 true。",
+      "chatEditingCanRedo": "可以在编辑面板中重做某次交互时为 true。",
+      "chatModelsAreUserSelectable": "用户可以手动选择聊天模型时为 true。",
+      "chatSessionHasModels": "聊天处于某个有可显示 'models' 的贡献聊天会话中时为 true。",
+      "chatExtensionInvalid": "已安装的聊天扩展无效且需要更新时为 true。",
+      "inQuickChat": "快速聊天界面获得焦点时为 true，否则为 false。",
+      "chatHasFileAttachments": "聊天带有文件附件时为 true。",
+      "chatSessionIsEmpty": "当前聊天会话没有任何请求时为 true。",
+      "chatRemoteJobCreating": "正在创建远程编码智能体任务时为 true。",
+      "hasRemoteCodingAgent": "是否有任何远程编码智能体可用",
+      "enableRemoteCodingAgentPromptFileOverlay": "远程编码智能体提示文件浮层功能是否已启用",
+      "chatSkipRequestInProgressMessage": "应跳过“聊天请求进行中”提示时为 true。",
+      "chatEditingHasToolConfirmation": "存在工具确认时为 true。",
+      "chatEditingHasElicitationRequest": "有待处理的聊天信息征询请求时为 true。",
+      "toolsCount": "聊天中可用的工具数量。",
+      "chatHasAgents": "聊天有可用的自定义智能体时为 true。",
+      "chatAgentModeDisabledByPolicy": "智能体模式被组织策略禁用时为 true。",
+      "chatPanelLocation": "聊天面板的位置。",
+      "chatIsCombinedSessionViewer": "聊天会话查看器使用新的合并样式时为 true。",
+      "agentSessionsViewerLimited": "聊天视图中的智能体会话视图是否仅显示最近的会话。",
+      "agentSessionsViewerOrientation": "聊天视图中智能体会话视图的方向。",
+      "agentSessionsViewerPosition": "聊天视图中智能体会话视图的位置。",
+      "agentSessionType": "当前智能体会话项的类型。",
+      "agentSessionHasChanges": "当前智能体会话项有更改时为 true。",
+      "agentSessionIsArchived": "智能体会话项已归档时为 true。",
+      "agentSessionIsRead": "智能体会话项已读时为 true。",
+      "agentSessionIsActive": "智能体会话当前处于活动状态（不可删除）时为 true。",
+      "chatIsKatexMathElement": "焦点位于 KaTeX 数学元素上时为 true。"
+    },
+    "vs/workbench/contrib/chat/common/chatEditingService": {
+      "chatMultidiff.autoGenerated": "对 {0} 个文件的更改",
+      "chatEditingWidgetFileState": "聊天编辑组件中文件的当前状态",
+      "chatEditingAgentSupportsReadonlyReferences": "聊天编辑智能体是否支持只读引用（临时）"
+    },
+    "vs/workbench/contrib/chat/common/chatModel": {
+      "editsSummary": "已做出更改。",
+      "copyrightContentRetry": "由于可能与公开代码匹配，回复已清除，正在用修改后的提示重试。",
+      "filteredContentRetry": "由于内容安全过滤，回复已清除，正在用修改后的提示重试。",
+      "codeCitation": "发现 1 种许可证类型下的相似代码",
+      "codeCitations": "发现 {0} 种许可证类型下的相似代码"
+    },
+    "vs/workbench/contrib/chat/common/chatProgressTypes/chatToolInvocation": {
+      "toolInvocationMessage": "正在使用 {0}"
+    },
+    "vs/workbench/contrib/chat/common/chatServiceImpl": {
+      "newChat": "新建聊天",
+      "emptyResponse": "提供程序返回了空响应"
+    },
+    "vs/workbench/contrib/chat/common/chatSessionStore": {
+      "join.chatSessionStore": "正在保存聊天历史",
+      "newChat": "新建聊天"
+    },
+    "vs/workbench/contrib/chat/common/chatUrlFetchingConfirmation": {
+      "delete": "删除",
+      "approveRequestTo": "允许向 {0} 发起请求",
+      "approveResponseFrom": "允许来自 {0} 的响应",
+      "moreOptions": "允许向以下地址发起请求...",
+      "moreOptionsMultiple": "配置 URL 批准...",
+      "selectApproval": "选择要批准的 URL 模式",
+      "allowRequestsCheckbox": "发起请求时不再确认",
+      "allowResponsesCheckbox": "允许响应时不再确认",
+      "approveAll": "全部批准",
+      "denyAll": "全部拒绝",
+      "requests": "请求",
+      "responses": "响应",
+      "approves": "批准 {0}",
+      "noApprovals": "无批准项",
+      "moreOptionsManage": "更多选项...",
+      "openSettings": "打开设置"
+    },
+    "vs/workbench/contrib/chat/common/chatVariableEntries": {
+      "chat.attachment.problems.all": "所有问题",
+      "chat.attachment.problems.inFile": "{0} 中的问题"
+    },
+    "vs/workbench/contrib/chat/common/languageModelToolsService": {
+      "builtin": "内置",
+      "user": "用户定义",
+      "toolResultDataPartA11y": "{1} 二进制数据中的 {0}"
+    },
+    "vs/workbench/contrib/chat/common/modelPicker/modelPickerWidget": {
+      "chat.modelPicker.other": "其他模型"
+    },
+    "vs/workbench/contrib/chat/common/promptSyntax/chatPromptFilesContribution": {
+      "extension.invalid.name": "扩展 '{0}' 无法注册名称无效（'{2}'）的 {1} 条目。",
+      "extension.missing.description": "扩展 '{0}' 无法注册缺少描述的 {1} 条目 '{2}'。"
+    },
+    "vs/workbench/contrib/chat/common/promptSyntax/computeAutomaticInstructions": {
+      "instruction.file.reason.copilot": "因设置 {0} 已启用而自动附加",
+      "instruction.file.reason.agentsmd": "因设置 {0} 已启用而自动附加"
+    },
+    "vs/workbench/contrib/chat/common/promptSyntax/languageProviders/promptHovers": {
+      "promptHeader.instructions.name": "指令文件在界面中显示的名称。未设置时，名称从文件名推导。",
+      "promptHeader.instructions.description": "指令文件的描述。可用于提供关于这些指令的额外背景信息，并会作为提示的一部分传给语言模型。",
+      "promptHeader.instructions.applyToRange": "一个或多个 glob 模式（用逗号分隔），描述这些指令适用于哪些文件。当上下文中包含匹配其中任一模式的文件时，该文件会自动被纳入提示。若希望此文件始终被加入，请使用 `**`。\n示例：`**/*.ts`、`**/*.js`、`client/**`",
+      "promptHeader.agent.name": "智能体在界面中显示的名称。",
+      "promptHeader.agent.description": "自定义智能体的描述：它做什么，以及何时使用。",
+      "promptHeader.agent.argumentHint": "argument-hint 描述自定义智能体期望或支持哪些输入。",
+      "promptHeader.agent.model": "指定运行此自定义智能体的模型。",
+      "promptHeader.agent.tools": "此自定义智能体可以访问的工具集合。",
+      "promptHeader.agent.target": "头部属性（如 tools）所适用的目标。可选值为 `github-copilot` 和 `vscode`。",
+      "promptHeader.agent.infer": "该智能体是否可以作为子智能体使用。",
+      "promptHeader.prompt.name": "提示的名称。它同时也是运行此提示的斜杠命令的名称。",
+      "promptHeader.prompt.description": "可复用提示的描述：它做什么，以及何时使用。",
+      "promptHeader.prompt.argumentHint": "argument-hint 描述该提示期望或支持哪些输入。",
+      "promptHeader.prompt.model": "此提示中使用的模型。",
+      "promptHeader.prompt.tools": "此提示中使用的工具。",
+      "promptHeader.prompt.agent.description": "运行此提示时使用的智能体。",
+      "promptHeader.agent.handoffs": "智能体完成任务后可能的交接操作。"
+    },
+    "vs/workbench/contrib/chat/common/promptSyntax/languageProviders/promptValidator": {
+      "promptValidator.modelMustBeString": "'model' 属性必须是字符串。",
+      "promptValidator.toolNotFound": "未知的工具 '{0}'。",
+      "promptValidator.inferMustBeBoolean": "'infer' 属性必须是布尔值。"
+    },
+    "vs/workbench/contrib/chat/common/tools/manageTodoListTool": {
+      "tool.manageTodoList.displayName": "管理并跟踪用于任务规划的待办项",
+      "tool.manageTodoList.userDescription": "管理并跟踪用于任务规划的待办项",
+      "todo.readOperation": "读取待办列表",
+      "todo.updatedList": "已更新待办列表",
+      "todo.created.single": "已创建 1 个待办",
+      "todo.created.multiple": "已创建 {0} 个待办",
+      "todo.starting": "开始：*{0}*（{1}/{2}）",
+      "todo.completed": "完成：*{0}*（{1}/{2}）",
+      "todo.added.single": "已添加 1 个待办",
+      "todo.added.multiple": "已添加 {0} 个待办",
+      "todo.updated": "已更新待办列表"
+    },
+    "vs/workbench/contrib/chat/common/tools/runSubagentTool": {
+      "tool.runSubagent.displayName": "运行子智能体",
+      "tool.runSubagent.userDescription": "在隔离的子智能体上下文中运行任务，以便高效组织任务并管理上下文窗口。"
+    },
+    "vs/workbench/contrib/chat/common/tools/tools": {
+      "toolset.custom-agent": "把任务委派给其他智能体"
+    },
+    "vs/workbench/contrib/chat/electron-browser/tools/fetchPageTool": {
+      "fetchWebPage.urlsDescription": "要抓取内容的 URL 数组。",
+      "fetchWebPage.noValidUrls": "未提供有效的 URL。",
+      "fetchWebPage.binaryNotSupported": "目前不支持二进制文件。",
+      "fetchWebPage.pastTenseMessage.plural": "已抓取 {0} 个资源，但以下是无效的 URL：\n\n{1}\n\n",
+      "fetchWebPage.pastTenseMessage.singular": "已抓取资源，但以下是无效的 URL：\n\n{0}\n\n",
+      "fetchWebPage.pastTenseMessageResult.plural": "已抓取 {0} 个资源",
+      "fetchWebPage.invocationMessage.plural": "正在抓取 {0} 个资源",
+      "fetchWebPage.pastTenseMessageResult.singularAsLink": "已抓取[资源]({0})",
+      "fetchWebPage.invocationMessage.singularAsLink": "正在抓取[资源]({0})",
+      "fetchWebPage.pastTenseMessageResult.singular": "已抓取 {0}",
+      "fetchWebPage.invocationMessage.singular": "正在抓取 {0}",
+      "fetchWebPage.confirmationTitle.singular": "抓取网页？",
+      "fetchWebPage.confirmationTitle.plural": "抓取网页？",
+      "fetchWebPage.confirmationMessage.plural": "网页内容可能包含恶意代码，或尝试进行提示注入攻击。",
+      "fetchWebPage.invalidUrl": "无效的 URL"
+    },
+    "vs/workbench/contrib/inlineChat/browser/inlineChat.contribution": {
+      "send.edit": "编辑代码",
+      "send.generate": "生成",
+      "cancel": "取消请求",
+      "cancelShort": "取消"
+    },
+    "vs/workbench/contrib/inlineChat/browser/inlineChatActions": {
+      "arrowUp": "光标上移",
+      "arrowDown": "光标下移",
+      "apply2": "接受",
+      "discard": "放弃",
+      "rerun": "重新运行",
+      "close": "关闭",
+      "viewInChat": "在聊天中查看",
+      "unstash": "恢复上一个已关闭的内联聊天",
+      "apply1": "接受更改",
+      "chat.rerun.label": "重新运行请求",
+      "configure": "配置内联聊天",
+      "moveToNextHunk": "转到下一处更改",
+      "moveToPreviousHunk": "转到上一处更改",
+      "showChanges": "切换更改显示"
+    },
+    "vs/workbench/contrib/inlineChat/browser/inlineChatController": {
+      "create.fail": "启动编辑器聊天失败",
+      "welcome.2": "正在准备...",
+      "empty": "没有结果，请调整输入后重试",
+      "responseWasEmpty": "回复为空",
+      "err.apply": "应用更改失败。",
+      "err.discard": "放弃更改失败。",
+      "askOrEditInContext": "在上下文中提问或编辑"
+    },
+    "vs/workbench/contrib/inlineChat/browser/inlineChatSessionServiceImpl": {
+      "confirm.title": "要在聊天视图中继续吗？",
+      "confirm": "要在聊天视图中继续吗？",
+      "confirm.detail": "内联聊天适用于单文件代码修改。请在聊天视图中继续你的请求，或改写成适合内联聊天的形式。",
+      "confirm.yes": "在聊天视图中继续",
+      "confirm.cancel": "取消",
+      "chat.remove.confirmation.checkbox": "不再询问",
+      "resetChoice.label": "重置“将内联聊天移到面板聊天”的选择"
+    },
+    "vs/workbench/contrib/inlineChat/common/inlineChat": {
+      "finishOnType": "在已更改区域之外键入时是否结束内联聊天会话。",
+      "holdToSpeech": "长按内联聊天快捷键是否自动启用语音识别。",
+      "accessibleDiffView": "内联聊天是否同时为其更改渲染无障碍差异查看器。",
+      "accessibleDiffView.auto": "无障碍差异查看器根据是否启用屏幕阅读器模式决定。",
+      "accessibleDiffView.on": "始终启用无障碍差异查看器。",
+      "accessibleDiffView.off": "从不启用无障碍差异查看器。",
+      "enableV2": "是否使用下一版本的内联聊天。",
+      "inlineChatHasProvider": "是否存在交互式编辑器的提供程序",
+      "inlineChatInnerCursorFirst": "交互式编辑器输入的光标是否位于第一行",
+      "inlineChatInnerCursorLast": "交互式编辑器输入的光标是否位于最后一行",
+      "inlineChatHasStashedSession": "交互式编辑器是否保留了可快速恢复的会话",
+      "inlineChatChangeHasDiff": "当前更改是否支持显示差异",
+      "inlineChatChangeShowsDiff": "当前更改是否正在显示差异",
+      "inlineChatResponseTypes": "已收到的回复类型：尚无、仅消息，或消息加本地编辑"
+    },
+    "vs/workbench/contrib/inlineChat/electron-browser/inlineChatActions": {
+      "holdForSpeech": "按住说话"
+    },
+    "vs/workbench/contrib/mcp/browser/mcpElicitationService": {
+      "mcp.elicit.title": "输入请求",
+      "mcp.elicit.accept": "回应"
+    },
+    "vs/workbench/contrib/terminalContrib/chat/browser/terminal.initialHint.contribution": {
+      "emptyHintText": "打开聊天 {0}。 ",
+      "hintTextDismiss": "开始输入即可关闭。",
+      "inlineChatHint": "[[打开聊天]]或开始输入以关闭。",
+      "disableHint": " 在设置中切换 {0} 可禁用此提示。",
+      "disableInitialHint": "禁用初始提示"
+    },
+    "vs/workbench/contrib/terminalContrib/chat/common/terminalInitialHintConfiguration": {
+      "terminal.integrated.initialHint": "控制第一个尚无输入的终端在获得焦点时是否显示可用操作的提示。"
+    },
+    "vs/workbench/contrib/terminalContrib/chatAgentTools/browser/runInTerminalHelpers": {
+      "autoApprove.baseCommandSingle": "始终允许命令：{0}",
+      "autoApprove.baseCommand": "始终允许命令：{0}"
+    },
+    "vs/workbench/contrib/terminalContrib/chatAgentTools/browser/tools/getTerminalOutputTool": {
+      "bg.progressive": "正在检查后台终端输出",
+      "bg.past": "已检查后台终端输出"
+    },
+    "vs/workbench/contrib/terminalContrib/chatAgentTools/browser/tools/monitoring/outputMonitor": {
+      "poll.terminal.waiting": "继续等待 `{0}` 吗？",
+      "poll.terminal.polling": "这将继续轮询输出，以判断终端何时进入空闲状态，最长 2 分钟。",
+      "poll.terminal.accept": "是",
+      "poll.terminal.reject": "否",
+      "poll.terminal.inputRequest": "终端正在等待输入。",
+      "poll.terminal.requireInput": "{0}\n请向终端提供所需的输入。\n\n",
+      "poll.terminal.enterInput": "聚焦终端",
+      "poll.terminal.confirmRequired": "终端正在等待输入。",
+      "poll.terminal.confirmRunDetail": "{0}\n 是否要向终端发送 `{1}`{2} 并回车？",
+      "poll.terminal.acceptRun": "允许",
+      "poll.terminal.rejectRun": "聚焦终端"
+    },
+    "vs/workbench/contrib/terminalContrib/chatAgentTools/browser/tools/runInTerminalTool": {
+      "runInTerminal.background": "运行 `{0}` 命令？（后台终端）"
+    },
+    "vs/workbench/contrib/terminalContrib/chatAgentTools/common/terminalChatAgentToolsConfiguration": {
+      "autoReplyToPrompts.key": "是否自动响应终端中的提示，例如 `Confirm? y/n`。这是实验性功能，可能并非在所有场景下都有效。",
+      "outputLocation.none": "不自动显示终端。"
+    }
+  }
+}
