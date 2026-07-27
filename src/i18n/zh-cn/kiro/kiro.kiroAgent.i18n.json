@@ -1,0 +1,165 @@
+{
+  // Simplified Chinese translations for the Kiro built-in extension `kiro.kiroAgent`.
+  //
+  // `contents.package` overrides the extension's package.nls.json, which backs every
+  // %key% placeholder in its manifest: command titles, view names, editor titles,
+  // spec toolbar buttons and tree view welcome text.
+  //
+  // `contents.bundle` would override runtime vscode.l10n.t() strings. Kiro declares
+  // "l10n" in its manifest but does not call l10n.t() yet, so the section is left
+  // empty on purpose - it starts working the moment Kiro adopts the API.
+  //
+  // Comments are stripped by the build. The English source is kept inline so reviews
+  // do not require a second file. Rules: keep {0} placeholders, $(codicon) markers,
+  // command: links and keyboard glyphs exactly as they are.
+  "version": "1.0.0",
+  "contents": {
+    "package": {
+      // Kiro
+      "KiroAgent.title": "Kiro",
+      // Kiro Debug
+      "KiroAgent.debugTitle": "Kiro 调试",
+      // $(add) Requirement (⌘Enter)
+      "KiroAgent.command.generateTest": "$(add) 需求 (⌘Enter)",
+      // Open Metadata Storage Path
+      "KiroAgent.debug.openMetadata": "打开元数据存储路径",
+      // Purge Metadata Storage Path
+      "KiroAgent.debug.purgeMetadata": "清空元数据存储路径",
+      // Test Specification Editor
+      "KiroAgent.testSpecificationEditor.title": "测试规格编辑器",
+      // Chat Context
+      "KiroAgent.chatContext.title": "聊天上下文",
+      // Ask Agent
+      "KiroAgent.agent.askAgent": "询问智能体",
+      // Capture logs
+      "KiroAgent.command.captureLog": "捕获日志",
+      // Capture LLM logs
+      "KiroAgent.command.captureLLMLog": "捕获 LLM 日志",
+      // Install Ollama
+      "KiroAgent.command.installOllama": "安装 Ollama",
+      // Agent Hooks
+      "KiroAgent.views.hooks": "智能体钩子",
+      // Agent Steering & Skills
+      "KiroAgent.views.steering": "智能体引导与技能",
+      // Open Hook Editor
+      "KiroAgent.hooks.openHooksEditor": "打开钩子编辑器",
+      // Create Checkpoint
+      "KiroAgent.checkpoints.createCheckpoint": "创建检查点",
+      // Revert to Last Checkpoint
+      "KiroAgent.checkpoints.revertToLastCheckpoint": "回退到上一个检查点",
+      // Accept Block
+      "KiroAgent.checkpoints.acceptDiff": "接受此块",
+      // Revert Block
+      "KiroAgent.checkpoints.restoreDiff": "还原此块",
+      // Record References
+      "KiroAgent.command.recordReferences": "记录引用",
+      // What edits would you like to make? (# to add context, ⇅ for history)
+      "KiroAgent.command.edit.instructions": "你想做哪些修改？(# 添加上下文，⇅ 查看历史)",
+      // Enable Shell Integration
+      "KiroAgent.command.enableShellIntegration": "启用 Shell 集成",
+      // Restart Kiro (Experimental)
+      "KiroAgent.command.fullIdeRestart": "重启 Kiro (实验性)",
+      // View Execution Changes
+      "KiroAgent.command.execution.viewAllChanges": "查看执行变更",
+      // Open Permissions (User)
+      "KiroAgent.command.openPermissionsUser": "打开权限配置 (用户)",
+      // Open Permissions (Workspace)
+      "KiroAgent.command.openPermissionsWorkspace": "打开权限配置 (工作区)",
+      // Send Terminal to Chat
+      "KiroAgent.command.sendTerminalToChat": "将终端内容发送到聊天",
+      // Toggle Autocomplete Enabled
+      "KiroAgent.command.toggleTabAutocompleteEnabled": "切换自动补全的启用状态",
+      // New Session
+      "KiroAgent.command.newSession": "新建会话",
+      // MCP Servers
+      "KiroAgent.views.mcpServerStatus": "MCP 服务器",
+      // Open Experiments
+      "KiroAgent.command.openExperiments": "打开实验功能",
+      // Open MCP Config
+      "KiroAgent.command.openActiveMcpConfig": "打开 MCP 配置",
+      // Open Workspace MCP Config (JSON)
+      "KiroAgent.command.openWorkspaceMcpConfig": "打开工作区 MCP 配置 (JSON)",
+      // Workspace Config
+      "KiroAgent.command.openWorkspaceMcpConfig.short": "工作区配置",
+      // Open User MCP Config (JSON)
+      "KiroAgent.command.openUserMcpConfig": "打开用户 MCP 配置 (JSON)",
+      // User Config
+      "KiroAgent.command.openUserMcpConfig.short": "用户配置",
+      // Import AI Assistant Steering
+      "KiroAgent.command.import.steering": "导入 AI 助手引导文档",
+      // Rich Spec Editor
+      "KiroAgent.editor.spec.title": "规格富文本编辑器",
+      // Rich Hook Editor
+      "KiroAgent.editor.hook.title": "钩子富文本编辑器",
+      // Spec View
+      "KiroAgent.notebook.spec.title": "规格视图",
+      // Generate Contextual Spec
+      "KiroAgent.command.debug.generateContextualDiscoveredSpec": "生成上下文规格",
+      // Kiro Hook
+      "KiroAgent.hookContext.kiroHook": "Kiro 钩子",
+      // Open Kiro Hook UI
+      "KiroAgent.hooks.openUI": "打开 Kiro 钩子界面",
+      // Migrate Legacy Hooks to v1
+      "KiroAgent.hooks.migrateToV2": "将旧版钩子迁移到 v1",
+      // Migrate Hook to v1
+      "KiroAgent.hooks.migrateSingle": "将钩子迁移到 v1",
+      // Dismiss
+      "KiroAgent.hooks.dismissMigrationBanner": "忽略",
+      // Configure Powers
+      "KiroAgent.powers.openUI": "配置能力包",
+      // Open Powers Configuration File
+      "KiroAgent.powers.configure": "打开能力包配置文件",
+      // Installed
+      "Kiro.views.installedPowersList": "已安装",
+      // Available
+      "Kiro.views.recommendedPowersList": "可用",
+      // Control the execution log UI
+      "KiroAgent.executions.uiControl": "控制执行日志界面",
+      // Generate project steering documents
+      "Kiro.steering.createInitialSteering": "生成项目引导文档",
+      // Generate a custom steering document or import an agent skill
+      "Kiro.steering.createSteeringOrImportSkills": "生成自定义引导文档或导入智能体技能",
+      // Refine this Steering document
+      "Kiro.steering.refineSteeringFile": "优化此引导文档",
+      // Requirements
+      "Kiro.spec.navigateToRequirements": "需求",
+      // Design
+      "Kiro.spec.navigateToDesign": "设计",
+      // Task list
+      "Kiro.spec.navigateToTasks": "任务列表",
+      // Bugfix
+      "Kiro.spec.navigateToBugfix": "缺陷修复",
+      // Go to bugfix
+      "Kiro.spec.navigateToBugfix.long": "转到缺陷修复",
+      // Go to requirements
+      "Kiro.spec.navigateToRequirements.long": "转到需求",
+      // Go to design
+      "Kiro.spec.navigateToDesign.long": "转到设计",
+      // Go to task list
+      "Kiro.spec.navigateToTasks.long": "转到任务列表",
+      // Sync Files
+      "Kiro.spec.updateDocument": "同步文件",
+      // Sync spec document with files
+      "Kiro.spec.updateDocument.long": "将规格文档与文件同步",
+      // Continue
+      "Kiro.spec.createDocument": "继续",
+      // Progress to the next document in the workflow
+      "Kiro.spec.createDocument.long": "进入工作流中的下一个文档",
+      // Run All
+      "Kiro.spec.runAllTasks": "全部运行",
+      // Execute all incomplete required tasks in the spec
+      "Kiro.spec.runAllTasks.long": "执行此规格中所有未完成的必需任务",
+      // Create a new spec
+      "Kiro.spec.explorerCreateSpec": "新建规格",
+      // Loading MCP settings...
+      "KiroAgent.treeview.welcome.mcp.loading": "正在加载 MCP 设置...",
+      // Connect external tools and data sources
+      "KiroAgent.treeview.welcome.mcp": "连接外部工具与数据源",
+      // Connect external tools and data sources \n\n[Enable MCP](command:kiroAgent.mcp.enable)
+      "KiroAgent.treeview.welcome.mcp.disabled": "连接外部工具与数据源 \n\n[启用 MCP](command:kiroAgent.mcp.enable)",
+      // MCP usage has been disabled by your organization
+      "KiroAgent.treeview.welcome.mcp.disabledByAdmin": "你所属的组织已禁用 MCP 功能"
+    },
+    "bundle": {}
+  }
+}

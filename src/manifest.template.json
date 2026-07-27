@@ -1,0 +1,41 @@
+{
+  "name": "${NAME}",
+  "displayName": "${DISPLAY_NAME}",
+  "description": "${DESCRIPTION}",
+  "version": "${VERSION}",
+  "publisher": "${PUBLISHER}",
+  "license": "${LICENSE}",
+  "icon": "${ICON}",
+  "engines": {
+    "vscode": "${ENGINE_VSCODE}"
+  },
+  "categories": [
+    "Language Packs"
+  ],
+  "keywords": [
+    "kiro",
+    "language pack",
+    "localization",
+    "l10n",
+    "i18n",
+    "${LANGUAGE_ID}"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "${REPOSITORY}"
+  },
+  "homepage": "${HOMEPAGE}",
+  "bugs": {
+    "url": "${BUGS_URL}"
+  },
+  "contributes": {
+    "localizations": [
+      {
+        "languageId": "${LANGUAGE_ID}",
+        "languageName": "${LANGUAGE_NAME}",
+        "localizedLanguageName": "${LOCALIZED_LANGUAGE_NAME}",
+        "translations": []
+      }
+    ]
+  }
+}

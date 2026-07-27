@@ -1,0 +1,68 @@
+{
+  "$comment": "Single source of truth for the build. Everything else is generated.",
+
+  "publisher": "CHANGE-ME-publisher",
+  "namePrefix": "kiro-language-pack",
+  "version": "0.1.0",
+  "license": "MIT",
+  "repository": "https://github.com/CHANGE-ME-owner/kiro-language-pack",
+  "homepage": "https://github.com/CHANGE-ME-owner/kiro-language-pack#readme",
+  "bugs": "https://github.com/CHANGE-ME-owner/kiro-language-pack/issues",
+  "icon": null,
+
+  "engines": {
+    "vscode": "^1.107.0"
+  },
+  "$engines": "Measured on Kiro 1.0.228: resources/app/product.json -> vsCodeVersion = 1.107.1. Lower the bound to support older Kiro builds. `npm run detect` prints the value for the locally installed Kiro.",
+
+  "target": {
+    "kiroExtensionId": "kiro.kiroAgent",
+    "$kiroExtensionId": "publisher.name from resources/app/extensions/kiro.kiro-agent/package.json. The folder name (kiro.kiro-agent) is NOT the extension id.",
+    "verifiedKiroVersions": ["1.0.228"]
+  },
+
+  "locales": [
+    {
+      "id": "zh-cn",
+      "languageName": "Chinese Simplified",
+      "localizedLanguageName": "中文（简体）",
+      "displayName": "Chinese (Simplified) (简体中文) Language Pack for Kiro",
+      "description": "Kiro IDE 简体中文语言包，覆盖编辑器界面与 Kiro 专有界面。Simplified Chinese language pack for the Kiro IDE.",
+      "descriptionAddon": "Kiro 专有界面的简体中文补充包，与已安装的 VS Code 中文语言包并存。Kiro-only Simplified Chinese strings, installs alongside an existing VS Code language pack.",
+      "upstreamPackDir": "i18n/vscode-language-pack-zh-hans",
+      "enabled": true
+    }
+  ],
+  "$locales": "Add a locale by appending an entry here and creating src/i18n/<id>/. No script changes are needed. Set upstreamPackDir to null if microsoft/vscode-loc has no pack for that language; `full` mode will then be skipped for it.",
+
+  "modes": {
+    "addon": {
+      "enabled": true,
+      "nameSuffix": "-addon",
+      "includeUpstream": false,
+      "$note": "Small pack: Kiro strings only. Intended to sit next to an already installed VS Code language pack. Whether two packs declaring the same languageId can coexist is host-dependent - see README."
+    },
+    "full": {
+      "enabled": true,
+      "nameSuffix": "",
+      "includeUpstream": true,
+      "$note": "Self-contained pack: Code OSS baseline from vscode-loc plus Kiro strings. Replaces the official VS Code language pack. Recommended."
+    }
+  },
+
+  "upstream": {
+    "repo": "microsoft/vscode-loc",
+    "ref": "main",
+    "$ref": "Pin to a tag or commit sha for reproducible releases. `main` is convenient during development.",
+    "$license": "vscode-loc source and strings are MIT licensed, so redistribution is permitted. See NOTICE."
+  },
+
+  "build": {
+    "filterByKiroMetadata": true,
+    "$filterByKiroMetadata": "Drop keys that do not exist in the local Kiro build. Shrinks the pack and makes coverage numbers meaningful. Automatically disabled when metadata/ is absent (e.g. in CI).",
+    "repairMismatchedMarkers": true,
+    "$repairMismatchedMarkers": "Drop inherited translations whose {0} placeholders, $(icon) references or (command:...) links no longer match the English source in the installed Kiro build. Those strings render broken text, so falling back to English is strictly better. Mismatches in files this repository maintains are reported instead of dropped. Requires metadata/.",
+    "dropEmptyBundles": true,
+    "prettyJson": false
+  }
+}

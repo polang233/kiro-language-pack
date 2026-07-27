@@ -1,0 +1,29 @@
+{
+  "name": "kiro-language-pack",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Build tooling for community language packs for the Kiro IDE user interface",
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.17.0"
+  },
+  "scripts": {
+    "detect": "node scripts/detect-kiro.mjs",
+    "extract": "node scripts/extract.mjs",
+    "audit": "node scripts/audit-manifest.mjs",
+    "sync": "node scripts/sync-upstream.mjs",
+    "build": "node scripts/build.mjs",
+    "coverage": "node scripts/coverage.mjs",
+    "validate": "node scripts/validate-dist.mjs",
+    "package": "node scripts/package.mjs",
+    "publish:ovsx": "node scripts/publish.mjs --registry=ovsx",
+    "publish:vsce": "node scripts/publish.mjs --registry=vsce",
+    "verify": "node scripts/build.mjs && node scripts/validate-dist.mjs && node scripts/coverage.mjs",
+    "clean": "node -e \"for (const d of ['dist','reports']) require('fs').rmSync(d,{recursive:true,force:true})\""
+  },
+  "devDependencies": {
+    "@vscode/vsce": "3.2.1",
+    "ovsx": "0.10.1"
+  }
+}

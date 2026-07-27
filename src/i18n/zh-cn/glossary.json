@@ -1,0 +1,41 @@
+{
+  "$comment": "Terminology contract for zh-cn. Kiro invents most of these terms, so pinning them down early keeps translations consistent as contributors join. `keepEnglish: true` means the English word stays in the translated string.",
+  "locale": "zh-cn",
+  "terms": [
+    { "en": "Kiro", "zh": "Kiro", "keepEnglish": true, "note": "产品名，不译" },
+    { "en": "Agent", "zh": "智能体", "keepEnglish": false },
+    { "en": "Spec", "zh": "规格", "keepEnglish": false, "note": "对应 .kiro/specs 目录下的需求/设计/任务三件套" },
+    { "en": "Steering", "zh": "引导", "keepEnglish": false, "note": "Steering document -> 引导文档" },
+    { "en": "Skill", "zh": "技能", "keepEnglish": false },
+    { "en": "Hook", "zh": "钩子", "keepEnglish": false },
+    { "en": "Power", "zh": "能力包", "keepEnglish": false, "note": "Powers 面板 -> 能力包" },
+    { "en": "Checkpoint", "zh": "检查点", "keepEnglish": false },
+    { "en": "Session", "zh": "会话", "keepEnglish": false },
+    { "en": "Autopilot", "zh": "自动驾驶模式", "keepEnglish": false },
+    { "en": "Supervised", "zh": "监督模式", "keepEnglish": false },
+    { "en": "Vibe", "zh": "Vibe", "keepEnglish": true, "note": "与 Spec 并列的会话类型，无稳定中文译法，保留原词" },
+    { "en": "MCP", "zh": "MCP", "keepEnglish": true, "note": "Model Context Protocol 的通用缩写，保留" },
+    { "en": "ACP", "zh": "ACP", "keepEnglish": true, "note": "Agent Client Protocol，保留" },
+    { "en": "Requirements", "zh": "需求", "keepEnglish": false },
+    { "en": "Design", "zh": "设计", "keepEnglish": false },
+    { "en": "Task list", "zh": "任务列表", "keepEnglish": false },
+    { "en": "Bugfix", "zh": "缺陷修复", "keepEnglish": false },
+    { "en": "Context", "zh": "上下文", "keepEnglish": false },
+    { "en": "Autocomplete", "zh": "自动补全", "keepEnglish": false },
+    { "en": "Shell integration", "zh": "Shell 集成", "keepEnglish": true, "note": "Shell 保留原词" },
+    { "en": "Trust", "zh": "信任", "keepEnglish": false },
+    { "en": "Permissions", "zh": "权限", "keepEnglish": false },
+    { "en": "Execution", "zh": "执行", "keepEnglish": false },
+    { "en": "Tool card", "zh": "工具卡片", "keepEnglish": false },
+    { "en": "Workspace", "zh": "工作区", "keepEnglish": false, "note": "沿用 VS Code 官方中文译法" },
+    { "en": "Command Palette", "zh": "命令面板", "keepEnglish": false, "note": "沿用 VS Code 官方中文译法" }
+  ],
+  "style": {
+    "punctuation": "中文全角标点；括号用（），但保留占位符与命令链接中的半角原样",
+    "placeholders": "{0}、{1} 等占位符必须原样保留，数量与顺序不得改变",
+    "codicons": "$(icon-name) 图标标记必须原样保留",
+    "commandLinks": "Markdown 命令链接 [文本](command:xxx) 中的 command: 部分不得翻译",
+    "keybindings": "快捷键写法如 ⌘Enter / Ctrl+Enter 保持原样",
+    "spacing": "中文与英文、数字之间加一个半角空格"
+  }
+}

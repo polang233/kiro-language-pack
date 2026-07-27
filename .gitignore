@@ -1,0 +1,29 @@
+# Build output
+dist/
+*.vsix
+
+# Upstream translation cache (re-created by `npm run sync`, pinned via config.json)
+upstream/
+
+# Metadata extracted from a local Kiro installation (machine specific)
+metadata/
+
+# Generated reports
+reports/
+
+# Dependencies
+node_modules/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-error.log*
+
+# Editor / OS
+.DS_Store
+Thumbs.db
+.idea/
+*.swp
+
+# Temp probes
+.tmp-*
