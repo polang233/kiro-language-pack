@@ -11,81 +11,124 @@ npm install
 npm run detect     # confirm the tooling finds your Kiro install
 npm run extract    # snapshot the localizable surface of that install
 npm run sync       # download the workbench baseline
-npm run build && npm run coverage
+npm run build && npm run validate && npm run coverage
 ```
 
 If `detect` cannot find Kiro, set `KIRO_INSTALL_DIR` to the directory containing
 `resources/app/package.json`.
 
 Node.js 18.17 or newer. No compilation step, no test framework - correctness is verified by
-`build` (which fails on malformed input) and by `coverage`.
+`build` (which fails on malformed input), `validate` (which checks every shipped string
+against its English source) and `coverage`.
 
 ## What to edit
 
 | Change | File |
 | --- | --- |
-| Fix or add a Kiro translation | `src/i18n/<locale>/kiro/kiro.kiroAgent.i18n.json` |
-| Fix a workbench translation | `src/i18n/<locale>/overrides/main.i18n.json` |
+| Fix or add a translation for Kiro's own UI in the core | `src/i18n/<locale>/kiro/core.kiro.i18n.json` |
+| Same, for chat and agent session strings | `src/i18n/<locale>/kiro/core.chat.i18n.json` |
+| Same, for the remaining core keys upstream misses | `src/i18n/<locale>/kiro/core.workbench.i18n.json` |
+| Fix or add a `kiro.kiroAgent` manifest string | `src/i18n/<locale>/kiro/kiro.kiroAgent.i18n.json` |
+| Fix an inherited workbench translation | `src/i18n/<locale>/overrides/main.i18n.json` |
 | Change agreed terminology | `src/i18n/<locale>/glossary.json` |
-| Change the marketplace page | `src/marketplace/README.<locale>.md` |
-| Add a locale or bump the version | `config.json` |
+| Change the marketplace page | `src/marketplace/README.md` |
+| Translate the runtime's own notifications | `src/i18n/<locale>/extension.l10n.json` |
+| Change the runtime itself | `src/extension/main.cjs` |
+| Add a string only the optional patcher can reach | `src/i18n/<locale>/patch/kiro.kiroAgent.json` |
+| Enable a locale or bump the version | `config.json` |
+
+Any file named `core*.i18n.json` under `kiro/` is merged into the `vscode` translation id.
+The split is by area only - add a new one if a group grows unwieldy.
 
 Do not edit anything under `dist/`, `metadata/`, `upstream/` or `reports/` - all four are
 generated and gitignored.
 
+## Finding what needs translating
+
+```bash
+npm run gap                                  # summary plus the largest gaps by module
+npm run gap -- --module=kiroStandalone       # narrow to one area
+npm run gap -- --skeleton=.tmp-todo.json     # a core.i18n.json shaped stub to fill in
+```
+
+`reports/kiro-core-gap-<locale>.json` lists every uncovered key with its English source.
+Never write the skeleton straight into `src/` - the values are still English, and shipping
+those would look like a finished translation.
+
+`npm run coverage` reports three separate numbers, because they mean different things:
+
+- **core workbench** - everything in the installed build, mostly inherited from vscode-loc
+- **kiro core** - the subset upstream does not cover, i.e. what this project authors
+- **kiro.kiroAgent** - the built-in extension's manifest strings
+
+Only the last two are ours to fix.
+
 ## Translation rules
 
 These are mechanical requirements. A pull request that breaks one of them will render
-incorrectly at runtime.
+incorrectly at runtime, and `validate` will fail.
 
 - **Placeholders.** `{0}`, `{1}` and friends must survive unchanged, with the same count.
   Reordering them is fine when the target grammar needs it; dropping one is not.
-- **Codicons.** `$(add)`, `$(trash)` and similar markers are icon references. Keep them
-  verbatim, including position relative to the text.
+- **Codicons.** `$(add)`, `$(folder-opened)`, `$(loading~spin)` and similar markers are icon
+  references. Keep them verbatim, including position relative to the text.
 - **Command links.** In `[Enable MCP](command:kiroAgent.mcp.enable)` translate the label,
   never the `command:` target.
+- **Menu mnemonics.** `&&` marks the access key in menu labels, as in `&&File`. Move it to a
+  sensible position for the target language, do not delete it. The Chinese convention is
+  `文件(&&F)`.
 - **Key glyphs.** Keyboard hints such as `⌘Enter` and `⇅` stay as they are.
 - **Whitespace and newlines.** `\n` sequences and leading or trailing spaces are load
-  bearing in tree view welcome text. Preserve them.
+  bearing - in tree view welcome text, and in strings that get concatenated at runtime.
+  Preserve them; `validate` warns when the newline count changes.
+- **Empty values are invalid.** The host rejects them. A handful of core keys have an empty
+  English source (some color registrations); leave those out entirely rather than inventing
+  text. `gap` excludes them from the denominator.
 - **Terminology.** Follow `glossary.json`. If you disagree with an entry, change the
   glossary in the same pull request and explain why - do not translate a term two ways.
-- **English source comments.** Translation files carry the English text in `//` comments.
-  Keep them in sync when a string changes upstream; they are how reviewers check your work
-  without opening a second file.
+- **Match the official pack where a concept exists in both products.** Users switch between
+  VS Code and Kiro constantly; inconsistency is worse than a slightly awkward term.
 
 Comments are legal in these files: the build strips them before writing the shipped JSON.
+The header comment in each `core*.i18n.json` explains what belongs there.
 
 ## Before opening a pull request
 
 ```bash
 npm run build
+npm run validate
 npm run coverage
+npm test           # only needed when you touch src/extension/
 ```
 
-Both must succeed. Include in the description:
+All must succeed. `validate` reporting a `marker mismatch` in a file this repository
+maintains is an error, not a warning - fix the string.
+
+Include in the description:
 
 - the Kiro version you tested against (`npm run detect`)
-- the coverage figure for the locale you touched
+- the coverage figures for the locale you touched
 - for a new locale, a screenshot of the translated UI
-
-## Reviewing a translation
-
-Reviewers should check the mechanical rules above first, since those cause visible
-breakage, then the wording. For the wording, prefer the terminology already used by the
-official VS Code language pack for that language whenever a concept exists in both
-products - users switch between the two constantly and inconsistency is worse than a
-slightly awkward term.
 
 ## Adding a language
 
-1. Append an entry to `locales` in `config.json`. `upstreamPackDir` points at the matching
-   directory in [vscode-loc](https://github.com/microsoft/vscode-loc/tree/main/i18n), or is
-   `null` when upstream has no pack for that language (the full edition is then skipped).
+Every language `microsoft/vscode-loc` ships is already listed in `config.json` with
+`enabled: false`.
+
+1. Flip `enabled` to `true`. For a language upstream does not cover, add an entry with
+   `upstreamPackDir: null` - the workbench stays English and only the Kiro strings are
+   translated, which is still a net gain since no official pack exists for it either.
 2. Write `src/i18n/<locale>/glossary.json`. Settle the terminology before translating; it is
-   much cheaper than renaming a concept across 72 strings later.
-3. Copy `src/i18n/zh-cn/kiro/kiro.kiroAgent.i18n.json` and replace the values.
-4. Add `src/marketplace/README.<locale>.md`.
-5. `npm run build && npm run coverage`, then open the pull request.
+   much cheaper than renaming a concept across 1400 strings later.
+3. `npm run sync -- --locale=<locale>`, then
+   `npm run gap -- --locale=<locale> --skeleton=.tmp-todo.json`.
+4. Write `src/i18n/<locale>/kiro/core*.i18n.json` and
+   `src/i18n/<locale>/kiro/kiro.kiroAgent.i18n.json`. The Chinese files carry the English
+   source in `//` comments and double as a reference.
+5. `npm run build && npm run validate && npm run coverage`, then open the pull request.
+
+Partial work is welcome. Untranslated keys fall back to English silently, so a language can
+land at 40% and improve from there.
 
 ## Keeping up with Kiro releases
 
@@ -93,13 +136,15 @@ When Kiro updates, its string set moves. The workflow is:
 
 ```bash
 npm run extract     # re-snapshot the new build
-npm run audit       # see whether the reachable surface changed
+npm run audit       # see whether the reachable manifest surface changed
+npm run gap         # see which core strings are newly uncovered
 npm run coverage    # find keys that are now untranslated
 ```
 
-`coverage` writes `reports/coverage-<pack>.json`, whose `untranslated` array lists each
-missing key together with its English source. That array is the TODO list. Newly added
-Kiro strings show up there; removed ones disappear from the denominator automatically.
+`gap` is the one that matters after a Kiro upgrade: new fork-specific strings show up there
+immediately, and removed ones drop out of the denominator automatically. `coverage` writes
+`reports/coverage-<pack>-<locale>.json`, whose `untranslated` and `untranslatedCore` arrays
+list each missing key together with its English source.
 
 Then add the new Kiro version to `target.verifiedKiroVersions` in `config.json` and bump
 `version`.
@@ -112,10 +157,50 @@ Open an issue with:
 - which pack and edition is installed
 - the string as displayed, and what you expected
 
-For strings that cannot be reached by a language pack - anything inside the chat, spec, hook
-or powers panels - please do not open a translation issue here. Those need i18n support in
-Kiro itself; `reports/manifest-audit-kiro.kiroAgent.json` documents the exact gap and is
-intended as evidence for an upstream request.
+Two things to check first:
+
+- **A mostly English UI after installing.** Make sure no other language pack is installed.
+  Two extensions claiming the `vscode` id resolve by scan order, which is not stable.
+- **Nothing changed at all.** `languagepacks.json` is rebuilt when Kiro starts, so a CLI
+  install needs one restart.
+
+For strings that cannot be reached by a language pack - anything inside the chat panel, the
+hook or powers editors, or the account and usage popup - please do not open a translation
+issue here. Those need i18n support in Kiro itself;
+`reports/manifest-audit-kiro.kiroAgent.json` documents the exact gap and is intended as
+evidence for an upstream request. Some of them can be translated with `npm run patch`, at
+the cost of editing the install; see the README.
+
+### Contributing to the runtime
+
+`src/extension/main.cjs` is deliberately small and has one rule: **it may only do things a
+language pack cannot do by declaration.** A language pack works with no code at all, so
+every line here has to earn its place. Today that is two features - the language picker and
+the conflicting-pack warning.
+
+Anything that reads or writes outside `argv.json` needs a strong argument, and the file
+header lists every path the runtime touches; keep that list accurate, the README quotes it.
+`npm test` covers the argv.json edit. It is `.cjs` in the repo because the repository is an
+ESM package; the build copies it to `extension.js` inside the `.vsix`, where the manifest has
+no `type` field and it is CommonJS again.
+
+### Contributing to the patcher
+
+`src/i18n/<locale>/patch/kiro.kiroAgent.json` has three sections and two very different
+risk profiles.
+
+- `manifest` is safe. Values are replaced structurally in
+  `extensions/kiro.kiro-agent/package.json`, only in fields the host renders, so a short
+  English word like `Enable` cannot end up in a command id.
+- `extension` and `webview` are plain text replacement inside JavaScript bundles. Only add
+  literals that are long, unambiguous, and clearly display text. `(optional)` was tried and
+  rejected because it also occurs inside the bundled TextMate grammars for Clarity and
+  Fortran. The script refuses anything shorter than six characters, but that is a floor, not
+  a guarantee - check the occurrence counts in the dry run.
+
+Entries are applied longest first, so `files changed` is consumed before `file changed`.
+Always verify with `npm run patch` (dry run) before `--apply`, and confirm the counts are
+what you expect: an unexpected extra hit means the literal is not unique.
 
 ## License of contributions
 
