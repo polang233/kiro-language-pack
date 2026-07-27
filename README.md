@@ -183,6 +183,34 @@ directory containing `resources/app/package.json`:
 $env:KIRO_INSTALL_DIR = "C:\Users\<you>\AppData\Local\Programs\Kiro"
 ```
 
+### Installing what you just built
+
+Artifacts land in `dist/`, one `.vsix` per edition:
+
+```
+dist/kiro-language-pack-<locale>-0.1.0.vsix          full
+dist/kiro-language-pack-<locale>-addon-0.1.0.vsix    add-on
+```
+
+Install exactly one of them, and uninstall the official VS Code language pack first if you
+are installing the full edition:
+
+1. Command Palette -> `Extensions: Install from VSIX...` -> pick the file
+2. Command Palette -> `Configure Display Language` -> pick the language
+3. Restart Kiro
+
+Or from a shell, if `kiro` is on your PATH:
+
+```powershell
+kiro --install-extension dist\kiro-language-pack-zh-cn-0.1.0.vsix
+```
+
+To verify, check that the Kiro sidebar view titles are translated and that the spec editor
+toolbar shows translated buttons when a file under `.kiro/specs/` is open.
+
+To revert, uninstall the extension and set `locale` back to `"en"` in `argv.json`, or delete
+the field, then restart.
+
 ## Repository layout
 
 ```

@@ -168,6 +168,32 @@ npm run package -- --skip-build
 $env:KIRO_INSTALL_DIR = "C:\Users\<你>\AppData\Local\Programs\Kiro"
 ```
 
+### 安装自己构建的包
+
+产物在 `dist/` 下，两个版本各一个 `.vsix`：
+
+```
+dist/kiro-language-pack-zh-cn-0.1.0.vsix          完整版
+dist/kiro-language-pack-zh-cn-addon-0.1.0.vsix    补充版
+```
+
+装完整版的完整步骤（**只装一个**，装之前先卸载 VS Code 官方中文语言包）：
+
+1. 命令面板 → `Extensions: Install from VSIX...` → 选 `kiro-language-pack-zh-cn-0.1.0.vsix`
+2. 命令面板 → `Configure Display Language` → 选 **中文（简体）**
+3. 重启 Kiro
+
+也可以用命令行安装，如果 `kiro` 命令在 PATH 里：
+
+```powershell
+kiro --install-extension dist\kiro-language-pack-zh-cn-0.1.0.vsix
+```
+
+验证是否生效：看侧边栏 Kiro 视图的标题是否变成"智能体钩子""智能体引导与技能""MCP 服务器"，
+以及打开 `.kiro/specs/*/requirements.md` 时工具栏是否显示"需求 / 设计 / 任务列表 / 同步文件"。
+
+想还原：卸载该扩展，并把 `argv.json` 的 `locale` 改回 `"en"` 或删掉该字段，然后重启。
+
 ## 仓库结构
 
 ```
