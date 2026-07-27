@@ -9,7 +9,7 @@
  *   OVSX_PAT   Open VSX personal access token
  *   VSCE_PAT   Visual Studio Marketplace personal access token
  *
- * Usage: npm run publish:ovsx [-- --locale=zh-cn] [--mode=kiro] [--dry-run]
+ * Usage: npm run publish:ovsx [-- --locale=zh-cn] [--mode=full] [--dry-run]
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -33,7 +33,7 @@ const summaryFile = p('dist', 'build-summary.json');
 if (!fs.existsSync(summaryFile)) fail('dist/build-summary.json not found. Run `npm run package` first.');
 
 const builds = readJson(summaryFile).builds
-  .filter((b) => (flags.locale ? b.locale === flags.locale : true))
+  .filter((b) => (flags.locale ? (b.locales ?? [b.locale]).includes(flags.locale) : true))
   .filter((b) => (flags.mode ? b.mode === flags.mode : true));
 if (!builds.length) fail('No build matched the given filters.');
 

@@ -43,7 +43,7 @@ const summaryFile = p('dist', 'build-summary.json');
 if (!fs.existsSync(summaryFile)) fail('dist/build-summary.json not found. Run `npm run build` first.');
 
 const builds = readJson(summaryFile).builds
-  .filter((b) => (flags.locale ? b.locale === flags.locale : true))
+  .filter((b) => (flags.locale ? (b.locales ?? [b.locale]).includes(flags.locale) : true))
   .filter((b) => (flags.mode ? b.mode === flags.mode : true));
 if (!builds.length) fail('No build matched the given filters.');
 

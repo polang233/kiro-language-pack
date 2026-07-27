@@ -23,6 +23,11 @@ jobs:
 
       - run: npm ci
 
+      # The runtime's argv.json editing needs no Kiro install to test, so it runs first:
+      # a failure there is the one that could keep an editor from starting.
+      - name: Test the runtime
+        run: npm test
+
       # No Kiro installation is available here, so metadata/kiro.json is absent and
       # the build skips key filtering. The GitHub token raises the API rate limit
       # used by the file listing strategy.

@@ -1,19 +1,26 @@
 {
   "$comment": "Single source of truth for the build. Everything else is generated.",
 
-  "publisher": "CHANGE-ME-publisher",
+  "publisher": "polang233",
+  "$publisher": "Must match the Open VSX namespace you claim with `ovsx create-namespace`, and the Marketplace publisher id if you also publish there. Taken from the GitHub account this repository is authored from; change it here if you publish under an organisation instead.",
   "namePrefix": "kiro-language-pack",
   "version": "0.1.0",
   "license": "MIT",
-  "repository": "https://github.com/CHANGE-ME-owner/kiro-language-pack",
-  "homepage": "https://github.com/CHANGE-ME-owner/kiro-language-pack#readme",
-  "bugs": "https://github.com/CHANGE-ME-owner/kiro-language-pack/issues",
+  "repository": "https://github.com/polang233/kiro-language-pack",
+  "homepage": "https://github.com/polang233/kiro-language-pack#readme",
+  "bugs": "https://github.com/polang233/kiro-language-pack/issues",
   "icon": null,
 
   "engines": {
     "vscode": "^1.107.0"
   },
   "$engines": "Measured on Kiro 1.0.228: resources/app/product.json -> vsCodeVersion = 1.107.1. Lower the bound to support older Kiro builds. `npm run detect` prints the value for the locally installed Kiro.",
+
+  "pack": {
+    "displayName": "Language Pack for Kiro",
+    "description": "Community language pack for the Kiro IDE. Covers the editor workbench and the Kiro specific interface - commands, views, the spec toolbar, the session list and the Settings panel.",
+    "$note": "Used by the single-extension `full` mode, which ships every enabled locale in one artifact and lets the host pick by display language. Per-locale naming lives on each locale entry and is only used by `companion` mode."
+  },
 
   "target": {
     "kiroExtensionId": "kiro.kiroAgent",
@@ -28,33 +35,131 @@
       "localizedLanguageName": "中文（简体）",
       "displayName": "Chinese (Simplified) (简体中文) Language Pack for Kiro",
       "description": "Kiro 专有界面的简体中文语言包，与 VS Code 官方中文语言包并存互补。Simplified Chinese for the Kiro specific UI. Complements the official VS Code language pack.",
-      "descriptionStandalone": "Kiro IDE 简体中文语言包，同时覆盖编辑器界面与 Kiro 专有界面，无需再装 VS Code 官方语言包。Self-contained Simplified Chinese language pack for the Kiro IDE.",
       "companionExtension": "ms-ceintl.vscode-language-pack-zh-hans",
       "upstreamPackDir": "i18n/vscode-language-pack-zh-hans",
       "enabled": true
+    },
+    {
+      "id": "zh-tw",
+      "languageName": "Chinese Traditional",
+      "localizedLanguageName": "中文（繁體）",
+      "companionExtension": "ms-ceintl.vscode-language-pack-zh-hant",
+      "upstreamPackDir": "i18n/vscode-language-pack-zh-hant",
+      "enabled": false
+    },
+    {
+      "id": "ja",
+      "languageName": "Japanese",
+      "localizedLanguageName": "日本語",
+      "companionExtension": "ms-ceintl.vscode-language-pack-ja",
+      "upstreamPackDir": "i18n/vscode-language-pack-ja",
+      "enabled": false
+    },
+    {
+      "id": "ko",
+      "languageName": "Korean",
+      "localizedLanguageName": "한국어",
+      "companionExtension": "ms-ceintl.vscode-language-pack-ko",
+      "upstreamPackDir": "i18n/vscode-language-pack-ko",
+      "enabled": false
+    },
+    {
+      "id": "fr",
+      "languageName": "French",
+      "localizedLanguageName": "français",
+      "companionExtension": "ms-ceintl.vscode-language-pack-fr",
+      "upstreamPackDir": "i18n/vscode-language-pack-fr",
+      "enabled": false
+    },
+    {
+      "id": "de",
+      "languageName": "German",
+      "localizedLanguageName": "Deutsch",
+      "companionExtension": "ms-ceintl.vscode-language-pack-de",
+      "upstreamPackDir": "i18n/vscode-language-pack-de",
+      "enabled": false
+    },
+    {
+      "id": "es",
+      "languageName": "Spanish",
+      "localizedLanguageName": "español",
+      "companionExtension": "ms-ceintl.vscode-language-pack-es",
+      "upstreamPackDir": "i18n/vscode-language-pack-es",
+      "enabled": false
+    },
+    {
+      "id": "it",
+      "languageName": "Italian",
+      "localizedLanguageName": "italiano",
+      "companionExtension": "ms-ceintl.vscode-language-pack-it",
+      "upstreamPackDir": "i18n/vscode-language-pack-it",
+      "enabled": false
+    },
+    {
+      "id": "ru",
+      "languageName": "Russian",
+      "localizedLanguageName": "русский",
+      "companionExtension": "ms-ceintl.vscode-language-pack-ru",
+      "upstreamPackDir": "i18n/vscode-language-pack-ru",
+      "enabled": false
+    },
+    {
+      "id": "pt-br",
+      "languageName": "Portuguese (Brazil)",
+      "localizedLanguageName": "português (Brasil)",
+      "companionExtension": "ms-ceintl.vscode-language-pack-pt-BR",
+      "upstreamPackDir": "i18n/vscode-language-pack-pt-BR",
+      "enabled": false
+    },
+    {
+      "id": "tr",
+      "languageName": "Turkish",
+      "localizedLanguageName": "Türkçe",
+      "companionExtension": "ms-ceintl.vscode-language-pack-tr",
+      "upstreamPackDir": "i18n/vscode-language-pack-tr",
+      "enabled": false
+    },
+    {
+      "id": "pl",
+      "languageName": "Polish",
+      "localizedLanguageName": "polski",
+      "companionExtension": "ms-ceintl.vscode-language-pack-pl",
+      "upstreamPackDir": "i18n/vscode-language-pack-pl",
+      "enabled": false
+    },
+    {
+      "id": "cs",
+      "languageName": "Czech",
+      "localizedLanguageName": "čeština",
+      "companionExtension": "ms-ceintl.vscode-language-pack-cs",
+      "upstreamPackDir": "i18n/vscode-language-pack-cs",
+      "enabled": false
     }
   ],
-  "$locales": "Add a locale by appending an entry here and creating src/i18n/<id>/. No script changes are needed. Set upstreamPackDir to null if microsoft/vscode-loc has no pack for that language; `full` mode will then be skipped for it.",
+  "$locales": "Every language microsoft/vscode-loc ships is listed here; only the enabled ones are built. To contribute a language, create src/i18n/<id>/ (see CONTRIBUTING.md) and flip `enabled` to true - no script changes needed. For a language vscode-loc does not cover, add an entry with upstreamPackDir set to null: the workbench then stays English and only the Kiro strings are translated.",
 
   "modes": {
-    "kiro": {
+    "full": {
       "enabled": true,
+      "perLocale": false,
       "nameSuffix": "",
       "displayNameSuffix": "",
-      "includeUpstream": false,
-      "kiroOnly": true,
-      "requireCompanion": false,
-      "$note": "The primary product: Kiro strings only, ~10 KB. Verified to coexist with the official VS Code language pack - the host merges the `translations` maps of every extension contributing the same languageId, and this pack only claims the `kiro.kiroAgent` id, which the official pack does not provide.",
-      "$requireCompanion": "Set to true to emit extensionDependencies for the locale's companionExtension, so installing this pack pulls in the official VS Code language pack automatically. Off by default: it hard-couples the two and fails if the companion is unavailable in the target registry."
-    },
-    "standalone": {
-      "enabled": false,
-      "nameSuffix": "-standalone",
-      "displayNameSuffix": " (Standalone)",
       "includeUpstream": true,
       "kiroOnly": false,
       "requireCompanion": false,
-      "$note": "Self-contained pack: vscode-loc baseline plus Kiro strings, ~430 KB. Replaces the official VS Code language pack rather than complementing it. Disabled by default because most users already run the official pack and prefer to keep it. Enable when you want a single-extension install."
+      "$note": "The published product. One extension declaring every enabled locale, so the host picks by display language and untranslated strings fall back to English. Self-contained: it carries the vscode-loc workbench baseline plus the Kiro translations, and therefore owns the `vscode` translation id. Do not install an official VS Code language pack alongside it - see $why.",
+      "$why": "Kiro is a fork that compiled its own UI into the Code OSS core (vs/workbench/contrib/kiroStandalone/*, vs/workbench/contrib/spec/*, the rewritten chat contrib). Those strings live in the `vscode` translation id, not in a separate extension id, and languagepacks.json maps one id to exactly one file - there is no per-key merge. Translating Kiro's Settings panel therefore requires owning `vscode`, which rules out coexisting with the official pack."
+    },
+    "companion": {
+      "enabled": false,
+      "perLocale": true,
+      "nameSuffix": "-companion",
+      "displayNameSuffix": " (Companion)",
+      "includeUpstream": false,
+      "kiroOnly": true,
+      "requireCompanion": false,
+      "$note": "One extension per locale, claiming only the `kiro.kiroAgent` id, ~11 KB. Coexists with the official VS Code language pack because it does not touch the `vscode` id. The trade-off is scope: it reaches the 72 manifest strings (command titles, view names, spec toolbar) but not the Settings panel, the session list or anything else Kiro compiled into the core. Disabled by default.",
+      "$requireCompanion": "Set to true to emit extensionDependencies for the locale's companionExtension, so installing this pack pulls in the official VS Code language pack automatically. Off by default: it hard-couples the two and fails if the companion is unavailable in the target registry."
     }
   },
 

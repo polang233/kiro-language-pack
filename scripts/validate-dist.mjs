@@ -16,6 +16,7 @@ import { p, readJson, log, parseArgs, loadConfig } from './lib/util.mjs';
 import { markerMismatches } from './lib/markers.mjs';
 
 const UNRESOLVED_TOKEN = /\$\{[A-Z_]+\}/;
+const CORE_TRANSLATION_ID = 'vscode';
 
 const { flags } = parseArgs();
 const config = loadConfig();
@@ -71,86 +72,107 @@ for (const build of summary.builds) {
   }
 
   const localizations = manifest.contributes?.localizations;
-  if (!Array.isArray(localizations) || localizations.length !== 1) {
-    error(`${scope}: expected exactly one contributes.localizations entry`);
+  if (!Array.isArray(localizations) || localizations.length === 0) {
+    error(`${scope}: contributes.localizations must declare at least one entry`);
     continue;
   }
-  const localization = localizations[0];
-  for (const field of ['languageId', 'languageName', 'localizedLanguageName']) {
-    if (!localization[field]) error(`${scope}: localization is missing "${field}"`);
+  const expectedLocales = build.locales ?? (build.locale ? [build.locale] : []);
+  const declared = localizations.map((l) => l.languageId);
+  for (const locale of expectedLocales) {
+    if (!declared.includes(locale)) {
+      error(`${scope}: build reports locale "${locale}" but the manifest does not declare it`);
+    }
   }
-  if (localization.languageId !== build.locale) {
-    error(`${scope}: languageId "${localization.languageId}" does not match the built locale "${build.locale}"`);
+  for (const extra of declared.filter((id) => !expectedLocales.includes(id))) {
+    error(`${scope}: manifest declares languageId "${extra}" which the build did not produce`);
   }
-  if (!Array.isArray(localization.translations) || localization.translations.length === 0) {
-    error(`${scope}: localization declares no translations`);
-    continue;
+  if (new Set(declared).size !== declared.length) {
+    error(`${scope}: contributes.localizations declares the same languageId twice; the host keeps only one`);
   }
 
-  // --- files it points at ----------------------------------------------
+  // --- files they point at ---------------------------------------------
   const referenced = new Set();
   let stringCount = 0;
+  let bundleCount = 0;
 
-  for (const entry of localization.translations) {
-    if (!entry.id || !entry.path) {
-      error(`${scope}: malformed translations entry ${JSON.stringify(entry)}`);
+  for (const localization of localizations) {
+    for (const field of ['languageId', 'languageName', 'localizedLanguageName']) {
+      if (!localization[field]) error(`${scope}: localization ${localization.languageId ?? '?'} is missing "${field}"`);
+    }
+    if (!Array.isArray(localization.translations) || localization.translations.length === 0) {
+      error(`${scope}: localization ${localization.languageId} declares no translations`);
       continue;
     }
-    const relative = entry.path.replace(/^\.\//, '');
-    if (!entry.path.startsWith('./')) {
-      error(`${scope}: translation path "${entry.path}" should be relative and start with ./`);
-    }
-    const file = path.join(outDir, relative);
-    if (!fs.existsSync(file)) {
-      error(`${scope}: ${entry.id} -> ${entry.path} does not exist`);
-      continue;
-    }
-    referenced.add(path.resolve(file));
+    bundleCount += localization.translations.length;
 
-    let data;
-    try {
-      data = readJson(file);
-    } catch (err) {
-      error(`${scope}: ${entry.path} is not valid JSON - ${err.message}`);
-      continue;
-    }
-    if (!data.contents || typeof data.contents !== 'object') {
-      error(`${scope}: ${entry.path} has no "contents" object`);
-      continue;
-    }
-
-    // Every value must be a non-empty string; nested one level (module -> key).
-    for (const [section, bucket] of Object.entries(data.contents)) {
-      if (bucket === null || typeof bucket !== 'object') {
-        error(`${scope}: ${entry.path} section "${section}" is not an object`);
+    const seenIds = new Set();
+    for (const entry of localization.translations) {
+      const label = `${scope} [${localization.languageId}]`;
+      if (!entry.id || !entry.path) {
+        error(`${label}: malformed translations entry ${JSON.stringify(entry)}`);
         continue;
       }
-      for (const [key, value] of Object.entries(bucket)) {
-        stringCount++;
-        if (typeof value !== 'string') {
-          error(`${scope}: ${entry.id} ${section}.${key} is ${typeof value}, expected string`);
-        } else if (value.trim() === '') {
-          error(`${scope}: ${entry.id} ${section}.${key} is empty`);
-        }
+      if (seenIds.has(entry.id)) {
+        error(`${label}: translation id "${entry.id}" declared twice`);
       }
-    }
+      seenIds.add(entry.id);
 
-    // --- compare against the English source ----------------------------
-    if (!metadata) continue;
+      const relative = entry.path.replace(/^\.\//, '');
+      if (!entry.path.startsWith('./')) {
+        error(`${label}: translation path "${entry.path}" should be relative and start with ./`);
+      }
+      const file = path.join(outDir, relative);
+      if (!fs.existsSync(file)) {
+        error(`${label}: ${entry.id} -> ${entry.path} does not exist`);
+        continue;
+      }
+      referenced.add(path.resolve(file));
 
-    if (entry.id === 'vscode') {
-      for (const [moduleId, bucket] of Object.entries(data.contents)) {
-        const source = metadata.core[moduleId];
-        if (!source) continue;
+      let data;
+      try {
+        data = readJson(file);
+      } catch (err) {
+        error(`${label}: ${entry.path} is not valid JSON - ${err.message}`);
+        continue;
+      }
+      if (!data.contents || typeof data.contents !== 'object') {
+        error(`${label}: ${entry.path} has no "contents" object`);
+        continue;
+      }
+
+      // Every value must be a non-empty string; nested one level (module -> key).
+      for (const [section, bucket] of Object.entries(data.contents)) {
+        if (bucket === null || typeof bucket !== 'object') {
+          error(`${label}: ${entry.path} section "${section}" is not an object`);
+          continue;
+        }
         for (const [key, value] of Object.entries(bucket)) {
-          compare(scope, `${moduleId}/${key}`, source[key], value);
+          stringCount++;
+          if (typeof value !== 'string') {
+            error(`${label}: ${entry.id} ${section}.${key} is ${typeof value}, expected string`);
+          } else if (value.trim() === '') {
+            error(`${label}: ${entry.id} ${section}.${key} is empty`);
+          }
         }
       }
-    } else {
-      const source = metadata.extensions[entry.id]?.packageNls;
-      if (!source) continue;
-      for (const [key, value] of Object.entries(data.contents.package ?? {})) {
-        compare(scope, `${entry.id}/${key}`, source[key], value);
+
+      // --- compare against the English source --------------------------
+      if (!metadata) continue;
+
+      if (entry.id === CORE_TRANSLATION_ID) {
+        for (const [moduleId, bucket] of Object.entries(data.contents)) {
+          const source = metadata.core[moduleId];
+          if (!source) continue;
+          for (const [key, value] of Object.entries(bucket)) {
+            compare(label, `${moduleId}/${key}`, source[key], value);
+          }
+        }
+      } else {
+        const source = metadata.extensions[entry.id]?.packageNls;
+        if (!source) continue;
+        for (const [key, value] of Object.entries(data.contents.package ?? {})) {
+          compare(label, `${entry.id}/${key}`, source[key], value);
+        }
       }
     }
   }
@@ -165,13 +187,51 @@ for (const build of summary.builds) {
     }
   }
 
+  // --- the optional runtime ---------------------------------------------
+  if (manifest.main) {
+    const entry = path.join(outDir, manifest.main.replace(/^\.\//, ''));
+    if (!fs.existsSync(entry)) error(`${scope}: main points at ${manifest.main}, which does not exist`);
+    if (!Array.isArray(manifest.activationEvents) || !manifest.activationEvents.length) {
+      error(`${scope}: an extension with code must declare activationEvents`);
+    }
+    const declaredIds = manifest.contributes?.localizations?.map((l) => l.languageId) ?? [];
+    const setting = manifest.contributes?.configuration?.properties?.['kiroLanguagePack.language'];
+    if (!setting) {
+      error(`${scope}: the runtime is shipped but kiroLanguagePack.language is not contributed`);
+    } else {
+      for (const locale of declaredIds) {
+        if (!setting.enum.includes(locale)) {
+          error(`${scope}: kiroLanguagePack.language does not offer "${locale}", which the pack ships`);
+        }
+      }
+      if (setting.enum.length !== setting.enumDescriptions?.length) {
+        error(`${scope}: kiroLanguagePack.language has ${setting.enum.length} values but ${setting.enumDescriptions?.length ?? 0} descriptions`);
+      }
+    }
+    if (manifest.l10n) {
+      const dir = path.join(outDir, manifest.l10n.replace(/^\.\//, ''));
+      if (!fs.existsSync(dir)) {
+        error(`${scope}: l10n points at ${manifest.l10n}, which does not exist`);
+      } else {
+        for (const file of fs.readdirSync(dir)) {
+          const data = readJson(path.join(dir, file), null);
+          if (!data || typeof data !== 'object' || !Object.keys(data).length) {
+            error(`${scope}: l10n/${file} is empty or malformed`);
+          }
+        }
+      }
+    }
+  } else if (manifest.contributes?.configuration) {
+    error(`${scope}: contributes.configuration without code - the setting would do nothing`);
+  }
+
   for (const required of ['README.md', 'LICENSE', 'NOTICE']) {
     if (!fs.existsSync(path.join(outDir, required))) {
       (required === 'README.md' ? warn : error)(`${scope}: ${required} is missing from the package`);
     }
   }
 
-  log.ok(`${scope}: ${localization.translations.length} bundle(s), ${stringCount} string(s)`);
+  log.ok(`${scope}: ${localizations.length} locale(s), ${bundleCount} bundle(s), ${stringCount} string(s)`);
 }
 
 /**

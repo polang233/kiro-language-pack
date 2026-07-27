@@ -17,8 +17,7 @@
     "language pack",
     "localization",
     "l10n",
-    "i18n",
-    "${LANGUAGE_ID}"
+    "i18n"
   ],
   "repository": {
     "type": "git",
@@ -28,14 +27,8 @@
   "bugs": {
     "url": "${BUGS_URL}"
   },
+  "$localizations": "contributes.localizations gets one entry per locale, filled in by scripts/build.mjs. The host reads it from every installed extension and merges the entries into languagepacks.json keyed by languageId, so one extension can serve any number of languages.",
   "contributes": {
-    "localizations": [
-      {
-        "languageId": "${LANGUAGE_ID}",
-        "languageName": "${LANGUAGE_NAME}",
-        "localizedLanguageName": "${LOCALIZED_LANGUAGE_NAME}",
-        "translations": []
-      }
-    ]
+    "localizations": []
   }
 }
