@@ -19,21 +19,69 @@
 ## 命令
 
 ```bash
+npm run patch -- --list        # 找到了哪些 Kiro 安装、哪些语言能打补丁
 npm run patch                  # 试运行，什么都不写
-npm run patch -- --apply       # 应用补丁，并安装 dist/kiro-language-pack-<版本>.vsix
+npm run patch -- --apply       # 真的执行
 npm run patch -- --status      # 当前安装打过补丁没有，补丁还在不在
 npm run patch -- --restore     # 还原被改写的文件（不会卸载语言包扩展）
 ```
 
-`--apply` 可用参数：
+需要 Node.js 18.17+、本仓库的克隆，以及本机已安装的 Kiro。
 
-- `--no-extension` — 只改安装目录，不装 `.vsix`
-- `--vsix=<path>` — 指定要装的包，默认 `dist/kiro-language-pack-<version>.vsix`
+## 选安装目录和语言
 
-若还没有打出 `.vsix`，文件改写仍会成功；想一次完成「补丁 + 扩展」请先 `npm run package`。
+只要候选不止一个，脚本就会问你，所以在终端里不需要背参数：
 
-需要 Node.js 18.17+、本仓库的克隆，以及本机已安装的 Kiro。若 `npm run detect` 找不到 Kiro，
-请设置 `KIRO_INSTALL_DIR`。
+```
+Which Kiro installation?
+   1. C:\Users\me\AppData\Local\Programs\Kiro  (Kiro 1.0.228)
+   2. D:\Kiro                                  (Kiro 1.0.242)
+  Choose 1-2 [1]:
+
+Which language should this install be patched to?
+   1. zh-cn  中文（简体） (Chinese Simplified)
+   2. zh-tw  中文（繁體） (Chinese Traditional)
+  Choose 1-2 [1]:
+```
+
+显式指定就不会再问——写进脚本时必须指定，因为非交互 shell 不会替你猜：
+
+```bash
+npm run patch -- --install-dir="D:\Kiro" --locale=zh-tw --apply
+```
+
+- `--install-dir=<路径>` 指的是包含 `resources/app` 的那一层目录；macOS 上是 `Kiro.app/Contents`。
+  设环境变量 `KIRO_INSTALL_DIR` 等价。
+- `--locale=<id>` 必须是 `config.json` 里已启用**且**存在
+  `src/i18n/<id>/patch/kiro.kiroAgent.json` 的语言。`--list` 会把两类都列出来；语言包支持的语言
+  比补丁能覆盖的多。
+- `--yes` 所有确认都取默认值，全程不提问。
+
+## `--apply` 具体做什么
+
+按顺序四步。第一步是补丁本身，后三步的存在是为了让一次全新安装最终能真的显示中文，而不是
+「补丁打了但界面还是英文」。
+
+| 步骤 | 跳过参数 |
+| --- | --- |
+| 改写够不到的文案，动之前先备份 | — |
+| 把语言包 `.vsix` 装进同一个 Kiro | `--no-extension`，或 `--vsix=<路径>` |
+| 卸载与本包冲突的语言包 | `--keep-official` |
+| 把 `argv.json` 的 `locale` 设成所选语言 | `--no-set-locale` |
+
+冲突检测的依据是：已安装扩展中，是否有人为当前语言声明了 `vscode` 这个翻译 id —— 实际上就是
+`ms-ceintl.vscode-language-pack-*`。判断看声明而不是看发布者，所以被重新打包过的语言包同样会被
+认出来；卸载前会先问你。
+
+最后一步写入的就是扩展里那个语言选择器写的同一个字段，用的也是同一份代码
+（`scripts/lib/argv.mjs` 从 `src/extension/main.cjs` 加载）。之后要重启 Kiro：显示语言是启动参数，
+重载窗口不算。
+
+如果 `dist/*.vsix` 不存在，改写照样成功，只是这一步会跳过并给出警告。想一次做完就先
+`npm run package`。
+
+另有两个参数用来缩小改写范围，主要给排查问题用：`--no-webview` 不动聊天 UI 的 bundle，
+`--no-extension-strings` 不动 `dist/extension.js`。
 
 ## 会改什么（中文）
 
@@ -55,6 +103,8 @@ npm run patch -- --restore     # 还原被改写的文件（不会卸载语言�
 - AWS 不会为被改动过的安装提供支持。给 Kiro 提 bug 之前请先 `--restore`。
 - 这些内容不会进 `.vsix`。语言包仍是受支持的路径，补丁只是叠加在它之上。`--apply` 在
   `dist/*.vsix` 存在时会顺带安装该语言包。
+- `--restore` 只还原对安装目录的改写。扩展仍然装着，`argv.json` 里的显示语言也保持不变——这两样
+  在 Kiro 里就能改回去。
 
 ## 安全规则
 

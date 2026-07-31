@@ -17,7 +17,7 @@ Docs index: [docs/README.md](docs/README.md). Historical research notes (not pro
 | `config.json` | Single source of truth for build / locales / marketplace copy |
 | `src/i18n/` | Translations (edit here) |
 | `src/extension/` | Language-pack runtime (argv.json locale switcher) |
-| `src/marketplace/` | Marketplace README packaged into the `.vsix` |
+| `src/marketplace/` | The store page copied into the `.vsix` — one multilingual file |
 | `scripts/` | Build, sync, package, patch, upgrade-check |
 | `media/` | Extension icon |
 | `docs/` | Architecture, publishing, optional patch, history |
@@ -50,7 +50,7 @@ against its English source) and `coverage`.
 | Fix or add a `kiro.kiroAgent` manifest string | `src/i18n/<locale>/kiro/kiro.kiroAgent.i18n.json` |
 | Fix an inherited workbench translation | `src/i18n/<locale>/overrides/main.i18n.json` |
 | Change agreed terminology | `src/i18n/<locale>/glossary.json` |
-| Change the marketplace page | `src/marketplace/README.md` |
+| Change the store page | `src/marketplace/README.md` — see the note below |
 | Translate the runtime's own notifications | `src/i18n/<locale>/extension.l10n.json` |
 | Change the runtime itself | `src/extension/main.cjs` |
 | Add a string only the optional patcher can reach | `src/i18n/<locale>/patch/kiro.kiroAgent.json` |
@@ -61,6 +61,19 @@ The split is by area only - add a new one if a group grows unwieldy.
 
 Do not edit anything under `dist/`, `metadata/`, `upstream/` or `reports/` - all four are
 generated and gitignored.
+
+**The store page is one file for every language.** Open VSX and the Marketplace render a single
+page per extension, and the published pack bundles every enabled locale, so
+`src/marketplace/README.md` has to serve all of them at once - and its text is what store search
+indexes. Keep it multilingual: English for reach, then the languages the pack actually ships,
+then the short "your language is missing" lines that let speakers of an unsupported language
+find the repository. `build.mjs` will use `src/marketplace/README.<locale>.md` instead when a
+build contains exactly one locale; no such file exists today, and adding one means maintaining a
+second copy of the same information.
+
+The short description and the search keywords are separate from that page: they live in
+`config.json` (`pack.displayName`, `pack.description`) and `src/manifest.template.json`
+(`keywords`).
 
 ## Finding what needs translating
 
@@ -145,9 +158,14 @@ Every language `microsoft/vscode-loc` ships is already listed in `config.json` w
    `src/i18n/<locale>/kiro/kiro.kiroAgent.i18n.json`. The Chinese files carry the English
    source in `//` comments and double as a reference.
 5. `npm run build && npm run validate && npm run coverage`, then open the pull request.
+6. Touch the two places that advertise the pack, since the store shows one page for every
+   bundled locale: add your language to `src/marketplace/README.md` (moving it out of the
+   "want your language?" list), and to `pack.displayName` / `pack.description` in `config.json`
+   if it deserves to be searchable there.
 
 Partial work is welcome. Untranslated keys fall back to English silently, so a language can
-land at 40% and improve from there.
+land at 40% and improve from there. Patch data (`src/i18n/<locale>/patch/`) is optional and can
+come later - see below.
 
 ## Keeping up with Kiro releases
 
@@ -165,6 +183,21 @@ That compares the installed Kiro version to `config.target.verifiedKiroVersions`
 **added / removed** core keys, and which of them still lack a translation under
 `src/i18n/<locale>/kiro/`. Reports land in `reports/upgrade-<kiroVersion>-<locale>.json`.
 
+**Check `orphanedAuthored` before translating anything.** Those are keys this repository has a
+translation for that the new build no longer contains, and the usual cause is not a deleted
+string but a *moved* one: Kiro 1.0.242 reorganised the chat contrib into `widget/`, `attachments/`,
+`tools/`, `accessibility/` and `widgetHosts/` subfolders, which put ~470 finished translations out
+of range at once. The build silently drops them, so the symptom is a chunk of UI reverting to
+English.
+
+The fix is a module rename, not a retranslation. For each orphaned module, look for a module in
+`metadata/kiro.json` with the same basename and overlapping key names, then rename the key in
+`src/i18n/<locale>/kiro/core*.i18n.json`. Two things make this safe to verify: the key names have
+to match, and `npm run validate` compares every string against the English source, so a rename
+onto the wrong module shows up as marker mismatches. Note that a build can register the same file
+under both its old and its new path - `simpleBrowserEditorOverlay` and `modelPickerActionItem` do
+in 1.0.242 - in which case both entries are needed.
+
 Manual follow-up (same as before):
 
 ```bash
@@ -175,8 +208,9 @@ npm run coverage    # untranslated keys in the built pack
 ```
 
 Then add the new Kiro version to `target.verifiedKiroVersions` in `config.json` and bump
-`version`. If you use the optional install patch: `npm run patch -- --restore` then
-`npm run patch -- --apply` (re-applies and reinstalls the `.vsix` when `dist/` has one).
+`version`. If you use the optional install patch, an upgrade has silently reverted it:
+`npm run patch -- --status` confirms that, then `npm run patch -- --restore` (to drop the stale
+record and backups) and `npm run patch -- --apply` puts it back.
 
 Publishing: see [docs/publishing.md](docs/publishing.md).
 
@@ -217,8 +251,12 @@ no `type` field and it is CommonJS again.
 
 ### Contributing to the patcher
 
-`src/i18n/<locale>/patch/kiro.kiroAgent.json` has three sections and two very different
-risk profiles.
+A locale becomes patchable by adding `src/i18n/<locale>/patch/kiro.kiroAgent.json`; the patcher
+lists the ones that have it under `npm run patch -- --list`, and refuses a `--locale` without it.
+This is optional work - the language pack is the supported path, and a locale is perfectly
+useful without patch data.
+
+The file has three sections and two very different risk profiles.
 
 - `manifest` is safe. Values are replaced structurally in
   `extensions/kiro.kiro-agent/package.json`, only in fields the host renders, so a short
@@ -232,6 +270,14 @@ risk profiles.
 Entries are applied longest first, so `files changed` is consumed before `file changed`.
 Always verify with `npm run patch` (dry run) before `--apply`, and confirm the counts are
 what you expect: an unexpected extra hit means the literal is not unique.
+
+`--apply` does three things after the rewrite - installs the `.vsix`, uninstalls conflicting
+language packs, sets `locale` in `argv.json` - so that a patched install actually comes up in the
+chosen language. They are outside the patch record because none of them touch the application
+directory, and each has an opt-out (`--no-extension`, `--keep-official`, `--no-set-locale`). The
+`argv.json` write is not reimplemented there: `scripts/lib/argv.mjs` loads the shipped
+implementation out of `src/extension/main.cjs`, so `npm test` covers both callers. Keep it that
+way.
 
 ## License of contributions
 

@@ -38,6 +38,17 @@ npm run package          # produces dist/kiro-language-pack-<version>.vsix
 
 Confirm `config.json` → `version` matches the tag you will push (CI enforces this on `v*`).
 
+What the store page is built from, in case a listing needs fixing:
+
+| Shown as | Source |
+| --- | --- |
+| Page body | `src/marketplace/README.md`, copied into the `.vsix` by `npm run build` |
+| Title and short description | `config.json` → `pack.displayName`, `pack.description` |
+| Search keywords | `src/manifest.template.json` → `keywords`, plus the packaged locale ids |
+
+Both registries show one page per extension no matter how many locales the pack bundles, and
+both index its text - which is why that page is written in several languages.
+
 ## Open VSX (required for Kiro users)
 
 1. Sign in at [open-vsx.org](https://open-vsx.org/) with **GitHub** at least once (admins must

@@ -21,22 +21,73 @@ For Chinese this adds **89 strings** across exactly three files. Reports from
 ## Commands
 
 ```bash
+npm run patch -- --list        # Kiro installs found, and which languages are patchable
 npm run patch                  # dry run, writes nothing
-npm run patch -- --apply       # apply patch, then install dist/kiro-language-pack-<ver>.vsix
+npm run patch -- --apply       # do it
 npm run patch -- --status      # is this install patched, and is the patch still intact
-npm run patch -- --restore     # put the patched originals back (does not uninstall the extension)
+npm run patch -- --restore     # put the originals back (does not uninstall the extension)
 ```
 
-Flags for `--apply`:
+Requires Node.js 18.17+, a clone of this repository, and a local Kiro install.
 
-- `--no-extension` — only rewrite install files; do not install the `.vsix`
-- `--vsix=<path>` — install a specific package instead of `dist/kiro-language-pack-<version>.vsix`
+## Choosing the install and the language
 
-If the `.vsix` is missing, the file rewrite still succeeds; run `npm run package` first when
-you want the one-shot “patch + extension” path.
+Both are asked interactively whenever there is more than one option, so nothing has to be
+memorised at a terminal:
 
-Requires Node.js 18.17+, a clone of this repository, and a local Kiro install. Set
-`KIRO_INSTALL_DIR` if `npm run detect` cannot find Kiro.
+```
+Which Kiro installation?
+   1. C:\Users\me\AppData\Local\Programs\Kiro  (Kiro 1.0.228)
+   2. D:\Kiro                                  (Kiro 1.0.242)
+  Choose 1-2 [1]:
+
+Which language should this install be patched to?
+   1. zh-cn  中文（简体） (Chinese Simplified)
+   2. zh-tw  中文（繁體） (Chinese Traditional)
+  Choose 1-2 [1]:
+```
+
+Name them explicitly to skip the questions — required in a script, since a non-interactive
+shell refuses to guess:
+
+```bash
+npm run patch -- --install-dir="D:\Kiro" --locale=zh-tw --apply
+```
+
+- `--install-dir=<path>` is the directory that contains `resources/app`. On macOS that is
+  `Kiro.app/Contents`. `KIRO_INSTALL_DIR` does the same thing.
+- `--locale=<id>` must be a locale that is enabled in `config.json` **and** has
+  `src/i18n/<id>/patch/kiro.kiroAgent.json`. `--list` prints both sets; the language pack
+  covers more locales than the patcher does.
+- `--yes` takes the default for every confirmation and never prompts.
+
+## What `--apply` does
+
+Four steps, in order. The first one is the patch; the other three exist so a fresh install
+ends up in a working state instead of "patched but still displaying English".
+
+| Step | Skip with |
+| --- | --- |
+| Rewrite the unreachable strings, backing up every file first | — |
+| Install the language pack `.vsix` into that same Kiro | `--no-extension`, or `--vsix=<path>` |
+| Uninstall language packs that conflict with this one | `--keep-official` |
+| Set `locale` in `argv.json` to the chosen language | `--no-set-locale` |
+
+The conflict step looks for installed extensions that declare the `vscode` translation id for
+the language being patched — in practice `ms-ceintl.vscode-language-pack-*`. It matches on the
+declaration rather than the publisher, so a repackaged pack is caught too, and it asks before
+uninstalling anything.
+
+The last step writes the same single field the extension's language picker writes, using the
+same code (`scripts/lib/argv.mjs` loads it from `src/extension/main.cjs`). Restart Kiro
+afterwards: the display language is a launch argument, so reloading the window is not enough.
+
+If `dist/*.vsix` is missing, the rewrite still succeeds and the step is skipped with a warning.
+Run `npm run package` first for the one-shot path.
+
+Two more flags reduce the scope of the rewrite itself, mostly for debugging:
+`--no-webview` leaves the chat UI bundles alone, `--no-extension-strings` leaves
+`dist/extension.js` alone.
 
 ## What gets changed (Chinese)
 
@@ -60,6 +111,8 @@ change is reviewable in full before you apply it. After applying, the same list 
 - AWS does not support a modified install. Restore before filing a bug against Kiro.
 - Nothing here goes into the `.vsix`. The language pack remains the supported path, and the
   patch is additive on top of it. `--apply` installs that pack when `dist/*.vsix` is present.
+- `--restore` undoes the rewrite of the install, and only that. The extension stays installed
+  and `argv.json` keeps the display language — both are reversible from inside Kiro.
 
 ## Safety rules
 

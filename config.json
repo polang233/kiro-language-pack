@@ -15,18 +15,19 @@
   "engines": {
     "vscode": "^1.107.0"
   },
-  "$engines": "Measured on Kiro 1.0.228: resources/app/product.json -> vsCodeVersion = 1.107.1. Lower the bound to support older Kiro builds. `npm run detect` prints the value for the locally installed Kiro.",
+  "$engines": "Lower bound, deliberately below the newest Kiro: 1.0.228 is Code OSS 1.107.1 and 1.0.242 is 1.108.2, so ^1.107.0 installs on both. Raise it only to require a newer Kiro. `npm run detect` prints the value for the locally installed build.",
 
   "pack": {
-    "displayName": "Kiro Language Pack",
-    "description": "Language pack for Kiro IDE — Simplified & Traditional Chinese (简体中文 / 繁體中文 / 中文语言包). Covers the editor workbench and Kiro UI — session list, Settings, Agent Focus, spec toolbar, and more. Replaces the official VS Code language pack.",
-    "$note": "Used by the single-extension `full` mode, which ships every enabled locale in one artifact and lets the host pick by display language. Open VSX / Marketplace show ONE English displayName + this description (searchable); they do not offer per-locale storefront pages. Per-locale naming/description on each locale entry is only used by `companion` / single-locale builds. Only locales with enabled:true are packaged. Keep the displayName starting with Kiro so it sorts with other Kiro extensions in the marketplace."
+    "displayName": "Kiro Language Pack — 简体中文 / 繁體中文",
+    "description": "Kiro IDE 中文语言包（汉化）— Simplified & Traditional Chinese for Kiro IDE. 覆盖编辑器主体与 Kiro 自有界面：会话列表、Settings、聚焦智能体、规格与指引工具栏。Translates the editor workbench and Kiro's own UI. Replaces the official VS Code language pack. 更多语言欢迎在 GitHub 贡献.",
+    "$note": "Used by the single-extension `full` mode, which ships every enabled locale in one artifact and lets the host pick by display language. Open VSX / Marketplace show ONE displayName + this description, and both are searched, so both carry the Chinese terms users actually type - there are no per-locale storefront pages. Per-locale naming/description on each locale entry is only used by `companion` / single-locale builds. Only locales with enabled:true are packaged. Keep the displayName starting with Kiro so it sorts with other Kiro extensions in the marketplace, and re-check this text when a non-Chinese locale is enabled."
   },
 
   "target": {
     "kiroExtensionId": "kiro.kiroAgent",
     "$kiroExtensionId": "publisher.name from resources/app/extensions/kiro.kiro-agent/package.json. The folder name (kiro.kiro-agent) is NOT the extension id.",
-    "verifiedKiroVersions": ["1.0.228"]
+    "verifiedKiroVersions": ["1.0.228", "1.0.242"],
+    "$verifiedKiroVersions": "Builds whose localizable surface this pack has been reconciled against: `npm run coverage` reports 100% for the Kiro-specific keys and `npm run validate` passes. `npm run check-upgrade` compares the installed Kiro against this list."
   },
 
   "locales": [

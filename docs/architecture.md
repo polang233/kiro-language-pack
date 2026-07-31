@@ -39,10 +39,14 @@ Nothing is lost by the swap: the workbench strings come from the same MIT-licens
 `vscode-loc` snapshot the official pack is built from, and this build additionally drops
 inherited strings whose placeholders no longer match the source (see [Marker repair](#marker-repair)).
 
-| Edition | Extension name | Contents | Size | Default |
-| --- | --- | --- | --- | --- |
-| **Full** | `kiro-language-pack` | Workbench baseline + Kiro strings, every enabled locale | ~460 KB | published |
-| **Companion** | `kiro-language-pack-<locale>-companion` | `kiro.kiroAgent` manifest strings only | ~11 KB | build only |
+| Edition | Extension name | Contents | Default |
+| --- | --- | --- | --- |
+| **Full** | `kiro-language-pack` | Workbench baseline + Kiro strings, every enabled locale | published |
+| **Companion** | `kiro-language-pack-<locale>-companion` | `kiro.kiroAgent` manifest strings only | build only |
+
+Sizes differ by three orders of magnitude: the full pack is about 1.5 MB of minified
+translation JSON per locale, the companion one is a single small bundle. `npm run build` prints
+the exact figures for the current locale set, and the `.vsix` compresses them substantially.
 
 Companion coexists with the official pack because it never claims `vscode`. The trade-off is
 scope: it reaches the 72 manifest strings (command titles, view names, spec toolbar) and
@@ -93,16 +97,17 @@ src/i18n/<locale>/{overrides,kiro} ───────────────
 `metadata/kiro.json` is a snapshot of every localizable key in the installed build,
 including the English source text. It serves four purposes:
 
-- **Filtering.** Keys that do not exist in Kiro are dropped - 8108 of them for Chinese,
-  which is what keeps the artifact at 460 KB instead of 1.4 MB.
+- **Filtering.** Keys that do not exist in Kiro are dropped - around 8000 per locale, roughly a
+  third of the upstream baseline. That is what keeps the pack from carrying translations for a
+  VS Code this fork does not contain.
 - **Repair.** Because `vscode-loc` tracks the current VS Code release while Kiro lags
   behind, some inherited translations no longer match their source: a stale `{2}` renders as
   the literal text `{2}`, and a translated `command:` target turns a link into dead text.
-  The build drops those, 19 of them for Chinese, so the string falls back to English instead
-  of rendering wrong. Mismatches in files this repository maintains are reported instead,
-  since those are our bugs.
+  The build drops those - a couple of dozen per locale - so the string falls back to English
+  instead of rendering wrong. Mismatches in files this repository maintains are reported
+  instead, since those are our bugs.
 - **Gap analysis.** `npm run gap` diffs the installed key set against the upstream baseline.
-  The difference - 1404 keys for Chinese - is exactly what this project has to translate
+  The difference - 979 keys on Kiro 1.0.242 - is exactly what this project has to translate
   itself, and the report lists every one of them with its English source.
 - **Coverage.** It gives `coverage` a real denominator instead of a guess.
 

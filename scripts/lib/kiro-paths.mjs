@@ -49,14 +49,27 @@ function candidateRoots() {
   return roots;
 }
 
-export function findKiroInstall() {
+/**
+ * Every Kiro install the probe finds, deduplicated by resolved path. Several are
+ * common in practice: a per-user install plus a portable copy, or two versions kept
+ * side by side. Callers that must pick one show this list instead of guessing.
+ */
+export function findKiroInstalls() {
+  const seen = new Set();
+  const found = [];
   for (const root of candidateRoots()) {
     const appRoot = path.join(root, 'resources', 'app');
-    if (fs.existsSync(path.join(appRoot, 'package.json'))) {
-      return { installRoot: root, appRoot };
-    }
+    if (!fs.existsSync(path.join(appRoot, 'package.json'))) continue;
+    const key = path.resolve(appRoot).toLowerCase();
+    if (seen.has(key)) continue;
+    seen.add(key);
+    found.push({ installRoot: path.resolve(root), appRoot });
   }
-  return null;
+  return found;
+}
+
+export function findKiroInstall() {
+  return findKiroInstalls()[0] ?? null;
 }
 
 export function readKiroInfo(appRoot) {

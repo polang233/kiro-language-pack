@@ -20,22 +20,37 @@
  * Nothing here affects the .vsix. The language pack remains the supported path.
  *
  * Usage:
- *   npm run patch                  dry run - report what would change, write nothing
- *   npm run patch -- --apply       apply, after backing up every file it touches;
- *                                  then install dist/kiro-language-pack-<version>.vsix
- *                                  into the same Kiro (unless --no-extension)
+ *   npm run patch                  pick the install and the language, then report what
+ *                                  would change. Writes nothing.
+ *   npm run patch -- --apply       the same, but write, after backing up every file
+ *   npm run patch -- --list        detected installs and patchable languages
+ *   npm run patch -- --status      is this install patched, and is the patch still intact
  *   npm run patch -- --restore     put the backed up originals back
- *   npm run patch -- --status      show whether the install is currently patched
  *
- * Flags: --locale=zh-cn  --install-dir=<path>  --no-webview  --no-extension
- *        --vsix=<path>
+ * Choosing the target. Both are asked interactively when they are ambiguous, so a
+ * terminal never needs the flags; a script always should:
+ *   --locale=<id>                  the language to patch
+ *   --install-dir=<path>           the directory that contains resources/app
+ *                                  (KIRO_INSTALL_DIR does the same)
+ *
+ * What --apply does, in order, and how to skip each step:
+ *   1. rewrite the unreachable strings in the install     always
+ *   2. install dist/<pack>-<version>.vsix into that Kiro  --no-extension, --vsix=<path>
+ *   3. uninstall language packs that conflict with it     --keep-official
+ *   4. set `locale` in argv.json to the patched language   --no-set-locale
+ *
+ * Also: --no-webview skips the chat UI bundles, --no-extension-strings skips the ones in
+ * dist/extension.js. --yes never asks: confirmations take their default, and an ambiguous
+ * target becomes an error instead of a question. A shell without a TTY behaves the same.
  */
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
+import readline from 'node:readline/promises';
 import { spawnSync } from 'node:child_process';
 import { p, readJson, writeJson, log, fail, parseArgs, loadConfig } from './lib/util.mjs';
-import { findKiroInstall, readKiroInfo } from './lib/kiro-paths.mjs';
+import { findKiroInstalls, readKiroInfo, extensionsDir, argvJsonPath } from './lib/kiro-paths.mjs';
+import { argvLocale } from './lib/argv.mjs';
 
 const BACKUP_DIR = '.kiro-language-pack-backup';
 const RECORD_FILE = '.kiro-language-pack-patch.json';
@@ -56,18 +71,122 @@ const MIN_LITERAL_LENGTH = 6;
 
 const { flags } = parseArgs();
 const config = loadConfig();
-const localeId = typeof flags.locale === 'string' ? flags.locale : config.locales.find((l) => l.enabled !== false)?.id;
-if (!localeId) fail('No locale to patch. Pass --locale=<id>.');
 
-const install = flags['install-dir']
-  ? { installRoot: String(flags['install-dir']), appRoot: path.join(String(flags['install-dir']), 'resources', 'app') }
-  : findKiroInstall();
-if (!install || !fs.existsSync(path.join(install.appRoot, 'package.json'))) {
-  fail(
-    'Could not find a Kiro installation.\n' +
-    '  Set KIRO_INSTALL_DIR or pass --install-dir=<the directory containing resources/app>.'
-  );
+/** Prompting needs a terminal on both ends, and --yes opts out of it. */
+const interactive = flags.yes !== true && Boolean(process.stdin.isTTY && process.stdout.isTTY);
+
+const patchDataFile = (id) => p('src', 'i18n', id, 'patch', 'kiro.kiroAgent.json');
+
+/** Locales that are enabled in config.json *and* have patch data checked in. */
+const patchableLocales = config.locales
+  .filter((l) => l.enabled !== false)
+  .filter((l) => fs.existsSync(patchDataFile(l.id)));
+
+const describeLocale = (l) => `${l.id.padEnd(6)} ${l.localizedLanguageName} (${l.languageName})`;
+
+async function prompt(question, fallback) {
+  if (!interactive) return fallback;
+  const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+  try {
+    const answer = (await rl.question(question)).trim();
+    return answer === '' ? fallback : answer;
+  } finally {
+    rl.close();
+  }
 }
+
+const confirm = async (question, fallback) =>
+  /^y(es)?$/i.test(String(await prompt(`${question} [${fallback ? 'Y/n' : 'y/N'}]: `, fallback ? 'y' : 'n')));
+
+/** A numbered menu. Returns the chosen item, or null when the answer is unusable. */
+async function choose(items, render, { title, hint }) {
+  log.step(title);
+  items.forEach((item, i) => log.plain(`  ${String(i + 1).padStart(2)}. ${render(item)}`));
+  if (hint) log.plain(`     ${hint}`);
+  const answer = await prompt(`  Choose 1-${items.length} [1]: `, '1');
+  const index = Number.parseInt(String(answer), 10);
+  return Number.isInteger(index) && index >= 1 && index <= items.length ? items[index - 1] : null;
+}
+
+const asInstall = (root) => {
+  const installRoot = path.resolve(String(root));
+  return { installRoot, appRoot: path.join(installRoot, 'resources', 'app') };
+};
+const looksLikeKiro = (candidate) => fs.existsSync(path.join(candidate.appRoot, 'package.json'));
+
+const detected = findKiroInstalls();
+
+// --- --list -----------------------------------------------------------------
+
+if (flags.list) {
+  log.step('Kiro installations found');
+  if (!detected.length) {
+    log.plain('  none - pass --install-dir=<path> or set KIRO_INSTALL_DIR');
+  }
+  for (const candidate of detected) {
+    const found = readKiroInfo(candidate.appRoot);
+    const record = readJson(
+      path.join(candidate.appRoot, 'extensions', 'kiro.kiro-agent', RECORD_FILE),
+      null
+    );
+    log.plain(`  ${candidate.installRoot}`);
+    log.plain(`    Kiro ${found.kiroVersion} (Code OSS ${found.vscodeVersion})`);
+    log.plain(`    ${record ? `patched with ${record.locale} on ${record.patchedAt}` : 'not patched'}`);
+  }
+
+  log.step('Languages this patch can install');
+  if (!patchableLocales.length) log.plain('  none');
+  for (const locale of patchableLocales) log.plain(`  ${describeLocale(locale)}`);
+  const waiting = config.locales.filter((l) => !patchableLocales.includes(l));
+  if (waiting.length) {
+    log.plain(`\n  Declared in config.json but not patchable yet: ${waiting.map((l) => l.id).join(', ')}`);
+    log.plain('  A locale becomes patchable once src/i18n/<id>/patch/kiro.kiroAgent.json exists - see CONTRIBUTING.md.');
+  }
+  log.plain('\n  Then: npm run patch -- --install-dir=<path> --locale=<id> [--apply]');
+  process.exit(0);
+}
+
+// --- which install ----------------------------------------------------------
+
+const install = await (async () => {
+  if (flags['install-dir']) {
+    const chosen = asInstall(flags['install-dir']);
+    if (!looksLikeKiro(chosen)) {
+      fail(
+        `--install-dir=${flags['install-dir']} does not look like a Kiro installation.\n` +
+        `  Expected to find ${path.join(chosen.appRoot, 'package.json')}.\n` +
+        '  On macOS the directory is Kiro.app/Contents. `npm run patch -- --list` shows what was detected.'
+      );
+    }
+    return chosen;
+  }
+  if (detected.length === 1) return detected[0];
+  if (!detected.length) {
+    fail(
+      'Could not find a Kiro installation.\n' +
+      '  Pass --install-dir=<the directory containing resources/app> or set KIRO_INSTALL_DIR.\n' +
+      '  On macOS that directory is Kiro.app/Contents.'
+    );
+  }
+  if (!interactive) {
+    log.err('More than one Kiro installation was found, so the target has to be named:');
+    for (const candidate of detected) {
+      log.plain(`    --install-dir=${candidate.installRoot}    (Kiro ${readKiroInfo(candidate.appRoot).kiroVersion})`);
+    }
+    process.exit(1);
+  }
+  const picked = await choose(
+    detected,
+    (candidate) => `${candidate.installRoot}  (Kiro ${readKiroInfo(candidate.appRoot).kiroVersion})`,
+    {
+      title: 'Which Kiro installation?',
+      hint: 'Anything else cancels. --install-dir=<path> skips this question.'
+    }
+  );
+  if (!picked) fail('Cancelled. Nothing was written.');
+  return picked;
+})();
+
 const info = readKiroInfo(install.appRoot);
 const extDir = path.join(install.appRoot, 'extensions', 'kiro.kiro-agent');
 if (!fs.existsSync(extDir)) fail(`kiro.kiro-agent not found under ${install.appRoot}/extensions.`);
@@ -137,19 +256,59 @@ if (flags.restore) {
   process.exit(0);
 }
 
+// --- which language ---------------------------------------------------------
+
+// Asked after --status and --restore, which do not need it: the record on disk already
+// says which language was applied.
+const locale = await (async () => {
+  if (!patchableLocales.length) {
+    fail(
+      'No locale has patch data.\n' +
+      '  Expected src/i18n/<id>/patch/kiro.kiroAgent.json for a locale enabled in config.json.'
+    );
+  }
+  if (typeof flags.locale === 'string') {
+    const named = patchableLocales.find((l) => l.id === flags.locale);
+    if (named) return named;
+    const declared = config.locales.find((l) => l.id === flags.locale);
+    fail(
+      declared
+        ? `${flags.locale} has no patch data (${path.relative(p('.'), patchDataFile(flags.locale))} is missing).\n` +
+          `  The language pack itself may still cover it. Patchable: ${patchableLocales.map((l) => l.id).join(', ')}.`
+        : `Unknown locale "${flags.locale}". Patchable: ${patchableLocales.map((l) => l.id).join(', ')}.`
+    );
+  }
+  if (patchableLocales.length === 1) return patchableLocales[0];
+  if (!interactive) {
+    log.err('More than one language can be patched, so it has to be named:');
+    for (const l of patchableLocales) log.plain(`    --locale=${l.id}    ${l.localizedLanguageName}`);
+    process.exit(1);
+  }
+  const picked = await choose(patchableLocales, describeLocale, {
+    title: 'Which language should this install be patched to?',
+    hint: 'Anything else cancels. --locale=<id> skips this question.'
+  });
+  if (!picked) fail('Cancelled. Nothing was written.');
+  return picked;
+})();
+
+const localeId = locale.id;
+
 // --- load the patch data ----------------------------------------------------
 
-const patchFile = p('src', 'i18n', localeId, 'patch', 'kiro.kiroAgent.json');
-if (!fs.existsSync(patchFile)) {
-  fail(
-    `No patch data for ${localeId} (${path.relative(p('.'), patchFile)}).\n` +
-    '  Only the language pack itself covers this locale; there is nothing to patch.'
-  );
-}
+const patchFile = patchDataFile(localeId);
 const patch = readJson(patchFile);
+
+/**
+ * `--no-x` and `--x=false` are the same request. parseArgs stores them under different
+ * keys, so both are accepted - a documented flag that silently does nothing is worse
+ * than a redundant check.
+ */
+const off = (name) => flags[`no-${name}`] === true || flags[name] === false;
+
 const manifestMap = patch.manifest ?? {};
-const extensionMap = flags.extension === false ? {} : (patch.extension ?? {});
-const webviewMap = flags.webview === false ? {} : (patch.webview ?? {});
+const extensionMap = off('extension-strings') ? {} : (patch.extension ?? {});
+const webviewMap = off('webview') ? {} : (patch.webview ?? {});
 
 for (const [group, map] of [['extension', extensionMap], ['webview', webviewMap]]) {
   for (const english of Object.keys(map)) {
@@ -333,8 +492,14 @@ function patchWebviews() {
 // --- run --------------------------------------------------------------------
 
 log.step(`Patching Kiro ${info.kiroVersion} (Code OSS ${info.vscodeVersion}) at ${install.installRoot}`);
-log.plain(`  locale: ${localeId}`);
-log.plain(`  mode:   ${apply ? 'APPLY - files will be rewritten' : 'dry run - nothing will be written'}`);
+log.plain(`  language: ${localeId}  ${locale.localizedLanguageName}`);
+log.plain(`  mode:     ${apply ? 'APPLY - files will be rewritten' : 'dry run - nothing will be written'}`);
+const afterSteps = [
+  off('extension') ? null : 'install the language pack .vsix',
+  flags['keep-official'] ? null : 'uninstall conflicting language packs',
+  off('set-locale') ? null : `set argv.json locale to ${localeId}`
+].filter(Boolean);
+log.plain(`  ${apply ? 'then:      ' : 'would then: '}${afterSteps.join(', ') || 'nothing else'}`);
 
 const existing = readRecord();
 if (existing && apply) {
@@ -368,8 +533,10 @@ if (!apply) {
   });
   log.plain(`\n  Full before/after list: ${path.relative(p('.'), report)}`);
   log.plain('  Nothing was written to the install. To apply:');
-  log.plain('    npm run patch -- --apply          # also installs dist/*.vsix when present');
-  log.plain('    npm run patch -- --apply --no-extension');
+  log.plain(`    npm run patch -- --locale=${localeId} --install-dir="${install.installRoot}" --apply`);
+  log.plain('  Which then also installs dist/*.vsix, uninstalls conflicting language packs');
+  log.plain(`  and sets the display language to ${localeId}. Opt out per step with`);
+  log.plain('  --no-extension, --keep-official, --no-set-locale.');
   log.plain('  Read the header of scripts/patch-install.mjs first - this modifies the application directory.');
   process.exit(0);
 }
@@ -399,9 +566,12 @@ if (cacheDir && fs.existsSync(cacheDir)) {
 log.ok(`Patched. Originals are in ${relative(backupRoot)}/, the record in ${relative(recordPath)}.`);
 
 /**
- * After rewriting unreachable strings, install the language pack .vsix into the same
- * Kiro so menus / Agent Focus / etc. are covered too. Skipped with --no-extension.
- * Missing dist/ does not fail the patch - the install rewrite already succeeded.
+ * The rewrite above only covers what a language pack cannot reach. Three steps finish
+ * the job on this install, each skippable, all of them outside the patch record because
+ * none of them touch the application directory:
+ *   installLanguagePackExtension  installs the .vsix that covers everything else
+ *   removeConflictingPacks        uninstalls packs that also claim the `vscode` id
+ *   setDisplayLanguage            points argv.json at the language just patched
  */
 function findKiroCli(installRoot) {
   const names = process.platform === 'win32'
@@ -417,9 +587,26 @@ function findKiroCli(installRoot) {
   return null;
 }
 
+/** Run the Kiro CLI. Never fatal: the install rewrite has already succeeded. */
+function runCli(cli, args, label) {
+  const result = spawnSync(cli, args, {
+    stdio: 'inherit',
+    shell: process.platform === 'win32' && cli.endsWith('.cmd')
+  });
+  if (result.error) {
+    log.warn(`${label} failed: ${result.error.message}`);
+    return false;
+  }
+  if (result.status !== 0) {
+    log.warn(`${label} exited with code ${result.status}`);
+    return false;
+  }
+  return true;
+}
+
 function installLanguagePackExtension() {
-  if (flags['no-extension']) {
-    log.info('skipped language-pack install (--no-extension)');
+  if (off('extension')) {
+    log.info('skipped the language-pack install (--no-extension)');
     return;
   }
 
@@ -447,21 +634,114 @@ function installLanguagePackExtension() {
   }
 
   log.step(`Installing language pack: ${path.relative(p('.'), vsixPath)}`);
-  const result = spawnSync(cli, ['--install-extension', vsixPath, '--force'], {
-    stdio: 'inherit',
-    shell: process.platform === 'win32' && cli.endsWith('.cmd')
-  });
-  if (result.error) {
-    log.warn(`install-extension failed: ${result.error.message}`);
+  if (runCli(cli, ['--install-extension', vsixPath, '--force'], 'install-extension')) {
+    log.ok('language pack extension installed (or updated)');
+  }
+}
+
+/**
+ * Installed extensions that also provide the workbench translations for the language
+ * being patched - in practice the official VS Code pack, ms-ceintl.vscode-language-pack-*.
+ *
+ * `languagepacks.json` maps one translation id to exactly one file, assigned by whichever
+ * extension is scanned last, so two claimants produce a UI that is translated differently
+ * after each restart. Detection matches on the declaration rather than on the publisher id
+ * so a repackaged or renamed pack is caught too.
+ */
+function conflictingPacks() {
+  const dir = extensionsDir(info.dataFolderName);
+  if (!fs.existsSync(dir)) return [];
+
+  const ours = `${config.publisher}.`.toLowerCase();
+  const found = [];
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    if (!entry.isDirectory()) continue;
+    const manifest = readJson(path.join(dir, entry.name, 'package.json'), null);
+    const localizations = manifest?.contributes?.localizations;
+    if (!Array.isArray(localizations)) continue;
+
+    const id = `${manifest.publisher ?? ''}.${manifest.name ?? ''}`;
+    if (id.toLowerCase().startsWith(ours)) continue;
+
+    const claims = localizations.some((l) =>
+      l.languageId === localeId && (l.translations ?? []).some((tr) => tr.id === 'vscode'));
+    if (claims) found.push({ id, dir: path.join(dir, entry.name) });
+  }
+  return found;
+}
+
+async function removeConflictingPacks() {
+  if (flags['keep-official']) {
+    log.info('left other language packs alone (--keep-official)');
     return;
   }
-  if (result.status !== 0) {
-    log.warn(`install-extension exited with code ${result.status}`);
+  const conflicts = conflictingPacks();
+  if (!conflicts.length) return;
+
+  log.step('Conflicting language packs');
+  for (const pack of conflicts) log.plain(`  ${pack.id}`);
+  log.plain(`  These also provide the workbench translations for ${localeId}. Only one can win, and`);
+  log.plain('  which one is not stable across restarts, so this pack needs them gone.');
+
+  if (!(await confirm('  Uninstall them?', true))) {
+    log.warn('  left in place - expect a partly translated UI until one of them is removed');
     return;
   }
-  log.ok('language pack extension installed (or updated)');
+
+  const cli = findKiroCli(install.installRoot);
+  if (!cli) {
+    log.warn(
+      `  could not find the kiro CLI under ${install.installRoot}/bin.\n` +
+      `  Uninstall manually: Extensions view -> search @installed ${conflicts[0].id} -> Uninstall.`
+    );
+    return;
+  }
+  for (const pack of conflicts) {
+    if (runCli(cli, ['--uninstall-extension', pack.id], `uninstall-extension ${pack.id}`)) {
+      log.ok(`uninstalled ${pack.id}`);
+    }
+  }
+}
+
+/**
+ * The display language is a launch argument, kept in `locale` in argv.json. Without this
+ * the patched strings are in place but Kiro still starts in English, which reads as a
+ * patch that did nothing. Only that one field is touched, and the write itself is the
+ * implementation that ships in the extension - see scripts/lib/argv.mjs.
+ */
+async function setDisplayLanguage() {
+  if (off('set-locale')) {
+    log.info('left the display language alone (--no-set-locale)');
+    return;
+  }
+  const file = argvJsonPath(info.dataFolderName);
+  const { readLocale, writeLocale } = argvLocale();
+  const current = readLocale(file);
+  if (current === localeId) {
+    log.info(`display language is already ${localeId} in ${file}`);
+    return;
+  }
+
+  log.step('Display language');
+  log.plain(`  ${file}`);
+  log.plain(`  locale: ${current ?? 'not set (English)'} -> ${localeId}`);
+  if (!(await confirm(`  Set the display language to ${locale.localizedLanguageName}?`, true))) {
+    log.warn(`  unchanged - run "Language Pack: Select Display Language" in Kiro, or set locale to "${localeId}" yourself`);
+    return;
+  }
+  try {
+    writeLocale(file, localeId);
+    log.ok(`display language set to ${localeId}`);
+  } catch (err) {
+    log.warn(`could not write ${file}: ${err.message}`);
+    log.plain('  Set it from Kiro instead: Command Palette -> Language Pack: Select Display Language.');
+  }
 }
 
 installLanguagePackExtension();
+await removeConflictingPacks();
+await setDisplayLanguage();
 
-log.plain('  Restart Kiro to see the change. `npm run patch -- --restore` undoes the install rewrite (not the extension).');
+log.step('Done');
+log.plain('  Restart Kiro - the display language is a launch argument, so reloading the window is not enough.');
+log.plain('  `npm run patch -- --restore` undoes the rewrite of the install (not the extension, not argv.json).');

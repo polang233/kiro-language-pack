@@ -34,6 +34,16 @@ npm run package          # 产出 dist/kiro-language-pack-<version>.vsix
 
 确认 `config.json` 的 `version` 与即将打的 tag 一致（CI 在 `v*` tag 上会校验）。
 
+市场页面的内容分别来自哪里，改文案时对着看：
+
+| 页面上的位置 | 来源 |
+| --- | --- |
+| 页面正文 | `src/marketplace/README.md`，`npm run build` 时复制进 `.vsix` |
+| 标题与简介 | `config.json` 的 `pack.displayName`、`pack.description` |
+| 搜索关键词 | `src/manifest.template.json` 的 `keywords`，再加上打包进去的 locale id |
+
+不管包里带了几种语言，两个市场都只显示一个页面，并且都会检索页面文字——这就是那个页面写成多语言的原因。
+
 ## Open VSX（Kiro 用户能搜到，优先）
 
 1. 用 **GitHub** 登录 [open-vsx.org](https://open-vsx.org/)（至少登录一次，管理员才能在库里找到你）。
