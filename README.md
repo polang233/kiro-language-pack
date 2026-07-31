@@ -21,7 +21,8 @@ One extension, English marketplace title (**Kiro Language Pack**). After install
 ## Install
 
 1. Uninstall any other language pack in Kiro (this pack **replaces** the official VS Code one).
-2. Install from [Open VSX](https://open-vsx.org/extension/polang233/kiro-language-pack) or a [Release](https://github.com/polang233/kiro-language-pack/releases) `.vsix`.
+2. Install a [Release](https://github.com/polang233/kiro-language-pack/releases) `.vsix` for now.
+   Open VSX listing ([polang233/kiro-language-pack](https://open-vsx.org/extension/polang233/kiro-language-pack)) is in progress — use the Release until that page is live.
 3. Command Palette → **Language Pack: Select Display Language** → choose language → restart.
 
 Windows: do not double-click the `.vsix` (Visual Studio may hijack it). Use **Extensions: Install from VSIX...**.

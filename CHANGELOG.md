@@ -8,8 +8,8 @@ verified Kiro versions are listed in `config.json` under `target.verifiedKiroVer
 
 ## [1.0.0]
 
-First stable release. Verified against Kiro 1.0.228 (Code OSS 1.107.1); also exercised on
-Kiro 1.0.242.
+First stable release. Verified against Kiro **1.0.228** (Code OSS 1.107.1). Later Kiro
+builds are expected to work in most cases; re-run `npm run check-upgrade` after upgrading.
 
 ### Added
 

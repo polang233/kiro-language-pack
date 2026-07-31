@@ -249,14 +249,16 @@ tr: [开始调试](命令: javascript-walkthrough.commands.debugJsFile)   ← �
       —— 取 `gh auth status` 里的 GitHub 账号 `polang233`
 - [x] 重启后核对界面渲染效果 —— Settings 面板已确认为中文；剩余英文项已定位（见 §10）
 - [x] 验证「一个扩展多 localizations 条目」（§10.3）
-- [ ] 用 `ovsx create-namespace polang233` 声明 Open VSX 命名空间，配置 `OVSX_PAT` secret
-- [ ] 补截图
+- [x] 补截图（`docs/images/`：安装前后对照）
+- [x] 第二种界面语言：`zh-tw` 已随 1.0.0 发布（繁体）
+- [ ] **发布 blocker：** `ovsx create-namespace polang233`，配置 `OVSX_PAT`，上架 Open VSX
+- [ ] （可选）在 VS Marketplace 创建同名 Publisher `polang233`，配置 `VSCE_PAT` 后 `publish:vsce`
 - [ ] 给 [kirodotdev/Kiro](https://github.com/kirodotdev/Kiro) 提 issue，附
       `reports/manifest-audit-kiro.kiroAgent.json`，请求：
       1. 把 76 条硬编码清单字符串外部化为 `%key%`
       2. 给 webview 加 i18n 抽取（他们已经有 `@vscode/l10n-dev` 依赖）
       3. 或者至少让前端消费已经注入的 `window.l10n.bundleUri`
-- [ ] 给第二种语言补 Kiro 译文（日语基线已能构建，缺 `src/i18n/ja/`）
+- [ ] 下一语言：日语基线已能构建，缺 `src/i18n/ja/` 的 Kiro 译文
 
 ---
 

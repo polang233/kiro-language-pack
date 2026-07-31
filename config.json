@@ -19,8 +19,8 @@
 
   "pack": {
     "displayName": "Kiro Language Pack",
-    "description": "Language pack for Kiro IDE (Simplified & Traditional Chinese). Covers the editor workbench and Kiro UI — session list, Settings, Agent Focus, spec toolbar, and more. Replaces the official VS Code language pack.",
-    "$note": "Used by the single-extension `full` mode, which ships every enabled locale in one artifact and lets the host pick by display language. Per-locale naming lives on each locale entry and is only used by `companion` mode. Only locales with enabled:true are packaged. Keep the displayName starting with Kiro so it sorts with other Kiro extensions in the marketplace."
+    "description": "Language pack for Kiro IDE — Simplified & Traditional Chinese (简体中文 / 繁體中文 / 中文语言包). Covers the editor workbench and Kiro UI — session list, Settings, Agent Focus, spec toolbar, and more. Replaces the official VS Code language pack.",
+    "$note": "Used by the single-extension `full` mode, which ships every enabled locale in one artifact and lets the host pick by display language. Open VSX / Marketplace show ONE English displayName + this description (searchable); they do not offer per-locale storefront pages. Per-locale naming/description on each locale entry is only used by `companion` / single-locale builds. Only locales with enabled:true are packaged. Keep the displayName starting with Kiro so it sorts with other Kiro extensions in the marketplace."
   },
 
   "target": {

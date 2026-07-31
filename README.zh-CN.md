@@ -21,7 +21,8 @@
 ## 用法
 
 1. 先卸载 Kiro 里其他语言包（本包**替代** VS Code 官方语言包，勿并存）。
-2. 安装：[Open VSX](https://open-vsx.org/extension/polang233/kiro-language-pack) 或 [Releases](https://github.com/polang233/kiro-language-pack/releases) 的 `.vsix`。
+2. 目前请从 [Releases](https://github.com/polang233/kiro-language-pack/releases) 安装 `.vsix`。
+   Open VSX 上架进行中（预计页：[polang233/kiro-language-pack](https://open-vsx.org/extension/polang233/kiro-language-pack)），上线前请用 Release。
 3. 命令面板 → **Language Pack: Select Display Language** → 选语言 → 重启。
 
 Windows 不要双击 `.vsix`，用 **Extensions: Install from VSIX...**。
