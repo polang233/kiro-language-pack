@@ -1,7 +1,7 @@
 # Documentation
 
-Installing and using the pack: root [README.md](../README.md) (中英对照) /
-[README.zh-CN.md](../README.zh-CN.md) (简体). Everything here is for contributors and maintainers.
+Installing and using the pack: root [README.md](../README.md) (English) /
+[README.zh-CN.md](../README.zh-CN.md) (简体中文). Everything here is for contributors and maintainers.
 
 | Document | Language | What it covers |
 | --- | --- | --- |
