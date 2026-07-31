@@ -3,9 +3,11 @@
 [Kiro IDE](https://kiro.dev/) 社区语言包：既翻译编辑器主体，**也**翻译 Kiro 自己的界面（会话列表、
 Settings、聚焦智能体、规格与指引工具栏）。
 
-[English](README.md) · **简体中文**
+[中英对照 README](README.md) · **简体中文（本文）**
 
 <img src="media/icon.png" width="96" height="96" alt="Kiro Language Pack 图标" />
+
+仓库默认的 [README.md](README.md) 已是中英并行（面向中文用户）。本文是完整简体版，内容一致、读起来更连贯。
 
 项目本身是按多语言设计的，**当前发布的只有简体中文和繁体中文**——因为只有这两种语言有人翻译。
 `config.json` 里另外预置了 11 种 locale，等人来填，见[新增语言](#新增语言)。
