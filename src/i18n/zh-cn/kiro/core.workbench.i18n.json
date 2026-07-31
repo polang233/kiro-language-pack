@@ -192,7 +192,8 @@
       "install incompatible extension": "安装不兼容的扩展"
     },
     "vs/workbench/contrib/extensions/browser/extensionsViewlet": {
-      "dismiss": "忽略"
+      "dismiss": "忽略",
+      "dismiss hover": "忽略"
     },
     "vs/workbench/contrib/extensions/browser/extensionsViews": {
       "showingExtensionsForFeature": "过去 30 天内使用 {0} 的扩展"
@@ -251,7 +252,8 @@
       "scmInputCancelAction": "取消",
       "scmInput.accessibilityHelp": "{0}，使用 {1} 打开源代码管理辅助功能帮助。",
       "scmInput.accessibilityHelpNoKb": "{0}，运行“打开辅助功能帮助”命令了解更多信息。",
-      "label.close": "关闭"
+      "label.close": "关闭",
+      "scmInputGenerateCommitMessage": "生成提交信息"
     },
     "vs/workbench/contrib/search/browser/search.contribution": {
       "anythingQuickAccessPlaceholder": "按名称搜索文件（追加 {0} 转到行，追加 {1} 转到符号）",

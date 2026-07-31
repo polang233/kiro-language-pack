@@ -192,7 +192,8 @@
       "install incompatible extension": "安裝不相容的擴充套件"
     },
     "vs/workbench/contrib/extensions/browser/extensionsViewlet": {
-      "dismiss": "忽略"
+      "dismiss": "忽略",
+      "dismiss hover": "忽略"
     },
     "vs/workbench/contrib/extensions/browser/extensionsViews": {
       "showingExtensionsForFeature": "過去 30 天內使用 {0} 的擴充套件"
@@ -251,7 +252,8 @@
       "scmInputCancelAction": "取消",
       "scmInput.accessibilityHelp": "{0}，使用 {1} 開啟原始碼管理輔助功能幫助。",
       "scmInput.accessibilityHelpNoKb": "{0}，執行“開啟輔助功能幫助”命令瞭解更多資訊。",
-      "label.close": "關閉"
+      "label.close": "關閉",
+      "scmInputGenerateCommitMessage": "生成提交資訊"
     },
     "vs/workbench/contrib/search/browser/search.contribution": {
       "anythingQuickAccessPlaceholder": "按名稱搜尋檔案（追加 {0} 轉到行，追加 {1} 轉到符號）",

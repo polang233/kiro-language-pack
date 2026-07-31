@@ -191,7 +191,12 @@
       "kiroStandalone.baseRefPickTitle": "新建工作樹 — 基準引用",
       "kiroStandalone.baseRefPickPlaceholder": "選擇工作樹所基於的分支或提交",
       "kiroStandalone.selectFolder": "選擇專案資料夾",
-      "kiroStandalone.selectSession": "選擇一個會話或新建一個"
+      "kiroStandalone.selectSession": "選擇一個會話或新建一個",
+      "kiroStandalone.openInIde": "在 IDE 中編輯",
+      "kiroStandalone.agentSettingsTitle": "智慧體設定",
+      "kiroStandalone.newWorktreeUntrusted": "要建立工作樹，請先信任某個專案資料夾",
+      "kiroStandalone.openWithKiroCli": "用 Kiro CLI 開啟",
+      "kiroStandalone.selectFolderForCli": "選擇要用 Kiro CLI 開啟的資料夾"
     },
     "vs/workbench/contrib/kiroStandalone/electron-browser/kiroStandaloneSessionsList": {
       "kiroStandalone.noProject": "無專案",
@@ -215,7 +220,12 @@
       "kiroStandalone.removeProject": "移除專案",
       "kiroStandalone.createWorktree": "$(add) 新建工作樹…",
       "kiroStandalone.worktreePickerTitle": "工作樹 — {0}",
-      "kiroStandalone.worktreePickerPlaceholder": "選擇要開啟的工作樹，或新建一個"
+      "kiroStandalone.worktreePickerPlaceholder": "選擇要開啟的工作樹，或新建一個",
+      "kiroStandalone.cliTag": "CLI",
+      "kiroStandalone.closeProject": "關閉專案",
+      "kiroStandalone.newCloudSession": "新建雲端會話",
+      "kiroStandalone.agentSettings": "智慧體設定",
+      "kiroStandalone.worktreesUntrusted": "要使用工作樹，請先信任此資料夾"
     },
     "vs/workbench/contrib/kiroStandalone/electron-browser/kiroStandaloneWebviewManager": {
       "kiroStandalone.loadFailed": "載入聊天失敗。請嘗試重啟視窗。"
@@ -307,6 +317,39 @@
       "welcomeCarousel.previous": "上一頁",
       "welcomeCarousel.next": "下一頁",
       "welcomeCarousel.goToPage": "轉到第 {0} 頁"
+    },
+    "vs/workbench/contrib/kiroStandalone/electron-browser/agentSettingsPane": {
+      "kiro.agentConfig.domain.steering": "指引",
+      "kiro.agentConfig.domain.mcp": "MCP 伺服器",
+      "kiro.agentConfig.domain.hooks": "鉤子",
+      "kiro.agentConfig.domain.skills": "技能",
+      "kiro.agentConfig.domain.powers": "能力",
+      "kiro.agentConfig.empty.mcp": "開啟 mcp.json",
+      "kiro.agentConfig.empty.steering": "新增指引文件",
+      "kiro.agentConfig.empty.hooks": "新增鉤子",
+      "kiro.agentConfig.empty.skills": "在 IDE 中配置",
+      "kiro.agentConfig.empty.powers": "在 IDE 中瀏覽能力",
+      "kiro.agentConfig.source.workspace": "工作區",
+      "kiro.agentConfig.source.global": "全域性",
+      "kiro.agentConfig.source.cloud": "雲端",
+      "kiro.agentConfig.noSession": "此專案沒有進行中的會話——開啟一個會話即可檢視它的配置。",
+      "kiro.agentConfig.empty": "此專案還沒有任何配置。",
+      "kiro.agentConfig.loading": "正在載入…",
+      "kiro.agentConfig.cloudReadOnly": "由雲端管理（只讀）",
+      "kiro.agentConfig.editWeb": "↗ 在網頁中編輯",
+      "kiro.agentConfig.editIde": "↗ 在 IDE 中編輯"
+    },
+    "vs/workbench/services/kiroStandalone/common/agentConfigModel": {
+      "kiro.agentConfig.mcp.connected": "已連線 · {0} 個工具",
+      "kiro.agentConfig.mcp.failed": "連接出錯 · 在 IDE 中檢視日誌",
+      "kiro.agentConfig.mcp.connecting": "正在連線…",
+      "kiro.agentConfig.mcp.disabled": "已停用",
+      "kiro.agentConfig.steering.always": "始終包含",
+      "kiro.agentConfig.steering.manual": "手動",
+      "kiro.agentConfig.steering.fileMatch": "按檔案匹配",
+      "kiro.agentConfig.hooks.runCommand": "執行命令",
+      "kiro.agentConfig.hooks.askAgent": "向智慧體發提示",
+      "kiro.agentConfig.hooks.notApproved": "未批准"
     }
   }
 }

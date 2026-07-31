@@ -36,6 +36,8 @@
   },
   "devDependencies": {
     "@vscode/vsce": "3.2.1",
+    "opencc-js": "1.4.1",
     "ovsx": "0.10.1"
-  }
+  },
+  "$devDependencies": "opencc-js is only used by scripts/convert-zh-tw.mjs, which regenerates the zh-tw sources from zh-cn. It is declared so `npm ci` keeps it available."
 }

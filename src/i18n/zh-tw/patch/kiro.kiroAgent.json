@@ -90,7 +90,14 @@
     "Open a project to start working with Kiro\n[Open Project](command:workbench.action.files.openFolderViaWorkspace)": "開啟一個專案即可開始使用 Kiro\n[開啟專案](command:workbench.action.files.openFolderViaWorkspace)",
     "Create a project plan to develop complex features and services\n\n[$(add) Create New Spec](command:kiro.spec.explorerCreateSpec)": "建立專案計劃，用於開發複雜的功能與服務\n\n[$(add) 新建規格](command:kiro.spec.explorerCreateSpec)",
     "Guide agent behavior and responses \n [Generate Steering Docs](command:kiro.steering.createInitialSteering)": "指引智慧體的行為與回覆 \n [生成指引文件](command:kiro.steering.createInitialSteering)",
-    "Automate tasks like documentation, code cleanup, or language localization\n\n[$(add) Create New Hook](command:kiroAgent.hooks.createNew)": "自動化文件編寫、程式碼清理、介面本地化等任務\n\n[$(add) 新建鉤子](command:kiroAgent.hooks.createNew)"
+    "Automate tasks like documentation, code cleanup, or language localization\n\n[$(add) Create New Hook](command:kiroAgent.hooks.createNew)": "自動化文件編寫、程式碼清理、介面本地化等任務\n\n[$(add) 新建鉤子](command:kiroAgent.hooks.createNew)",
+
+    "Custom prompts for the Kiro editor context menu actions. Each value replaces the built-in prompt for that action.": "Kiro 編輯器右鍵選單動作的自定義提示。每一項都會替換該動作內建的提示。",
+    "Override the prompt used by the \"Fix Grammar / Spelling\" editor action.": "覆蓋 \"修正語法 / 拼寫\" 動作使用的提示。",
+    "Override the prompt used by the \"Write Comments for this Code\" editor action.": "覆蓋 \"為這段程式碼寫註釋\" 動作使用的提示。",
+    "Override the prompt used by the \"Write a Docstring for this Code\" editor action.": "覆蓋 \"為這段程式碼寫文件字串\" 動作使用的提示。",
+    "Override the prompt used by the \"Fix this Code\" editor action.": "覆蓋 \"修復這段程式碼\" 動作使用的提示。",
+    "Override the prompt used by the \"Optimize this Code\" editor action.": "覆蓋 \"最佳化這段程式碼\" 動作使用的提示。"
   },
 
   "extension": {

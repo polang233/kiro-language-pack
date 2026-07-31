@@ -195,7 +195,7 @@
       "chat.toolReferenceName.description": "{0} - {1}",
       "clear": "开始新的聊天"
     },
-    "vs/workbench/contrib/chat/browser/chatAccessibilityProvider": {
+    "vs/workbench/contrib/chat/browser/accessibility/chatAccessibilityProvider": {
       "toolPostApprovalTitle": "批准工具的结果",
       "toolInvocationsHintKb": "聊天需要确认：{0}。按 {1} 接受，或按 {2} 取消。",
       "toolInvocationsHint": "聊天需要确认：{0}",
@@ -212,20 +212,21 @@
       "multiCodeBlockHint": "{0}{1}{2}{3} 个代码块：{4}{5} {6}",
       "multiCodeBlock": "{0}{1}{2} 个代码块：{3} {4}"
     },
-    "vs/workbench/contrib/chat/browser/chatAccessibilityService": {
+    "vs/workbench/contrib/chat/browser/accessibility/chatAccessibilityService": {
       "chatTitle": "聊天：{0}",
       "chat.untitledChat": "未命名聊天",
-      "notificationDetail": "有新的聊天回复。"
+      "notificationDetail": "有新的聊天回复。",
+      "chat.backgroundRequest": "聊天会话将在后台继续。"
     },
-    "vs/workbench/contrib/chat/browser/chatAgentHover": {
+    "vs/workbench/contrib/chat/browser/widget/chatAgentHover": {
       "reservedName": "此聊天扩展使用了保留名称。",
       "viewExtensionLabel": "查看扩展"
     },
-    "vs/workbench/contrib/chat/browser/chatAttachmentResolveService": {
+    "vs/workbench/contrib/chat/browser/attachments/chatAttachmentResolveService": {
       "imageTooLarge": "图片过大",
       "imageTooLargeMessage": "图片 {0} 过大，无法附加。"
     },
-    "vs/workbench/contrib/chat/browser/chatAttachmentWidgets": {
+    "vs/workbench/contrib/chat/browser/attachments/chatAttachmentWidgets": {
       "chat.attachment.clearButton": "从上下文中移除",
       "chat.fileAttachmentWithRange": "已附加文件，{0}，第 {1} 行到第 {2} 行",
       "chat.fileAttachment": "已附加文件，{0}",
@@ -256,40 +257,40 @@
       "chat.clickToViewContents": "点击查看内容：{0}",
       "resource": "聊天附件资源的完整值，包含协议和路径"
     },
-    "vs/workbench/contrib/chat/browser/chatContentParts/chatAgentCommandContentPart": {
+    "vs/workbench/contrib/chat/browser/widget/chatContentParts/chatAgentCommandContentPart": {
       "rerun": "不使用 {0}{1} 重新运行"
     },
-    "vs/workbench/contrib/chat/browser/chatContentParts/chatAnonymousRateLimitedPart": {
+    "vs/workbench/contrib/chat/browser/widget/chatContentParts/chatAnonymousRateLimitedPart": {
       "anonymousRateLimited": "登录即可继续对话。免费账户每月可获得 50 次高级请求，并可使用更多模型和 AI 功能。",
       "enableMoreAIFeatures": "启用更多 AI 功能"
     },
-    "vs/workbench/contrib/chat/browser/chatContentParts/chatChangesSummaryPart": {
+    "vs/workbench/contrib/chat/browser/widget/chatContentParts/chatChangesSummaryPart": {
       "chat.viewFileChangesSummary": "查看所有文件更改"
     },
-    "vs/workbench/contrib/chat/browser/chatContentParts/chatCodeCitationContentPart": {
+    "vs/workbench/contrib/chat/browser/widget/chatContentParts/chatCodeCitationContentPart": {
       "viewMatches": "查看匹配项"
     },
     "vs/workbench/contrib/chat/browser/chatContentParts/chatCollapsibleContentPart": {
       "usedReferencesExpanded": "{0}，已展开",
       "usedReferencesCollapsed": "{0}，已折叠"
     },
-    "vs/workbench/contrib/chat/browser/chatContentParts/chatCommandContentPart": {
+    "vs/workbench/contrib/chat/browser/widget/chatContentParts/chatCommandContentPart": {
       "commandButtonDisabled": "按钮在已恢复的聊天中不可用"
     },
-    "vs/workbench/contrib/chat/browser/chatContentParts/chatConfirmationContentPart": {
+    "vs/workbench/contrib/chat/browser/widget/chatContentParts/chatConfirmationContentPart": {
       "accept": "接受",
       "dismiss": "忽略"
     },
-    "vs/workbench/contrib/chat/browser/chatContentParts/chatConfirmationWidget": {
+    "vs/workbench/contrib/chat/browser/widget/chatContentParts/chatConfirmationWidget": {
       "chatTitle": "聊天：{0}",
       "chat.untitledChat": "未命名聊天",
       "notificationDetail": "需要批准才能继续。",
       "chat.confirmationWidget.ariaLabel": "聊天确认对话框 {0} {1}"
     },
-    "vs/workbench/contrib/chat/browser/chatContentParts/chatExtensionsContentPart": {
+    "vs/workbench/contrib/chat/browser/widget/chatContentParts/chatExtensionsContentPart": {
       "chat.extensions.loading": "正在加载扩展..."
     },
-    "vs/workbench/contrib/chat/browser/chatContentParts/chatMarkdownContentPart": {
+    "vs/workbench/contrib/chat/browser/widget/chatContentParts/chatMarkdownContentPart": {
       "chat.codeblock.applyingEdits": "正在应用编辑",
       "chat.codeblock.generating": "正在生成编辑...",
       "chat.codeblock.applyingPercentage": "（{0}%）...",
@@ -300,7 +301,7 @@
       "chat.codeblock.deletions": "{0} 处删除",
       "summary": "已编辑 {0}，{1}，{2}"
     },
-    "vs/workbench/contrib/chat/browser/chatContentParts/chatMcpServersInteractionContentPart": {
+    "vs/workbench/contrib/chat/browser/widget/chatContentParts/chatMcpServersInteractionContentPart": {
       "mcp.skip.link": "跳过？",
       "mcp.working.mcp": "正在激活 MCP 扩展...",
       "mcp.starting.servers": "正在启动 MCP 服务器 {0}...",
@@ -308,14 +309,14 @@
       "mcp.start.multiple": "MCP 服务器 {0} 可能有新工具，需要交互才能启动。[现在启动？]({1})",
       "mcp.starting": "正在启动 {0}..."
     },
-    "vs/workbench/contrib/chat/browser/chatContentParts/chatMultiDiffContentPart": {
+    "vs/workbench/contrib/chat/browser/widget/chatContentParts/chatMultiDiffContentPart": {
       "chatMultiDiff.oneFile": "已更改 1 个文件",
       "chatMultiDiff.manyFiles": "已更改 {0} 个文件",
       "chatMultiDiff.openAllChanges": "打开更改",
       "chatMultiDiffList": "文件更改",
       "chatEditingSession.fileCounts": "新增 {0} 行，删除 {1} 行"
     },
-    "vs/workbench/contrib/chat/browser/chatContentParts/chatProgressContentPart": {
+    "vs/workbench/contrib/chat/browser/widget/chatContentParts/chatProgressContentPart": {
       "chat.autoapprove.setting": "已由 {0} 自动批准",
       "chat.autoapprove.lmServicePerTool.session": "已在本会话中自动批准",
       "chat.autoapprove.lmServicePerTool.workspace": "已在本工作区中自动批准",
@@ -324,39 +325,39 @@
       "workingMessage": "正在处理...",
       "toolCallUnresponsive": "正在等待工具 '{0}' 响应..."
     },
-    "vs/workbench/contrib/chat/browser/chatContentParts/chatPullRequestContentPart": {
+    "vs/workbench/contrib/chat/browser/widget/chatContentParts/chatPullRequestContentPart": {
       "chatPullRequest.seeMore": "查看更多"
     },
-    "vs/workbench/contrib/chat/browser/chatContentParts/chatQuotaExceededPart": {
+    "vs/workbench/contrib/chat/browser/widget/chatContentParts/chatQuotaExceededPart": {
       "enableAdditionalUsage": "管理付费高级请求",
       "upgradeToCopilotPro": "升级到 GitHub Copilot Pro",
       "waitWarning": "更改可能需要几分钟才会生效。",
       "clickToContinue": "点击重试"
     },
-    "vs/workbench/contrib/chat/browser/chatContentParts/chatReferencesContentPart": {
+    "vs/workbench/contrib/chat/browser/widget/chatContentParts/chatReferencesContentPart": {
       "usedReferencesPlural": "使用了 {0} 个引用",
       "usedReferencesSingular": "使用了 {0} 个引用",
       "chatCollapsibleList": "可折叠的聊天引用列表",
       "setting.hover": "打开设置 '{0}'",
       "chatEditingSession.fileCounts": "新增 {0} 行，删除 {1} 行"
     },
-    "vs/workbench/contrib/chat/browser/chatContentParts/chatSuggestNextWidget": {
+    "vs/workbench/contrib/chat/browser/widget/chatContentParts/chatSuggestNextWidget": {
       "chat.currentMode": "当前模式",
       "chat.proceedFrom": "从 {0} 继续",
       "chat.suggestNext.item": "{0}",
       "chat.suggestNext.moreOptions": "{0} 的更多选项",
       "continueIn": "在 {0} 中继续"
     },
-    "vs/workbench/contrib/chat/browser/chatContentParts/chatTextEditContentPart": {
+    "vs/workbench/contrib/chat/browser/widget/chatContentParts/chatTextEditContentPart": {
       "edits0": "更改操作已中止。",
       "editsSummary": "已做出更改。"
     },
-    "vs/workbench/contrib/chat/browser/chatContentParts/chatThinkingContentPart": {
+    "vs/workbench/contrib/chat/browser/widget/chatContentParts/chatThinkingContentPart": {
       "chat.thinking.header": "正在思考...",
       "chat.thinking.finished.withTools": "思考完毕，并调用了 {0} 个工具{1}",
       "chat.thinking.finished": "思考完毕"
     },
-    "vs/workbench/contrib/chat/browser/chatContentParts/chatTodoListWidget": {
+    "vs/workbench/contrib/chat/browser/widget/chatContentParts/chatTodoListWidget": {
       "chat.todoList.itemWithDescription": "{0}，{1}，{2}",
       "chat.todoList.item": "{0}，{1}",
       "chat.todoList.status.completed": "已完成",
@@ -371,37 +372,37 @@
       "chat.todoList.titleWithCount": "待办（{0}/{1}）",
       "chat.todoList.currentTask": "{0}（{1}/{2}）"
     },
-    "vs/workbench/contrib/chat/browser/chatContentParts/chatToolInputOutputContentPart": {
+    "vs/workbench/contrib/chat/browser/widget/chatContentParts/chatToolInputOutputContentPart": {
       "chat.input": "输入",
       "chat.output": "输出"
     },
-    "vs/workbench/contrib/chat/browser/chatContentParts/chatToolOutputContentSubPart": {
+    "vs/workbench/contrib/chat/browser/widget/chatContentParts/chatToolOutputContentSubPart": {
       "chat.saveResources.error": "保存 {0} 失败：{1}",
       "chat.saveResources.progress": "正在保存资源...",
       "chat.saveResources.reveal": "资源已保存到 {0}",
       "chat.saveResources.title": "选择保存资源的文件夹",
       "chat.saveResources": "另存为..."
     },
-    "vs/workbench/contrib/chat/browser/chatContentParts/chatTreeContentPart": {
+    "vs/workbench/contrib/chat/browser/widget/chatContentParts/chatTreeContentPart": {
       "treeAriaLabel": "文件树"
     },
-    "vs/workbench/contrib/chat/browser/chatContentParts/toolInvocationParts/abstractToolConfirmationSubPart": {
+    "vs/workbench/contrib/chat/browser/widget/chatContentParts/toolInvocationParts/abstractToolConfirmationSubPart": {
       "skip": "跳过"
     },
-    "vs/workbench/contrib/chat/browser/chatContentParts/toolInvocationParts/chatExtensionsInstallToolSubPart": {
+    "vs/workbench/contrib/chat/browser/widget/chatContentParts/toolInvocationParts/chatExtensionsInstallToolSubPart": {
       "allow": "允许",
       "cancel": "取消",
       "installExtensions": "安装扩展",
       "installExtensionsConfirmation": "在扩展上点击“安装”按钮，完成后按“允许”。"
     },
-    "vs/workbench/contrib/chat/browser/chatContentParts/toolInvocationParts/chatInputOutputMarkdownProgressPart": {
+    "vs/workbench/contrib/chat/browser/widget/chatContentParts/toolInvocationParts/chatToolPartUtilities": {
       "chat.autoapprove.setting": "已由 {0} 自动批准",
       "chat.autoapprove.lmServicePerTool.session": "已在本会话中自动批准",
       "chat.autoapprove.lmServicePerTool.workspace": "已在本工作区中自动批准",
       "chat.autoapprove.lmServicePerTool.profile": "已在本配置文件中自动批准",
       "edit": "编辑"
     },
-    "vs/workbench/contrib/chat/browser/chatContentParts/toolInvocationParts/chatTerminalToolConfirmationSubPart": {
+    "vs/workbench/contrib/chat/browser/widget/chatContentParts/toolInvocationParts/chatTerminalToolConfirmationSubPart": {
       "autoApprove.enable": "启用自动批准...",
       "ruleTooltip": "在设置中查看规则",
       "newRule": "已添加自动批准规则 {0}",
@@ -416,7 +417,7 @@
       "autoApprove.markdown": "这将允许一部分可配置的命令在终端中自主运行。它只提供*尽力而为的防护*，并假定智能体没有恶意行为。",
       "autoApprove.markdown2": "了解潜在风险以及如何规避。"
     },
-    "vs/workbench/contrib/chat/browser/chatContentParts/toolInvocationParts/chatTerminalToolProgressPart": {
+    "vs/workbench/contrib/chat/browser/widget/chatContentParts/toolInvocationParts/chatTerminalToolProgressPart": {
       "terminalToolCommand": "{0}",
       "chatTerminalOutputAriaLabel": "{0} 的终端输出",
       "chatTerminalOutputAccessibleViewHeader": "命令：{0}",
@@ -428,9 +429,10 @@
       "showTerminalOutput": "显示输出",
       "hideTerminalOutput": "隐藏输出",
       "showTerminal": "显示并聚焦终端",
-      "focusTerminal": "聚焦终端"
+      "focusTerminal": "聚焦终端",
+      "showAndFocusTerminal": "显示并聚焦终端"
     },
-    "vs/workbench/contrib/chat/browser/chatContentParts/toolInvocationParts/chatToolConfirmationSubPart": {
+    "vs/workbench/contrib/chat/browser/widget/chatContentParts/toolInvocationParts/chatToolConfirmationSubPart": {
       "allowReview": "允许并审阅",
       "allow": "允许",
       "skip.detail": "不运行此工具并继续",
@@ -439,11 +441,11 @@
       "chat.input": "输入",
       "seeMore": "查看更多"
     },
-    "vs/workbench/contrib/chat/browser/chatContentParts/toolInvocationParts/chatToolOutputPart": {
+    "vs/workbench/contrib/chat/browser/widget/chatContentParts/toolInvocationParts/chatToolOutputPart": {
       "loading": "正在渲染工具输出...",
       "chat.toolOutputError": "渲染工具输出时出错"
     },
-    "vs/workbench/contrib/chat/browser/chatContentParts/toolInvocationParts/chatToolPostExecuteConfirmationPart": {
+    "vs/workbench/contrib/chat/browser/widget/chatContentParts/toolInvocationParts/chatToolPostExecuteConfirmationPart": {
       "allow": "允许",
       "skip.post": "跳过结果",
       "approveToolResult": "批准工具结果",
@@ -456,7 +458,7 @@
       "chatContextExtPoint.icon": "与该聊天上下文项关联的图标。",
       "chatContextExtPoint.title": "该项的友好名称，用于在菜单中显示。"
     },
-    "vs/workbench/contrib/chat/browser/chatDragAndDrop": {
+    "vs/workbench/contrib/chat/browser/widget/chatDragAndDrop": {
       "file": "文件",
       "folder": "文件夹",
       "image": "图片",
@@ -495,10 +497,10 @@
       "connectingWebviewElement": "正在连接到 Webview...",
       "reopenErrorWebviewElement": "请重新打开预览。"
     },
-    "vs/workbench/contrib/chat/browser/chatEditor": {
+    "vs/workbench/contrib/chat/browser/widgetHosts/editor/chatEditor": {
       "chatEditor.loadingSession": "正在加载..."
     },
-    "vs/workbench/contrib/chat/browser/chatEditorInput": {
+    "vs/workbench/contrib/chat/browser/widgetHosts/editor/chatEditorInput": {
       "chatEditorLabelIcon": "聊天编辑器标签的图标。",
       "chatEditorConfirmTitle": "关闭聊天编辑器",
       "chat.startEditing.confirmation.pending.message.default": "关闭聊天编辑器会结束你当前的编辑会话。",
@@ -509,10 +511,10 @@
       "chat.startEditing.confirmation.acceptEdits": "保留并继续",
       "chat.startEditing.confirmation.discardEdits": "撤销并继续"
     },
-    "vs/workbench/contrib/chat/browser/chatFollowups": {
+    "vs/workbench/contrib/chat/browser/widget/input/chatFollowups": {
       "followUpAriaLabel": "追问：{0}"
     },
-    "vs/workbench/contrib/chat/browser/chatInlineAnchorWidget": {
+    "vs/workbench/contrib/chat/browser/widget/chatContentParts/chatInlineAnchorWidget": {
       "chat.inlineAnchor.ariaLabel.line": "{0} 第 {1} 行",
       "chat.inlineAnchor.ariaLabel.range": "{0} 第 {1} 到 {2} 行",
       "miGotoDefinition": "转到定义(&&D)",
@@ -526,7 +528,7 @@
       "goToImplementations.label": "转到实现",
       "goToReferences.label": "转到引用"
     },
-    "vs/workbench/contrib/chat/browser/chatInputPart": {
+    "vs/workbench/contrib/chat/browser/widget/input/chatInputPart": {
       "chatInput.model": "，{0}。 ",
       "chatInput.mode.custom": "（{0}），{1}",
       "chatInput.mode.agent": "（智能体），修改工作区中的文件。",
@@ -547,7 +549,7 @@
       "chatEditingSession.addSuggestion": "添加建议 {0}",
       "chatEditingSession.addSuggested": "添加建议"
     },
-    "vs/workbench/contrib/chat/browser/chatListRenderer": {
+    "vs/workbench/contrib/chat/browser/widget/chatListRenderer": {
       "checkpointRestore": "检查点已恢复",
       "usedAgentSlashCommand": "使用了 {0} [[(不使用它重新运行)]]",
       "usedAgent": "[[(不使用它重新运行)]]",
@@ -629,7 +631,7 @@
       "plan.included": "已包含",
       "quotaLimited": "受限"
     },
-    "vs/workbench/contrib/chat/browser/chatPasteProviders": {
+    "vs/workbench/contrib/chat/browser/widget/input/editor/chatPasteProviders": {
       "pastedImageName": "粘贴的图片",
       "pastedImageAttachment": "粘贴的图片附件",
       "pastedChatAttachments": "插入提示与附件",
@@ -638,13 +640,13 @@
       "pastedAttachment.multipleLines": "{0} 行",
       "pastedAttachment.multiple": "{0} 以及另外 {1} 项"
     },
-    "vs/workbench/contrib/chat/browser/chatQuick": {
+    "vs/workbench/contrib/chat/browser/widgetHosts/chatQuick": {
       "termsDisclaimer": "继续使用 {0} Copilot 表示你同意 {1} 的[条款]({2})和[隐私声明]({3})"
     },
-    "vs/workbench/contrib/chat/browser/chatResponseAccessibleView": {
+    "vs/workbench/contrib/chat/browser/accessibility/chatResponseAccessibleView": {
       "toolPostApprovalA11yView": "批准 {0} 的结果？结果： "
     },
-    "vs/workbench/contrib/chat/browser/chatSessions.contribution": {
+    "vs/workbench/contrib/chat/browser/chatSessions/chatSessions.contribution": {
       "chatSessionsExtPoint": "向聊天组件贡献聊天会话集成。",
       "chatSessionsExtPoint.chatSessionType": "聊天会话类型的唯一标识符。",
       "chatSessionsExtPoint.name": "动态注册的聊天参与者名称（例如 @agent）。不能包含空白字符。",
@@ -748,7 +750,7 @@
       "completionsQuotaExceededStatus": "内联建议配额已用尽",
       "chatAndCompletionsQuotaExceededStatus": "配额已用尽"
     },
-    "vs/workbench/contrib/chat/browser/chatStatusWidget": {
+    "vs/workbench/contrib/chat/browser/widget/input/chatStatusWidget": {
       "chat.anonymousRateLimited.message": "你的聊天消息已达上限。可免费试用 Copilot Pro。",
       "chat.anonymousRateLimited.signIn": "登录",
       "chat.anonymousRateLimited.signIn.ariaLabel": "{0} {1}",
@@ -767,7 +769,7 @@
       "backgroundSession": "{0} 智能体会话",
       "chatTitleWithPrefixCustom": "聊天：{0}"
     },
-    "vs/workbench/contrib/chat/browser/chatWidget": {
+    "vs/workbench/contrib/chat/browser/widget/chatWidget": {
       "chatDisclaimer": "AI 的回复可能不准确。",
       "scrollDownButtonLabel": "向下滚动",
       "settings": "继续使用 {0} Copilot 表示你同意 {1} 的[条款]({2})和[隐私声明]({3})。",
@@ -787,7 +789,7 @@
       "chatWidget.promptFile.commandLabel": "{0}",
       "chat.input.placeholder.lockedToAgent": "与 {0} 聊天"
     },
-    "vs/workbench/contrib/chat/browser/codeBlockPart": {
+    "vs/workbench/contrib/chat/browser/widget/chatContentParts/codeBlockPart": {
       "chat.codeBlockHelp": "代码块",
       "chat.codeBlockLabel": "代码块 {0}",
       "chat.codeBlockToolbarLabel": "代码块 {0}",
@@ -803,7 +805,7 @@
       "interactive.compare.apply.confirm": "原始文件已被修改。",
       "interactive.compare.apply.confirm.detail": "仍要应用这些更改吗？"
     },
-    "vs/workbench/contrib/chat/browser/contrib/chatInputCompletions": {
+    "vs/workbench/contrib/chat/browser/widget/input/editor/chatInputCompletions": {
       "installLabel": "安装聊天扩展...",
       "mcp.prompt.error": "解析提示时出错：{0}",
       "mcp.prompt.resource": "提示资源",
@@ -812,16 +814,16 @@
       "activeFile": "活动文件",
       "tool_source_completion": "{0}：{1}"
     },
-    "vs/workbench/contrib/chat/browser/contrib/chatInputEditorHover": {
+    "vs/workbench/contrib/chat/browser/widget/input/editor/chatInputEditorHover": {
       "hoverAccessibilityChatAgent": "此处有一个聊天智能体悬停部分。"
     },
-    "vs/workbench/contrib/chat/browser/contrib/chatInputRelatedFilesContrib": {
+    "vs/workbench/contrib/chat/browser/attachments/chatInputRelatedFilesContrib": {
       "relatedFile": "{0}（推荐）"
     },
-    "vs/workbench/contrib/chat/browser/contrib/screenshot": {
+    "vs/workbench/contrib/chat/browser/attachments/chatScreenshotContext": {
       "screenshot": "截图"
     },
-    "vs/workbench/contrib/chat/browser/languageModelToolsConfirmationService": {
+    "vs/workbench/contrib/chat/browser/tools/languageModelToolsConfirmationService": {
       "runWithoutApproval": "无需批准",
       "continueWithoutReviewingResults": "无需审阅结果",
       "allowSession": "在本会话中允许",
@@ -855,7 +857,7 @@
       "configureWorkspaceToolApprovals": "配置工作区级工具批准",
       "configureGlobalToolApprovals": "配置全局工具批准"
     },
-    "vs/workbench/contrib/chat/browser/languageModelToolsService": {
+    "vs/workbench/contrib/chat/browser/tools/languageModelToolsService": {
       "copilot.toolSet.vscode.description": "使用 VS Code 的功能",
       "copilot.toolSet.execute.description": "在你的机器上执行代码和应用程序",
       "copilot.toolSet.read.description": "读取工作区中的文件",
@@ -896,7 +898,7 @@
       "runPromptTitle": "推荐提示：{0}",
       "editPromptFile": "编辑提示文件"
     },
-    "vs/workbench/contrib/chat/common/chatColors": {
+    "vs/workbench/contrib/chat/common/widget/chatColors": {
       "chat.requestBorder": "聊天请求的边框颜色。",
       "chat.requestBackground": "聊天请求的背景色。",
       "chat.slashCommandBackground": "聊天斜杠命令的背景色。",
@@ -911,7 +913,7 @@
       "chat.linesAddedForeground": "聊天代码块标签中新增行的前景色。",
       "chat.linesRemovedForeground": "聊天代码块标签中删除行的前景色。"
     },
-    "vs/workbench/contrib/chat/common/chatContextKeys": {
+    "vs/workbench/contrib/chat/common/actions/chatContextKeys": {
       "interactiveSessionResponseVote": "回复被点赞时为 'up'，被点踩时为 'down'，否则为空字符串。",
       "chatSessionResponseDetectedAgentOrCommand": "智能体或命令是自动检测到的",
       "chatResponseSupportsIssueReporting": "当前聊天回复支持问题反馈时为 true。",
@@ -968,32 +970,33 @@
       "agentSessionIsArchived": "智能体会话项已归档时为 true。",
       "agentSessionIsRead": "智能体会话项已读时为 true。",
       "agentSessionIsActive": "智能体会话当前处于活动状态（不可删除）时为 true。",
-      "chatIsKatexMathElement": "焦点位于 KaTeX 数学元素上时为 true。"
+      "chatIsKatexMathElement": "焦点位于 KaTeX 数学元素上时为 true。",
+      "isCombinedAgentSessionsViewer": "在合并查看器中查看智能体会话时为 true。"
     },
-    "vs/workbench/contrib/chat/common/chatEditingService": {
+    "vs/workbench/contrib/chat/common/editing/chatEditingService": {
       "chatMultidiff.autoGenerated": "对 {0} 个文件的更改",
       "chatEditingWidgetFileState": "聊天编辑组件中文件的当前状态",
       "chatEditingAgentSupportsReadonlyReferences": "聊天编辑智能体是否支持只读引用（临时）"
     },
-    "vs/workbench/contrib/chat/common/chatModel": {
+    "vs/workbench/contrib/chat/common/model/chatModel": {
       "editsSummary": "已做出更改。",
       "copyrightContentRetry": "由于可能与公开代码匹配，回复已清除，正在用修改后的提示重试。",
       "filteredContentRetry": "由于内容安全过滤，回复已清除，正在用修改后的提示重试。",
       "codeCitation": "发现 1 种许可证类型下的相似代码",
       "codeCitations": "发现 {0} 种许可证类型下的相似代码"
     },
-    "vs/workbench/contrib/chat/common/chatProgressTypes/chatToolInvocation": {
+    "vs/workbench/contrib/chat/common/model/chatProgressTypes/chatToolInvocation": {
       "toolInvocationMessage": "正在使用 {0}"
     },
-    "vs/workbench/contrib/chat/common/chatServiceImpl": {
+    "vs/workbench/contrib/chat/common/chatService/chatServiceImpl": {
       "newChat": "新建聊天",
       "emptyResponse": "提供程序返回了空响应"
     },
-    "vs/workbench/contrib/chat/common/chatSessionStore": {
+    "vs/workbench/contrib/chat/common/model/chatSessionStore": {
       "join.chatSessionStore": "正在保存聊天历史",
       "newChat": "新建聊天"
     },
-    "vs/workbench/contrib/chat/common/chatUrlFetchingConfirmation": {
+    "vs/workbench/contrib/chat/common/tools/builtinTools/chatUrlFetchingConfirmation": {
       "delete": "删除",
       "approveRequestTo": "允许向 {0} 发起请求",
       "approveResponseFrom": "允许来自 {0} 的响应",
@@ -1011,11 +1014,11 @@
       "moreOptionsManage": "更多选项...",
       "openSettings": "打开设置"
     },
-    "vs/workbench/contrib/chat/common/chatVariableEntries": {
+    "vs/workbench/contrib/chat/common/attachments/chatVariableEntries": {
       "chat.attachment.problems.all": "所有问题",
       "chat.attachment.problems.inFile": "{0} 中的问题"
     },
-    "vs/workbench/contrib/chat/common/languageModelToolsService": {
+    "vs/workbench/contrib/chat/common/tools/languageModelToolsService": {
       "builtin": "内置",
       "user": "用户定义",
       "toolResultDataPartA11y": "{1} 二进制数据中的 {0}"
@@ -1192,6 +1195,47 @@
     "vs/workbench/contrib/terminalContrib/chatAgentTools/common/terminalChatAgentToolsConfiguration": {
       "autoReplyToPrompts.key": "是否自动响应终端中的提示，例如 `Confirm? y/n`。这是实验性功能，可能并非在所有场景下都有效。",
       "outputLocation.none": "不自动显示终端。"
+    },
+    "vs/workbench/contrib/chat/browser/widgetHosts/viewPane/chatViewPane": {
+      "showAllSessions": "显示更多",
+      "showRecentSessions": "收起",
+      "recentSessions": "最近的会话",
+      "allSessions": "会话"
+    },
+    "vs/workbench/contrib/chat/common/tools/builtinTools/tools": {
+      "toolset.custom-agent": "把任务委派给其他智能体"
+    },
+    "vs/workbench/contrib/chat/common/widget/input/modelPickerWidget": {
+      "chat.modelPicker.other": "其他模型"
+    },
+    "vs/workbench/contrib/chat/browser/attachments/simpleBrowserEditorOverlay": {
+      "elementSelectionMessage": "将元素添加到聊天",
+      "selectElementDropdown": "选择一个元素",
+      "continuousSelectionDropdown": "连续选择",
+      "elementSelectionInProgress": "正在选择元素...",
+      "finishSelectionLabel": "完成",
+      "elementSelectionComplete": "元素已添加到聊天",
+      "selectAnElement": "点击以选择一个元素。",
+      "startSelection": "开始",
+      "cancelSelection": "点击以取消选择。",
+      "cancelSelectionLabel": "取消",
+      "chat.configureElements": "配置发送的附件",
+      "chat.hideOverlay": "折叠浮层",
+      "chat.nextSelection": "再次选择",
+      "chat.expandOverlay": "展开浮层",
+      "elementCancelMessage": "已取消选择",
+      "connectingWebviewElement": "正在连接到 Webview...",
+      "reopenErrorWebviewElement": "请重新打开预览。"
+    },
+    "vs/workbench/contrib/chat/browser/widget/input/modelPickerActionItem": {
+      "chat.modelPicker.auto": "自动",
+      "chat.manageModels": "管理模型...",
+      "chat.manageModels.tooltip": "管理语言模型",
+      "chat.moreModels": "添加语言模型",
+      "chat.morePremiumModels": "添加高级模型",
+      "chat.moreModels.tooltip": "添加语言模型",
+      "chat.morePremiumModels.tooltip": "添加高级模型",
+      "chat.modelPicker.label": "选择模型"
     }
   }
 }

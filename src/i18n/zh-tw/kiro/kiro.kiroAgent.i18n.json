@@ -158,7 +158,21 @@
       // Connect external tools and data sources \n\n[Enable MCP](command:kiroAgent.mcp.enable)
       "KiroAgent.treeview.welcome.mcp.disabled": "連線外部工具與資料來源 \n\n[啟用 MCP](command:kiroAgent.mcp.enable)",
       // MCP usage has been disabled by your organization
-      "KiroAgent.treeview.welcome.mcp.disabledByAdmin": "你所屬的組織已停用 MCP 功能"
+      "KiroAgent.treeview.welcome.mcp.disabledByAdmin": "你所屬的組織已停用 MCP 功能",
+      // Ask Kiro
+      "KiroAgent.command.editorActions.askKiro": "詢問 Kiro",
+      // Fix Grammar / Spelling
+      "KiroAgent.command.editorActions.fixGrammar": "修正語法 / 拼寫",
+      // Write Comments for this Code
+      "KiroAgent.command.editorActions.writeComments": "為這段程式碼寫註釋",
+      // Write a Docstring for this Code
+      "KiroAgent.command.editorActions.writeDocstring": "為這段程式碼寫文件字串",
+      // Fix this Code
+      "KiroAgent.command.editorActions.fixCode": "修復這段程式碼",
+      // Optimize this Code
+      "KiroAgent.command.editorActions.optimizeCode": "最佳化這段程式碼",
+      // Ask Kiro to Fix
+      "KiroAgent.command.editorActions.fixDiagnostic": "讓 Kiro 修復"
     },
     "bundle": {}
   }
