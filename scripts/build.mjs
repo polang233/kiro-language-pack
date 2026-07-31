@@ -412,15 +412,18 @@ function writeRuntime(outDir, manifest, localeList) {
         enum: ['auto', ...localeList.map((l) => l.id), 'en'],
         enumDescriptions: [
           'Follow the editor. The display language stays whatever argv.json says; this extension only offers to change it once.',
-          ...localeList.map((l) => `${l.localizedLanguageName} (${l.languageName})`),
-          'English, the language Kiro ships in.'
+          ...localeList.map((l) => `${l.localizedLanguageName} (${l.languageName}) — workbench and Kiro UI. Pack stays installed.`),
+          'English (built-in). Workbench and Kiro UI all return to English. The pack stays installed — switch back anytime without reinstalling.'
         ],
         default: 'auto',
         markdownDescription:
-          'Display language for the Kiro interface.\n\n' +
-          'Changing this writes the `locale` field of `argv.json` - the same file the built-in ' +
-          '**Configure Display Language** command edits - and offers to restart. Nothing else in ' +
-          'that file is touched.',
+          'Display language for the Kiro interface (editor chrome **and** Kiro panels such as the session list and Settings).\n\n' +
+          'Changing this writes only the `locale` field of `argv.json` and offers to restart. ' +
+          'It does **not** uninstall the extension — translations stay on disk, so you can switch ' +
+          'Chinese ↔ English repeatedly without reinstalling.\n\n' +
+          'To remove the pack entirely: uninstall the extension, then set this to `en` (or delete ' +
+          '`locale` in `argv.json`) and restart. If you used the optional install patch, also run ' +
+          '`npm run patch -- --restore`.',
         scope: 'application'
       }
     }
@@ -451,12 +454,28 @@ function writePackFiles(outDir, localeIds) {
   candidates.push(p('src', 'marketplace', 'README.md'));
   const readmeSource = candidates.find((f) => fs.existsSync(f));
   if (readmeSource) {
-    fs.copyFileSync(readmeSource, path.join(outDir, 'README.md'));
+    let readme = fs.readFileSync(readmeSource, 'utf8');
+    // Marketplace README may use ../../media/... for GitHub; inside the .vsix the file
+    // sits next to media/, so normalize the path for the packaged page.
+    readme = readme.replace(/\]\(\.\.\/\.\.\/media\//g, '](media/');
+    readme = readme.replace(/src="\.\.\/\.\.\/media\//g, 'src="media/');
+    fs.writeFileSync(path.join(outDir, 'README.md'), readme);
   } else {
     log.warn('no marketplace README found under src/marketplace/ - the extension page will be empty.');
   }
   for (const file of ['LICENSE', 'NOTICE', 'CHANGELOG.md']) {
     if (fs.existsSync(p(file))) fs.copyFileSync(p(file), path.join(outDir, file));
+  }
+
+  // Extension marketplace icon (config.icon is relative to the packaged root).
+  if (config.icon) {
+    const iconSrc = p(config.icon);
+    if (!fs.existsSync(iconSrc)) {
+      fail(`config.icon points to a missing file: ${config.icon}`);
+    }
+    const iconDest = path.join(outDir, config.icon);
+    fs.mkdirSync(path.dirname(iconDest), { recursive: true });
+    fs.copyFileSync(iconSrc, iconDest);
   }
 
   // Everything in this directory is generated and meant to ship; the file only
@@ -498,8 +517,8 @@ for (const [modeId, mode] of modes) {
     const languageList = group.localeList.map((l) => l.localizedLanguageName).join(' · ');
 
     const displayName = single
-      ? `${single.displayName ?? `${single.languageName} (${single.localizedLanguageName}) Language Pack for Kiro`}${mode.displayNameSuffix ?? ''}`
-      : `${config.pack?.displayName ?? 'Language Pack for Kiro'}${mode.displayNameSuffix ?? ''}`;
+      ? `${single.displayName ?? `Kiro ${single.languageName} (${single.localizedLanguageName}) Language Pack`}${mode.displayNameSuffix ?? ''}`
+      : `${config.pack?.displayName ?? 'Kiro Language Pack'}${mode.displayNameSuffix ?? ''}`;
 
     const description = single && mode.kiroOnly && single.description
       ? single.description

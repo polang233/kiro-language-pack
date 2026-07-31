@@ -48,10 +48,10 @@
     "Refresh Remote Tools": "刷新远程工具",
     "Delete Account": "删除账户",
     "Create Debug Log Zip": "创建调试日志压缩包",
-    "Delete Steering": "删除引导文档",
+    "Delete Steering": "删除指引文档",
     "Delete Hook": "删除钩子",
     "Delete Skill": "删除技能",
-    "Refine": "优化",
+    "Refine": "完善",
     "Previous document": "上一个文档",
     "Next document": "下一个文档",
     "Delete Spec": "删除规格",
@@ -81,7 +81,7 @@
     "Focus Migration Logs": "聚焦迁移日志",
     "Show Architectural Overview": "显示架构总览",
     "Chat": "聊天",
-    "Powers": "能力包",
+    "Powers": "能力",
     "ACP Debug": "ACP 调试",
     "Specs": "规格",
     "Safety Properties": "安全属性",
@@ -89,15 +89,15 @@
     "Open a project to start working with Kiro\n[Open Project](command:workbench.action.files.openFolder)": "打开一个项目即可开始使用 Kiro\n[打开项目](command:workbench.action.files.openFolder)",
     "Open a project to start working with Kiro\n[Open Project](command:workbench.action.files.openFolderViaWorkspace)": "打开一个项目即可开始使用 Kiro\n[打开项目](command:workbench.action.files.openFolderViaWorkspace)",
     "Create a project plan to develop complex features and services\n\n[$(add) Create New Spec](command:kiro.spec.explorerCreateSpec)": "创建项目计划，用于开发复杂的功能与服务\n\n[$(add) 新建规格](command:kiro.spec.explorerCreateSpec)",
-    "Guide agent behavior and responses \n [Generate Steering Docs](command:kiro.steering.createInitialSteering)": "规范智能体的行为与回复 \n [生成引导文档](command:kiro.steering.createInitialSteering)",
+    "Guide agent behavior and responses \n [Generate Steering Docs](command:kiro.steering.createInitialSteering)": "指引智能体的行为与回复 \n [生成指引文档](command:kiro.steering.createInitialSteering)",
     "Automate tasks like documentation, code cleanup, or language localization\n\n[$(add) Create New Hook](command:kiroAgent.hooks.createNew)": "自动化文档编写、代码清理、界面本地化等任务\n\n[$(add) 新建钩子](command:kiroAgent.hooks.createNew)"
   },
 
   "extension": {
-    "Structured feature development": "结构化的功能开发流程",
+    "Structured feature development": "按步骤做功能",
     "Plan-only mode that helps break ideas down into an implementation plan without making any changes": "只做规划的模式：把想法拆解成实施计划，不做任何修改",
-    "Structured bug-fix workflow: investigate, diagnose, and resolve bugs": "结构化的缺陷修复流程：排查、定位、修复",
-    "Fast spec workflow: clarify, then auto-generate requirements, design, and tasks": "快速规格流程：先澄清，再自动生成需求、设计与任务"
+    "Structured bug-fix workflow: investigate, diagnose, and resolve bugs": "按步骤修 Bug：排查、定位、修复",
+    "Fast spec workflow: clarify, then auto-generate requirements, design, and tasks": "快速 Spec 流程：先澄清，再自动生成需求、设计与任务"
   },
 
   "webview": {
@@ -106,8 +106,8 @@
     "Plan, search, or build anything": "规划、搜索，或构建任何东西",
     "I manage your workspaces, worktrees, and sessions. Try something like:": "我负责管理你的工作区、工作树和会话。可以试试：",
     "Start with a workflow": "选择一个工作流",
-    "Autopilot ON: Kiro will make changes on your behalf.": "自动驾驶模式已开启：Kiro 会直接代你修改。",
-    "Autopilot OFF: Kiro will ask for approval for making changes.": "自动驾驶模式已关闭：Kiro 修改前会先征求你的同意。",
+    "Autopilot ON: Kiro will make changes on your behalf.": "自动模式已开：Kiro 会直接代你修改。",
+    "Autopilot OFF: Kiro will ask for approval for making changes.": "自动模式已关：Kiro 修改前会先征求你的同意。",
     "View changes (": "查看更改 (",
     "Revert changes (": "撤销更改 (",
     "Reverting...": "正在撤销...",

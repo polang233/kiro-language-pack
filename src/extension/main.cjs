@@ -5,11 +5,15 @@
  *   1. Picking a language. Kiro inherits Code OSS's "Configure Display Language"
  *      command, which most people never find, and the host only offers to switch
  *      automatically when the pack matches the OS locale. This adds a setting and a
- *      command that write `locale` into argv.json for you.
+ *      command that write `locale` into argv.json for you. Switching to English (or
+ *      back to a bundled language) only changes which translations the host loads —
+ *      the pack stays installed; no reinstall is needed to switch again.
  *   2. Warning about a conflicting pack. This pack claims the `vscode` translation id.
  *      So does an official VS Code language pack. `languagepacks.json` maps one id to
  *      one file, assigned by whichever extension is scanned last, so having both
  *      installed produces a partly translated UI that can change between restarts.
+ *      Uninstall does not auto-clear argv.json; set locale to `en` (or delete the
+ *      field) when fully removing the pack.
  *
  * Exactly what it touches, and nothing else:
  *   - reads  <appRoot>/product.json       to learn the user data folder name
@@ -116,7 +120,10 @@ async function offerRestart(label) {
   const restartCommand = ['kiro.agentFocus.fullRestart', 'workbench.action.restart']
     .find((c) => commands.includes(c));
 
-  const message = t('Display language set to {0}. Kiro needs to restart to apply it.', label);
+  const message = t(
+    'Display language set to {0}. Restart Kiro to apply it. The language pack stays installed; switch again anytime without reinstalling.',
+    label
+  );
   if (!restartCommand) {
     await vscode.window.showInformationMessage(t('{0} Quit and start Kiro again.', message));
     return;
@@ -124,6 +131,11 @@ async function offerRestart(label) {
   const restartNow = t('Restart now');
   const choice = await vscode.window.showInformationMessage(message, restartNow, t('Later'));
   if (choice === restartNow) await vscode.commands.executeCommand(restartCommand);
+}
+
+function localeLabel(id, locales) {
+  if (id === 'en') return 'English';
+  return locales.find((l) => l.id === id)?.label ?? id;
 }
 
 async function applyLocale(locale, label) {
@@ -146,23 +158,26 @@ async function applyLocale(locale, label) {
 
 async function selectLanguage(context) {
   const current = readArgvLocale();
+  const locales = declaredLocales(context);
   const mark = (id) => (id === current || (id === 'en' && current === null) ? t('current') : null);
   const items = [
-    ...declaredLocales(context).map((l) => ({
+    ...locales.map((l) => ({
       label: l.label,
       description: [l.id, mark(l.id)].filter(Boolean).join('  •  '),
+      detail: t('Applies workbench and Kiro UI. The pack stays installed — switch languages anytime without reinstalling.'),
       locale: l.id
     })),
     {
       label: 'English',
       description: ['en', mark('en')].filter(Boolean).join('  •  '),
+      detail: t('Built-in English. Menus, Settings, session list and other Kiro panels all return to English. The pack stays installed — pick a language again later, no reinstall.'),
       locale: 'en'
     }
   ];
 
   const picked = await vscode.window.showQuickPick(items, {
     title: t('Kiro Language Pack'),
-    placeHolder: t('Select the display language. Kiro restarts to apply it.')
+    placeHolder: t('Switch language only — does not uninstall the pack. Restart required.')
   });
   if (!picked) return;
 
@@ -221,8 +236,7 @@ async function maybeOfferLanguage(context) {
 
   if (configured !== AUTO) {
     if (readArgvLocale() !== configured) {
-      const target = locales.find((l) => l.id === configured) ?? { id: configured, label: configured };
-      await applyLocale(target.id, target.label);
+      await applyLocale(configured, localeLabel(configured, locales));
     }
     return;
   }
@@ -255,9 +269,7 @@ function activate(context) {
       const configured = vscode.workspace.getConfiguration(SECTION).get('language', AUTO);
       if (configured === AUTO) return;
       if (readArgvLocale() === configured) return;
-      const target = declaredLocales(context).find((l) => l.id === configured)
-        ?? { id: configured, label: configured };
-      await applyLocale(target.id, target.label);
+      await applyLocale(configured, localeLabel(configured, declaredLocales(context)));
     })
   );
 

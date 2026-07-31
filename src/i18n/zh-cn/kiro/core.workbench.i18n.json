@@ -129,7 +129,7 @@
       "mPreferences": "首选项"
     },
     "vs/workbench/browser/parts/titlebar/windowTitle": {
-      "agentFocusWindowTitle": "智能体聚焦模式"
+      "agentFocusWindowTitle": "聚焦智能体"
     },
     "vs/workbench/browser/web.main": {
       "reset user data message": "要重置你的数据（设置、按键绑定、扩展、代码片段和界面状态）并重新加载吗？",
@@ -150,16 +150,16 @@
       "zenMode.silentNotifications": "控制禅模式下是否启用通知免打扰。若为 true，则只有错误通知会弹出。"
     },
     "vs/workbench/common/contextkeys": {
-      "isStandaloneWindow": "该窗口是否为智能体聚焦模式的独立窗口"
+      "isStandaloneWindow": "该窗口是否为聚焦智能体的独立窗口"
     },
     "vs/workbench/common/theme": {
       "panelActiveTitleBackground": "活动面板的标题颜色。面板显示在编辑器区域下方，包含输出和集成终端等视图。"
     },
     "vs/workbench/contrib/codeEditor/browser/emptyTextEditorHint/emptyTextEditorHint": {
       "emptySpecRequirementsHintDesignFirst": "基于设计生成需求。",
-      "emptySpecRequirementsHint": "描述你想构建什么，然后点击 \"优化\" 生成需求。",
-      "emptySpecBugfixHint": "描述你想修复的缺陷，然后点击 \"优化\" 生成缺陷修复方案。",
-      "emptySpecDesignHintDesignFirst": "描述你的设计，然后点击 \"优化\" 生成设计文档。",
+      "emptySpecRequirementsHint": "描述你想构建什么，然后点击「完善」生成需求。",
+      "emptySpecBugfixHint": "描述你想修的 Bug，然后点击「完善」生成修复方案。",
+      "emptySpecDesignHintDesignFirst": "描述你的设计，然后点击「完善」生成设计文档。",
       "emptySpecDesignHint": "基于需求生成设计。",
       "emptySpecTasksHint": "基于需求和设计生成任务列表。"
     },
@@ -327,7 +327,7 @@
       "menus.editorInlineDiffActions": "编辑器内联差异操作",
       "spec.toolbar": "贡献的规格工具栏菜单",
       "interactive.execute.toolbar": "贡献的规格执行工具栏菜单",
-      "menus.steeringToolBarMenus": "引导文档中的操作工具栏",
+      "menus.steeringToolBarMenus": "指引文档中的操作工具栏",
       "menus.specEditorToolBarMenus": "规格编辑器中的操作工具栏",
       "menus.specEditorNavBarMenus": "规格编辑器中的导航工具栏",
       "menus.mcpConfigToolbarMenus": "MCP 配置编辑器中的工具栏"

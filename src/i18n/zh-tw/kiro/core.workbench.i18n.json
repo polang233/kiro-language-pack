@@ -1,0 +1,383 @@
+// Remaining core strings the upstream baseline does not cover - mostly keys that are
+// newer than the vscode-loc snapshot, plus a few Kiro touched up in place (telemetry
+// descriptions, update URLs, the menu contribution points for the spec toolbar).
+//
+// Rules: keep {0} placeholders, $(codicon) markers, (command:...) links and && menu
+// mnemonics exactly as they are.
+{
+  "version": "1.0.0",
+  "contents": {
+    "vs/editor/contrib/hover/browser/markdownHoverParticipant": {
+      "increaseVerbosityWithKb": "增加懸停資訊詳細度（{0}）",
+      "decreaseVerbosityWithKb": "減少懸停資訊詳細度（{0}）"
+    },
+    "vs/editor/contrib/inlineCompletions/browser/hintsWidget/inlineCompletionsHintsWidget": {
+      "content": "{0}（{1}）"
+    },
+    "vs/editor/contrib/inlineCompletions/browser/view/inlineEdits/components/gutterIndicatorMenu": {
+      "goto": "轉到",
+      "accept": "接受"
+    },
+    "vs/editor/contrib/quickAccess/browser/gotoLineQuickAccess": {
+      "gotoLineToggle": "使用從零開始的偏移量"
+    },
+    "vs/platform/actions/browser/buttonbar": {
+      "labelWithKeybinding": "{0}（{1}）"
+    },
+    "vs/platform/actions/browser/dropdownActionViewItemWithKeybinding": {
+      "titleAndKb": "{0}（{1}）"
+    },
+    "vs/platform/actions/browser/menuEntryActionViewItem": {
+      "titleAndKb": "{0}（{1}）"
+    },
+    "vs/platform/contextkey/common/contextkeys": {
+      "upstreamProductQualityType": "用於功能開關的上游質量型別"
+    },
+    "vs/platform/dialogs/browser/dialog": {
+      "aboutDetail": "版本：{0}\nVSCode 版本：{1}\n提交：{2}\n日期：{3}\n瀏覽器：{4}"
+    },
+    "vs/platform/extensionManagement/common/abstractExtensionManagementService": {
+      "incompatibleAPI": "無法安裝 '{0}' 擴充套件。{1}"
+    },
+    "vs/platform/extensions/common/extensionValidator": {
+      "apiProposalMismatch1": "此擴充套件使用的 API 提案 '{0}' 與當前版本的 Kiro 不相容。",
+      "apiProposalMismatch2": "此擴充套件使用的 API 提案 {0} 和 '{1}' 與當前版本的 Kiro 不相容。"
+    },
+    "vs/platform/externalTerminal/node/externalTerminalService": {
+      "mac.terminal.script.failed": "指令碼 '{0}' 失敗，退出碼 {1}",
+      "linux.term.failed": "'{0}' 失敗，退出碼 {1}"
+    },
+    "vs/platform/files/browser/indexedDBFileSystemProvider": {
+      "fileNotExists": "檔案不存在",
+      "fileIsDirectory": "檔案是目錄",
+      "fileNotDirectory": "檔案不是目錄",
+      "dirIsNotEmpty": "目錄非空",
+      "fileExceedsStorageQuota": "檔案超出可用儲存配額",
+      "internal": "IndexedDB 檔案系統提供程式發生內部錯誤。（{0}）"
+    },
+    "vs/platform/telemetry/common/telemetryService": {
+      "telemetry.usageAnalytics.description": "允許 Kiro 向你所屬組織的 AWS 賬戶傳送使用資料和效能指標，以瞭解各功能的使用情況以及 Kiro 的執行表現。詳見我們的[文件](https://kiro.dev/docs/privacy-and-security/data-protection/#service-improvement)。",
+      "telemetry.usageAnalytics.policyDescription": "控制是否傳送使用情況分析資料。",
+      "telemetry.contentCollection.description": "允許 Kiro 向 AWS 傳送內容以改進服務。\n\n這些內容有助於我們為常見問題提供更好的回答、修復 Kiro 的執行問題並改進服務。詳見我們的[文件](https://kiro.dev/docs/privacy-and-security/data-protection/#service-improvement)和[服務條款](https://aws.amazon.com/service-terms/)。",
+      "telemetry.contentCollection.policyDescription": "控制是否為改進服務啟用內容收集。",
+      "dataSharingAndPromptLogging.promptLogging": "允許 Kiro 將提示日誌及部分後設資料傳送到你所屬組織的 AWS 賬戶，用於審計、除錯、分析和合規。詳見我們的[文件](https://kiro.dev/docs/privacy-and-security/data-protection/#service-improvement)。",
+      "telemetry.feedback.enabled.description": "啟用反饋和缺陷報告工具。",
+      "telemetry.feedback.enabled.policy": "啟用反饋機制，例如問題報告工具、調查問卷和其他反饋選項。"
+    },
+    "vs/platform/theme/common/colors/baseColors": {
+      "accent": "整體強調色。用於前景強調的主品牌色。"
+    },
+    "vs/platform/theme/common/colors/buttonColors": {
+      "alertButtonForeground": "警示按鈕的前景色。",
+      "alertButtonBackground": "警示按鈕的背景色。",
+      "alertButtonHoverForeground": "懸停時警示按鈕的前景色。",
+      "alertButtonHoverBackground": "懸停時警示按鈕的背景色。",
+      "alertButtonSecondaryForeground": "警示按鈕的次要前景色。",
+      "alertButtonSecondaryBackground": "警示按鈕的次要背景色。",
+      "alertButtonSecondaryHoverForeground": "懸停時警示按鈕的次要前景色。",
+      "alertButtonSecondaryHoverBackground": "懸停時警示按鈕的次要背景色。"
+    },
+    "vs/platform/theme/common/colors/editorColors": {
+      "inlineDiffToolbarHotkeyForeground": "內聯差異工具欄中快捷鍵項的前景色。",
+      "inlineDiffToolbarHotkeyBackground": "內聯差異工具欄中快捷鍵項的背景色。"
+    },
+    "vs/platform/theme/common/colors/inputColors": {
+      "keybindingLabelShadow": "按鍵繫結標籤的內陰影。按鍵繫結標籤用於表示鍵盤快捷鍵。"
+    },
+    "vs/platform/theme/common/colors/quickpickColors": {
+      "quickInput.overlayBackground": "獲得焦點項的快速選擇器背景色。"
+    },
+    "vs/platform/update/common/update.config.contribution": {
+      "updateMode.policy": "配置是否接收自動更新。修改後需要重啟。更新從 Microsoft 線上服務獲取。",
+      "updateUrl": "配置 Kiro 檢查並下載應用更新所用的 URL。修改後需要重啟。",
+      "updateUrl.policy": "配置 Kiro 檢查並下載應用更新所用的 URL。設定後將覆蓋內建的更新服務 URL。修改後需要重啟。",
+      "updateChannel": "配置是否接收自動更新。修改後需要重啟。"
+    },
+    "vs/workbench/api/browser/viewsExtensionPoint": {
+      "views.agentSessions": "向活動欄中的“智慧體會話”容器貢獻檢視。要向此容器貢獻，必須啟用 'chatSessionsProvider' API 提案。"
+    },
+    "vs/workbench/api/common/extHostTreeViews": {
+      "treeView.duplicateElement": "id 為 {0} 的元素已註冊"
+    },
+    "vs/workbench/browser/actions/layoutActions": {
+      "toggleAgenticChatIcon": "在左右位置關閉智慧體聊天的切換圖示。",
+      "miToggleZenMode": "禪模式",
+      "toggleZenMode": "切換禪模式"
+    },
+    "vs/workbench/browser/actions/windowActions": {
+      "restartApp": "重啟"
+    },
+    "vs/workbench/browser/parts/auxiliarybar/auxiliaryBarActions": {
+      "toggleAgenticChatIcon": "在左右位置關閉智慧體聊天的切換圖示。",
+      "toggleAgenticChatIconOn": "在左右位置開啟智慧體聊天的切換圖示。",
+      "restoreAuxiliaryBarTooltip": "恢復輔助側邊欄大小",
+      "openAuxiliaryBar": "開啟輔助側邊欄"
+    },
+    "vs/workbench/browser/parts/globalCompositeBar": {
+      "accountsSignedInBadgeIcon": "登入成功狀態的圖示",
+      "signedIn": "已通過 {0} 登入",
+      "notSignedIn": "未登入"
+    },
+    "vs/workbench/browser/parts/titlebar/menubarControl": {
+      "mFile": "檔案(&&F)",
+      "mEdit": "編輯(&&E)",
+      "mSelection": "選擇(&&S)",
+      "mView": "檢視(&&V)",
+      "mGoto": "轉到(&&G)",
+      "mTerminal": "終端(&&T)",
+      "mHelp": "幫助(&&H)",
+      "mPreferences": "首選項"
+    },
+    "vs/workbench/browser/parts/titlebar/windowTitle": {
+      "agentFocusWindowTitle": "聚焦智慧體"
+    },
+    "vs/workbench/browser/web.main": {
+      "reset user data message": "要重置你的資料（設定、按鍵繫結、擴充套件、程式碼片段和介面狀態）並重新載入嗎？",
+      "reset": "重置使用者資料"
+    },
+    "vs/workbench/browser/workbench.contribution": {
+      "zenModeConfigurationTitle": "禪模式",
+      "zenMode.fullScreen": "控制開啟禪模式時是否同時把工作臺切換到全屏模式。",
+      "zenMode.centerLayout": "控制開啟禪模式時是否同時居中佈局。",
+      "zenMode.showTabs": "控制開啟禪模式時是顯示多個編輯器選項卡、單個編輯器選項卡，還是完全隱藏編輯器標題區域。",
+      "zenMode.showTabs.multiple": "每個編輯器在編輯器標題區域中顯示為一個選項卡。",
+      "zenMode.showTabs.single": "活動編輯器在編輯器標題區域中顯示為一個大選項卡。",
+      "zenMode.showTabs.none": "不顯示編輯器標題區域。",
+      "zenMode.hideStatusBar": "控制開啟禪模式時是否同時隱藏工作臺底部的狀態列。",
+      "zenMode.hideActivityBar": "控制開啟禪模式時是否同時隱藏工作臺左側或右側的活動欄。",
+      "zenMode.hideLineNumbers": "控制開啟禪模式時是否同時隱藏編輯器行號。",
+      "zenMode.restore": "控制視窗在禪模式下退出後，重新開啟時是否恢復禪模式。",
+      "zenMode.silentNotifications": "控制禪模式下是否啟用通知免打擾。若為 true，則只有錯誤通知會彈出。"
+    },
+    "vs/workbench/common/contextkeys": {
+      "isStandaloneWindow": "該視窗是否為聚焦智慧體的獨立視窗"
+    },
+    "vs/workbench/common/theme": {
+      "panelActiveTitleBackground": "活動面板的標題顏色。面板顯示在編輯器區域下方，包含輸出和整合終端等檢視。"
+    },
+    "vs/workbench/contrib/codeEditor/browser/emptyTextEditorHint/emptyTextEditorHint": {
+      "emptySpecRequirementsHintDesignFirst": "基於設計生成需求。",
+      "emptySpecRequirementsHint": "描述你想構建什麼，然後點選「完善」生成需求。",
+      "emptySpecBugfixHint": "描述你想修的 Bug，然後點選「完善」生成修復方案。",
+      "emptySpecDesignHintDesignFirst": "描述你的設計，然後點選「完善」生成設計文件。",
+      "emptySpecDesignHint": "基於需求生成設計。",
+      "emptySpecTasksHint": "基於需求和設計生成任務列表。"
+    },
+    "vs/workbench/contrib/codeEditor/browser/toggleRenderWhitespace": {
+      "miToggleRenderWhitespace": "呈現空格符(&&R)"
+    },
+    "vs/workbench/contrib/debug/browser/replAccessibilityHelp": {
+      "repl.help": "除錯控制台是一個讀取-求值-輸出迴圈，可用於求值表示式和執行命令，可通過 {0} 聚焦。",
+      "repl.output": "可在輸入框中使用“聚焦上一個小元件”命令 {0} 導航到除錯控制台輸出。",
+      "repl.input": "可從輸出使用“聚焦下一個小元件”命令 {0} 導航到除錯控制台輸入。",
+      "repl.history": "可使用上下方向鍵瀏覽除錯控制台的輸出歷史。",
+      "repl.accessibleView": "“開啟無障礙檢視”命令 {0} 允許逐字元瀏覽控制台輸出。",
+      "repl.showRunAndDebug": "“顯示執行和除錯檢視”命令 {0} 會開啟執行和除錯檢視，並提供更多除錯資訊。",
+      "repl.clear": "“除錯：清空控制台”命令 {0} 會清空控制台輸出。",
+      "repl.lazyVariables": "設定 `debug.expandLazyVariables` 控制是否自動求值變數。使用螢幕閱讀器時預設啟用。"
+    },
+    "vs/workbench/contrib/extensions/browser/extensions.contribution": {
+      "all": "所有擴充套件",
+      "enabled": "僅已啟用的擴充套件",
+      "none": "無",
+      "extensions.autoUpdate.true": "為所有擴充套件自動下載並安裝更新。",
+      "extensions.autoUpdate.enabled": "僅為已啟用的擴充套件自動下載並安裝更新。",
+      "extensions.autoUpdate.false": "擴充套件不會自動更新。",
+      "workbench.extensions.installExtension.option.context": "安裝的上下文。這是一個 JSON 物件，可用於向安裝處理程序傳遞任意資訊。例如 `{skipWalkthrough: true}` 會在安裝後跳過開啟演練。"
+    },
+    "vs/workbench/contrib/extensions/browser/extensions.web.contribution": {
+      "runtimeExtension": "正在執行的擴充套件"
+    },
+    "vs/workbench/contrib/extensions/browser/extensionsActions": {
+      "install incompatible extension": "安裝不相容的擴充套件"
+    },
+    "vs/workbench/contrib/extensions/browser/extensionsViewlet": {
+      "dismiss": "忽略"
+    },
+    "vs/workbench/contrib/extensions/browser/extensionsViews": {
+      "showingExtensionsForFeature": "過去 30 天內使用 {0} 的擴充套件"
+    },
+    "vs/workbench/contrib/extensions/common/installExtensionsTool": {
+      "installExtensionsTool.displayName": "安裝擴充套件",
+      "installExtensionsTool.userDescription": "用於安裝擴充套件的工具",
+      "installExtensionsTool.confirmationTitle": "安裝擴充套件",
+      "installExtensionsTool.confirmationMessage": "檢視推薦的擴充套件，對每個想新增的擴充套件點選 **安裝** 按鈕。裝完所選擴充套件後，點選 **繼續** 以繼續。",
+      "installExtensionsTool.resultMessage": "已安裝以下擴充套件：{0}",
+      "installExtensionsTool.noResultMessage": "未安裝任何擴充套件。"
+    },
+    "vs/workbench/contrib/issue/browser/issue.contribution": {
+      "statusUnsupported": "瀏覽器中尚不支援 --status 引數。"
+    },
+    "vs/workbench/contrib/issue/browser/issueReporterPage": {
+      "previousVersions": "可以從 {0} 獲取 Kiro 的歷史版本。",
+      "downloadsPage": "下載頁面"
+    },
+    "vs/workbench/contrib/preferences/browser/keybindingsEditor": {
+      "foundResults": "{0} 個結果",
+      "editKeybindingLabelWithKey": "更改按鍵繫結 {0}",
+      "addKeybindingLabelWithKey": "新增按鍵繫結 {0}"
+    },
+    "vs/workbench/contrib/preferences/browser/keyboardLayoutPicker": {
+      "status.workbench.keyboardLayout": "鍵盤佈局",
+      "keyboardLayout": "佈局：{0}",
+      "displayLanguage": "定義瀏覽器環境中 VS Code 使用的鍵盤佈局。",
+      "doc": "開啟 VS Code，從命令面板執行 \"Developer: Inspect Key Mappings (JSON)\"。",
+      "layoutPicks": "鍵盤佈局（{0}）",
+      "configureKeyboardLayout": "配置鍵盤佈局",
+      "autoDetect": "自動檢測",
+      "pickKeyboardLayout": "選擇鍵盤佈局",
+      "fail.createSettings": "無法建立 '{0}'（{1}）。",
+      "keyboard.chooseLayout": "更改鍵盤佈局"
+    },
+    "vs/workbench/contrib/preferences/browser/settingsLayout": {
+      "kiroAgent": "Kiro",
+      "notifications": "通知"
+    },
+    "vs/workbench/contrib/processExplorer/browser/processExplorer.web.contribution": {
+      "processExplorer": "程序資源管理器"
+    },
+    "vs/workbench/contrib/remote/browser/remoteIndicator": {
+      "noRemoteDestinations": "沒有可用的遠端目標。請安裝 SSH 擴充套件以列出選項。"
+    },
+    "vs/workbench/contrib/remote/browser/remoteStartEntry": {
+      "remote.category": "遠端",
+      "remote.showWebStartEntryActions": "顯示 Web 版的遠端啟動入口"
+    },
+    "vs/workbench/contrib/scm/browser/scm.contribution": {
+      "quickDiffDecoration": "差異修飾"
+    },
+    "vs/workbench/contrib/scm/browser/scmViewPane": {
+      "scmInputMoreActions": "更多操作...",
+      "scmInputCancelAction": "取消",
+      "scmInput.accessibilityHelp": "{0}，使用 {1} 開啟原始碼管理輔助功能幫助。",
+      "scmInput.accessibilityHelpNoKb": "{0}，執行“開啟輔助功能幫助”命令瞭解更多資訊。",
+      "label.close": "關閉"
+    },
+    "vs/workbench/contrib/search/browser/search.contribution": {
+      "anythingQuickAccessPlaceholder": "按名稱搜尋檔案（追加 {0} 轉到行，追加 {1} 轉到符號）",
+      "anythingQuickAccess": "轉到檔案",
+      "symbolsQuickAccessPlaceholder": "鍵入要開啟的符號名稱。",
+      "symbolsQuickAccess": "在工作區中轉到符號",
+      "searchConfigurationTitle": "搜尋",
+      "search.searchOnType": "在你鍵入時搜尋所有檔案。",
+      "search.searchOnTypeDebouncePeriod": "啟用 {0} 時，控制從鍵入字元到開始搜尋之間的延遲（毫秒）。{0} 停用時無效。",
+      "search.searchEditor.doubleClickBehaviour.selectWord": "雙擊選中游標處的詞。",
+      "search.searchEditor.doubleClickBehaviour.goToLocation": "雙擊在活動編輯器組中開啟結果。",
+      "search.searchEditor.doubleClickBehaviour.openLocationToSide": "雙擊在側邊的編輯器組中開啟結果，若不存在則新建一個。",
+      "search.searchEditor.doubleClickBehaviour": "配置在搜尋編輯器中雙擊結果的效果。",
+      "search.searchEditor.singleClickBehaviour.default": "單擊不執行任何操作。",
+      "search.searchEditor.singleClickBehaviour.peekDefinition": "單擊開啟“速覽定義”視窗。",
+      "search.searchEditor.singleClickBehaviour": "配置在搜尋編輯器中單擊結果的效果。",
+      "search.searchEditor.reusePriorSearchConfiguration": "啟用後，新的搜尋編輯器將複用上一個搜尋編輯器的包含、排除和標誌設定。",
+      "search.searchEditor.defaultNumberOfContextLines": "新建搜尋編輯器時預設使用的上下文行數。若使用 `#search.searchEditor.reusePriorSearchConfiguration#`，可設為 `null`（留空）以沿用上一個搜尋編輯器的配置。",
+      "search.searchEditor.focusResultsOnSearch": "觸發搜尋時，把焦點放在搜尋編輯器的結果上，而不是搜尋編輯器的輸入框。"
+    },
+    "vs/workbench/contrib/speech/common/speechService": {
+      "speechEnabled": "已啟用語音服務。"
+    },
+    "vs/workbench/contrib/tasks/browser/taskService": {
+      "taskService.processTaskSystem": "Web 中不支援程序任務系統。"
+    },
+    "vs/workbench/contrib/terminal/browser/terminalInstance": {
+      "keybindingHandling": "部分按鍵繫結預設不會傳給終端，而是由 {0} 處理。",
+      "configureTerminalSettings": "配置終端設定",
+      "workspaceNotTrustedCreateTerminalCwd": "無法在不受信任的工作區中以 cwd {0} 和 userHome {1} 啟動終端程序"
+    },
+    "vs/workbench/contrib/terminal/browser/terminalTooltip": {
+      "shellIntegration.rich": "豐富",
+      "shellIntegration.basic": "基礎",
+      "shellIntegration.injectionFailed": "注入啟用失敗",
+      "shellIntegration.no": "無",
+      "shellIntegration": "Shell 整合"
+    },
+    "vs/workbench/contrib/update/browser/update": {
+      "update.customUrl": "{0} 已配置為從以下位置檢查並下載更新：{1}",
+      "update service disabled": "由於你正以管理員身份執行 {0} 的使用者級安裝，更新已被停用。",
+      "learn more": "瞭解詳情",
+      "update service": "更新服務",
+      "thereIsUpdateAvailable": "有可用的更新。",
+      "download update": "下載更新",
+      "later": "以後",
+      "updateAvailable": "有可用的更新：{0} {1}",
+      "installUpdate": "安裝更新",
+      "updateNow": "立即更新",
+      "updateAvailableAfterRestart": "重啟 {0} 以應用最新更新。"
+    },
+    "vs/workbench/contrib/welcomeGettingStarted/browser/gettingStarted.contribution": {
+      "gettingStarted": "入門"
+    },
+    "vs/workbench/contrib/welcomeGettingStarted/browser/welcomeInput": {
+      "getStarted": "入門"
+    },
+    "vs/workbench/contrib/welcomeGettingStarted/browser/welcomePage": {
+      "welcome.displayName": "歡迎頁"
+    },
+    "vs/workbench/contrib/workspace/browser/workspaceTrustEditor": {
+      "trustMessage": "信任當前資料夾或其父資料夾 '{0}' 中所有檔案的作者。",
+      "trustParentButton": "信任父資料夾"
+    },
+    "vs/workbench/electron-browser/window": {
+      "zoomResetLabel": "{0}（{1}）"
+    },
+    "vs/workbench/services/accounts/common/defaultAccount": {
+      "sign in": "登入"
+    },
+    "vs/workbench/services/actions/common/menusExtensionPoint": {
+      "menus.editorInlineActions": "編輯器內聯操作",
+      "menus.editorInlineDiffActions": "編輯器內聯差異操作",
+      "spec.toolbar": "貢獻的規格工具欄選單",
+      "interactive.execute.toolbar": "貢獻的規格執行工具欄選單",
+      "menus.steeringToolBarMenus": "指引文件中的操作工具欄",
+      "menus.specEditorToolBarMenus": "規格編輯器中的操作工具欄",
+      "menus.specEditorNavBarMenus": "規格編輯器中的導航工具欄",
+      "menus.mcpConfigToolbarMenus": "MCP 配置編輯器中的工具欄"
+    },
+    "vs/workbench/services/dialogs/browser/fileDialogService": {
+      "pickFolderAndOpen": "無法開啟資料夾，請嘗試改為把資料夾新增到工作區。",
+      "pickWorkspaceAndOpen": "無法開啟工作區，請嘗試改為把資料夾新增到工作區。",
+      "openRemote": "開啟遠端(&&O)...",
+      "learnMore": "瞭解詳情(&&L)",
+      "openFiles": "開啟檔案(&&F)...",
+      "unsupportedBrowserMessage": "不支援開啟本地資料夾",
+      "unsupportedBrowserDetail": "你的瀏覽器不支援開啟本地資料夾。\n你可以開啟單個檔案，或開啟一個遠端倉庫。"
+    },
+    "vs/workbench/services/extensionManagement/browser/extensionEnablementService": {
+      "cannot disable auth extension": "無法更改 {0} 擴充套件的啟用狀態，因為“設定同步”依賴它。",
+      "cannot disable auth extension in workspace": "無法在工作區中更改 {0} 擴充套件的啟用狀態，因為它提供了身份驗證提供程式"
+    },
+    "vs/workbench/services/extensionManagement/browser/webExtensionsScannerService": {
+      "not a web extension": "無法新增 '{0}'，因為此擴充套件不是 Web 擴充套件。",
+      "openInstalledWebExtensionsResource": "開啟已安裝的 Web 擴充套件資源"
+    },
+    "vs/workbench/services/extensionManagement/common/extensionManagementServerService": {
+      "remote": "遠端",
+      "browser": "瀏覽器"
+    },
+    "vs/workbench/services/extensionManagement/electron-browser/remoteExtensionManagementService": {
+      "incompatibleAPI": "無法安裝 '{0}' 擴充套件。{1}"
+    },
+    "vs/workbench/services/keybinding/browser/keyboardLayoutService": {
+      "keyboardConfigurationTitle": "鍵盤",
+      "keyboard.layout.config": "控制 Web 中使用的鍵盤佈局。"
+    },
+    "vs/workbench/services/localization/browser/localeService": {
+      "relaunchDisplayLanguageMessage": "要更改顯示語言，{0} 需要重新載入",
+      "relaunchDisplayLanguageDetail": "點選重新載入按鈕以重新整理頁面，並將顯示語言設為 {0}。",
+      "reload": "重新載入(&&R)",
+      "clearDisplayLanguageMessage": "要更改顯示語言，{0} 需要重新載入",
+      "clearDisplayLanguageDetail": "點選重新載入按鈕以重新整理頁面並使用瀏覽器的語言。"
+    },
+    "vs/workbench/services/remote/browser/remoteAgentService": {
+      "connectionError": "發生了意外錯誤，需要重新載入此頁面。",
+      "connectionErrorDetail": "工作臺連線伺服器失敗（錯誤：{0}）",
+      "reload": "重新載入(&&R)"
+    },
+    "vs/workbench/services/request/browser/requestService": {
+      "network": "網路"
+    },
+    "vs/workbench/services/search/browser/searchService": {
+      "errorSearchText": "無法使用 Web Worker 文本搜尋器進行搜尋",
+      "errorSearchFile": "無法使用 Web Worker 檔案搜尋器進行搜尋"
+    }
+  }
+}

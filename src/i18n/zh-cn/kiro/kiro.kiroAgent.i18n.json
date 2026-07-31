@@ -30,7 +30,7 @@
       // Chat Context
       "KiroAgent.chatContext.title": "聊天上下文",
       // Ask Agent
-      "KiroAgent.agent.askAgent": "询问智能体",
+      "KiroAgent.agent.askAgent": "问智能体",
       // Capture logs
       "KiroAgent.command.captureLog": "捕获日志",
       // Capture LLM logs
@@ -38,9 +38,9 @@
       // Install Ollama
       "KiroAgent.command.installOllama": "安装 Ollama",
       // Agent Hooks
-      "KiroAgent.views.hooks": "智能体钩子",
+      "KiroAgent.views.hooks": "钩子",
       // Agent Steering & Skills
-      "KiroAgent.views.steering": "智能体引导与技能",
+      "KiroAgent.views.steering": "指引与技能",
       // Open Hook Editor
       "KiroAgent.hooks.openHooksEditor": "打开钩子编辑器",
       // Create Checkpoint
@@ -86,11 +86,11 @@
       // User Config
       "KiroAgent.command.openUserMcpConfig.short": "用户配置",
       // Import AI Assistant Steering
-      "KiroAgent.command.import.steering": "导入 AI 助手引导文档",
+      "KiroAgent.command.import.steering": "导入 AI 助手指引文档",
       // Rich Spec Editor
-      "KiroAgent.editor.spec.title": "规格富文本编辑器",
+      "KiroAgent.editor.spec.title": "规格编辑器",
       // Rich Hook Editor
-      "KiroAgent.editor.hook.title": "钩子富文本编辑器",
+      "KiroAgent.editor.hook.title": "钩子编辑器",
       // Spec View
       "KiroAgent.notebook.spec.title": "规格视图",
       // Generate Contextual Spec
@@ -106,9 +106,9 @@
       // Dismiss
       "KiroAgent.hooks.dismissMigrationBanner": "忽略",
       // Configure Powers
-      "KiroAgent.powers.openUI": "配置能力包",
+      "KiroAgent.powers.openUI": "配置能力",
       // Open Powers Configuration File
-      "KiroAgent.powers.configure": "打开能力包配置文件",
+      "KiroAgent.powers.configure": "打开能力配置文件",
       // Installed
       "Kiro.views.installedPowersList": "已安装",
       // Available
@@ -116,11 +116,11 @@
       // Control the execution log UI
       "KiroAgent.executions.uiControl": "控制执行日志界面",
       // Generate project steering documents
-      "Kiro.steering.createInitialSteering": "生成项目引导文档",
+      "Kiro.steering.createInitialSteering": "生成项目指引文档",
       // Generate a custom steering document or import an agent skill
-      "Kiro.steering.createSteeringOrImportSkills": "生成自定义引导文档或导入智能体技能",
+      "Kiro.steering.createSteeringOrImportSkills": "生成自定义指引文档或导入智能体技能",
       // Refine this Steering document
-      "Kiro.steering.refineSteeringFile": "优化此引导文档",
+      "Kiro.steering.refineSteeringFile": "完善此指引文档",
       // Requirements
       "Kiro.spec.navigateToRequirements": "需求",
       // Design
@@ -128,9 +128,9 @@
       // Task list
       "Kiro.spec.navigateToTasks": "任务列表",
       // Bugfix
-      "Kiro.spec.navigateToBugfix": "缺陷修复",
+      "Kiro.spec.navigateToBugfix": "修 Bug",
       // Go to bugfix
-      "Kiro.spec.navigateToBugfix.long": "转到缺陷修复",
+      "Kiro.spec.navigateToBugfix.long": "转到修 Bug",
       // Go to requirements
       "Kiro.spec.navigateToRequirements.long": "转到需求",
       // Go to design

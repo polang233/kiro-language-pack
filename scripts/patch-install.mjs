@@ -21,15 +21,19 @@
  *
  * Usage:
  *   npm run patch                  dry run - report what would change, write nothing
- *   npm run patch -- --apply       apply, after backing up every file it touches
+ *   npm run patch -- --apply       apply, after backing up every file it touches;
+ *                                  then install dist/kiro-language-pack-<version>.vsix
+ *                                  into the same Kiro (unless --no-extension)
  *   npm run patch -- --restore     put the backed up originals back
  *   npm run patch -- --status      show whether the install is currently patched
  *
  * Flags: --locale=zh-cn  --install-dir=<path>  --no-webview  --no-extension
+ *        --vsix=<path>
  */
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
+import { spawnSync } from 'node:child_process';
 import { p, readJson, writeJson, log, fail, parseArgs, loadConfig } from './lib/util.mjs';
 import { findKiroInstall, readKiroInfo } from './lib/kiro-paths.mjs';
 
@@ -364,7 +368,8 @@ if (!apply) {
   });
   log.plain(`\n  Full before/after list: ${path.relative(p('.'), report)}`);
   log.plain('  Nothing was written to the install. To apply:');
-  log.plain('    npm run patch -- --apply');
+  log.plain('    npm run patch -- --apply          # also installs dist/*.vsix when present');
+  log.plain('    npm run patch -- --apply --no-extension');
   log.plain('  Read the header of scripts/patch-install.mjs first - this modifies the application directory.');
   process.exit(0);
 }
@@ -392,4 +397,71 @@ if (cacheDir && fs.existsSync(cacheDir)) {
 }
 
 log.ok(`Patched. Originals are in ${relative(backupRoot)}/, the record in ${relative(recordPath)}.`);
-log.plain('  Restart Kiro to see the change. `npm run patch -- --restore` undoes it.');
+
+/**
+ * After rewriting unreachable strings, install the language pack .vsix into the same
+ * Kiro so menus / Agent Focus / etc. are covered too. Skipped with --no-extension.
+ * Missing dist/ does not fail the patch - the install rewrite already succeeded.
+ */
+function findKiroCli(installRoot) {
+  const names = process.platform === 'win32'
+    ? ['kiro.cmd', 'kiro.exe', 'Kiro.exe']
+    : ['kiro', 'Kiro'];
+  for (const name of names) {
+    const candidate = path.join(installRoot, 'bin', name);
+    if (fs.existsSync(candidate)) return candidate;
+  }
+  // macOS app bundle: Contents/Resources/app/bin/... or Contents/MacOS
+  const mac = path.join(installRoot, 'MacOS', 'Kiro');
+  if (fs.existsSync(mac)) return mac;
+  return null;
+}
+
+function installLanguagePackExtension() {
+  if (flags['no-extension']) {
+    log.info('skipped language-pack install (--no-extension)');
+    return;
+  }
+
+  const defaultVsix = p('dist', `${config.namePrefix}-${config.version}.vsix`);
+  const vsixPath = typeof flags.vsix === 'string'
+    ? (path.isAbsolute(flags.vsix) ? flags.vsix : p(flags.vsix))
+    : defaultVsix;
+
+  if (!fs.existsSync(vsixPath)) {
+    log.warn(
+      `language pack .vsix not found at ${path.relative(p('.'), vsixPath)}.\n` +
+      '  Patch is applied. Run `npm run package` then re-run with --vsix=... or install the .vsix manually.\n' +
+      '  Or: npm run package && npm run patch -- --apply  (after restore if already patched)'
+    );
+    return;
+  }
+
+  const cli = findKiroCli(install.installRoot);
+  if (!cli) {
+    log.warn(
+      `could not find kiro CLI under ${install.installRoot}/bin.\n` +
+      `  Install manually: Command Palette → Extensions: Install from VSIX… → ${path.relative(p('.'), vsixPath)}`
+    );
+    return;
+  }
+
+  log.step(`Installing language pack: ${path.relative(p('.'), vsixPath)}`);
+  const result = spawnSync(cli, ['--install-extension', vsixPath, '--force'], {
+    stdio: 'inherit',
+    shell: process.platform === 'win32' && cli.endsWith('.cmd')
+  });
+  if (result.error) {
+    log.warn(`install-extension failed: ${result.error.message}`);
+    return;
+  }
+  if (result.status !== 0) {
+    log.warn(`install-extension exited with code ${result.status}`);
+    return;
+  }
+  log.ok('language pack extension installed (or updated)');
+}
+
+installLanguagePackExtension();
+
+log.plain('  Restart Kiro to see the change. `npm run patch -- --restore` undoes the install rewrite (not the extension).');

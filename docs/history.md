@@ -1,17 +1,22 @@
-# Kiro 界面语言包 — 调研结论与实现记录
+# Kiro 界面语言包 — 调研结论与实现记录（历史文档）
 
-> 状态：流水线与 zh-cn 译文已完成并本地跑通，产物已生成并装机
-> 首个 locale：`zh-cn`；单扩展多语言形态，`config.json` 已预置 13 种语言
-> 勘查与验证环境：Kiro 1.0.228 @ `F:\AI\Kiro`
-> 最后更新：2026-07-27
+> **这不是安装指南，也不是当前产品说明。**
+> 想装语言包或了解用法 → [README.md](../README.md) / [README.zh-CN.md](../README.zh-CN.md)
+> 想贡献译文或跑构建 → [CONTRIBUTING.md](../CONTRIBUTING.md)
+> 想看现行技术设计 → [architecture.md](architecture.md) /
+> [architecture.zh-CN.md](architecture.zh-CN.md)
+>
+> 本文档仅保留调研过程、踩坑与决策变更，供维护者回溯。**若与 README / docs 冲突，一律以
+> README 与 docs 为准**，忽略下文里已推翻的旧结论。
 
-面向使用者的说明在 [README.md](README.md) / [README.zh-CN.md](README.zh-CN.md)。
-本文档只保留调研过程、被验证或否证的假设，以及后续决策依据。
+> 状态快照：流水线与 zh-cn 译文已完成并本地跑通；首个 locale `zh-cn`；单扩展多语言形态，
+> `config.json` 已预置 13 种语言；勘查环境 Kiro 1.0.228 @ `F:\AI\Kiro`；记录止于 2026-07-27。
 
 > **重要修正（见 §9）**：本文档 §2.5、§3、§4.1 最初把 Settings 面板和会话列表判为
 > 「webview 不可达」，这个结论是**错的**。它们是 Kiro 加进 Code OSS 内核的 NLS 模块，完全可译。
 > 由此产品形态也从「与官方包并存的互补版」改为「自包含单扩展」。下面保留原始记录，§9 给出
-> 证据与结论变更。
+> 证据与结论变更。§4.1 等早期章节描述的「与官方包并存」形态，已在 §9 修正为「自包含单扩展
+> 替代官方包」。
 
 ---
 

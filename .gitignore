@@ -19,11 +19,16 @@ node_modules/
 npm-debug.log*
 yarn-error.log*
 
-# Editor / OS
+# Editor / OS / local tooling
 .DS_Store
 Thumbs.db
 .idea/
+.vscode/
+.cursor/
 *.swp
 
-# Temp probes
+# Temp probes and local scratch
 .tmp-*
+*.local.json
+.env
+.env.*

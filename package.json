@@ -1,10 +1,18 @@
 {
   "name": "kiro-language-pack",
   "private": true,
-  "version": "0.1.0",
-  "description": "Build tooling for community language packs for the Kiro IDE user interface",
+  "version": "1.0.0",
+  "description": "Community language pack for Kiro IDE (Simplified & Traditional Chinese) plus build tooling",
   "type": "module",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/polang233/kiro-language-pack.git"
+  },
+  "homepage": "https://github.com/polang233/kiro-language-pack#readme",
+  "bugs": {
+    "url": "https://github.com/polang233/kiro-language-pack/issues"
+  },
   "engines": {
     "node": ">=18.17.0"
   },
@@ -13,6 +21,7 @@
     "extract": "node scripts/extract.mjs",
     "audit": "node scripts/audit-manifest.mjs",
     "gap": "node scripts/gap.mjs",
+    "check-upgrade": "node scripts/check-upgrade.mjs",
     "patch": "node scripts/patch-install.mjs",
     "test": "node scripts/test-extension.mjs",
     "sync": "node scripts/sync-upstream.mjs",

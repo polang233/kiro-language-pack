@@ -1,0 +1,312 @@
+// Kiro specific strings that live in the Code OSS core.
+//
+// Kiro is a fork and compiled its own UI into the workbench: the session shell and
+// Settings panel (vs/workbench/contrib/kiroStandalone/*), the spec and steering
+// toolbars, supervised diff review, the license editor, the welcome carousel. These
+// keys therefore belong to the `vscode` translation id, not to kiro.kiroAgent, and
+// microsoft/vscode-loc has no translation for any of them.
+//
+// Rules: keep {0} placeholders, $(codicon) markers, (command:...) links and && menu
+// mnemonics exactly as they are. Run `npm run gap` to see what is still missing.
+{
+  "version": "1.0.0",
+  "contents": {
+    "vs/platform/kiro/common/kiroConfig": {
+      "kiroSettingsTitle": "Kiro",
+      "codeReferences.referenceTracker": "允許 Kiro 生成帶程式碼引用的程式碼。\n\nKiro 生成的程式碼有時可能與公開可獲得的程式碼相似。勾選此項後，Kiro 會在這類情況下照常生成程式碼，並提供關於該公開程式碼的資訊；取消勾選會讓 Kiro 抑制與公開程式碼相似的生成結果。詳見我們的文件。"
+    },
+    "vs/platform/theme/common/colors/agentColors": {
+      "background": "整體背景色。"
+    },
+    "vs/workbench/browser/parts/editor/editorGroupAgentWatermark": {
+      "watermark.openChat": "開啟聊天",
+      "watermark.createHook": "建立鉤子",
+      "watermark.inlineChat": "內聯聊天",
+      "watermark.showCommands": "顯示所有命令",
+      "watermark.quickAccess": "轉到檔案",
+      "watermark.openFile": "開啟檔案",
+      "watermark.openFolder": "開啟資料夾",
+      "watermark.openFileFolder": "開啟檔案或資料夾",
+      "watermark.openRecent": "開啟最近的檔案",
+      "watermark.newUntitledFile": "新建無標題文本檔案",
+      "watermark.findInFiles": "在檔案中查詢",
+      "watermark.toggleTerminal": "切換終端",
+      "watermark.startDebugging": "開始除錯",
+      "watermark.toggleFullscreen": "切換全屏",
+      "watermark.showSettings": "顯示設定"
+    },
+    "vs/workbench/contrib/authentication/browser/actions/signInToKiroAction": {
+      "signInToKiro": "登入"
+    },
+    "vs/workbench/contrib/authentication/browser/actions/signOutOfKiroAction": {
+      "signOutOfKiro": "退出 Kiro 登入",
+      "signOutMessageSimple": "要退出 Kiro 登入嗎？",
+      "signOut": "退出登入(&&S)"
+    },
+    "vs/workbench/contrib/checkout/browser/checkoutUrlHandler": {
+      "checkout.success": "支付成功！你的購買已完成。"
+    },
+    "vs/workbench/contrib/editorLicense/browser/editor/editorLicense": {
+      "editorLicenseInput.title": "許可證",
+      "editorLicense": "許可證",
+      "editorLicenseMetadata": "檢視許可證。"
+    },
+    "vs/workbench/contrib/editorLicense/browser/editorLicense.contribution": {
+      "license.editor.label": "許可證",
+      "miLicense": "檢視許可證(&&L)"
+    },
+    "vs/workbench/contrib/editorLicense/browser/licensePart": {
+      "editorLicense.unboundCommand": "未繫結",
+      "license.gitNotFound": "看起來你的系統上沒有安裝 Git。"
+    },
+    "vs/workbench/contrib/editorLicense/common/licenseUtils": {
+      "license.embeddedEditorBackground": "許可證頁面上嵌入式編輯器的背景色。"
+    },
+    "vs/workbench/contrib/inlineDiff/browser/quickDiff": {
+      "editorGutterModifiedBackground": "已修改行的編輯器裝訂線背景色。",
+      "editorGutterAddedBackground": "新增行的編輯器裝訂線背景色。",
+      "editorGutterDeletedBackground": "已刪除行的編輯器裝訂線背景色。",
+      "minimapGutterModifiedBackground": "已修改行的迷你地圖裝訂線背景色。",
+      "minimapGutterAddedBackground": "新增行的迷你地圖裝訂線背景色。",
+      "minimapGutterDeletedBackground": "已刪除行的迷你地圖裝訂線背景色。",
+      "overviewRulerModifiedForeground": "已修改內容的概覽標尺標記顏色。",
+      "overviewRulerAddedForeground": "新增內容的概覽標尺標記顏色。",
+      "overviewRulerDeletedForeground": "已刪除內容的概覽標尺標記顏色。"
+    },
+    "vs/workbench/contrib/kiroStandalone/electron-browser/kiroStandalone.contribution": {
+      "kiroStandaloneConfigTitle": "聚焦智慧體",
+      "kiroStandalone.workspaceManagerGate": "在聚焦智慧體中啟用工作區管理。",
+      "kiro.startupMode.code": "以程式碼優先啟動（常規 IDE 視窗）。",
+      "kiro.startupMode.agentFocus": "以智慧體優先啟動（聚焦智慧體視窗，專案在後臺）。",
+      "kiro.startupMode": "控制 Kiro 以程式碼優先還是智慧體優先啟動。",
+      "agentFocus.backgroundPrompt.message": "此專案有正在進行的智慧體會話。",
+      "agentFocus.backgroundPrompt.detail": "“在後臺執行”會在聚焦智慧體中保持會話繼續。“關閉專案”會結束此專案的所有活動會話。",
+      "agentFocus.backgroundPrompt.background": "在後臺執行",
+      "agentFocus.backgroundPrompt.close": "關閉專案",
+      "kiroStandalone.openAgentView": "開啟聚焦智慧體",
+      "kiroStandalone.agentView": "聚焦智慧體",
+      "toggleKiroStandalone": "切換聚焦智慧體"
+    },
+    "vs/workbench/contrib/kiroStandalone/electron-browser/kiroStandaloneContextPanel": {
+      "kiroStandalone.noChanges": "還沒有更改",
+      "kiroStandalone.changedFiles": "已更改的檔案",
+      "kiroStandalone.specs": "規格",
+      "kiroStandalone.runAllTasks": "執行所有任務",
+      "kiroStandalone.running": "正在執行...",
+      "kiroStandalone.requirements": "需求",
+      "kiroStandalone.design": "設計",
+      "kiroStandalone.tasks": "任務",
+      "kiroStandalone.bugfix": "修 Bug",
+      "kiroStandalone.intro": "簡介",
+      "kiroStandalone.intent": "意圖"
+    },
+    "vs/workbench/contrib/kiroStandalone/electron-browser/kiroStandaloneNotifications": {
+      "kiroStandalone.actionNeeded": "需要處理：{0}",
+      "kiroStandalone.taskComplete": "任務完成：{0}"
+    },
+    "vs/workbench/contrib/kiroStandalone/electron-browser/kiroStandaloneSessions.contribution": {
+      "kiroStandalone.untitledWorkspace": "未命名工作區",
+      "kiroStandalone.newSession": "新建會話",
+      "kiroStandalone.addProject": "新增專案",
+      "kiroStandalone.projects": "專案",
+      "kiroStandalone.addProjectTooltip": "新建專案",
+      "kiroStandalone.giveFeedback": "反饋",
+      "kiroStandalone.settings": "設定",
+      "kiroStandalone.user": "使用者",
+      "kiroStandalone.loading": "正在載入…",
+      "kiroStandalone.experimentalBadge": "實驗性",
+      "kiroStandalone.codeFocus": "IDE",
+      "kiroStandalone.toggleContextPanel": "切換上下文面板",
+      "kiroStandalone.addProjectPrompt": "新增一個專案即可開始",
+      "kiroStandalone.remoteSession": "此會話執行在編輯器視窗中",
+      "kiroStandalone.remoteHint": "點選 \"檢視程式碼\" 可在那裡與它互動",
+      "kiroStandalone.crossWindowFuture": "跨視窗聊天將在未來的更新中支援",
+      "kiroStandalone.orchestratorTitle": "工作區管理",
+      "kiroStandalone.settingsTitle": "設定",
+      "kiroStandalone.appearance": "外觀",
+      "kiroStandalone.themeLabel": "主題",
+      "kiroStandalone.themeDescription": "選擇 Kiro 的顏色主題",
+      "kiroStandalone.general": "常規",
+      "kiroStandalone.startupMode": "啟動模式",
+      "kiroStandalone.startupModeDesc": "控制 Kiro 以程式碼優先還是智慧體優先啟動。",
+      "kiroStandalone.updateMode": "更新",
+      "kiroStandalone.updateModeDesc": "配置是否接收自動更新。修改後需要重啟。",
+      "kiroStandalone.debugLogs": "除錯日誌",
+      "kiroStandalone.debugLogsDesc": "在輸出面板中啟用 Kiro 除錯日誌。",
+      "kiroStandalone.agent": "智慧體",
+      "kiroStandalone.agentAutonomy": "自主程度",
+      "kiroStandalone.agentAutonomyDesc": "自主程度決定智慧體是否在工作流的每個檢查點詢問接受或拒絕。",
+      "kiroStandalone.modelSelection": "模型",
+      "kiroStandalone.modelSelectionDesc": "選擇用於智慧體操作的模型。",
+      "kiroStandalone.usageSummary": "用量統計",
+      "kiroStandalone.usageSummaryDesc": "顯示智慧體執行的用量統計和耗時。",
+      "kiroStandalone.tabAutocomplete": "Tab 自動補全",
+      "kiroStandalone.tabAutocompleteDesc": "Tab 自動補全讓 Kiro 智慧體在你輸入時於編輯器中提供程式碼建議。",
+      "kiroStandalone.terminalTimeout": "終端命令超時",
+      "kiroStandalone.terminalTimeoutDesc": "終端命令在超時前允許執行的最長時間（毫秒）。未設定時，命令使用內建的預設超時。",
+      "kiroStandalone.notifications": "通知",
+      "kiroStandalone.notifyActionRequired": "需要你處理",
+      "kiroStandalone.notifyActionRequiredDesc": "當智慧體需要輸入時（例如執行 Shell 命令）顯示桌面通知。",
+      "kiroStandalone.notifyFailure": "失敗",
+      "kiroStandalone.notifyFailureDesc": "當智慧體遇到意外失敗時顯示桌面通知。",
+      "kiroStandalone.notifySuccess": "成功",
+      "kiroStandalone.notifySuccessDesc": "當智慧體成功完成任務時顯示桌面通知。",
+      "kiroStandalone.notifyBilling": "賬單",
+      "kiroStandalone.notifyBillingDesc": "為賬單和用量事件（用量重置、資源不足、超額）顯示應用內通知。",
+      "kiroStandalone.mcp": "MCP",
+      "kiroStandalone.configureMCP": "Model Context Protocol",
+      "kiroStandalone.configureMCPDesc": "允許在 Kiro 中使用 Model Context Protocol (MCP) 伺服器。啟用 MCP 伺服器意味著你將訪問受獨立條款約束的第三方內容。我們對此類第三方內容不加控制，並不承擔任何責任。",
+      "kiroStandalone.privacy": "隱私與資料",
+      "kiroStandalone.usageAnalytics": "使用情況分析",
+      "kiroStandalone.usageAnalyticsDesc": "允許 Kiro 向你所屬組織的 AWS 賬戶傳送使用資料和效能指標，以瞭解各功能的使用情況以及 Kiro 的執行表現。",
+      "kiroStandalone.contentCollection": "內容收集",
+      "kiroStandalone.contentCollectionDesc": "允許 Kiro 向 AWS 傳送內容以改進服務。這些內容有助於我們為常見問題提供更好的回答、修復 Kiro 的執行問題並改進服務。",
+      "kiroStandalone.promptLogging": "提示日誌",
+      "kiroStandalone.promptLoggingDesc": "允許 Kiro 將提示日誌及部分後設資料傳送到你所屬組織的 AWS 賬戶，用於審計、除錯、分析和合規。",
+      "kiroStandalone.codeReferences": "程式碼引用",
+      "kiroStandalone.codeReferencesDesc": "允許 Kiro 生成帶程式碼引用的程式碼。Kiro 生成的程式碼有時可能與公開可獲得的程式碼相似；允許後，Kiro 會在這類情況下照常生成程式碼，並提供關於該公開程式碼的資訊。停用此設定會讓 Kiro 抑制與公開程式碼相似的生成結果。",
+      "kiroStandalone.managedByOrg": "由組織管理",
+      "kiroStandalone.openFolder": "開啟現有資料夾",
+      "kiroStandalone.newWorktree": "新建工作樹…",
+      "kiroStandalone.workspaceManager": "工作區管理",
+      "kiroStandalone.worktreeBranchTitle": "新建工作樹 — 分支名",
+      "kiroStandalone.worktreeBranchPlaceholder": "例如 feat/my-feature",
+      "kiroStandalone.worktreeBranchPrompt": "輸入要在每個工作樹中建立的分支名",
+      "kiroStandalone.branchRequired": "分支名不能為空",
+      "kiroStandalone.branchInvalid": "分支名無效",
+      "kiroStandalone.worktreePathTitle": "新建工作樹 — 位置",
+      "kiroStandalone.worktreePathPromptMulti": "基準目錄 — 每個倉庫的工作樹會作為這裡的子目錄",
+      "kiroStandalone.worktreePathPromptSingle": "新工作樹的絕對路徑",
+      "kiroStandalone.pathRequired": "路徑不能為空",
+      "kiroStandalone.pathAbsolute": "路徑必須是絕對路徑",
+      "kiroStandalone.browseRepo": "$(folder-opened) 瀏覽…",
+      "kiroStandalone.browseRepoDesc": "手動選擇一個倉庫資料夾",
+      "kiroStandalone.worktreeRepoTitle": "新建工作樹 — 選擇源倉庫",
+      "kiroStandalone.worktreeRepoPlaceholder": "選擇一個或多個倉庫",
+      "kiroStandalone.selectRepoFolder": "選擇倉庫資料夾",
+      "kiroStandalone.baseRefTitle": "新建工作樹 — 基準引用",
+      "kiroStandalone.baseRefPlaceholder": "例如 origin/main、HEAD、提交 SHA",
+      "kiroStandalone.baseRefPrompt": "新分支所基於的提交物件",
+      "kiroStandalone.customRef": "$(edit) 輸入自定義引用…",
+      "kiroStandalone.baseRefPickTitle": "新建工作樹 — 基準引用",
+      "kiroStandalone.baseRefPickPlaceholder": "選擇工作樹所基於的分支或提交",
+      "kiroStandalone.selectFolder": "選擇專案資料夾",
+      "kiroStandalone.selectSession": "選擇一個會話或新建一個"
+    },
+    "vs/workbench/contrib/kiroStandalone/electron-browser/kiroStandaloneSessionsList": {
+      "kiroStandalone.noProject": "無專案",
+      "kiroStandalone.newSessionTooltip": "新建會話",
+      "kiroStandalone.groupMore": "更多操作",
+      "kiroStandalone.noSessions": "沒有會話",
+      "kiroStandalone.showLess": "收起",
+      "kiroStandalone.showMore": "還有 {0} 個",
+      "kiroStandalone.loading": "正在載入會話…",
+      "kiroStandalone.sessionMore": "更多操作",
+      "kiroStandalone.recapShowLess": "收起",
+      "kiroStandalone.recapShowMore": "展開",
+      "kiroStandalone.cancelLoading": "取消",
+      "kiroStandalone.openInIde": "在 IDE 中開啟",
+      "kiroStandalone.renameSession": "重新命名會話",
+      "kiroStandalone.deleteSession": "刪除會話",
+      "kiroStandalone.renameSession.aria": "輸入新的會話名稱。按 Enter 確認，按 Escape 取消。",
+      "kiroStandalone.renameSession.tooLong": "名稱過長（最多 100 個字元）",
+      "kiroStandalone.kiroSettings": "Kiro 設定",
+      "kiroStandalone.worktrees": "工作樹",
+      "kiroStandalone.removeProject": "移除專案",
+      "kiroStandalone.createWorktree": "$(add) 新建工作樹…",
+      "kiroStandalone.worktreePickerTitle": "工作樹 — {0}",
+      "kiroStandalone.worktreePickerPlaceholder": "選擇要開啟的工作樹，或新建一個"
+    },
+    "vs/workbench/contrib/kiroStandalone/electron-browser/kiroStandaloneWebviewManager": {
+      "kiroStandalone.loadFailed": "載入聊天失敗。請嘗試重啟視窗。"
+    },
+    "vs/workbench/contrib/signInPage/browser/onboardingActions": {
+      "resetOnboardingStatus": "重置新手引導",
+      "resetOnboardingStatusMetadata": "重置新手引導狀態後，下次全新登入時會再次觸發新手引導。"
+    },
+    "vs/workbench/contrib/spec/browser/specToolbar": {
+      "reviewDesign": "審閱設計",
+      "reviewRequirements": "審閱需求",
+      "reviewTaskList": "審閱設計與任務",
+      "reviewBugfix": "審閱修復方案",
+      "generateDesign": "生成設計",
+      "generateRequirements": "生成需求",
+      "generateTaskList": "生成任務",
+      "generateBugfix": "生成修復方案",
+      "runRequiredTasks": "執行必需任務",
+      "runRequiredAndOptionalTasks": "執行必需任務和可選任務",
+      "analyzeRequirements": "分析需求",
+      "generateTasks": "生成任務",
+      "reviewTasks": "審閱任務",
+      "generateDesignAndTasks": "生成設計與任務",
+      "generateRequirementsAndTasks": "生成需求與任務",
+      "openPreviewAriaLabel": "開啟 Markdown 預覽",
+      "openPreview": "開啟預覽"
+    },
+    "vs/workbench/contrib/spec/browser/specToolbarActionItems": {
+      "runAllTasksLabel": "執行所有任務"
+    },
+    "vs/workbench/contrib/spec/common/contextkeys": {
+      "isSpecResourceEmpty": "當前規格資源在檔案系統中的大小是否為零"
+    },
+    "vs/workbench/contrib/steering/browser/steeringToolbar": {
+      "generateSteeringFileLabel": "完善"
+    },
+    "vs/workbench/contrib/steering/common/contextkeys": {
+      "isSteeringResourceEmpty": "當前指引資源在檔案系統中的大小是否為零"
+    },
+    "vs/workbench/contrib/supervisedDiff/browser/supervisedDiffActions": {
+      "_workbench.openSupervisedDiff": "以確認審閱方式開啟差異編輯器的內部工作臺命令",
+      "leftUri": "差異編輯器左側的資源",
+      "rightUri": "差異編輯器右側的資源",
+      "title": "差異編輯器的可讀標題",
+      "options": "操作上下文選項（executionId、operationId、navigateToFirstHunk）",
+      "supervisedDiff.acceptHunk": "接受當前活動的差異塊",
+      "supervisedDiff.rejectHunk": "拒絕當前活動的差異塊",
+      "supervisedDiff.undoAcceptHunk": "撤銷對當前活動差異塊的接受",
+      "supervisedDiff.undoRejectHunk": "撤銷對當前活動差異塊的拒絕",
+      "supervisedDiff.discussHunkInline": "為當前活動的差異塊開啟內聯聊天",
+      "supervisedDiff.cleanupSessionsByExecutionId": "清理與指定執行關聯的所有監督差異會話",
+      "executionId": "需要清理其會話的執行 ID",
+      "supervisedDiff.bulkUpdateHunkStates": "根據聊天中的全部接受/全部拒絕，批次更新某次執行的所有差異塊狀態",
+      "bulkUpdateArgs": "包含 executionId 和 status（'accepted' 或 'rejected'）的物件",
+      "supervisedDiff.finalizeSession": "通過應用所有被拒絕的差異塊來結束一個監督差異會話",
+      "sessionId": "要結束的會話 ID",
+      "supervisedDiff.updateFileHunkStates": "從聊天介面更新單個檔案的監督差異會話的差異塊狀態",
+      "updateFileHunkStatesArgs": "包含 executionId、actionId 和 status（'accepted' 或 'rejected'）的物件",
+      "supervisedDiff.chatInline": "內聯聊天",
+      "supervisedDiff.accept": "接受",
+      "supervisedDiff.acceptWithEdits": "接受並保留修改",
+      "supervisedDiff.reject": "拒絕",
+      "supervisedDiff.undoAccept": "撤銷接受",
+      "supervisedDiff.undoReject": "撤銷拒絕"
+    },
+    "vs/workbench/contrib/supervisedDiff/common/supervisedDiffContextKeys": {
+      "supervisedDiffActive": "監督差異審閱模式是否處於活動狀態",
+      "supervisedDiffHunkState": "當前活動差異塊的審閱狀態（inProgress、accepted 或 rejected）",
+      "supervisedDiffHunkEdited": "自差異檢視開啟以來，活動差異塊是否已被編輯"
+    },
+    "vs/workbench/contrib/welcomeDialog/electron-browser/welcomeCarousel": {
+      "welcomeCarousel.migrationImageAlt": "Kiro 幽靈形象，旁邊是會話氣泡和文件",
+      "welcomeCarousel.migrationTitle": "會話的儲存方式已升級",
+      "welcomeCarousel.migrationDescription": "遷移你之前的會話，以便繼續訪問它們。",
+      "welcomeCarousel.migrationDocs": "檢視文件",
+      "welcomeCarousel.migrationRemind": "稍後提醒我",
+      "welcomeCarousel.hooksImageAlt": "左側是鉤子示意圖，右側是正在釣魚的 Kiro 幽靈形象",
+      "welcomeCarousel.hooksTitle": "新版鉤子已可用",
+      "welcomeCarousel.hooksDescription": "把現有鉤子遷移到 v2 才能繼續生效。",
+      "welcomeCarousel.hooksDocs": "檢視文件",
+      "welcomeCarousel.hooksRemind": "稍後提醒我",
+      "welcomeCarousel.agentFocusImageAlt": "聚焦智慧體示意圖",
+      "welcomeCarousel.agentFocusBadge": "實驗性",
+      "welcomeCarousel.agentFocusTitle": "認識聚焦智慧體",
+      "welcomeCarousel.agentFocusDescription": "以聊天為中心、專注智慧體執行的體驗",
+      "welcomeCarousel.tryAgentFocus": "試試聚焦智慧體",
+      "welcomeCarousel.continueToIde": "繼續進入 IDE",
+      "welcomeCarousel.close": "關閉",
+      "welcomeCarousel.previous": "上一頁",
+      "welcomeCarousel.next": "下一頁",
+      "welcomeCarousel.goToPage": "轉到第 {0} 頁"
+    }
+  }
+}

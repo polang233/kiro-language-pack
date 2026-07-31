@@ -4,12 +4,13 @@
   "publisher": "polang233",
   "$publisher": "Must match the Open VSX namespace you claim with `ovsx create-namespace`, and the Marketplace publisher id if you also publish there. Taken from the GitHub account this repository is authored from; change it here if you publish under an organisation instead.",
   "namePrefix": "kiro-language-pack",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "license": "MIT",
   "repository": "https://github.com/polang233/kiro-language-pack",
   "homepage": "https://github.com/polang233/kiro-language-pack#readme",
   "bugs": "https://github.com/polang233/kiro-language-pack/issues",
-  "icon": null,
+  "icon": "media/icon.png",
+  "$icon": "Copied into each packaged extension by scripts/build.mjs. 128x128 PNG.",
 
   "engines": {
     "vscode": "^1.107.0"
@@ -17,9 +18,9 @@
   "$engines": "Measured on Kiro 1.0.228: resources/app/product.json -> vsCodeVersion = 1.107.1. Lower the bound to support older Kiro builds. `npm run detect` prints the value for the locally installed Kiro.",
 
   "pack": {
-    "displayName": "Language Pack for Kiro",
-    "description": "Community language pack for the Kiro IDE. Covers the editor workbench and the Kiro specific interface - commands, views, the spec toolbar, the session list and the Settings panel.",
-    "$note": "Used by the single-extension `full` mode, which ships every enabled locale in one artifact and lets the host pick by display language. Per-locale naming lives on each locale entry and is only used by `companion` mode."
+    "displayName": "Kiro Language Pack",
+    "description": "Language pack for Kiro IDE (Simplified & Traditional Chinese). Covers the editor workbench and Kiro UI — session list, Settings, Agent Focus, spec toolbar, and more. Replaces the official VS Code language pack.",
+    "$note": "Used by the single-extension `full` mode, which ships every enabled locale in one artifact and lets the host pick by display language. Per-locale naming lives on each locale entry and is only used by `companion` mode. Only locales with enabled:true are packaged. Keep the displayName starting with Kiro so it sorts with other Kiro extensions in the marketplace."
   },
 
   "target": {
@@ -33,8 +34,8 @@
       "id": "zh-cn",
       "languageName": "Chinese Simplified",
       "localizedLanguageName": "中文（简体）",
-      "displayName": "Chinese (Simplified) (简体中文) Language Pack for Kiro",
-      "description": "Kiro 专有界面的简体中文语言包，与 VS Code 官方中文语言包并存互补。Simplified Chinese for the Kiro specific UI. Complements the official VS Code language pack.",
+      "displayName": "Kiro Chinese (Simplified) Language Pack",
+      "description": "Simplified Chinese for the whole Kiro IDE: the editor workbench and Kiro's own interface. Self-contained; replaces the official VS Code language pack. Kiro IDE 完整界面简体中文语言包（含编辑器主体与 Kiro 自有界面），自包含，替代 VS Code 官方中文语言包。",
       "companionExtension": "ms-ceintl.vscode-language-pack-zh-hans",
       "upstreamPackDir": "i18n/vscode-language-pack-zh-hans",
       "enabled": true
@@ -43,9 +44,11 @@
       "id": "zh-tw",
       "languageName": "Chinese Traditional",
       "localizedLanguageName": "中文（繁體）",
+      "displayName": "Kiro Chinese (Traditional) Language Pack",
+      "description": "Traditional Chinese for the whole Kiro IDE: the editor workbench and Kiro's own interface. Self-contained; replaces the official VS Code language pack. Kiro IDE 完整介面繁體中文語言包（含編輯器主體與 Kiro 自有介面），自包含，替代 VS Code 官方繁體中文語言包。",
       "companionExtension": "ms-ceintl.vscode-language-pack-zh-hant",
       "upstreamPackDir": "i18n/vscode-language-pack-zh-hant",
-      "enabled": false
+      "enabled": true
     },
     {
       "id": "ja",

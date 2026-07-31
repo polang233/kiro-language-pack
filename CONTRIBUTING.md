@@ -1,8 +1,27 @@
 # Contributing
 
 Translation fixes, terminology proposals and new languages are all welcome.
-Read [README.md](README.md) first for how the build works. 中文说明见
-[README.zh-CN.md](README.zh-CN.md)。
+
+**Users:** install and usage live in [README.md](README.md) /
+[README.zh-CN.md](README.zh-CN.md) — this file is the contributor entry point (build,
+translation rules, new locales, Kiro upgrades).
+
+Docs index: [docs/README.md](docs/README.md). Historical research notes (not product docs):
+[docs/history.md](docs/history.md).
+
+## Repository layout
+
+| Path | Role |
+| --- | --- |
+| `README.md` / `README.zh-CN.md` | User-facing install and limits |
+| `config.json` | Single source of truth for build / locales / marketplace copy |
+| `src/i18n/` | Translations (edit here) |
+| `src/extension/` | Language-pack runtime (argv.json locale switcher) |
+| `src/marketplace/` | Marketplace README packaged into the `.vsix` |
+| `scripts/` | Build, sync, package, patch, upgrade-check |
+| `media/` | Extension icon |
+| `docs/` | Architecture, publishing, optional patch, history |
+| `dist/` | Build output (gitignored) |
 
 ## Getting set up
 
@@ -132,22 +151,34 @@ land at 40% and improve from there.
 
 ## Keeping up with Kiro releases
 
-When Kiro updates, its string set moves. The workflow is:
+When Kiro updates, start with:
 
 ```bash
-npm run extract     # re-snapshot the new build
-npm run audit       # see whether the reachable manifest surface changed
-npm run gap         # see which core strings are newly uncovered
-npm run coverage    # find keys that are now untranslated
+npm run check-upgrade
+# or, always refresh and re-diff:
+npm run check-upgrade -- --force
+npm run check-upgrade -- --skeleton=.tmp-upgrade.json
 ```
 
-`gap` is the one that matters after a Kiro upgrade: new fork-specific strings show up there
-immediately, and removed ones drop out of the denominator automatically. `coverage` writes
-`reports/coverage-<pack>-<locale>.json`, whose `untranslated` and `untranslatedCore` arrays
-list each missing key together with its English source.
+That compares the installed Kiro version to `config.target.verifiedKiroVersions` and the last
+`metadata/kiro.json` extract. On a mismatch (or with `--force`) it re-runs `extract`, lists
+**added / removed** core keys, and which of them still lack a translation under
+`src/i18n/<locale>/kiro/`. Reports land in `reports/upgrade-<kiroVersion>-<locale>.json`.
+
+Manual follow-up (same as before):
+
+```bash
+npm run sync        # refresh vscode-loc baseline if needed
+npm run gap         # uncovered-by-upstream work list
+npm run audit       # manifest / webview reachability
+npm run coverage    # untranslated keys in the built pack
+```
 
 Then add the new Kiro version to `target.verifiedKiroVersions` in `config.json` and bump
-`version`.
+`version`. If you use the optional install patch: `npm run patch -- --restore` then
+`npm run patch -- --apply` (re-applies and reinstalls the `.vsix` when `dist/` has one).
+
+Publishing: see [docs/publishing.md](docs/publishing.md).
 
 ## Reporting problems
 
