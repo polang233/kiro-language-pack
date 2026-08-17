@@ -4,7 +4,7 @@
   "publisher": "polang233",
   "$publisher": "Must match the Open VSX namespace you claim with `ovsx create-namespace`, and the Marketplace publisher id if you also publish there. Taken from the GitHub account this repository is authored from; change it here if you publish under an organisation instead.",
   "namePrefix": "kiro-language-pack",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "license": "MIT",
   "repository": "https://github.com/polang233/kiro-language-pack",
   "homepage": "https://github.com/polang233/kiro-language-pack#readme",
@@ -15,7 +15,7 @@
   "engines": {
     "vscode": "^1.107.0"
   },
-  "$engines": "Lower bound, deliberately below the newest Kiro: 1.0.228 is Code OSS 1.107.1 and 1.0.242 is 1.108.2, so ^1.107.0 installs on both. Raise it only to require a newer Kiro. `npm run detect` prints the value for the locally installed build.",
+  "$engines": "Lower bound, deliberately below the newest Kiro: 1.0.228 is Code OSS 1.107.1, 1.0.242 is 1.108.2, and 1.0.309 is 1.109.5, so ^1.107.0 installs on all three. Raise it only to require a newer Kiro. `npm run detect` prints the value for the locally installed build.",
 
   "pack": {
     "displayName": "Kiro Language Pack — 简体中文 / 繁體中文",
@@ -26,7 +26,7 @@
   "target": {
     "kiroExtensionId": "kiro.kiroAgent",
     "$kiroExtensionId": "publisher.name from resources/app/extensions/kiro.kiro-agent/package.json. The folder name (kiro.kiro-agent) is NOT the extension id.",
-    "verifiedKiroVersions": ["1.0.228", "1.0.242"],
+    "verifiedKiroVersions": ["1.0.228", "1.0.242", "1.0.309"],
     "$verifiedKiroVersions": "Builds whose localizable surface this pack has been reconciled against: `npm run coverage` reports 100% for the Kiro-specific keys and `npm run validate` passes. `npm run check-upgrade` compares the installed Kiro against this list."
   },
 

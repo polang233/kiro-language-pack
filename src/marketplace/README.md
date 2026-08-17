@@ -1,5 +1,8 @@
 # Kiro Language Pack — 简体中文 / 繁體中文
 
+[![Open VSX](https://img.shields.io/open-vsx/v/polang233/kiro-language-pack?label=Open%20VSX)](https://open-vsx.org/extension/polang233/kiro-language-pack)
+[![Downloads](https://img.shields.io/open-vsx/dt/polang233/kiro-language-pack)](https://open-vsx.org/extension/polang233/kiro-language-pack)
+
 ![Kiro Language Pack](../../media/icon.png)
 
 Community language pack for [Kiro IDE](https://kiro.dev/). One extension, two languages:
@@ -24,7 +27,9 @@ steering toolbars.
 ## Install / 安装
 
 1. Uninstall any other language pack. 先卸载其他语言包。
-2. Install this extension. 安装本扩展。
+2. In Kiro, open the Extensions view and search **Kiro Language Pack** (or 中文语言包) → Install.
+   在 Kiro 扩展视图搜索 **Kiro Language Pack**（或 中文语言包）→ 安装。
+   Listing / 商店页: [open-vsx.org/extension/polang233/kiro-language-pack](https://open-vsx.org/extension/polang233/kiro-language-pack)
 3. Command Palette (`Ctrl+Shift+P` / `Cmd+Shift+P`) → **Language Pack: Select Display
    Language** → pick **中文（简体）** or **中文（繁體）** → restart Kiro.
    命令面板 → **Language Pack: Select Display Language** → 选择语言 → 重启 Kiro。
@@ -65,9 +70,9 @@ modified install is not supported by AWS — see the repository if you want it.
 仓库里另有一个可选补丁，通过改写 Kiro 安装目录再多翻约 89 条文案。它不属于本扩展，Kiro 升级即失效，
 且改过的安装 AWS 不予支持，需要的话请看仓库说明。
 
-Reconciled against Kiro **1.0.242** and **1.0.228**. Other builds work; strings Kiro adds later
+Reconciled against Kiro **1.0.309**, **1.0.242** and **1.0.228**. Other builds work; strings Kiro adds later
 fall back to English until the pack catches up.
-已对齐 Kiro 1.0.242 与 1.0.228；其他版本可用，之后新增的字符串会先回落英文。
+已对齐 Kiro 1.0.309、1.0.242 与 1.0.228；其他版本可用，之后新增的字符串会先回落英文。
 
 The UI language is independent of the language the AI replies in — for that, use a steering
 file such as `.kiro/steering/language.md`. 界面语言与 AI 回复语言无关，后者用 steering 文件控制。

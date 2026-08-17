@@ -5,6 +5,9 @@ Settings、聚焦智能体、规格与指引工具栏）。
 
 [English](README.md) · **简体中文**
 
+[![Open VSX](https://img.shields.io/open-vsx/v/polang233/kiro-language-pack?label=Open%20VSX)](https://open-vsx.org/extension/polang233/kiro-language-pack)
+[![下载量](https://img.shields.io/open-vsx/dt/polang233/kiro-language-pack)](https://open-vsx.org/extension/polang233/kiro-language-pack)
+
 <img src="media/icon.png" width="96" height="96" alt="Kiro Language Pack 图标" />
 
 项目本身是按多语言设计的，**当前发布的只有简体中文和繁体中文**——因为只有这两种语言有人翻译。
@@ -35,10 +38,10 @@ Settings、聚焦智能体、规格与指引工具栏）。
 1. **先卸载其他语言包。** 本包替代 VS Code 官方语言包（[原因](docs/architecture.zh-CN.md#单个自包含扩展)）。
    两个包同时装着，界面会变成每次重启翻译得都不一样。
 2. 安装：
-   - 从 [GitHub Release](https://github.com/polang233/kiro-language-pack/releases) 下 `.vsix`，
+   - **在 Kiro 里（推荐）：** 扩展视图 → 搜索 **Kiro Language Pack**（或 中文语言包）→ 安装。
+     商店页：[Open VSX](https://open-vsx.org/extension/polang233/kiro-language-pack)
+   - 或从 [GitHub Release](https://github.com/polang233/kiro-language-pack/releases) 下 `.vsix`，
      命令面板 → **Extensions: Install from VSIX…**
-   - 或等 Open VSX 上架后直接搜：
-     [polang233/kiro-language-pack](https://open-vsx.org/extension/polang233/kiro-language-pack)
 3. 命令面板 → **Language Pack: Select Display Language** → 选语言 → 重启。
 
 Windows 上别双击 `.vsix`，那个后缀可能被 Visual Studio 占用，请从命令面板安装。
@@ -94,7 +97,7 @@ npm run patch -- --locale=zh-tw --install-dir="C:\Users\me\AppData\Local\Program
 
 | Locale | 状态 |
 | --- | --- |
-| `zh-cn` 简体中文 | 已发布——编辑器主体译文 + Kiro 专有文案 979 条全覆盖（100%） |
+| `zh-cn` 简体中文 | 已发布——编辑器主体译文 + Kiro 专有文案 1159 条全覆盖（100%） |
 | `zh-tw` 繁體中文 | 已发布——同样范围、同样 100%，用台湾习惯用词 |
 | `ja` `ko` `fr` `de` `es` `it` `ru` `pt-br` `tr` `pl` `cs` | `config.json` 里已预置，`enabled: false`，还没有译文 |
 
@@ -128,9 +131,9 @@ npm run patch -- --locale=zh-tw --install-dir="C:\Users\me\AppData\Local\Program
 界面语言和 AI 用什么语言回复是两件事。想让模型说中文，加一个 steering 文件，例如
 `.kiro/steering/language.md`。
 
-已对齐 Kiro **1.0.242**（Code OSS 1.108.2）与 **1.0.228**，见 `config.json` 的
-`target.verifiedKiroVersions`。其他版本基本能用；这之间 Kiro 新增的字符串会先回落英文，直到有人跑
-`npm run check-upgrade` 把新增部分翻出来。
+已对齐 Kiro **1.0.309**（Code OSS 1.109.5）、**1.0.242**（Code OSS 1.108.2）与 **1.0.228**，见
+`config.json` 的 `target.verifiedKiroVersions`。其他版本基本能用；这之间 Kiro 新增的字符串会先回落英文，
+直到有人跑 `npm run check-upgrade` 把新增部分翻出来。
 
 要注意升级不只会*新增*字符串，还会*搬走*字符串——1.0.242 重构了聊天模块的路径，导致约 470 条已翻译的
 文案悄悄失效。`npm run check-upgrade` 会把它们报成 orphaned key，修法是改模块路径，而不是重新翻译。

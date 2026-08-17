@@ -98,11 +98,9 @@ git push origin v1.0.0
 [`.github/workflows/release.yml`](../.github/workflows/release.yml) builds the `.vsix`,
 attaches it to the GitHub Release, and runs `npm run publish:ovsx`.
 
-After publish, the page should be:
+After publish, the page is:
 
 https://open-vsx.org/extension/polang233/kiro-language-pack
-
-Until that page returns 200, root README points users at GitHub Releases.
 
 ## VS Code Marketplace (optional)
 
@@ -133,8 +131,6 @@ npm run publish:vsce
 ## After publishing
 
 - Uninstall any conflicting official VS Code language pack in Kiro before installing this one.
-- Flip root README install links from “Release only / Open VSX in progress” to the live
-  Open VSX URL once the extension page is up.
 - Bump `config.json` → `version` (and `package.json`) before the next release.
 
 中文说明见 [publishing.zh-CN.md](publishing.zh-CN.md)。

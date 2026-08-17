@@ -172,7 +172,9 @@
       // Optimize this Code
       "KiroAgent.command.editorActions.optimizeCode": "优化这段代码",
       // Ask Kiro to Fix
-      "KiroAgent.command.editorActions.fixDiagnostic": "让 Kiro 修复"
+      "KiroAgent.command.editorActions.fixDiagnostic": "让 Kiro 修复",
+      // Select Files as Context
+      "KiroAgent.command.selectFilesAsContext": "将文件选为上下文"
     },
     "bundle": {}
   }

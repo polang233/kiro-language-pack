@@ -6,6 +6,9 @@ steering toolbars).
 
 **English** · [简体中文](README.zh-CN.md)
 
+[![Open VSX](https://img.shields.io/open-vsx/v/polang233/kiro-language-pack?label=Open%20VSX)](https://open-vsx.org/extension/polang233/kiro-language-pack)
+[![Downloads](https://img.shields.io/open-vsx/dt/polang233/kiro-language-pack)](https://open-vsx.org/extension/polang233/kiro-language-pack)
+
 > 中文用户请看 [简体中文说明](README.zh-CN.md)。安装前请先卸载其他语言包，装完选显示语言后**重启** Kiro。
 
 <img src="media/icon.png" width="96" height="96" alt="Kiro Language Pack icon" />
@@ -42,10 +45,10 @@ want the last few strings translated too, and it is not free of consequences.
    [why](docs/architecture.md#one-self-contained-extension). Two packs installed together give
    you a UI that is translated differently after each restart.
 2. Install the pack:
-   - from a [GitHub Release](https://github.com/polang233/kiro-language-pack/releases) `.vsix` —
+   - **In Kiro (recommended):** Extensions view → search **Kiro Language Pack** (or 中文语言包) → Install.
+     Listing: [Open VSX](https://open-vsx.org/extension/polang233/kiro-language-pack)
+   - or from a [GitHub Release](https://github.com/polang233/kiro-language-pack/releases) `.vsix` —
      Command Palette → **Extensions: Install from VSIX…**
-   - or from Open VSX once the listing is live:
-     [polang233/kiro-language-pack](https://open-vsx.org/extension/polang233/kiro-language-pack)
 3. Command Palette → **Language Pack: Select Display Language** → pick a language → restart.
 
 On Windows, do not double-click the `.vsix`; Visual Studio may claim the file type. Install it
@@ -107,7 +110,7 @@ Full detail, including the exact file list and the risks:
 
 | Locale | Status |
 | --- | --- |
-| `zh-cn` 简体中文 | Shipped — workbench baseline plus all 979 Kiro-specific strings (100%) |
+| `zh-cn` 简体中文 | Shipped — workbench baseline plus all 1159 Kiro-specific strings (100%) |
 | `zh-tw` 繁體中文 | Shipped — same surface at 100%, Taiwan-oriented terminology |
 | `ja` `ko` `fr` `de` `es` `it` `ru` `pt-br` `tr` `pl` `cs` | Declared in `config.json`, `enabled: false`, no translations yet |
 
@@ -144,10 +147,10 @@ for an upstream i18n request. Please do not file translation issues for those su
 The UI language does not change what language the AI answers in. For that, add a steering
 file such as `.kiro/steering/language.md`.
 
-Reconciled against Kiro **1.0.242** (Code OSS 1.108.2) and **1.0.228** — see
-`target.verifiedKiroVersions` in `config.json`. Other builds generally work; strings Kiro adds
-in between fall back to English until someone runs `npm run check-upgrade` and translates the
-additions.
+Reconciled against Kiro **1.0.309** (Code OSS 1.109.5), **1.0.242** (Code OSS 1.108.2)
+and **1.0.228** — see `target.verifiedKiroVersions` in `config.json`. Other builds generally
+work; strings Kiro adds in between fall back to English until someone runs
+`npm run check-upgrade` and translates the additions.
 
 A Kiro update can also *move* strings rather than add them — 1.0.242 reorganised the chat
 modules, which silently took ~470 already-translated strings out of range. `npm run check-upgrade`

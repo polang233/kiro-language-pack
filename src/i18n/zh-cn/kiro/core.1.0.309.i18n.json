@@ -1,0 +1,442 @@
+// Kiro 1.0.288–1.0.309 strings added since the 1.0.242 baseline.
+//
+// New UI: session pinning, collapsible rail, attention cards, in-app updates,
+// Cloud Sessions in Agent Focus, integrated browser, chat hooks/skills settings,
+// and Agent Plugin related prompt-header fields. 29 keys also moved module path
+// (translations live here under the new id; old ids are left in place as orphans).
+//
+// Rules: keep {0} placeholders, $(codicon) markers and (command:...) links intact.
+{
+  "version": "1.0.0",
+  "contents": {
+    "vs/workbench/browser/parts/auxiliarybar/auxiliaryBarActions": {
+      "restoreIcon": "用于恢复辅助侧边栏的图标。"
+    },
+    "vs/workbench/browser/parts/panel/panelActions": {
+      "restoreIcon": "用于恢复面板的图标。"
+    },
+    "vs/workbench/common/contextkeys": {
+      "isAgentSessionsWorkspace": "当前工作区是否为智能体会话工作区。",
+      "workbenchMode": "当前工作台模式。"
+    },
+    "vs/workbench/contrib/browserView/electron-browser/browserEditor": {
+      "browser.canGoBack": "浏览器是否可以后退",
+      "browser.canGoForward": "浏览器是否可以前进",
+      "browser.storageScope": "当前浏览器视图的存储范围",
+      "browser.devToolsOpen": "当前浏览器视图是否已打开开发人员工具",
+      "browser.elementSelectionActive": "元素选择是否处于活动状态",
+      "browser.urlPlaceholder": "输入 URL...",
+      "browser.overlayPauseHeading.notification": "因通知而暂停",
+      "browser.overlayPauseDetail.notification": "关闭通知后即可继续使用浏览器。",
+      "browser.loadErrorLabel": "页面加载失败",
+      "browser.errorUrlLabel": "URL：",
+      "browser.welcomeTitle": "浏览器",
+      "browser.welcomeSubtitle": "在上方输入 URL 即可开始。",
+      "browser.welcomeTip": "提示：使用“将元素添加到聊天”，即可在聊天提示中引用界面元素。"
+    },
+    "vs/workbench/contrib/browserView/electron-browser/browserEditorInput": {
+      "browser.editorLabel": "浏览器"
+    },
+    "vs/workbench/contrib/browserView/electron-browser/browserFindWidget": {
+      "browser.findWidgetVisible": "浏览器查找控件是否可见",
+      "browser.findWidgetFocused": "浏览器查找控件是否已聚焦"
+    },
+    "vs/workbench/contrib/browserView/electron-browser/browserView.contribution": {
+      "browser.openLocalhostLinks": "启用后，来自终端、聊天和其他来源的 localhost 链接会在内置浏览器中打开，而不是系统浏览器。",
+      "browser.dataStorage.global": "所有浏览器视图在全部工作区之间共享同一个持久会话。",
+      "browser.dataStorage.workspace": "同一工作区内的浏览器视图共享一个持久会话。未打开工作区时使用 `ephemeral` 存储。",
+      "browser.dataStorage.ephemeral": "每个浏览器视图都有独立会话，关闭后即清理。",
+      "browser.dataStorage": "控制浏览器数据（Cookie、缓存、存储）在浏览器视图之间的共享方式。\n\n**注意**：在不受信任的工作区中，此设置会被忽略，始终使用 `ephemeral` 存储。"
+    },
+    "vs/workbench/contrib/browserView/electron-browser/browserViewActions": {
+      "browserCategory": "浏览器",
+      "browser.openAction": "打开内置浏览器",
+      "browser.newTabAction": "新建选项卡",
+      "browser.goBackAction": "后退",
+      "browser.goForwardAction": "前进",
+      "browser.reloadAction": "重新加载",
+      "browser.focusUrlInputAction": "聚焦 URL 输入框",
+      "browser.addElementToChatAction": "将元素添加到聊天",
+      "browser.toggleDevToolsAction": "切换开发人员工具",
+      "browser.openExternalAction": "在外部浏览器中打开",
+      "browser.clearGlobalStorageAction": "清除存储（全局）",
+      "browser.clearWorkspaceStorageAction": "清除存储（工作区）",
+      "browser.clearEphemeralStorageAction": "清除存储（临时）",
+      "browser.openSettingsAction": "打开浏览器设置",
+      "browser.showFindAction": "在页面中查找",
+      "browser.hideFindAction": "关闭查找控件",
+      "browser.findNextAction": "查找下一个",
+      "browser.findPreviousAction": "查找上一个"
+    },
+    "vs/workbench/contrib/chat/browser/actions/chatCustomizationDiagnosticsAction": {
+      "status.missingName": "缺少 name 属性",
+      "status.skillMissingDescription": "缺少 description 属性",
+      "status.skillNameMismatch2": "名称与文件夹不匹配",
+      "status.overwrittenByHigherPriority": "被更高优先级的文件覆盖",
+      "status.parseError": "解析错误",
+      "status.typeDisabled": "已禁用",
+      "status.allHooksDisabled": "已通过 disableAllHooks 禁用全部钩子",
+      "status.claudeHooksDisabled": "已通过 chat.useClaudeHooks 设置禁用 Claude 钩子",
+      "status.unknownError": "未知错误",
+      "status.title": "聊天自定义诊断",
+      "status.sensitiveWarning": "警告：此文件可能包含敏感信息。",
+      "status.skillsDisabled": "技能已禁用。请在设置中将 `chat.useAgentSkills` 设为 `true` 以启用。",
+      "status.disabled": "已禁用",
+      "status.fileLoaded": "已加载 1 个文件",
+      "status.filesLoaded": "已加载 {0} 个文件",
+      "status.hookLoaded": "已加载 1 个钩子",
+      "status.hooksLoaded": "已加载 {0} 个钩子",
+      "status.skillLoaded": "已加载 1 个技能",
+      "status.skillsLoaded": "已加载 {0} 个技能",
+      "status.skippedCount": "已跳过 {0} 个",
+      "status.folderNotFound": "文件夹不存在",
+      "status.extension": "扩展",
+      "status.allHooksDisabledLabel": "已通过 disableAllHooks 禁用全部钩子",
+      "status.noFilesLoaded": "未加载任何文件",
+      "status.skill.manualOnly": "仅手动",
+      "status.skill.hiddenFromMenu": "已从菜单隐藏",
+      "status.type.agents": "自定义智能体",
+      "status.type.instructions": "指令",
+      "status.type.prompts": "提示文件",
+      "status.type.skills": "技能",
+      "status.type.hooks": "钩子",
+      "chat.diagnostics.label": "诊断"
+    },
+    "vs/workbench/contrib/chat/browser/agentSessions/experiments/agentSessionProjectionActions": {
+      "toggle.agentStatus": "智能体状态",
+      "toggle.agentStatusDescription": "切换标题栏中智能体状态的可见性"
+    },
+    "vs/workbench/contrib/chat/browser/agentSessions/experiments/agentSessionsExperiments.contribution": {
+      "title4": "聊天"
+    },
+    "vs/workbench/contrib/chat/browser/agentSessions/experiments/agentTitleBarStatusWidget": {
+      "devExtensionWindowTitlePrefix": "[扩展开发主机]",
+      "openSessionTooltip": "打开会话：{0}",
+      "signInToChatSetup": "登录以使用 AI 功能...",
+      "chatQuotaExceededButton": "GitHub Copilot 免费版聊天消息配额已用尽。点击查看详情。",
+      "agentStatusWidget.askAnything": "随便问点什么..."
+    },
+    "vs/workbench/contrib/chat/browser/agentSessions/agentSessionsActions": {
+      "chatSessions": "聊天会话"
+    },
+    "vs/workbench/contrib/chat/browser/chat.contribution": {
+      "chat.agentsControl.clickBehavior.default": "点击聊天图标可切换聊天的显示与隐藏。",
+      "chat.agentsControl.clickBehavior.cycle": "点击聊天图标会循环：显示聊天、最大化聊天、隐藏聊天。这需要聊天位于辅助侧边栏中。",
+      "chat.agentsControl.clickBehavior.focus": "点击聊天图标会聚焦聊天视图；若聊天位于辅助侧边栏中，还会将其最大化。",
+      "chat.agentsControl.clickBehavior": "控制点击命令中心中聊天图标时的行为。",
+      "chat.agentsControl.enabled": "控制是否在标题栏命令中心显示“智能体状态”指示器。启用此设置会自动启用 {0}。未读/进行中会话指示器需要启用 {1}。",
+      "chat.unifiedAgentsBar.enabled": "用统一的聊天与搜索控件替换命令中心的搜索框。",
+      "chat.agentSessionProjection.enabled": "控制是否启用智能体会话投影模式，以便在聚焦工作区中审阅智能体会话。",
+      "chat.editing.explainChanges.enabled": "控制是否显示聊天面板中的“解释”按钮，以及 SCM 视图中的“解释更改”上下文菜单。此为实验性功能。",
+      "chat.tips.enabled": "控制是否在聊天中用户消息上方显示提示。此为实验性功能。",
+      "chat.inlineReferences.style.box": "将文件和符号引用显示为带图标的框式控件。",
+      "chat.inlineReferences.style.link": "将文件和符号引用显示为不带图标的蓝色链接。",
+      "chat.inlineReferences.style": "控制聊天消息中文件和符号引用的显示方式。",
+      "chat.editorAssociations": "为从聊天打开的文件配置 [glob 模式](https://aka.ms/vscode-glob-patterns) 与编辑器的对应关系（例如 `\"*.md\": \"vscode.markdown.preview.editor\"`）。",
+      "chat.viewProgressBadge.enabled": "当该视图中打开的智能体会话正在进行时，在聊天视图上显示进度徽章。",
+      "chat.requestQueuing.enabled.description": "启用后，可在请求进行中继续排队发送消息，也可用新消息引导当前请求。",
+      "chat.requestQueuing.defaultAction.queue": "将消息排到当前请求完成后再发送。",
+      "chat.requestQueuing.defaultAction.steer": "立即发送消息以引导当前请求，并让当前请求让出。",
+      "chat.requestQueuing.defaultAction.description": "控制请求进行中时，队列按钮的默认操作。",
+      "chat.editMode.hidden": "启用后，从聊天模式选择器中隐藏编辑模式。",
+      "chat.alternativeToolAction": "启用后，“配置工具”操作会显示在模式选择器下拉菜单的悬停处，而不是聊天输入框中。",
+      "chat.instructionsLocations.invalidPath": "路径必须是相对路径，或以 '~/' 开头。不支持绝对路径和 '\\' 分隔符。glob 模式已弃用，将在后续版本中移除。",
+      "chat.promptFileLocations.invalidPath": "路径必须是相对路径，或以 '~/' 开头。不支持绝对路径和 '\\' 分隔符。glob 模式已弃用，将在后续版本中移除。",
+      "chat.agents.config.locations.title": "智能体文件位置",
+      "chat.agents.config.locations.description": "指定自定义智能体文件（`*{0}`）的位置。[了解更多]({1})。\n\n相对路径从工作区根文件夹解析。",
+      "chat.agentLocations.invalidPath": "路径必须是相对路径，或以 '~/' 开头。不支持绝对路径和 '\\' 分隔符。",
+      "chat.useClaudeMd.title": "使用 CLAUDE.md 文件",
+      "chat.useClaudeMd.description": "控制是否将工作区根目录、.claude 和 ~/.claude 文件夹中找到的 `CLAUDE.md` 指令附加到所有聊天请求。",
+      "chat.useAgentSkills.title": "使用智能体技能",
+      "chat.useAgentSkills.description": "控制是否将技能作为专用能力提供给聊天请求。技能从 `#chat.agentSkillsLocations#` 配置的文件夹加载。若 `read` 工具可用，语言模型可按需加载这些技能。详细了解 [Agent Skills](https://aka.ms/vscode-agent-skills)。",
+      "chat.useSkillAdherencePrompt.title": "使用技能遵循提示",
+      "chat.useSkillAdherencePrompt.description": "控制是否使用更强的技能遵循提示，促使模型在相关时立即调用技能，而不是只口头提及。",
+      "chat.includeApplyingInstructions.title": "包含按 applyTo 匹配的指令",
+      "chat.includeApplyingInstructions.description": "控制是否自动将带有匹配 'applyTo' 属性的指令包含进聊天请求。",
+      "chat.includeReferencedInstructions.title": "包含被引用的指令",
+      "chat.includeReferencedInstructions.description": "控制是否自动将被引用的指令包含进聊天请求。",
+      "chat.agentSkillsLocations.title": "智能体技能位置",
+      "chat.agentSkillsLocations.description": "指定可在聊天会话中使用的智能体技能（`{0}`）位置。[了解更多]({1})。\n\n每个路径应包含带 SKILL.md 的技能子文件夹（例如若有 `my-skills/skillA/SKILL.md`，则添加 `my-skills`）。相对路径从工作区根文件夹解析。",
+      "chat.agentSkillsLocations.invalidPath": "路径必须是相对路径，或以 '~/' 开头。不支持绝对路径和 '\\' 分隔符。",
+      "chat.hookFilesLocations.title": "钩子文件位置",
+      "chat.hookFilesLocations.description": "指定钩子配置文件的路径，这些文件定义在智能体工作流关键节点执行的自定义 Shell 命令。[了解更多]({0})。\n\n相对路径从工作区根文件夹解析。支持 Copilot 钩子（`*.json`）和 Claude Code 钩子（`settings.json`、`settings.local.json`）。",
+      "chat.hookFilesLocations.invalidPath": "路径必须是相对路径，或以 '~/' 开头。不支持绝对路径和 '\\' 分隔符。",
+      "chat.useHooks.title": "使用聊天钩子",
+      "chat.useHooks.description": "控制是否在智能体工作流的关键节点执行聊天钩子。钩子从 `#chat.hookFilesLocations#` 配置的文件加载。",
+      "chat.useClaudeHooks.title": "使用 Claude 钩子",
+      "chat.useClaudeHooks.description": "控制是否允许执行来自 Claude 配置文件的钩子。禁用后只使用 Copilot 格式的钩子。钩子从 `#chat.hookFilesLocations#` 配置的文件加载。",
+      "chat.agent.thinking.terminalTools": "启用后，终端工具调用会以简化视图显示在思考下拉框中。",
+      "chat.tools.autoExpandFailures": "启用后，工具失败会在聊天界面中自动展开以显示错误详情。",
+      "hooks": "配置钩子",
+      "agents": "配置自定义智能体",
+      "skills": "配置技能",
+      "instructions": "配置指令",
+      "prompts": "配置提示文件"
+    },
+    "vs/workbench/contrib/chat/browser/chatManagement/chatModelsWidget": {
+      "models.configure": "配置...",
+      "models.hideSelected": "在聊天模型选择器中隐藏",
+      "models.showSelected": "在聊天模型选择器中显示",
+      "models.hideAll": "在聊天模型选择器中隐藏",
+      "models.showAll": "在聊天模型选择器中显示",
+      "models.configureContextMenu": "配置"
+    },
+    "vs/workbench/contrib/chat/browser/chatSessions/chatSessions.contribution": {
+      "chat.session.inProgress.local": "本地智能体",
+      "chat.session.inProgress.background": "后台智能体",
+      "chat.session.inProgress.cloud": "云端智能体"
+    },
+    "vs/workbench/contrib/chat/browser/chatSessions/searchableOptionPickerActionItem": {
+      "seeMore.tooltip": "搜索更多选项",
+      "seeMore": "查看更多...",
+      "selectOption": "选择...",
+      "selectOption.placeholder": "选择 {0}"
+    },
+    "vs/workbench/contrib/chat/browser/chatStatus/chatStatusDashboard": {
+      "usageTitleWithPlan": "{0} 用量"
+    },
+    "vs/workbench/contrib/chat/browser/chatTipService": {
+      "tip.agentMode": "提示：试试 [智能体模式](command:workbench.action.chat.openEditSession)，可进行多文件编辑并运行命令。",
+      "tip.planMode": "提示：试试 [计划模式](command:workbench.action.chat.openPlan)，让智能体先深入分析并规划，再实施更改。",
+      "tip.attachFiles": "提示：用 # 附加文件或文件夹，给 Copilot 更多上下文。",
+      "tip.codeActions": "提示：选中代码后右键，可在上下文菜单中使用 Copilot 操作。",
+      "tip.undoChanges": "提示：点击“还原检查点”，可以把 Copilot 的更改撤回到任意位置。",
+      "tip.customInstructions": "提示：[生成工作区指令](command:workbench.action.chat.generateInstructions)，让 Copilot 开始任务时始终有所需上下文。"
+    },
+    "vs/workbench/contrib/chat/browser/widget/chatContentParts/chatThinkingContentPart": {
+      "chat.thinking.finished.withSteps": "已完成 {0} 步{1}"
+    },
+    "vs/workbench/contrib/chat/browser/widget/input/modelPickerActionItem": {
+      "chat.modelPicker.auto.detail": "根据容量和性能，为你的请求选择最合适的模型。",
+      "chat.modelPicker.auto.description": "根据上下文和复杂度，自动为任务选择最合适的模型。",
+      "chat.modelPicker.ariaLabel": "选择模型，{0}"
+    },
+    "vs/workbench/contrib/chat/browser/widget/input/modePickerActionItem": {
+      "configureToolsFor": "为 {0} 智能体配置工具"
+    },
+    "vs/workbench/contrib/chat/browser/widgetHosts/viewPane/chatContextUsageDetails": {
+      "actions": "操作"
+    },
+    "vs/workbench/contrib/chat/common/languageModels": {
+      "numberRequired": "请输入一个数字",
+      "booleanRequired": "请输入 true 或 false"
+    },
+    "vs/workbench/contrib/chat/common/promptSyntax/hookSchema": {
+      "hookType.sessionStart.label": "会话开始",
+      "hookType.sessionStart.description": "在新的智能体会话开始时执行。",
+      "hookType.userPromptSubmit.label": "用户提交提示",
+      "hookType.userPromptSubmit.description": "用户向智能体提交提示时执行。",
+      "hookType.preToolUse.label": "工具使用前",
+      "hookType.preToolUse.description": "智能体使用任何工具之前执行。",
+      "hookType.postToolUse.label": "工具使用后",
+      "hookType.postToolUse.description": "工具成功执行完成后执行。",
+      "hookType.preCompact.label": "压缩前",
+      "hookType.preCompact.description": "智能体压缩会话上下文之前执行。",
+      "hookType.subagentStart.label": "子智能体开始",
+      "hookType.subagentStart.description": "启动子智能体时执行。",
+      "hookType.subagentStop.label": "子智能体停止",
+      "hookType.subagentStop.description": "子智能体停止时执行。",
+      "hookType.stop.label": "停止",
+      "hookType.stop.description": "智能体停止时执行。",
+      "hookFile.sessionStart": "在新的智能体会话开始时执行。可用于初始化环境、记录会话开始、校验项目状态，或准备临时资源。",
+      "hookFile.userPromptSubmit": "用户向智能体提交提示时执行。可用于记录用户请求，便于审计和用量分析。",
+      "hookFile.preToolUse": "智能体使用任何工具之前执行。这是最有力的钩子，可以批准或拒绝工具执行。可用于拦截危险命令、执行安全策略、要求对敏感操作进行确认，或记录工具使用。",
+      "hookFile.postToolUse": "工具成功执行完成后执行。可用于记录执行结果、统计用量、生成审计轨迹或监控性能。",
+      "hookFile.preCompact": "智能体压缩会话上下文之前执行。可用于保存会话状态、导出重要信息，或为缩减上下文做准备。",
+      "hookFile.subagentStart": "启动子智能体时执行。可用于记录子智能体生成、跟踪嵌套智能体用量，或初始化子智能体专用资源。",
+      "hookFile.subagentStop": "子智能体停止时执行。可用于记录子智能体完成、清理子智能体资源，或汇总子智能体结果。",
+      "hookFile.stop": "智能体会话停止时执行。可用于清理资源、生成最终报告，或发送完成通知。"
+    },
+    "vs/workbench/contrib/chat/common/promptSyntax/languageProviders/promptValidator": {
+      "promptValidator.userInvokableMustBeBoolean": "'user-invokable' 属性必须是布尔值。",
+      "promptHeader.skill.userInvokable": "设为 false 可从 / 菜单中隐藏。用于用户不应直接调用的背景知识。默认：true。",
+      "promptHeader.agent.userInvokable": "用户是否可以在界面中选择并调用此智能体。",
+      "promptHeader.instructions.name": "指令文件在界面中显示的名称。未设置时，名称从文件名推导。",
+      "promptHeader.instructions.description": "指令文件的描述。可用于提供关于这些指令的额外背景信息，并会作为提示的一部分传给语言模型。",
+      "promptHeader.instructions.applyToRange": "一个或多个 glob 模式（用逗号分隔），描述这些指令适用于哪些文件。当上下文中包含匹配其中任一模式的文件时，该文件会自动被纳入提示。若希望此文件始终被加入，请使用 `**`。\n示例：`**/*.ts`、`**/*.js`、`client/**`",
+      "promptHeader.agent.name": "智能体在界面中显示的名称。",
+      "promptHeader.agent.description": "自定义智能体的描述：它做什么，以及何时使用。",
+      "promptHeader.agent.argumentHint": "argument-hint 描述自定义智能体期望或支持哪些输入。",
+      "promptHeader.agent.model": "指定运行此自定义智能体的模型。也可以是模型列表，将使用第一个可用的模型。",
+      "promptHeader.agent.tools": "此自定义智能体可以访问的工具集合。",
+      "promptHeader.agent.target": "头部属性（如 tools）所适用的目标。可选值为 `github-copilot` 和 `vscode`。",
+      "promptHeader.agent.infer": "控制该智能体的可见性。",
+      "promptHeader.prompt.name": "提示的名称。它同时也是运行此提示的斜杠命令的名称。",
+      "promptHeader.prompt.description": "可复用提示的描述：它做什么，以及何时使用。",
+      "promptHeader.prompt.argumentHint": "argument-hint 描述该提示期望或支持哪些输入。",
+      "promptHeader.prompt.model": "此提示中使用的模型。也可以是模型列表，将使用第一个可用的模型。",
+      "promptHeader.prompt.tools": "此提示中使用的工具。",
+      "promptHeader.prompt.agent.description": "运行此提示时使用的智能体。",
+      "promptHeader.agent.handoffs": "智能体完成任务后可能的交接操作。"
+    },
+    "vs/workbench/contrib/chat/electron-browser/agentSessions/agentSessionsActions": {
+      "openAgentSessionsWindow": "打开智能体会话窗口",
+      "switchToAgentSessionsMode": "切换到智能体会话模式",
+      "switchToNormalMode": "切换到默认模式"
+    },
+    "vs/workbench/contrib/inlineChat/browser/inlineChatActions": {
+      "undo": "撤销"
+    },
+    "vs/workbench/contrib/inlineChat/browser/inlineChatDefaultModel": {
+      "defaultModel": "自动（供应商默认）",
+      "defaultModelDescription": "使用供应商的默认模型"
+    },
+    "vs/workbench/contrib/inlineChat/browser/inlineChatGutterAffordance": {
+      "inlineChatGutterHover": "内联聊天"
+    },
+    "vs/workbench/contrib/inlineChat/browser/inlineChatOverlayWidget": {
+      "placeholderWithSelection": "修改所选代码",
+      "placeholderNoSelection": "生成代码",
+      "working": "正在处理...",
+      "error": "抱歉，请求失败了",
+      "done": "完成",
+      "done1": "完成，1 处更改",
+      "doneN": "完成，{0} 处更改"
+    },
+    "vs/workbench/contrib/inlineChat/common/inlineChat": {
+      "affordance.gutter": "在装订线中显示操作入口。",
+      "renderMode": "控制内联聊天的呈现方式。",
+      "renderMode.zone": "将内联聊天呈现为当前行下方的区域控件。",
+      "renderMode.hover": "将内联聊天呈现为悬停浮层。"
+    },
+    "vs/workbench/contrib/kiroStandalone/common/updateAffordance": {
+      "kiroStandalone.updateReady": "有可用更新",
+      "kiroStandalone.updateRestartHint": "重启以安装 {0}",
+      "kiroStandalone.updateInstallHint": "安装 {0}",
+      "kiroStandalone.updateDownloadHint": "下载 {0}",
+      "kiroStandalone.updateChecking": "正在检查更新…",
+      "kiroStandalone.updateDownloading": "正在下载更新…",
+      "kiroStandalone.updateInstalling": "正在安装更新…"
+    },
+    "vs/workbench/contrib/kiroStandalone/electron-browser/kiroStandaloneAttentionPanel": {
+      "kiroStandalone.attention.region": "需要你处理的会话",
+      "kiroStandalone.attention.hide": "隐藏",
+      "kiroStandalone.attention.empty": "现在没有需要你处理的事项",
+      "kiroStandalone.attention.toggleCount": "{0} 个会话需要你处理",
+      "kiroStandalone.attention.toggle": "需要你处理的会话",
+      "kiroStandalone.attention.more": "还有 {0} 个在等待",
+      "kiroStandalone.attention.headerCount": "需要你（{0}）",
+      "kiroStandalone.attention.header": "需要你",
+      "kiroStandalone.attention.unknownSession": "未命名会话",
+      "kiroStandalone.attention.permissionNeeded": "需要权限",
+      "kiroStandalone.attention.inputNeeded": "需要输入",
+      "kiroStandalone.attention.expiredNote": "这次询问已超时，智能体不再等待。打开会话查看它停在了哪里。",
+      "kiroStandalone.attention.openSession": "打开会话",
+      "kiroStandalone.attention.clear": "清除",
+      "kiroStandalone.attention.dismiss": "忽略",
+      "kiroStandalone.attention.askExecute": "想要运行一条命令",
+      "kiroStandalone.attention.askEdit": "想要编辑一个文件",
+      "kiroStandalone.attention.askDelete": "想要删除一个文件",
+      "kiroStandalone.attention.askMove": "想要移动一个文件",
+      "kiroStandalone.attention.askRead": "想要读取一个文件",
+      "kiroStandalone.attention.askSearch": "想要搜索工作区",
+      "kiroStandalone.attention.askFetch": "想要获取一个 URL",
+      "kiroStandalone.attention.askGeneric": "需要你的许可才能继续",
+      "kiroStandalone.attention.recap": "智能体刚才在做什么",
+      "kiroStandalone.attention.noOptions": "此会话正在等你。打开它来回答。",
+      "kiroStandalone.attention.subOptionsFor": "选「{0}」时：",
+      "kiroStandalone.attention.answerFailed": "没能发出这个回答。请打开会话在那里回答。"
+    },
+    "vs/workbench/contrib/kiroStandalone/electron-browser/kiroStandaloneContextPanel": {
+      "kiroStandalone.openInEditor": "在编辑器中打开"
+    },
+    "vs/workbench/contrib/kiroStandalone/electron-browser/kiroStandaloneSessions.contribution": {
+      "kiroStandalone.navigateBack": "后退",
+      "kiroStandalone.navigateForward": "前进",
+      "kiroStandalone.cloudSessions": "云端会话",
+      "kiroStandalone.cloudPreviewBadge": "预览",
+      "kiroStandalone.newCloudSession": "新建云端会话",
+      "kiroStandalone.updateRestartDetailBusy": "Kiro 将关闭并重新打开。{0} 个正在运行的智能体会话会被停止。",
+      "kiroStandalone.updateRestartDetail": "Kiro 将关闭并重新打开以完成安装。",
+      "kiroStandalone.updateRestartConfirm": "重启 Kiro 以安装 {0}？",
+      "kiroStandalone.updateRestartAction": "重启",
+      "kiroStandalone.expandRail": "展开会话栏",
+      "kiroStandalone.collapseRail": "折叠会话栏",
+      "kiroStandalone.workspaceConfigurationTitle": "工作区配置",
+      "kiroStandalone.checkForUpdates": "检查更新",
+      "kiroStandalone.updateCheckingShort": "正在检查…",
+      "kiroStandalone.updateCheckingDesc": "正在查找更新的 Kiro 版本。",
+      "kiroStandalone.updateInProgressShort": "进行中…",
+      "kiroStandalone.updateInProgressDesc": "正在安装更新。",
+      "kiroStandalone.updateCheckAgain": "再次检查",
+      "kiroStandalone.updateAvailableDesc": "版本 {0} 可用。使用侧边栏底部的更新按钮来安装。",
+      "kiroStandalone.updateCheckNow": "立即检查",
+      "kiroStandalone.updateDisabledDesc": "此安装已禁用更新。",
+      "kiroStandalone.updateCurrentVersion": "当前版本是 {0}。",
+      "kiroStandalone.openProject": "打开已有项目",
+      "kiroStandalone.openProjectWithKiroCli": "用 Kiro CLI 打开项目…",
+      "kiroStandalone.selectCliFolder": "选择要用 Kiro CLI 打开的文件夹",
+      "kiroStandalone.workspaceFilter": "工作区",
+      "kiroStandalone.oneWorkspaceOnly": "请选择一个工作区文件，或选择一个或多个文件夹。",
+      "kiroStandalone.oneWorkspaceOnlyDetail": "工作区文件已经定义了自己的文件夹，不能再和其他选择组合。"
+    },
+    "vs/workbench/contrib/kiroStandalone/electron-browser/kiroStandaloneSessionsList": {
+      "kiroStandalone.sessionPinnedLabel": "{0}，已固定",
+      "kiroStandalone.cloudTag": "云端",
+      "kiroStandalone.noCloudSessions": "没有云端会话",
+      "kiroStandalone.cliResumeTag": "CLI · {0}",
+      "kiroStandalone.noProjects": "没有项目",
+      "kiroStandalone.statusNeedsInput": "需要你处理",
+      "kiroStandalone.statusInProgress": "进行中",
+      "kiroStandalone.statusError": "失败",
+      "kiroStandalone.statusUnread": "有更新",
+      "kiroStandalone.reconnectFailed": "无法重新连接到 {0}。点击以重新打开。",
+      "kiroStandalone.reopenProject": "重新打开",
+      "kiroStandalone.unpinSession": "取消固定会话",
+      "kiroStandalone.pinSession": "固定会话",
+      "kiroStandalone.openWithKiroCli": "用 Kiro CLI 打开",
+      "kiroStandalone.openInKiroWeb": "在 Kiro Web 中打开",
+      "kiroStandalone.workspaceConfiguration": "工作区配置"
+    },
+    "vs/workbench/contrib/terminalContrib/chatAgentTools/browser/tools/awaitTerminalTool": {
+      "awaitTerminalTool.displayName": "等待终端",
+      "await.progressive": "正在等待终端完成",
+      "await.past": "已等待终端完成"
+    },
+    "vs/workbench/contrib/terminalContrib/chatAgentTools/browser/tools/runInTerminalTool": {
+      "runInTerminal.background.inDirectory": "要在 `{1}` 中于后台运行 `{0}` 命令吗？",
+      "runInTerminal.presentationOverride.background.inDirectory": "要在 `{2}` 中于 `{1}` 后台运行 `{0}` 命令吗？",
+      "runInTerminal.presentationOverride.background": "要在 `{1}` 中于后台运行 `{0}` 命令吗？"
+    },
+    "vs/workbench/contrib/terminalContrib/chatAgentTools/common/terminalChatAgentToolsConfiguration": {
+      "terminalSandbox.enabledSetting": "控制“在终端中运行”工具是否在沙盒终端中执行命令。",
+      "terminalSandbox.networkSetting": "注意：仅在启用 {0} 时生效。控制终端沙盒中的网络访问。",
+      "terminalSandbox.networkSetting.allowedDomains": " 支持 {0} 这类通配符；空列表表示不允许任何网络访问。",
+      "terminalSandbox.networkSetting.deniedDomains": "拒绝访问的域名列表（优先检查，优先于 allowedDomains）。",
+      "terminalSandbox.linuxFileSystemSetting": "注意：仅在启用 {0} 时生效。控制 Linux 上终端沙盒的文件系统访问。路径不支持 glob 模式，只支持字面路径（例如 ./src/、~/.ssh、.env）。此设置需要安装 **bubblewrap**、**socat** 和 **ripgrep**。",
+      "terminalSandbox.linuxFileSystemSetting.denyRead": "拒绝读取的路径列表。留空表示允许读取所有路径。",
+      "terminalSandbox.linuxFileSystemSetting.allowWrite": "允许写入的路径列表。留空表示禁止所有写入。",
+      "terminalSandbox.linuxFileSystemSetting.denyWrite": "在允许写入的路径中拒绝写入的路径列表（优先于 allowWrite）。",
+      "terminalSandbox.macFileSystemSetting": "注意：仅在启用 {0} 时生效。控制 macOS 上终端沙盒的文件系统访问。路径也支持 git 风格的 glob 模式（例如 *.ts、./src、./src/**/*.ts、file?.txt）。此设置需要安装 **ripgrep**。",
+      "terminalSandbox.macFileSystemSetting.denyRead": "拒绝读取的路径列表。留空表示允许读取所有路径。",
+      "terminalSandbox.macFileSystemSetting.allowWrite": "允许写入的路径列表。留空表示禁止所有写入。",
+      "terminalSandbox.macFileSystemSetting.denyWrite": "在允许写入的路径中拒绝写入的路径列表（优先于 allowWrite）。"
+    },
+    "vs/workbench/contrib/update/browser/update": {
+      "newerUpdateReady": "更新的版本已就绪，可以安装。",
+      "restartToUpdate2": "重启以更新",
+      "newerUpdateDownloading": "发现了更新的版本，已开始下载。就绪后我们会通知你。"
+    },
+    "vs/workbench/contrib/welcomeAgentSessions/browser/agentSessionsWelcome": {
+      "loadingSessions": "正在加载会话..."
+    },
+    "vs/workbench/services/chat/common/chatEntitlementService": {
+      "plan.proName": "Copilot Pro",
+      "plan.proPlusName": "Copilot Pro+",
+      "plan.businessName": "Copilot Business",
+      "plan.enterpriseName": "Copilot Enterprise",
+      "plan.freeName": "Copilot Free"
+    },
+    "vs/workbench/services/extensions/common/remoteExtensionHost": {
+      "remoteTrust.message": "是否信任远程主机“{0}”？",
+      "remoteTrust.detail": "安装在此远程主机上的扩展会在你连接时自动运行，并且可以在本地计算机上执行代码（例如打开本地终端）。请只连接到你信任的远程主机。",
+      "remoteTrust.trust": "信任并连接",
+      "remoteTrust.cancel": "不连接",
+      "remoteTrust.remember": "始终信任此远程主机",
+      "remoteTrust.declined": "已取消连接：远程主机“{0}”未被信任。"
+    },
+    "vs/workbench/services/label/common/labelService": {
+      "agentSessionsWorkspace": "智能体会话"
+    }
+  }
+}

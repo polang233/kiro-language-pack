@@ -83,11 +83,9 @@ git push origin v1.0.0
 [`.github/workflows/release.yml`](../.github/workflows/release.yml) 会打包、挂到 GitHub
 Release，并执行 `npm run publish:ovsx`。
 
-发布后页面应为：
+发布后页面为：
 
 https://open-vsx.org/extension/polang233/kiro-language-pack
-
-该页在返回 200 之前，根 README 会引导用户先用 GitHub Releases。
 
 ## VS Code Marketplace（可选）
 
@@ -112,7 +110,6 @@ npm run publish:vsce
 ## 发布之后
 
 - 提醒用户先卸载冲突的官方 VS Code 语言包再装本包。
-- Open VSX 扩展页真正可访问后，把根 README 的安装说明从「先用 Release」改回直链。
 - 下一版发布前先 bump `config.json` 与 `package.json` 的 `version`。
 
 English: [publishing.md](publishing.md).

@@ -251,7 +251,8 @@ tr: [开始调试](命令: javascript-walkthrough.commands.debugJsFile)   ← �
 - [x] 验证「一个扩展多 localizations 条目」（§10.3）
 - [x] 补截图（`docs/images/`：安装前后对照）
 - [x] 第二种界面语言：`zh-tw` 已随 1.0.0 发布（繁体）
-- [ ] **发布 blocker：** `ovsx create-namespace polang233`，配置 `OVSX_PAT`，上架 Open VSX
+- [x] **发布 blocker：** `ovsx create-namespace polang233`，配置 `OVSX_PAT`，上架 Open VSX
+      —— 已通过审核：https://open-vsx.org/extension/polang233/kiro-language-pack
 - [ ] （可选）在 VS Marketplace 创建同名 Publisher `polang233`，配置 `VSCE_PAT` 后 `publish:vsce`
 - [ ] 给 [kirodotdev/Kiro](https://github.com/kirodotdev/Kiro) 提 issue，附
       `reports/manifest-audit-kiro.kiroAgent.json`，请求：

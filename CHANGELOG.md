@@ -8,6 +8,21 @@ verified Kiro versions are listed in `config.json` under `target.verifiedKiroVer
 
 ## [Unreleased]
 
+## [1.1.0]
+
+Verified against Kiro **1.0.309** (Code OSS 1.109.5), in addition to **1.0.228** and **1.0.242**.
+`engines.vscode` stays `^1.107.0` so the pack still installs on the older builds.
+
+### Kiro 1.0.309
+
+- Translated the 315 Kiro-authored core strings (and 1 `kiro.kiroAgent` command) added between 1.0.242 and 1.0.309: session pinning, collapsible sessions rail, attention cards, in-app updates, Cloud Sessions in Agent Focus, the integrated browser, and chat hooks / skills settings. `kiro core` coverage is **1159/1159 (100%)** for both `zh-cn` and `zh-tw`; `kiro.kiroAgent` is **80/80 (100%)**.
+- Recovered 29 translations whose module path moved (prompt-header hover → validator, Copilot plan names, Open with Kiro CLI, and a handful of chat chrome strings).
+- 183 authored keys 1.0.309 removed outright are left in place: the build filters them out, and they light up again if those views return.
+
+### Changed
+
+- Open VSX listing is live at [polang233/kiro-language-pack](https://open-vsx.org/extension/polang233/kiro-language-pack). README install instructions now send people to search inside Kiro first; GitHub Releases remain a `.vsix` fallback. Version and download badges added.
+
 ## [1.0.0]
 
 First public release. Verified against Kiro **1.0.228** (Code OSS 1.107.1) and
@@ -87,4 +102,5 @@ upgrading.
   (no longer `--extension=false`), so it is not confused with `--no-extension`.
 - The patcher no longer falls back to the first enabled locale when `--locale` is omitted.
 
+[1.1.0]: https://github.com/polang233/kiro-language-pack/releases/tag/v1.1.0
 [1.0.0]: https://github.com/polang233/kiro-language-pack/releases/tag/v1.0.0
