@@ -88,15 +88,19 @@ npm run publish:ovsx
 
 Or dry-run: `npm run publish:ovsx -- --dry-run`.
 
-7. **CI path:** add repository secret `OVSX_PAT`, then:
+7. **CI path:** repository secret `OVSX_PAT` is already configured on
+   `polang233/kiro-language-pack`. Push a matching tag:
 
 ```bash
-git tag v1.0.0
-git push origin v1.0.0
+git tag v1.1.0
+git push origin v1.1.0
 ```
 
 [`.github/workflows/release.yml`](../.github/workflows/release.yml) builds the `.vsix`,
-attaches it to the GitHub Release, and runs `npm run publish:ovsx`.
+attaches it to the GitHub Release, and runs `npm run publish:ovsx`. If the log says
+`OVSX_PAT secret is not set`, the secret was deleted — recreate it with
+`gh secret set OVSX_PAT` (token on stdin, never committed). Confirm the **name** only
+with `gh secret list`.
 
 After publish, the page is:
 

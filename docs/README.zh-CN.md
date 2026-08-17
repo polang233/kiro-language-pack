@@ -17,5 +17,6 @@
   `config.json` 里，不需要改脚本。
 - **扩展市场页面** — `src/marketplace/README.md`。构建时会复制进 `.vsix`。它是刻意写成多语言的：
   商店对所有内置语言只显示同一个页面，而且会检索页面文字。
+- **给后续 AI 的发布说明** — 根目录 [AGENTS.md](../AGENTS.md)（Open VSX secret 名、打 tag 发版流程）
 
 贡献流程、译文规则、提 PR 前的检查项：[CONTRIBUTING.md](../CONTRIBUTING.md)。

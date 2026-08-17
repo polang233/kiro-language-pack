@@ -1,0 +1,12 @@
+---
+description: How to release this language pack to Open VSX and GitHub. Apply when tagging, publishing, or after a Kiro upgrade.
+alwaysApply: true
+---
+
+# Release and secrets
+
+- Open VSX token is GitHub Actions secret **`OVSX_PAT`**. Never commit it, never write it into markdown, never print it. Confirm with `gh secret list` (names only).
+- Normal release: bump `config.json` + `package.json` version together → `npm run verify` → commit → `git tag v<version>` → push main and the tag. CI (`.github/workflows/release.yml`) builds the `.vsix`, creates the GitHub Release, and runs `npm run publish:ovsx`.
+- Do not ask the user for `OVSX_PAT` unless CI skipped publish (`OVSX_PAT secret is not set`). Then: `gh secret set OVSX_PAT` with the token on stdin, or local `$env:OVSX_PAT = "..."; npm run publish:ovsx`.
+- Listing: https://open-vsx.org/extension/polang233/kiro-language-pack — CLI success can lag the public page. Inactive versions: https://open-vsx.org/user-settings/extensions
+- After a Kiro update: `npm run check-upgrade`, translate `src/i18n/zh-cn/`, `node scripts/convert-zh-tw.mjs`, add `target.verifiedKiroVersions`, then ship as above. Full notes: [AGENTS.md](../../AGENTS.md)

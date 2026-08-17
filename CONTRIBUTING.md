@@ -89,7 +89,7 @@ Read **`orphanedAuthored` first** — often keys *moved* (new module path), not 
 
 Then `npm run sync`, `npm run gap`, `npm run coverage`, add the version to `target.verifiedKiroVersions`, bump `version`. If you use the install patch: `npm run patch -- --status` then re-`--apply` after upgrade.
 
-Publishing: [docs/publishing.md](docs/publishing.md).
+Publishing (tag `v*` + GitHub secret `OVSX_PAT`): [docs/publishing.md](docs/publishing.md) · [AGENTS.md](AGENTS.md).
 
 ## Reporting issues
 

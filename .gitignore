@@ -24,7 +24,9 @@ yarn-error.log*
 Thumbs.db
 .idea/
 .vscode/
-.cursor/
+.cursor/*
+!.cursor/rules/
+!.cursor/rules/**
 *.swp
 
 # Temp probes and local scratch

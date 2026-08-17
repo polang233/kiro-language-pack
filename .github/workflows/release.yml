@@ -55,7 +55,8 @@ jobs:
           files: dist/*.vsix
           generate_release_notes: true
 
-      # Open VSX is Kiro's default registry. Skips cleanly when OVSX_PAT is not configured.
+      # Open VSX is Kiro's default registry. Repo secret OVSX_PAT must be set
+      # (gh secret set OVSX_PAT). Skips cleanly when it is missing so a Release still ships.
       - name: Publish to Open VSX
         if: startsWith(github.ref, 'refs/tags/v') || inputs.publish
         run: |

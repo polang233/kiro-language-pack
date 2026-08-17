@@ -15,5 +15,6 @@ Also outside this folder:
 
 - **Adding a language** — [CONTRIBUTING.md](../CONTRIBUTING.md#adding-a-language)
 - **Extension marketplace page** — `src/marketplace/README.md` (copied into the `.vsix`)
+- **Agent / release notes** — root [AGENTS.md](../AGENTS.md) (Open VSX secret name, tag-and-push flow)
 
 Contributor workflow: [CONTRIBUTING.md](../CONTRIBUTING.md).

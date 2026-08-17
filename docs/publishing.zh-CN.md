@@ -73,15 +73,17 @@ npm run publish:ovsx
 
 试运行：`npm run publish:ovsx -- --dry-run`。
 
-7. **CI：** 在 GitHub 仓库 Secrets 里配置 `OVSX_PAT`，然后：
+7. **CI：** 仓库 Secrets 里已经有 `OVSX_PAT`。打与 `config.json` 一致的 tag 即可：
 
 ```bash
-git tag v1.0.0
-git push origin v1.0.0
+git tag v1.1.0
+git push origin v1.1.0
 ```
 
 [`.github/workflows/release.yml`](../.github/workflows/release.yml) 会打包、挂到 GitHub
-Release，并执行 `npm run publish:ovsx`。
+Release，并执行 `npm run publish:ovsx`。若日志出现 `OVSX_PAT secret is not set`，说明
+secret 被删了：用 `gh secret set OVSX_PAT` 从 stdin 重新写入（令牌不要进仓库）。只核
+对名字：`gh secret list`。
 
 发布后页面为：
 
