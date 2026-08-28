@@ -70,9 +70,9 @@ modified install is not supported by AWS — see the repository if you want it.
 仓库里另有一个可选补丁，通过改写 Kiro 安装目录再多翻约 89 条文案。它不属于本扩展，Kiro 升级即失效，
 且改过的安装 AWS 不予支持，需要的话请看仓库说明。
 
-Reconciled against Kiro **1.0.309**, **1.0.242** and **1.0.228**. Other builds work; strings Kiro adds later
+Reconciled against Kiro **1.0.395**, **1.0.309**, **1.0.242** and **1.0.228**. Other builds work; strings Kiro adds later
 fall back to English until the pack catches up.
-已对齐 Kiro 1.0.309、1.0.242 与 1.0.228；其他版本可用，之后新增的字符串会先回落英文。
+已对齐 Kiro 1.0.395、1.0.309、1.0.242 与 1.0.228；其他版本可用，之后新增的字符串会先回落英文。
 
 The UI language is independent of the language the AI replies in — for that, use a steering
 file such as `.kiro/steering/language.md`. 界面语言与 AI 回复语言无关，后者用 steering 文件控制。

@@ -1,7 +1,7 @@
 {
   "name": "kiro-language-pack",
   "private": true,
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Community language pack for Kiro IDE (Simplified & Traditional Chinese) plus build tooling",
   "type": "module",
   "license": "MIT",

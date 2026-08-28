@@ -97,7 +97,7 @@ npm run patch -- --locale=zh-tw --install-dir="C:\Users\me\AppData\Local\Program
 
 | Locale | 状态 |
 | --- | --- |
-| `zh-cn` 简体中文 | 已发布——编辑器主体译文 + Kiro 专有文案 1159 条全覆盖（100%） |
+| `zh-cn` 简体中文 | 已发布——编辑器主体译文 + Kiro 专有文案 1335 条全覆盖（100%） |
 | `zh-tw` 繁體中文 | 已发布——同样范围、同样 100%，用台湾习惯用词 |
 | `ja` `ko` `fr` `de` `es` `it` `ru` `pt-br` `tr` `pl` `cs` | `config.json` 里已预置，`enabled: false`，还没有译文 |
 
@@ -131,7 +131,7 @@ npm run patch -- --locale=zh-tw --install-dir="C:\Users\me\AppData\Local\Program
 界面语言和 AI 用什么语言回复是两件事。想让模型说中文，加一个 steering 文件，例如
 `.kiro/steering/language.md`。
 
-已对齐 Kiro **1.0.309**（Code OSS 1.109.5）、**1.0.242**（Code OSS 1.108.2）与 **1.0.228**，见
+已对齐 Kiro **1.0.395**、**1.0.309**（Code OSS 1.109.5）、**1.0.242**（Code OSS 1.108.2）与 **1.0.228**，见
 `config.json` 的 `target.verifiedKiroVersions`。其他版本基本能用；这之间 Kiro 新增的字符串会先回落英文，
 直到有人跑 `npm run check-upgrade` 把新增部分翻出来。
 

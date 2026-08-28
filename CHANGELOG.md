@@ -8,6 +8,16 @@ verified Kiro versions are listed in `config.json` under `target.verifiedKiroVer
 
 ## [Unreleased]
 
+## [1.2.0]
+
+Verified against Kiro **1.0.395** (Code OSS 1.109.5), in addition to **1.0.309**, **1.0.242** and **1.0.228**.
+`engines.vscode` stays `^1.107.0` so the pack still installs on the older builds.
+
+### Kiro 1.0.395
+
+- Translated the 177 Kiro-authored core strings added between 1.0.309 and 1.0.395: My Tasks, Task Trackers, session search, rail section reorder, experiments, workflows, cloud-config notices, artifacts, and Open VSX publisher-identity warnings. `kiro core` coverage is **1335/1335 (100%)** for both `zh-cn` and `zh-tw`; `kiro.kiroAgent` is **80/80 (100%)**.
+- 1 authored key 1.0.395 removed (`kiro.agentConfig.cloudReadOnly`) is left in place: the build filters it out.
+
 ## [1.1.0]
 
 Verified against Kiro **1.0.309** (Code OSS 1.109.5), in addition to **1.0.228** and **1.0.242**.
@@ -102,5 +112,6 @@ upgrading.
   (no longer `--extension=false`), so it is not confused with `--no-extension`.
 - The patcher no longer falls back to the first enabled locale when `--locale` is omitted.
 
+[1.2.0]: https://github.com/polang233/kiro-language-pack/releases/tag/v1.2.0
 [1.1.0]: https://github.com/polang233/kiro-language-pack/releases/tag/v1.1.0
 [1.0.0]: https://github.com/polang233/kiro-language-pack/releases/tag/v1.0.0

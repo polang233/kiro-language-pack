@@ -110,7 +110,7 @@ Full detail, including the exact file list and the risks:
 
 | Locale | Status |
 | --- | --- |
-| `zh-cn` 简体中文 | Shipped — workbench baseline plus all 1159 Kiro-specific strings (100%) |
+| `zh-cn` 简体中文 | Shipped — workbench baseline plus all 1335 Kiro-specific strings (100%) |
 | `zh-tw` 繁體中文 | Shipped — same surface at 100%, Taiwan-oriented terminology |
 | `ja` `ko` `fr` `de` `es` `it` `ru` `pt-br` `tr` `pl` `cs` | Declared in `config.json`, `enabled: false`, no translations yet |
 
@@ -147,7 +147,7 @@ for an upstream i18n request. Please do not file translation issues for those su
 The UI language does not change what language the AI answers in. For that, add a steering
 file such as `.kiro/steering/language.md`.
 
-Reconciled against Kiro **1.0.309** (Code OSS 1.109.5), **1.0.242** (Code OSS 1.108.2)
+Reconciled against Kiro **1.0.395** and **1.0.309** (Code OSS 1.109.5), **1.0.242** (Code OSS 1.108.2)
 and **1.0.228** — see `target.verifiedKiroVersions` in `config.json`. Other builds generally
 work; strings Kiro adds in between fall back to English until someone runs
 `npm run check-upgrade` and translates the additions.
