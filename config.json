@@ -4,7 +4,7 @@
   "publisher": "polang233",
   "$publisher": "Must match the Open VSX namespace you claim with `ovsx create-namespace`, and the Marketplace publisher id if you also publish there. Taken from the GitHub account this repository is authored from; change it here if you publish under an organisation instead.",
   "namePrefix": "kiro-language-pack",
-  "version": "1.2.0",
+  "version": "1.1.1",
   "license": "MIT",
   "repository": "https://github.com/polang233/kiro-language-pack",
   "homepage": "https://github.com/polang233/kiro-language-pack#readme",

@@ -5,10 +5,11 @@ This project follows [Semantic Versioning](https://semver.org/).
 
 The version number tracks the language pack itself, not the Kiro release it targets. The
 verified Kiro versions are listed in `config.json` under `target.verifiedKiroVersions`.
+Aligning with a new Kiro IDE build is a patch bump.
 
 ## [Unreleased]
 
-## [1.2.0]
+## [1.1.1]
 
 Verified against Kiro **1.0.395** (Code OSS 1.109.5), in addition to **1.0.309**, **1.0.242** and **1.0.228**.
 `engines.vscode` stays `^1.107.0` so the pack still installs on the older builds.
@@ -112,6 +113,6 @@ upgrading.
   (no longer `--extension=false`), so it is not confused with `--no-extension`.
 - The patcher no longer falls back to the first enabled locale when `--locale` is omitted.
 
-[1.2.0]: https://github.com/polang233/kiro-language-pack/releases/tag/v1.2.0
+[1.1.1]: https://github.com/polang233/kiro-language-pack/releases/tag/v1.1.1
 [1.1.0]: https://github.com/polang233/kiro-language-pack/releases/tag/v1.1.0
 [1.0.0]: https://github.com/polang233/kiro-language-pack/releases/tag/v1.0.0

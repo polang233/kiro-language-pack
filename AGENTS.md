@@ -23,6 +23,10 @@ npm run publish:ovsx
 
 ## Shipping a release
 
+Versioning: aligning with a new Kiro IDE build (new or moved NLS keys) is a **patch**
+bump (`1.1.0` → `1.1.1`). Bump **minor** only when the pack itself gains a feature
+(new locale, new runtime capability, etc.).
+
 1. Bump **both** `config.json` → `version` and `package.json` / lockfile **root** version (same string).
 2. `npm run verify` against the local Kiro install (`npm run detect`).
 3. Commit, then `git tag v<version>` and push **main + the tag**.
