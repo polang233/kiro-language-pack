@@ -9,6 +9,26 @@ Aligning with a new Kiro IDE build is a patch bump.
 
 ## [Unreleased]
 
+## [1.1.3]
+
+Verified against Kiro **1.1.14** (Code OSS 1.131.0), in addition to **1.0.437**, **1.0.395**, **1.0.309**, **1.0.242** and **1.0.228**.
+`engines.vscode` stays `^1.107.0` so the pack still installs on the older builds.
+
+### Kiro 1.1.14
+
+- Translated 658 new Kiro-authored core strings: local web portal / gateway, automations, recipes, agent-host tool cards, sessions chrome, voice input, plan review, and AI customizations. Recovered 59 translations whose module path moved. `kiro core` coverage is **1365/1365 (100%)** for both `zh-cn` and `zh-tw`; `kiro.kiroAgent` is **80/80 (100%)**.
+- Updated 6 existing translations whose English source dropped `$(codicon)` markers or switched to `{0}` / `{1}` placeholders.
+- Older authored keys 1.1.14 removed or moved are left in place: the build filters them out.
+
+## [1.1.2]
+
+Verified against Kiro **1.0.437** (Code OSS 1.109.5), in addition to **1.0.395**, **1.0.309**, **1.0.242** and **1.0.228**.
+`engines.vscode` stays `^1.107.0` so the pack still installs on the older builds.
+
+### Kiro 1.0.437
+
+- Translated the 1 Kiro-authored core string added between 1.0.395 and 1.0.437: the cloud-session compose failure notice. `kiro core` coverage is **1336/1336 (100%)** for both `zh-cn` and `zh-tw`; `kiro.kiroAgent` is **80/80 (100%)**.
+
 ## [1.1.1]
 
 Verified against Kiro **1.0.395** (Code OSS 1.109.5), in addition to **1.0.309**, **1.0.242** and **1.0.228**.
@@ -113,6 +133,8 @@ upgrading.
   (no longer `--extension=false`), so it is not confused with `--no-extension`.
 - The patcher no longer falls back to the first enabled locale when `--locale` is omitted.
 
+[1.1.3]: https://github.com/polang233/kiro-language-pack/releases/tag/v1.1.3
+[1.1.2]: https://github.com/polang233/kiro-language-pack/releases/tag/v1.1.2
 [1.1.1]: https://github.com/polang233/kiro-language-pack/releases/tag/v1.1.1
 [1.1.0]: https://github.com/polang233/kiro-language-pack/releases/tag/v1.1.0
 [1.0.0]: https://github.com/polang233/kiro-language-pack/releases/tag/v1.0.0

@@ -35,7 +35,12 @@
     { "en": "Workspace", "zh": "工作区", "keepEnglish": false, "note": "沿用 VS Code 官方中文译法" },
     { "en": "Workspace Manager", "zh": "工作区管理", "keepEnglish": false, "note": "勿加「编排器」括注" },
     { "en": "Command Palette", "zh": "命令面板", "keepEnglish": false, "note": "沿用 VS Code 官方中文译法" },
-    { "en": "Agent autonomy", "zh": "自主程度", "keepEnglish": false }
+    { "en": "Agent autonomy", "zh": "自主程度", "keepEnglish": false },
+    { "en": "Automation", "zh": "自动化", "keepEnglish": false, "note": "定时跑智能体会话的 Automations 面板" },
+    { "en": "Recipe", "zh": "配方", "keepEnglish": false, "note": "可复用的多步骤工作流定义；Settings 里与工作流并列" },
+    { "en": "Plugin", "zh": "插件", "keepEnglish": false, "note": "智能体插件；勿与 VS Code 扩展混称" },
+    { "en": "Gateway", "zh": "网关", "keepEnglish": false, "note": "Kiro gateway：本地网页门户背后的服务" },
+    { "en": "Local web portal", "zh": "本地网页门户", "keepEnglish": false, "note": "向局域网浏览器提供聚焦智能体会话；Insider" }
   ],
   "style": {
     "punctuation": "中文全角标点；括号用（），但保留占位符与命令链接中的半角原样",

@@ -107,7 +107,7 @@ including the English source text. It serves four purposes:
   instead of rendering wrong. Mismatches in files this repository maintains are reported
   instead, since those are our bugs.
 - **Gap analysis.** `npm run gap` diffs the installed key set against the upstream baseline.
-  The difference — 1335 keys on Kiro 1.0.395, 1159 on 1.0.309, 979 on 1.0.242 — is exactly what this project has to translate
+  The difference — 1365 keys on Kiro 1.1.14, 1336 on 1.0.437, 1335 on 1.0.395, 1159 on 1.0.309, 979 on 1.0.242 — is exactly what this project has to translate
   itself, and the report lists every one of them with its English source.
 - **Coverage.** It gives `coverage` a real denominator instead of a guess.
 

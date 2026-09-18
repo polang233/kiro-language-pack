@@ -1,0 +1,14 @@
+// Kiro 1.0.437 strings added since the 1.0.395 baseline.
+//
+// One new cloud-session compose error. No keys were removed vs 1.0.395;
+// older orphans stay in earlier core*.i18n.json files (the build filters them).
+//
+// Rules: keep {0} placeholders, $(codicon) markers and (command:...) links intact.
+{
+  "version": "1.0.0",
+  "contents": {
+    "vs/workbench/services/kiroStandalone/common/remoteComposeController": {
+      "kiroStandalone.composeFailed": "無法啟動此雲端會話。"
+    }
+  }
+}

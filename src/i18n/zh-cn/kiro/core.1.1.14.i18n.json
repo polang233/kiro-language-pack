@@ -1,0 +1,978 @@
+// Kiro 1.1.14 strings added or recovered since the 1.0.437 baseline.
+//
+// New UI: local web portal / gateway, automations, recipes, agent-host tool
+// cards, sessions chrome, voice input, plan review, and AI customizations.
+// 59 keys whose module path moved are recovered here (old copies stay in
+// earlier core*.i18n.json; the build filters orphans).
+//
+// Rules: keep {0} placeholders, $(codicon) markers and (command:...) links intact.
+{
+  "version": "1.0.0",
+  "contents": {
+    "vs/code/electron-main/app": {
+      "gateway.gateOff": "本地网页门户实验功能已关闭。请先在设置中打开“{0}”。",
+      "gateway.noAgentWindow": "网关没打开聚焦智能体窗口，所以没什么可提供。请查看日志，了解窗口为什么打不开。",
+      "gateway.notAvailable": "Kiro 网关仅在 insider 和开发版中可用。",
+      "gateway.startFailed": "网关无法启动：{0}"
+    },
+    "vs/platform/agentFocusPortal/common/portalGateway": {
+      "gateway.allowedHosts": "  同时响应：{0}",
+      "gateway.badPin": "--pin 必须恰好是六位数字，不能是“{0}”。",
+      "gateway.badPort": "--port 必须是 {0} 到 {1} 之间的整数，不能是“{2}”。",
+      "gateway.bind": "  正在监听：{0} 端口 {1}",
+      "gateway.bridgeUp": "智能体已连接。打开 URL，用 PIN 配对。",
+      "gateway.bridgeWaiting": "正在等待智能体连接。连接完成前，浏览器会看到等待页。",
+      "gateway.droppedHost": "已忽略 --allowed-host “{0}”：不是可用的主机名。请传入主机名、host:port 或隧道的 URL。",
+      "gateway.heading": "Kiro 网关正在运行。",
+      "gateway.loopback": "  仅本机可访问。",
+      "gateway.loopbackOnly": "仅在回环地址上提供服务，其他设备无法访问。请用 --host 指定局域网地址，或在前面加隧道并用 --allowed-host 命名。",
+      "gateway.notRunning": "Kiro 网关未能启动。",
+      "gateway.pin": "  配对 PIN：  {0}",
+      "gateway.url": "  URL：          {0}",
+      "gateway.warning": "注意：{0}"
+    },
+    "vs/platform/agentHost/browser/agentHostEnablementService": {
+      "chat.agentHost.enabled": "启用后，部分智能体会在单独的智能体宿主进程中运行。"
+    },
+    "vs/platform/agentHost/common/agentHostCustomizationConfig": {
+      "agentHost.config.claudeUseCopilotProxy.description": "启用后（默认），Claude 智能体的所有请求都会经 GitHub Copilot 转发。禁用后，Claude 会使用你自己的凭据（API 密钥或 Claude 订阅）直接与 Anthropic 通信。",
+      "agentHost.config.claudeUseCopilotProxy.title": "经 Copilot 转发 Claude",
+      "agentHost.config.codexUsageSource.description": "选择将 Codex 用量经 GitHub Copilot 转发，还是使用已有的 Codex OpenAI 登录。VS Code 不提供 OpenAI 登录流程；请在选择 OpenAI 之前单独完成 Codex 身份验证。",
+      "agentHost.config.codexUsageSource.title": "Codex 用量来源"
+    },
+    "vs/platform/agentHost/common/agentHostEnablementService": {
+      "chat.agentHost.enabled": "启用后，部分智能体会在单独的智能体宿主进程中运行。",
+      "chat.agents.copilotCli.hideExtensionHost": "启用后，会从智能体窗口选择器中隐藏扩展宿主 Copilot CLI 条目。需要 `#chat.agentHost.enabled#`。",
+      "chat.editor.copilotCli.hideExtensionHost": "启用后，会从编辑器窗口的聊天选择器中隐藏扩展宿主 Copilot CLI 条目。"
+    },
+    "vs/platform/agentHost/common/agentHostSchema": {
+      "agentHost.config.preferLongContextEnabled.description": "是否启用 Copilot Chat 的优先长上下文设置。为 `true` 时，具备免费长上下文窗口的模型在选择器中只显示长上下文选项。为 `false`（默认）时，仍可选择较小的默认上下文选项。",
+      "agentHost.config.preferLongContextEnabled.title": "优先长上下文"
+    },
+    "vs/platform/agentHost/common/copilotCliConfig": {
+      "agentHost.config.reasoningEffortOverride.description": "覆盖 Copilot SDK 会话的推理力度，不受各模型选择器取值影响。请设为所选模型支持的级别（例如 `low`、`medium`、`high`、`xhigh`）；无法识别的力度值会被忽略，会话会回退到选择器中的取值。仅影响 Copilot SDK 会话，供试验使用。",
+      "agentHost.config.reasoningEffortOverride.title": "覆盖推理力度"
+    },
+    "vs/platform/agentHost/node/agentService": {
+      "agentHost.forkedSessionFallback": "分叉会话"
+    },
+    "vs/platform/agentHost/node/claude/claudeToolDisplay": {
+      "claude.toolComplete.edit": "已编辑文件",
+      "claude.toolComplete.editFile": "已编辑 {0}",
+      "claude.toolComplete.glob": "已找到文件",
+      "claude.toolComplete.globPattern": "已找到匹配 {0} 的文件",
+      "claude.toolComplete.grep": "已搜索文件",
+      "claude.toolComplete.grepPattern": "已搜索 {0}",
+      "claude.toolComplete.killBash": "已终止 Shell 命令",
+      "claude.toolComplete.ls": "已列出目录",
+      "claude.toolComplete.lsPath": "已列出 {0}",
+      "claude.toolComplete.read": "已读取文件",
+      "claude.toolComplete.readFile": "已读取 {0}",
+      "claude.toolComplete.taskComplete": "已完成任务",
+      "claude.toolComplete.taskCreate": "已创建任务",
+      "claude.toolComplete.taskCreateNamed": "已创建任务：{0}",
+      "claude.toolComplete.taskDelete": "已删除任务",
+      "claude.toolComplete.taskGet": "已读取任务",
+      "claude.toolComplete.taskList": "已读取任务列表",
+      "claude.toolComplete.taskStart": "已开始任务",
+      "claude.toolComplete.taskUpdate": "已更新任务",
+      "claude.toolComplete.todoWrite": "已更新待办列表"
+    },
+    "vs/platform/agentHost/node/codex/codexAgent": {
+      "codex.sessionConfig.approvalPolicy.onFailure": "失败时询问",
+      "codex.sessionConfig.approvalPolicy.onFailureDescription": "先在沙盒中尝试命令；若沙盒拦截，再询问是否以提升的权限重试。",
+      "codexAgent.description.copilot": "使用 GitHub Copilot 的 Codex 智能体",
+      "codexAgent.description.openai": "使用你的 OpenAI 账号的 Codex 智能体"
+    },
+    "vs/platform/agentHost/node/copilot/copilotToolDisplay": {
+      "toolComplete.create": "已创建文件",
+      "toolComplete.createFile": "已创建 {0}",
+      "toolComplete.edit": "已编辑文件",
+      "toolComplete.editFile": "已编辑 {0}",
+      "toolComplete.exitPlanMode": "已退出计划模式",
+      "toolComplete.glob": "已找到文件",
+      "toolComplete.globPattern": "已找到匹配 {0} 的文件",
+      "toolComplete.grep": "已搜索文件",
+      "toolComplete.grepPattern": "已搜索 {0}",
+      "toolComplete.listAgents": "已列出智能体",
+      "toolComplete.patch": "已编辑文件",
+      "toolComplete.patchFile": "已编辑 {0}",
+      "toolComplete.patchFiles": "已编辑 {0}",
+      "toolComplete.readAgent": "已读取智能体 {0}",
+      "toolComplete.readAgentGeneric": "已读取智能体",
+      "toolComplete.skill": "已读取技能 {0}",
+      "toolComplete.skillName": "已读取技能 {0}",
+      "toolComplete.sql": "已执行 SQL 查询",
+      "toolComplete.view": "已读取文件",
+      "toolComplete.viewFile": "已读取 {0}",
+      "toolComplete.viewFileFromLine": "已读取 {0}，从第 {1} 行到末尾",
+      "toolComplete.viewFileLine": "已读取 {0}，第 {1} 行",
+      "toolComplete.viewFileRange": "已读取 {0}，第 {1} 至 {2} 行",
+      "toolComplete.writeAgent": "已写入智能体 {0}",
+      "toolComplete.writeAgentGeneric": "已写入智能体",
+      "toolComplete.writeShell": "已向 Shell 发送输入",
+      "toolComplete.writeShellCmd": "已向 Shell 发送 {0}",
+      "toolInvoke.skillName": "正在读取技能 {0}"
+    },
+    "vs/platform/agentHost/node/shared/agentFeedbackServerTools": {
+      "toolComplete.addComment": "已添加评论",
+      "toolComplete.deleteComments": "已删除评论",
+      "toolComplete.listComments": "已检查评论",
+      "toolComplete.listComments.many": "已检查 {0} 条评论",
+      "toolComplete.listComments.one": "已检查 1 条评论",
+      "toolComplete.resolveComments": "已解决评论",
+      "toolComplete.viewUnreviewedComments": "已查看评论"
+    },
+    "vs/platform/agentHost/node/shared/sessionServerTools": {
+      "toolComplete.createChat": "已创建聊天",
+      "toolComplete.getCurrentSession": "已检查当前会话",
+      "toolComplete.getSessionContext": "已读取会话上下文",
+      "toolComplete.listSessions": "已检查会话",
+      "toolComplete.listSessions.many": "已检查 {0} 个会话",
+      "toolComplete.listSessions.one": "已检查 1 个会话",
+      "toolComplete.sendMessage": "已发送消息"
+    },
+    "vs/platform/environment/node/argv": {
+      "gatewayAllowedHost": "额外要响应的主机名，用于网关前面的隧道或代理。可重复指定。接受主机名、host:port 或隧道的 URL。",
+      "gatewayHost": "要绑定的网卡。默认为 127.0.0.1，仅本机可访问。",
+      "gatewayPin": "使用指定的六位配对 PIN，而不是随机生成。",
+      "gatewayPort": "要监听的端口。默认为 39275。"
+    },
+    "vs/platform/remoteTunnel/node/remoteTunnelService": {
+      "remoteTunnelService.authorizing": "正在以 {0}（{1}）的身份连接",
+      "remoteTunnelService.openTunnel": "正在打开隧道",
+      "remoteTunnelService.openTunnelWithName": "正在打开隧道 {0}",
+      "remoteTunnelService.serviceInstallFailed": "未能将隧道安装为服务，改为在会话中启动…"
+    },
+    "vs/sessions/browser/parts/chatCompositeBar": {
+      "chatCompositeBar.addChat": "新建聊天"
+    },
+    "vs/sessions/browser/parts/sessionView": {
+      "sessionReadOnlyBanner.archived": "已归档的会话为只读。",
+      "sessionReadOnlyBanner.message": "此聊天为只读"
+    },
+    "vs/sessions/browser/sessionsSetUpService": {
+      "sessions.signIn": "登录以使用智能体",
+      "sessions.signingIn": "正在登录…",
+      "sessions.signingIn.detail": "请在浏览器中完成登录。"
+    },
+    "vs/sessions/browser/singlePaneWorkbench": {
+      "editorPaneHidden": "编辑器窗格已隐藏",
+      "editorPaneVisible": "编辑器窗格已显示"
+    },
+    "vs/sessions/common/contextkeys": {
+      "sessionActiveChatHasSubagents": "会话视图中当前活动的聊天是否已生成子智能体（由工具发起）聊天；这些聊天在对话菜单中单独成组列出"
+    },
+    "vs/sessions/contrib/accountMenu/browser/account.contribution": {
+      "sessionsAccountSubscriptionSectionLabel": "订阅"
+    },
+    "vs/sessions/contrib/agentFeedback/browser/agentFeedbackEditorOverlay": {
+      "agentFeedback.submitCountShort": "提交 {0}",
+      "nOfM": "{0}/{1}",
+      "zero": "0/0"
+    },
+    "vs/sessions/contrib/agentFeedback/browser/agentFeedbackEditorWidgetContribution": {
+      "acceptAgentFeedbackTooltip": "把评论分享给智能体",
+      "acceptFeedbackButton": "接受",
+      "acceptPRFeedbackTooltip": "把 PR 评论分享给智能体",
+      "addReplyPlaceholder": "添加评论…",
+      "addToComment": "添加到评论",
+      "agentReviewComment": "智能体评审",
+      "collapse": "折叠",
+      "deleteAgentFeedbackTooltip": "移除智能体评论",
+      "deleteFeedbackButton": "删除",
+      "deletePRFeedbackTooltip": "移除并在 GitHub 上标为已解决",
+      "editComment": "编辑",
+      "expand": "展开",
+      "lineNumber": "第 {0} 行",
+      "lineRange": "第 {0}-{1} 行",
+      "nComments": "{0} 条评论",
+      "prReviewComment": "PR 评审",
+      "removeComment": "移除",
+      "suggestedChangeLine": "建议更改 • 第 {0} 行",
+      "suggestedChangeLines": "建议更改 • 第 {0}-{1} 行"
+    },
+    "vs/sessions/contrib/agentFeedback/browser/agentFeedbackHover": {
+      "agentFeedbackHover.remove": "移除",
+      "agentFeedbackHover.removeAll": "全部移除",
+      "agentFeedbackHover.tree": "反馈评论"
+    },
+    "vs/sessions/contrib/aiCustomizationTreeView/browser/aiCustomizationTreeViewViews": {
+      "automations": "自动化"
+    },
+    "vs/sessions/contrib/changes/browser/changesViewActions": {
+      "showInlineDiff": "显示内联差异",
+      "showSideBySideDiff": "显示并排差异",
+      "toggleDiffView": "切换差异视图"
+    },
+    "vs/sessions/contrib/changes/browser/sessionFilesWidget": {
+      "sessionFiles.created": "已创建",
+      "sessionFiles.deleted": "已删除",
+      "sessionFiles.diffLabel": "{0}（会话更改）",
+      "sessionFiles.fileAriaLabel": "{0}，{1}",
+      "sessionFiles.hover": "本会话中在工作区外创建、编辑或删除的文件。这些文件不属于工作区，不会被提交。",
+      "sessionFiles.label": "其他文件",
+      "sessionFiles.listAriaLabel": "其他文件",
+      "sessionFiles.modified": "修改后",
+      "sessionFiles.openFileAction": "打开文件",
+      "sessionFiles.title": "{0}（{1}）",
+      "sessionFiles.toggle": "切换其他文件"
+    },
+    "vs/sessions/contrib/changes/browser/sessionsChangesAccessibilityHelp": {
+      "sessionsChanges.diffView": "文件差异可并排或内联显示。使用“切换差异视图”命令可在两者之间切换{0}。",
+      "sessionsChanges.sessionFiles": "“其他文件”列出本会话中在工作区外创建、编辑或删除的文件，例如主目录中的配置文件。这些文件不属于工作区，不会被提交。",
+      "sessionsChanges.sessionFilesToggle": "“其他文件”标题是一个按钮。按 Enter 或空格可折叠或展开列表。展开后，用方向键浏览文件，按 Enter 打开：已创建或已删除的文件会在编辑器中打开，已编辑的文件会与会话开始前的内容进行差异比较。"
+    },
+    "vs/sessions/contrib/chat/browser/newChatContextAttachments": {
+      "attachAsContext": "作为上下文附加"
+    },
+    "vs/sessions/contrib/chat/browser/newChatWidget": {
+      "newChatHeader": "新建聊天",
+      "newSessionChooseWorkspace": "先选择一个",
+      "newSessionIn": "新建会话于",
+      "newSessionWith": "使用"
+    },
+    "vs/sessions/contrib/chat/browser/sessionBackgroundActivitiesControl": {
+      "backgroundActivities.activeBrowsers": "{0} 个活动浏览器",
+      "backgroundActivities.activeSubagents": "{0} 个活动子智能体",
+      "backgroundActivities.browser": "浏览器",
+      "backgroundActivities.browsers": "浏览器",
+      "backgroundActivities.mixed": "{0} 项后台活动",
+      "backgroundActivities.open": "打开 {0}",
+      "backgroundActivities.show": "显示 {0} 项后台活动"
+    },
+    "vs/sessions/contrib/chat/browser/sessionChatInputToolbar": {
+      "sessions.lastTurnChanges.title": "上一轮更改"
+    },
+    "vs/sessions/contrib/chat/browser/sessionChatInputToolbarDebug": {
+      "sessions.debug.chatPills.markdownFiles": "Markdown 文件名"
+    },
+    "vs/sessions/contrib/chat/browser/sessionWorkspacePicker": {
+      "workspacePicker.browseSelectAction": "选择…"
+    },
+    "vs/sessions/contrib/chat/browser/voiceInputDecorations": {
+      "voiceMode.bargeInHint": "按 {0} 插话",
+      "voiceMode.bargeInHintNoKb": "说话即可插话",
+      "voiceMode.clickMicOrBargeInHint": "点击语音模式即可说话或插话",
+      "voiceMode.listening": "正在听…",
+      "voiceMode.pttOrBargeInHint": "按 {0} 说话或插话"
+    },
+    "vs/sessions/contrib/chat/browser/webWorkspacePicker": {
+      "scopedWorkspacePicker.selectFolder": "选择文件夹…"
+    },
+    "vs/sessions/contrib/files/browser/workspaceFolderActions": {
+      "agentSessions.files": "文件",
+      "agentSessions.openFilesView.ariaLabel": "打开文件：{0}",
+      "agentSessions.openFilesView.tooltip": "打开文件"
+    },
+    "vs/sessions/contrib/layout/browser/singlePane/singlePaneResponsiveSidebarStrategy": {
+      "toggleDetails": "切换详情"
+    },
+    "vs/sessions/contrib/onboardingTours/browser/tours/newSessionViewV2Tour": {
+      "sessions.onboarding.newSessionViewV2.workspace.description": "工作区是智能体读取上下文并做出更改的文件夹或仓库。选好之后，它才能理解你的项目，并在正确的文件上工作。",
+      "sessions.onboarding.newSessionViewV2.workspace.title": "选择工作区"
+    },
+    "vs/sessions/contrib/promptTimeline/browser/promptTimeline.contribution": {
+      "sessions.promptTimeline.rail": "控制是否在智能体窗口的聊天记录旁显示提示时间线。",
+      "sessions.promptTimeline.rail.dock": "在聊天记录左侧显示一个小手柄，悬停时打开提示列表。",
+      "sessions.promptTimeline.rail.off": "不显示提示时间线。",
+      "sessions.promptTimeline.rail.ruler": "在聊天记录滚动条旁显示概览标尺，交互时展开为提示胶囊。",
+      "sessions.promptTimeline.stickyHeader": "控制在智能体窗口中滚动时，是否将当前提示固定在聊天记录顶部。"
+    },
+    "vs/sessions/contrib/promptTimeline/browser/promptTimelineDockRail": {
+      "promptTimeline.dock.railLabel": "提示时间线",
+      "promptTimeline.dock.toggleLabel": "显示提示"
+    },
+    "vs/sessions/contrib/promptTimeline/browser/promptTimelineStickyHeader": {
+      "promptTimeline.emptyPrompt": "（空提示）",
+      "promptTimeline.nextPrompt": "转到下一条提示",
+      "promptTimeline.previousPrompt": "转到上一条提示",
+      "promptTimeline.stickyCount": "{0}/{1}",
+      "promptTimeline.stickyLabel": "转到提示 {0}/{1}：{2}",
+      "promptTimeline.stickyNavAriaLabel": "提示导航"
+    },
+    "vs/sessions/contrib/providers/agentHost/browser/localAgentHost.contribution": {
+      "sessions.chat.agentHost.defaultSessionsProvider": "启用后，将本地智能体宿主用作默认会话提供方，其会话类型会在智能体窗口中优先显示。需要 `#chat.agentHost.enabled#`。"
+    },
+    "vs/sessions/contrib/providers/agentHost/browser/openSessionEventsFileActions": {
+      "openSessionEventsFile": "打开 Copilot CLI 状态文件"
+    },
+    "vs/sessions/contrib/providers/agentHost/browser/openSubagentChat": {
+      "chat.subagent.activeToolAria": "活动工具 {0}",
+      "chat.subagent.activeToolTooltip": "活动工具：{0}",
+      "chat.subagent.confirmationAria": "需要 1 项确认",
+      "chat.subagent.confirmationsAria": "需要 {0} 项确认",
+      "chat.subagent.modelAria": "模型 {0}",
+      "chat.subagent.modelTooltip": "模型：{0}",
+      "chat.subagent.openChat": "打开子智能体",
+      "chat.subagent.openChat.aria": "打开子智能体聊天：{0}",
+      "chat.subagent.openChat.confirmationTooltip": "打开子智能体聊天（需要 1 项确认）",
+      "chat.subagent.openChat.confirmationsTooltip": "打开子智能体聊天（需要 {0} 项确认）",
+      "chat.subagent.status.completed": "子智能体已完成",
+      "chat.subagent.status.waiting": "子智能体正在等待输入",
+      "chat.subagent.status.working": "子智能体正在工作",
+      "chat.subagent.workedDuration": "已工作 {0}",
+      "chat.subagent.workingDuration": "正在工作 {0}"
+    },
+    "vs/sessions/contrib/providers/copilotChatSessions/browser/claudePermissionModePicker": {
+      "claude.permissionMode.acceptEdits": "自动编辑",
+      "claude.permissionMode.acceptEdits.description": "Claude 编辑文件时不再询问",
+      "claude.permissionMode.auto": "自动",
+      "claude.permissionMode.auto.description": "由模型分类器自动批准或拒绝工具操作",
+      "claude.permissionMode.bypass": "绕过权限",
+      "claude.permissionMode.bypass.description": "所有工具运行时均无需确认",
+      "claude.permissionMode.default": "编辑前询问",
+      "claude.permissionMode.default.description": "Claude 在进行更改前会征求批准",
+      "claude.permissionMode.plan": "计划模式",
+      "claude.permissionMode.plan.description": "Claude 会先制定计划再进行更改",
+      "claudePermissionModePicker.ariaLabel": "权限模式",
+      "claudePermissionModePicker.triggerAriaLabel": "选择权限模式，{0}"
+    },
+    "vs/sessions/contrib/providers/copilotChatSessions/browser/copilotChatSessions.contribution": {
+      "sessions.chat.claudeAgent.enabled": "在智能体窗口中启用 Claude 智能体会话。可直接启动和恢复由 Anthropic 的 Claude Agent SDK 驱动的智能体编程会话。使用你现有的 Copilot 订阅。"
+    },
+    "vs/sessions/contrib/providers/copilotChatSessions/browser/copilotChatSessionsActions": {
+      "claudePermissionModePicker": "权限模式"
+    },
+    "vs/sessions/contrib/providers/copilotChatSessions/browser/copilotChatSessionsProvider": {
+      "claudeCode": "Claude",
+      "repositories": "仓库",
+      "sessionWorkspaceGroup.github": "GitHub"
+    },
+    "vs/sessions/contrib/providers/localChatSessions/browser/localChatSessions.contribution": {
+      "sessions.chat.localAgent.enabled": "在智能体窗口中启用本地 VS Code 聊天会话。更改后需重新加载窗口才能生效。"
+    },
+    "vs/sessions/contrib/providers/localChatSessions/browser/localChatSessionsProvider": {
+      "deleteChat.confirm": "确定要删除此聊天吗？",
+      "deleteChat.delete": "删除",
+      "deleteChat.detail": "此操作无法撤销。",
+      "localChatSessionsProvider": "Copilot Chat",
+      "localSession": "本地",
+      "newChat": "新建聊天",
+      "newSession": "新建会话"
+    },
+    "vs/sessions/contrib/sessionInputBanners/browser/sessionInputBanners": {
+      "ci.checksFailed": "{0}/{1} 项检查失败",
+      "ci.checksFailedPending": "{0}，{1} 项待处理",
+      "ci.dismiss": "本会话中隐藏",
+      "ci.fixChecks": "修复检查",
+      "ci.oneCheckFailed": "1 项检查失败",
+      "ci.revealChecks": "显示",
+      "comments.address": "处理评论",
+      "comments.agent.many": "{0} 条智能体评论",
+      "comments.agent.one": "1 条智能体评论",
+      "comments.dismiss": "本会话中隐藏",
+      "comments.many": "{0} 条评论",
+      "comments.one": "1 条评论",
+      "comments.pr.many": "{0} 条 PR 评论",
+      "comments.pr.one": "1 条 PR 评论",
+      "comments.reveal": "显示"
+    },
+    "vs/sessions/contrib/sessions/browser/customizationsToolbar.contribution": {
+      "automations": "自动化"
+    },
+    "vs/sessions/contrib/sessions/browser/sessionHoverContent": {
+      "agentSessions.fileChanged": "已更改 1 个文件",
+      "agentSessions.filesChanged": "已更改 {0} 个文件"
+    },
+    "vs/sessions/contrib/sessions/browser/sessionsActions": {
+      "chatCompositeBar.addChat.compact": "新建聊天",
+      "chatCompositeBar.conversations": "聊天",
+      "newChatButtonAriaLabel": "新建聊天（{0}）",
+      "newChatButtonAriaLabelWithoutKeybinding": "新建聊天",
+      "newChatButtonTitle": "新建聊天（{0}）",
+      "newChatButtonTitleWithoutKeybinding": "新建聊天"
+    },
+    "vs/sessions/contrib/sessions/browser/views/sessionsList": {
+      "archived": "已完成",
+      "failed": "失败",
+      "needsInput": "需要输入",
+      "working": "工作中…"
+    },
+    "vs/sessions/contrib/sessions/browser/views/sessionsView": {
+      "filterArchived": "已完成"
+    },
+    "vs/sessions/contrib/terminal/browser/sessionsTerminalContribution": {
+      "hideTerminal": "隐藏终端",
+      "openInTerminal": "打开终端"
+    },
+    "vs/workbench/browser/parts/editor/multiEditorTabsControl": {
+      "addTab": "添加选项卡"
+    },
+    "vs/workbench/contrib/agentFocusPortal/electron-browser/agentFocusPortal.contribution": {
+      "agentFocusPortal.allowTunnelHost": "聚焦智能体：允许本地网页门户使用隧道主机名",
+      "agentFocusPortal.allowTunnelHost.added": "已允许 {0}。将在下次启动门户时生效。",
+      "agentFocusPortal.allowTunnelHost.already": "{0} 已允许。",
+      "agentFocusPortal.allowTunnelHost.invalid": "请输入主机名，或粘贴 URL 以从中提取。不支持通配符。",
+      "agentFocusPortal.allowTunnelHost.placeholder": "my-portal.example.com，或粘贴隧道的 URL",
+      "agentFocusPortal.allowTunnelHost.prompt": "门户前面的隧道或代理的主机名。仍需配对，此项本身不会把门户公开出去。",
+      "agentFocusPortal.allowTunnelHost.restartFailed": "已允许 {0}，但门户无法重启：{1}",
+      "agentFocusPortal.allowTunnelHost.restarted": "已允许 {0}。门户已重启，所有已配对的浏览器都需要重新配对。",
+      "agentFocusPortal.bind.ifaceDesc": "{0} - 可在局域网访问",
+      "agentFocusPortal.bind.loopback": "仅本机（127.0.0.1）",
+      "agentFocusPortal.bind.loopbackDesc": "其他设备无法访问",
+      "agentFocusPortal.bind.placeholder": "选择在何处提供门户",
+      "agentFocusPortal.copyPin": "复制 PIN",
+      "agentFocusPortal.deviceConnecting": "有浏览器正在连接本地网页门户。配对 PIN：{0}",
+      "agentFocusPortal.expose.no": "取消",
+      "agentFocusPortal.expose.placeholder": "要在局域网公开门户吗？",
+      "agentFocusPortal.expose.yes": "在 {0} 上提供服务",
+      "agentFocusPortal.expose.yesDesc": "此网络上的任何人都能打开配对页",
+      "agentFocusPortal.gateOff": "本地网页门户实验功能未启用。请在聚焦智能体设置中打开。",
+      "agentFocusPortal.loopbackNote": "仅对本机提供服务。要在其他设备使用，请改到局域网网卡后重启。",
+      "agentFocusPortal.loopbackTunnelNote": "仅绑定本机。可通过你的隧道访问，隧道必须转发到 {0}。",
+      "agentFocusPortal.managePublicHosts": "聚焦智能体：管理本地网页门户的隧道主机名",
+      "agentFocusPortal.managePublicHosts.placeholder": "取消勾选主机名即可停止允许",
+      "agentFocusPortal.managePublicHosts.removed": "已不再允许：{0}。",
+      "agentFocusPortal.managePublicHosts.restartFailed": "已从设置中移除 {0}，但门户无法重启，停止前仍会响应它：{1}",
+      "agentFocusPortal.managePublicHosts.restarted": "已不再允许：{0}。门户已重启，所有已配对的浏览器都需要重新配对。",
+      "agentFocusPortal.managePublicHosts.title": "本地网页门户会响应的主机名",
+      "agentFocusPortal.managePublicHosts.unchanged": "没有移除任何主机名。",
+      "agentFocusPortal.menu.copyPin": "复制 PIN",
+      "agentFocusPortal.menu.manageHosts": "管理隧道主机名",
+      "agentFocusPortal.menu.noHosts": "尚未允许",
+      "agentFocusPortal.menu.pairing": "显示配对信息",
+      "agentFocusPortal.menu.rotate": "更换 PIN（取消浏览器配对）",
+      "agentFocusPortal.menu.running": "本地网页门户正在 {0} 运行",
+      "agentFocusPortal.menu.running2": "本地网页门户正在运行",
+      "agentFocusPortal.menu.stop": "停止本地网页门户",
+      "agentFocusPortal.notRunning": "本地网页门户未在运行。请先运行“启动本地网页门户”。",
+      "agentFocusPortal.notRunning2": "本地网页门户未在运行。",
+      "agentFocusPortal.openUrl": "在浏览器中打开：{0}",
+      "agentFocusPortal.pin": "配对 PIN：{0}",
+      "agentFocusPortal.publicHosts": "同时响应：{0}",
+      "agentFocusPortal.rotateToken": "聚焦智能体：更换本地网页门户 PIN（取消浏览器配对）",
+      "agentFocusPortal.rotated": "已取消所有浏览器配对。新的配对 PIN：{0}",
+      "agentFocusPortal.running": "本地网页门户正在运行。\n{0}",
+      "agentFocusPortal.sbName": "本地网页门户（实验性）",
+      "agentFocusPortal.sbTooltipOff": "启动本地网页门户（实验性）",
+      "agentFocusPortal.sbTooltipOn": "本地网页门户正在 {0} 运行，点击即可管理",
+      "agentFocusPortal.sbTooltipOn2": "本地网页门户正在运行，点击即可管理",
+      "agentFocusPortal.showPairing": "聚焦智能体：显示本地网页门户配对信息",
+      "agentFocusPortal.start": "聚焦智能体：启动本地网页门户",
+      "agentFocusPortal.startFailed": "无法启动本地网页门户：{0}",
+      "agentFocusPortal.stop": "聚焦智能体：停止本地网页门户",
+      "agentFocusPortal.stopped": "本地网页门户已停止。",
+      "agentFocusPortal.stopped2": "本地网页门户已停止。",
+      "agentFocusPortal.waitingBridge": "正在等待聚焦智能体连接。连接完成前，浏览器会显示等待页。"
+    },
+    "vs/workbench/contrib/agentsVoice/browser/agentsVoice.contribution": {
+      "agents.voice.voice.daniel": "Daniel.",
+      "agents.voice.voice.kevin": "Kevin.",
+      "agents.voice.voice.maya": "Maya.",
+      "agents.voice.voice.victoria": "Victoria.",
+      "agentsVoice.selectMicrophone": "语音：选择麦克风",
+      "current": "（当前）",
+      "noMicrophones": "未找到麦克风",
+      "selectMic": "为语音模式选择麦克风",
+      "systemDefault": "系统默认",
+      "unknownDevice": "未知设备（{0}）"
+    },
+    "vs/workbench/contrib/browserView/common/browserEditorInput": {
+      "browser.agentOwnedEditorLabel": "{0}（Kiro 智能体）"
+    },
+    "vs/workbench/contrib/browserView/electron-browser/features/browserEditorChatFeatures": {
+      "browser.elementSelectionActive": "元素选择是否处于活动状态"
+    },
+    "vs/workbench/contrib/chat/browser/accessibility/chatResponseAccessibleView": {
+      "autoModeResolutionA11y": "已路由到 {0}。{1} - 置信度 {2}%",
+      "autoModeResolutionA11yFallback": "已路由到 {0}。无法确定。",
+      "autoModeResolutionA11yNonReasoning": "非推理",
+      "autoModeResolutionA11yReasoning": "推理"
+    },
+    "vs/workbench/contrib/chat/browser/actions/chatAccessibilityHelp": {
+      "chat.focusTip": "出现提示时，可在提示和聊天输入框之间切换焦点{0}。",
+      "workbench.action.chat.history": "要查看所有聊天会话，请运行“显示聊天”命令{0}。"
+    },
+    "vs/workbench/contrib/chat/browser/actions/chatActions": {
+      "chat.tip.focusUnavailable": "没有聊天提示。",
+      "interactiveSession.focusTip.label": "聊天：在提示和输入框之间切换焦点"
+    },
+    "vs/workbench/contrib/chat/browser/actions/chatSpeechToTextActions": {
+      "chatStt.systemDefault": "系统默认",
+      "chatStt.unknownDevice": "未知设备（{0}）"
+    },
+    "vs/workbench/contrib/chat/browser/actions/exportAgentHostDebugLogsAction": {
+      "exportDebugLogs.noFiles.activeSession": "未找到当前智能体宿主会话的日志文件。",
+      "exportDebugLogs.noFiles.currentWindow": "未找到当前窗口的智能体宿主日志文件。"
+    },
+    "vs/workbench/contrib/chat/browser/actions/openCopilotCliStateFileAction": {
+      "openSessionEventsFile": "打开 Copilot CLI 状态文件",
+      "openSessionEventsFile.noHome": "远程智能体宿主 '{0}' 未报告主目录。",
+      "openSessionEventsFile.noSession": "当前没有活动的 Copilot CLI 会话。",
+      "openSessionEventsFile.notConnected": "未找到远程智能体宿主 '{0}' 的活动连接。",
+      "openSessionEventsFile.unsupported": "当前聊天会话不是 Copilot CLI 会话。"
+    },
+    "vs/workbench/contrib/chat/browser/agentPluginsView": {
+      "agentPlugins.checkForUpdates": "更新插件",
+      "agentPlugins.forceUpdate": "更新插件（强制）"
+    },
+    "vs/workbench/contrib/chat/browser/agentSessions/agentHost/agentHostChatContribution": {
+      "agentHostHarnessLabel.local": "{0} [智能体宿主]"
+    },
+    "vs/workbench/contrib/chat/browser/agentSessions/agentHost/agentHostPromptCacheNotification": {
+      "promptCacheExpiration.learnMore": "了解更多"
+    },
+    "vs/workbench/contrib/chat/browser/agentSessions/agentHost/stateToProgressAdapter": {
+      "agentHost.responseDetails.credit": "{0} 额度",
+      "agentHost.responseDetails.credits": "{0} 额度"
+    },
+    "vs/workbench/contrib/chat/browser/agentSessions/agentSessionsActions": {
+      "archive": "归档",
+      "unarchive": "取消归档"
+    },
+    "vs/workbench/contrib/chat/browser/aiCustomization/aiCustomizationIcons": {
+      "aiCustomizationAutomationIcon": "定时自动化的图标。"
+    },
+    "vs/workbench/contrib/chat/browser/aiCustomization/aiCustomizationItemSource": {
+      "uiIntegrationBadge": "界面集成"
+    },
+    "vs/workbench/contrib/chat/browser/aiCustomization/aiCustomizationListWidget": {
+      "agentInstructionsGroup": "智能体指令",
+      "agentInstructionsGroupDescription": "所有智能体交互都会自动加载的指令文件（例如 AGENTS.md、CLAUDE.md、copilot-instructions.md）。",
+      "configureHooks": "配置钩子",
+      "configureHooksDisabled": "打开工作区文件夹后才能配置钩子。",
+      "contextInstructionsGroup": "按上下文包含",
+      "contextInstructionsGroupDescription": "匹配的文件进入上下文时自动加载的指令。",
+      "onDemandInstructionsGroup": "按需加载",
+      "onDemandInstructionsGroupDescription": "仅在被明确引用时才加载的指令。"
+    },
+    "vs/workbench/contrib/chat/browser/aiCustomization/aiCustomizationManagementEditor": {
+      "automations": "自动化",
+      "automationsDesc": "按你选的节奏定时跑智能体会话。",
+      "backToPromptMigration": "返回迁移提示文件",
+      "backToPromptMigrationTooltip": "返回迁移提示文件",
+      "confirmDeletePromptFile": "确定要删除「{0}」吗？",
+      "deletePromptFile": "删除 {0}",
+      "deletePromptFileTooltip": "删除",
+      "learnMoreSkills": "了解智能体技能",
+      "migrationShortcutAriaLabel": "将提示文件迁移为技能",
+      "migrationShortcutAriaLabelWithCount": "提示，有 {0} 个已弃用的提示文件需要迁移",
+      "migrationShortcutLabel": "迁移提示",
+      "migrationShortcutTooltip": "将已弃用的提示文件转换为技能",
+      "promptMigrationConfirmButton": "转换为技能",
+      "promptMigrationConfirmDetailUser": "这会把 {0} 个用户提示文件转换成技能。",
+      "promptMigrationConfirmDetailWorkspace": "这会把 {0} 个工作区提示文件转换成技能。",
+      "promptMigrationConfirmDetailWorkspaceAndUser": "这会把 {0} 个工作区提示文件和 {1} 个用户提示文件转换成技能。",
+      "promptMigrationConfirmMessage": "要将提示文件转换为技能吗？",
+      "promptMigrationConverted": "已将 {0} 个提示文件转换为技能。",
+      "promptMigrationConvertedWithReview": "已将 {0} 个提示文件转换为技能。请检查使用了不支持的提示标头的已迁移技能：{1}。",
+      "promptMigrationDeletePromptFilesCheckbox": "迁移后删除原始提示文件",
+      "promptMigrationFilesFailed": "{0} 个提示文件迁移失败：{1}。",
+      "promptMigrationFilesFailedWithRemainder": "{0} 个提示文件迁移失败：{1}，另有 {2} 个。",
+      "promptMigrationNoFilesConverted": "没有转换任何提示文件。",
+      "promptMigrationNoSkillFolders": "当前运行时未配置技能文件夹。",
+      "promptMigrationPageButton": "迁移",
+      "promptMigrationPageButtonTooltip": "将所选提示文件转换为技能",
+      "promptMigrationPageButtonWithCount": "迁移（{0}）",
+      "promptMigrationPageDescription": "选择要为当前运行时转换成技能的提示文件。",
+      "promptMigrationPageDescriptionUser": "此运行时不支持提示文件。找到 {0} 个用户提示文件，本地 VS Code 仍可运行，但 {1} 会忽略。转换成技能后才能继续用。",
+      "promptMigrationPageDescriptionWorkspace": "此运行时不支持提示文件。找到 {0} 个工作区提示文件，本地 VS Code 仍可运行，但 {1} 会忽略。转换成技能后才能继续用。",
+      "promptMigrationPageDescriptionWorkspaceAndUser": "此运行时不支持提示文件。找到 {0} 个提示文件（{1} 个工作区，{2} 个用户），本地 VS Code 仍可运行，但 {3} 会忽略。转换成技能后才能继续用。",
+      "promptMigrationPageEmpty": "没有可迁移的提示文件。",
+      "promptMigrationPageTitle": "迁移提示文件",
+      "promptMigrationPickWorkspaceSkillFolder": "为已迁移的提示选择一个工作区技能文件夹",
+      "promptMigrationSearchEmpty": "没有匹配搜索的提示文件。",
+      "promptMigrationSearchPlaceholder": "键入以搜索…",
+      "promptMigrationSelectAriaLabel": "选择 {0}",
+      "promptMigrationSelectGroupAriaLabel": "全选 {0} 提示文件",
+      "promptMigrationUserGroup": "用户",
+      "promptMigrationWorkspaceGroup": "工作区"
+    },
+    "vs/workbench/contrib/chat/browser/aiCustomization/aiCustomizationManagementEditorInput": {
+      "aiCustomizationManagementEditorNameWithHarness": "{0} 的智能体自定义"
+    },
+    "vs/workbench/contrib/chat/browser/aiCustomization/aiCustomizationWelcomePagePromptLaunchers": {
+      "browse": "浏览…",
+      "browseCategoryAriaLabel": "浏览 {0}…",
+      "convertPromptFilesAriaLabel": "将提示文件转换为技能",
+      "convertToSkills": "转换为技能…",
+      "migratePromptFiles": "迁移",
+      "new": "新建…",
+      "newCategoryAriaLabel": "新建 {0}…",
+      "promptMigrationCardDescriptionUser": "此运行时已弃用提示文件。找到 {0} 个全局提示文件，本地 VS Code 仍可运行，但 {1} 会忽略。转换成技能后才能继续用。",
+      "promptMigrationCardDescriptionWorkspace": "此运行时已弃用提示文件。找到 {0} 个工作区提示文件，本地 VS Code 仍可运行，但 {1} 会忽略。转换成技能后才能继续用。",
+      "promptMigrationCardDescriptionWorkspaceAndUser": "此运行时已弃用提示文件。找到 {0} 个提示文件（{1} 个工作区，{2} 个全局），本地 VS Code 仍可运行，但 {3} 会忽略。转换成技能后才能继续用。",
+      "welcomeHeadingWithHarness": "{0} 的智能体自定义"
+    },
+    "vs/workbench/contrib/chat/browser/aiCustomization/automationsAccessibilityHelp": {
+      "automations.help.actionDelete": "- 删除：确认后移除该自动化。已经在跑的任务会继续跑完。",
+      "automations.help.actionEdit": "- 编辑：打开创建/编辑对话框，并填入当前值。",
+      "automations.help.actionHistory": "- 显示历史：展开该自动化最近几次运行的列表，包含状态和错误信息。",
+      "automations.help.actionRun": "- 立即运行：马上用该自动化的提示新建一个智能体会话。触发方式记为「手动」。",
+      "automations.help.actionToggle": "- 切换启用：暂停或恢复定时运行。已禁用的自动化会跳过定时触发，但仍可手动运行。",
+      "automations.help.actionsHeader": "行操作（用 Tab 在它们之间切换）：",
+      "automations.help.agentProposals": "智能体可以按当前的工具批准策略创建、更新或删除自动化。创建和更新在需要批准时走普通工具确认；删除会显示「删除」和「取消」。创建或更新成功后，聊天里会有一个按钮，用来打开对应的自动化。取消或拒绝请求不会改任何内容。",
+      "automations.help.closingDesc": "按 Escape 关闭此对话框，焦点回到自动化列表。",
+      "automations.help.closingHeader": "关闭此对话框：",
+      "automations.help.dialogFields": "对话框里有名称字段、多行提示字段、计划选择器（手动、每小时、每天、每周）、按需出现的时间和星期字段、工作区目标选择器、会话类型选择器、隔离选择器、支持工作树会话时的分支选择器、智能体模式选择器（使用默认、智能体、询问、编辑），以及权限模式选择器（使用默认、默认批准、跳过批准、自动模式）。在工作区目标中选择「无工作区」，即可不绑定工作区来运行。此时只提供支持无工作区的会话类型，隔离和分支控件也不适用。文件夹隔离会跟随所选仓库的当前分支。工作树隔离可以选一个本地基准分支。调度器启动运行时会套用所选配置。Tab 和 Shift+Tab 在字段间移动；Enter 或 Space 打开当前聚焦的选择器；Escape 会先关掉已打开的选择器，再关闭对话框。",
+      "automations.help.dialogHeader": "创建/编辑对话框：",
+      "automations.help.dialogValidation": "填好名称、提示和会话类型后才能保存。基于工作区的自动化还需要工作区文件夹；工作树隔离还需要分支。点「取消」或按 Escape 可放弃保存并关闭。",
+      "automations.help.header": "辅助功能帮助：自动化",
+      "automations.help.historyDesc": "每次运行都会记录状态（等待中、运行中、已完成、失败）、触发方式（定时、手动，或 VS Code 重启后的补跑）、开始时间和耗时。失败的运行会带上失败原因。",
+      "automations.help.historyHeader": "运行历史：",
+      "automations.help.intro": "自动化可以按你选的节奏定时跑智能体会话。到点后，后台会新建一个聊天会话，并自动发出提示。",
+      "automations.help.layoutDesc": "自动化区域列出你的全部自动化。每行显示名称、计划（手动、每小时、每天某时刻，或每周某天某时刻）、是针对工作区文件夹还是无工作区运行、下次定时运行时间，以及提示预览。行操作按钮在右侧。",
+      "automations.help.layoutHeader": "布局：",
+      "automations.help.settingVerbosity": "- `accessibility.verbosity.automations`：控制聚焦自动化区域时，是否朗读这条辅助功能帮助提示。",
+      "automations.help.settingsHeader": "设置（{0} 打开设置）：",
+      "automations.help.statusDesc": "创建、更新、删除、切换或手动运行自动化时，自动化列表会朗读状态变化。详细朗读可通过 accessibility.verbosity.automations 设置关闭。",
+      "automations.help.statusHeader": "屏幕阅读器朗读："
+    },
+    "vs/workbench/contrib/chat/browser/aiCustomization/automationsListWidget": {
+      "automationAriaLabel": "{0}，{1}，{2}",
+      "automationAriaLabelDisabled": "{0}，已禁用，{1}，{2}",
+      "automationChangedDuringEdit": "对话框打开期间，此自动化已更改。请重新打开以查看最新内容。",
+      "automationCreateFailed": "创建自动化失败。",
+      "automationCreatedStatus": "已创建自动化 {0}",
+      "automationDeletedDuringEdit": "对话框打开期间，此自动化已被删除。",
+      "automationDeletedStatus": "已删除自动化 {0}",
+      "automationDisabled": "已禁用",
+      "automationDisabledStatus": "已禁用自动化 {0}",
+      "automationEnabledStatus": "已启用自动化 {0}",
+      "automationFolderLabel": "位于 {0}",
+      "automationQuickChatLabel": "无工作区",
+      "automationQuickChatTitle": "以无工作区聊天运行",
+      "automationStartedStatus": "已启动自动化 {0}",
+      "automationUpdateFailed": "更新自动化失败。",
+      "automationUpdatedStatus": "已更新自动化 {0}",
+      "automationsDisabledDetail": "启用「{0}」后才能修改。",
+      "automationsDisabledTitle": "自动化已禁用。",
+      "automationsEmptyCta": "创建自动化",
+      "automationsEmptyMessage": "创建自动化，按你选的节奏定时跑智能体会话。",
+      "automationsEmptyTitle": "还没有自动化",
+      "automationsHeaderSubtitle": "按你选的节奏定时跑智能体会话。",
+      "automationsHeaderTitle": "自动化",
+      "automationsListAriaLabel": "自动化",
+      "confirmDeleteAutomation": "删除自动化「{0}」？",
+      "confirmDeleteAutomationDetail": "已经在跑的任务会继续。此操作无法撤销。",
+      "delete": "删除",
+      "deleteAutomation": "删除",
+      "disableAutomation": "禁用",
+      "editAutomation": "编辑",
+      "enableAutomation": "启用",
+      "hideHistory": "隐藏历史",
+      "historyAriaLabel": "{0} 的运行历史",
+      "historyMore": "另有 {0} 次运行未显示。",
+      "lastRun": "上次运行 {0}",
+      "newAutomation": "新建自动化",
+      "newAutomationTooltip": "创建新的自动化",
+      "nextRun": "下次运行 {0}",
+      "nextRunNever": "没有定时运行",
+      "noRunsYet": "还没有运行记录。",
+      "openRunSession": "打开会话",
+      "openRunSessionFailed": "打开自动化会话失败",
+      "runHistory": "运行历史",
+      "runNow": "立即运行",
+      "runStarted": "开始于 {0}",
+      "runStatusCompleted": "已完成",
+      "runStatusFailed": "失败",
+      "runStatusPending": "等待中",
+      "runStatusRunning": "运行中",
+      "runTriggerCatchUp": "补跑",
+      "runTriggerManual": "手动",
+      "runTriggerSchedule": "定时",
+      "scheduleDaily": "每天 {0}",
+      "scheduleHourly": "每小时",
+      "scheduleManual": "手动",
+      "scheduleWeekly": "每周 {0} {1}",
+      "showHistory": "显示历史"
+    },
+    "vs/workbench/contrib/chat/browser/aiCustomization/embeddedAgentPluginDetail": {
+      "pluginSourceInstalled": "安装自 {0}",
+      "pluginSourceLocal": "已安装的插件",
+      "pluginSourceMarketplace": "来自 {0}",
+      "pluginSourceMarketplaceUnknown": "市场插件"
+    },
+    "vs/workbench/contrib/chat/browser/aiCustomization/embeddedMcpServerDetail": {
+      "mcpScopeUser": "用户",
+      "mcpScopeWorkspace": "工作区"
+    },
+    "vs/workbench/contrib/chat/browser/aiCustomization/mcpListWidget": {
+      "addMcpServer": "添加 MCP 服务器配置以开始使用",
+      "addServerTooltip": "添加服务器",
+      "agentHostMcpServerDisableForWorkspace": "禁用（工作区）",
+      "agentHostMcpServerEnableForWorkspace": "启用（工作区）",
+      "backToInstalled": "返回已安装的服务器",
+      "browseMarketplace": "浏览市场",
+      "builtInGroup": "内置",
+      "builtInGroupDescription": "VS Code 内置的 MCP 服务器，会自动可用。",
+      "collapsed": "已折叠",
+      "disabled": "已禁用",
+      "emptyGallery": "没有可用的 MCP 服务器",
+      "expanded": "已展开",
+      "extensionGroup": "扩展",
+      "extensionGroupDescription": "已安装的 VS Code 扩展提供的 MCP 服务器。",
+      "galleryError": "无法加载市场",
+      "loadingGallery": "正在加载市场…",
+      "mcpBrowseBack": "后退",
+      "mcpGroupAriaLabel": "{0}，{1} 项，{2}",
+      "mcpServersListAriaLabel": "MCP 服务器",
+      "noGalleryResults": "没有匹配「{0}」的服务器",
+      "noMcpServers": "未配置 MCP 服务器",
+      "pluginGroup": "插件",
+      "pluginGroupDescription": "已安装插件提供的 MCP 服务器。",
+      "searchGalleryPlaceholder": "搜索 MCP 市场…",
+      "sessionMcpServerDisable": "禁用（会话）",
+      "sessionMcpServerEnable": "启用（会话）",
+      "tryAgainLater": "请检查网络连接后重试",
+      "userGroup": "用户",
+      "userGroupDescription": "在用户设置中配置的 MCP 服务器。仅你可见，并在所有项目中可用。",
+      "workspaceGroup": "工作区",
+      "workspaceGroupDescription": "在工作区中配置的，或由当前会话报告的 MCP 服务器。"
+    },
+    "vs/workbench/contrib/chat/browser/aiCustomization/pluginListWidget": {
+      "addRemotePlugins": "用工具栏添加远程插件，或从指定源安装插件。",
+      "browseToAdd": "浏览市场，发现并安装插件",
+      "disabledGroup": "本机已禁用",
+      "disabledGroupDescription": "已在此客户端安装、但当前已禁用的插件。",
+      "enabledGroup": "本机已启用",
+      "enabledGroupDescription": "已在此客户端安装、可同步到远程会话的插件。",
+      "morePluginAddActions": "更多添加插件操作…",
+      "noPlugins": "未安装插件",
+      "noRemotePlugins": "未配置插件",
+      "pluginBrowseBack": "后退",
+      "remoteHostGroup": "远程",
+      "remoteHostGroupDescription": "直接在远程智能体宿主上配置的插件，无需本机同步即可使用。",
+      "remotePluginDisabled": "已禁用"
+    },
+    "vs/workbench/contrib/chat/browser/aiCustomization/promptsServiceCustomizationItemProvider": {
+      "uiIntegrationBadge": "界面集成"
+    },
+    "vs/workbench/contrib/chat/browser/aiCustomization/toolsListWidget": {
+      "toolsNoMatches": "没有可用的工具。",
+      "toolsSetReadOnly": "这些是智能体的内置工具，无法更改。"
+    },
+    "vs/workbench/contrib/chat/browser/chat.shared.contribution": {
+      "agentSandbox.allowedNetworkDomains.deprecated": "请改用 {0}",
+      "agentSandbox.allowedNetworkDomains2.deprecated": "请改用 {0}",
+      "agentSandbox.deniedNetworkDomains.deprecated": "请改用 {0}",
+      "agentSandbox.deniedNetworkDomains2.deprecated": "请改用 {0}",
+      "chat.agentHost.modelCapabilityOverrides": "按模型 ID 为 Copilot SDK 智能体会话设置能力覆盖，用于对照现有模型配置评估预览模型。为每个模型 ID 声明一个别名 `family`（例如 `claude-opus-4-8`），即可把该模型路由到该系列已调优的系统提示，无需改代码；发给运行时的模型 ID 不变。仅影响 Copilot CLI 智能体会话。\n\n**注意**：这是用于试验的高级设置。",
+      "chat.agentHost.modelCapabilityOverrides.family": "为提示/能力路由指定模型系列别名（例如 `claude-opus-4-8`）。",
+      "chat.agentHost.sdkSandbox.enabled.allowNetwork": "SDK 内置的 Shell 工具在沙盒中运行，出站网络访问不受限制。",
+      "chat.agents.claude.preferAgentHost": "启用后，从智能体窗口打开的 Claude 会话会在智能体宿主进程中运行，而不是 GitHub Copilot Chat 扩展。每个窗口只会显示一种 Claude 实现。需要 `#chat.agentHost.enabled#`。",
+      "chat.defaultConfiguration.approvals.default": "需要时询问——批准设置不适用时会询问。",
+      "chat.editor.claude.preferAgentHost": "启用后，从普通工作台（侧边栏聊天）打开的 Claude 会话会在智能体宿主进程中运行，而不是 GitHub Copilot Chat 扩展。每个窗口只会显示一种 Claude 实现。",
+      "chat.planReview.inlineEditor.enabled": "启用后，计划评审小组件会在行内嵌入编辑器，而不是在单独的编辑器选项卡中打开。",
+      "chat.viewTitle.enabled": "在聊天视图中于聊天内容上方显示聊天标题。",
+      "chat.welcome.enabled": "聊天为空时显示欢迎横幅。",
+      "dictation.model.nemotronStreaming": "NVIDIA Nemotron 流式 RNN-T（英语），通过 Microsoft Foundry Local 在设备端运行。可离线使用，音频不会离开本机。首次使用时下载并缓存到磁盘。",
+      "dictation.model.nemotronStreaming.label": "Nemotron Streaming（英语）——设备端"
+    },
+    "vs/workbench/contrib/chat/browser/chatDebug/chatDebugHomeView": {
+      "chatDebug.claudeCodeSessionWithId": "Claude Code：{0}"
+    },
+    "vs/workbench/contrib/chat/browser/chatPromoNotification": {
+      "chat.promo.endsAt": "将于 {0} 结束。"
+    },
+    "vs/workbench/contrib/chat/browser/chatQuotaNotification": {
+      "quota.trajectory.learnMoreStandalone": "了解如何优化用量",
+      "quota.trajectory.learnMoreTooltip": "了解如何优化用量",
+      "quota.trajectory.message": "你的 AI 额度可能在本计费周期结束前用完。{0}。"
+    },
+    "vs/workbench/contrib/chat/browser/chatStatus/chatStatusDashboard": {
+      "premiumCreditsUsed": "已用 {0}",
+      "premiumCreditsUsedCompact": "已用 {0}"
+    },
+    "vs/workbench/contrib/chat/browser/planReviewFeedback/planReviewFeedbackEditorActions": {
+      "planReviewFeedback.clear": "清除",
+      "planReviewFeedback.clearAllTooltip": "清除全部反馈",
+      "planReviewFeedback.navStatus.label": "导航状态",
+      "planReviewFeedback.next": "转到下一条反馈评论",
+      "planReviewFeedback.previous": "转到上一条反馈评论"
+    },
+    "vs/workbench/contrib/chat/browser/planReviewFeedback/planReviewFeedbackEditorContribution": {
+      "planReviewFeedback.add": "添加反馈（Enter）",
+      "planReviewFeedback.addFeedback": "添加反馈",
+      "planReviewFeedback.enter": "Enter",
+      "planReviewFeedback.navStatus.nOfM": "{0}/{1}",
+      "planReviewFeedback.navStatus.zero": "0/0"
+    },
+    "vs/workbench/contrib/chat/browser/voiceClient/voiceSessionController": {
+      "voice.connectFailed": "语音模式无法连接。请再试一次。"
+    },
+    "vs/workbench/contrib/chat/browser/voiceClient/voiceToolDispatchService": {
+      "agentsVoice.action.approve": "正在批准…",
+      "agentsVoice.action.newSessions": "正在启动新会话…",
+      "agentsVoice.action.reject": "正在拒绝…"
+    },
+    "vs/workbench/contrib/chat/browser/widget/chatContentParts/chatAutoModeResolutionContentPart": {
+      "autoModeResolution.detail": "{0} - 置信度 {1}%",
+      "autoModeResolution.fallback": "无法确定",
+      "autoModeResolution.nonReasoning": "非推理",
+      "autoModeResolution.reasoning": "推理",
+      "autoModeResolution.title": "已路由到 {0}"
+    },
+    "vs/workbench/contrib/chat/browser/widget/chatContentParts/chatPlanReviewPart": {
+      "chat.planReview.cancelButtonLabel": "取消",
+      "chat.planReview.cancelTooltip": "退出反馈模式",
+      "chat.planReview.expandSize": "展开",
+      "chat.planReview.inlineCommentsHeadingNoFile": "行内评论：",
+      "chat.planReview.restoreSize": "还原大小"
+    },
+    "vs/workbench/contrib/chat/browser/widget/chatContentParts/chatSubagentContentPart": {
+      "chat.subagent.creditTooltip": "{0} 额度",
+      "chat.subagent.creditsTooltip": "{0} 额度"
+    },
+    "vs/workbench/contrib/chat/browser/widget/chatContentParts/chatTurnPillsPart": {
+      "chat.turnChanges.preview": "预览",
+      "chat.turnPreview.tooltip": "打开预览：{0}",
+      "chatTurnPills.changes.title": "本轮文件更改"
+    },
+    "vs/workbench/contrib/chat/browser/widget/chatListRenderer": {
+      "chat.planReview.feedbackInline": "{0}：{1}"
+    },
+    "vs/workbench/contrib/chat/browser/widget/chatPetWidget": {
+      "chatPet.jumped": "VS Code 宠物跳了一下"
+    },
+    "vs/workbench/contrib/chat/browser/widget/chatReadOnlyBanner": {
+      "chatReadOnlyBanner.message": "已归档的会话为只读。"
+    },
+    "vs/workbench/contrib/chat/browser/widget/chatRestoreCheckpointActionViewItem": {
+      "chat.restoreCheckpoint.cancelTooltip": "取消还原此检查点",
+      "chat.restoreCheckpoint.confirmTooltip": "确认还原此检查点，并丢弃之后的编辑"
+    },
+    "vs/workbench/contrib/chat/browser/widget/chatTurnPills": {
+      "chatTurnPills.changes.ariaLabel": "查看更改：{0}，+{1}，-{2}",
+      "chatTurnPills.changes.file": "{0} 个文件",
+      "chatTurnPills.changes.files": "{0} 个文件",
+      "chatTurnPills.preview.label": "打开预览",
+      "chatTurnPills.preview.more": "显示所有可预览文件",
+      "chatTurnPills.preview.tooltipOne": "打开预览：{0}"
+    },
+    "vs/workbench/contrib/chat/browser/widget/input/modelPicker/modelPickerHover": {
+      "chat.promo.endsAt": "将于 {0} 结束。"
+    },
+    "vs/workbench/contrib/chat/browser/widget/input/modelPicker/modelPickerItemPrimitives": {
+      "chat.modelPicker.copilotGroup": "Copilot"
+    },
+    "vs/workbench/contrib/chat/browser/widgetHosts/viewPane/chatContextUsageDetails": {
+      "sessionCostCredit": "{0} 额度",
+      "sessionCostCredits": "{0} 额度"
+    },
+    "vs/workbench/contrib/chat/electron-browser/chat.contribution": {
+      "changeWorkspace.detail": "更改工作区将停止该会话。",
+      "changeWorkspace.message": "有会话正在进行中。确定要更改工作区吗？",
+      "closeTheWindow.detail": "关闭窗口将停止该会话。",
+      "closeTheWindow.message": "有会话正在进行中。确定要关闭窗口吗？",
+      "exit.detail": "退出将停止该会话。",
+      "exit.message": "有会话正在进行中。确定要退出吗？",
+      "quit.detail": "退出将停止该会话。",
+      "quit.message": "有会话正在进行中。确定要退出吗？",
+      "reloadTheWindow.detail": "重新加载窗口将停止该会话。",
+      "reloadTheWindow.message": "有会话正在进行中。确定要重新加载窗口吗？"
+    },
+    "vs/workbench/contrib/customEditor/common/extensionPoint": {
+      "contributes.priority.mergeEditor": "控制用户打开合并编辑器时是否自动启用此自定义编辑器。未指定时默认为 `never`，因此除非选择加入，否则不会用于合并。",
+      "contributes.priority.never": "从不自动使用此编辑器，即使用户通过 `workbench.editorAssociations` 指向它也会跳过。仍可通过 `Reopen With` 命令或专用的 `workbench.diffEditorAssociations` 设置打开。"
+    },
+    "vs/workbench/contrib/kiro/common/kiroAgentBrowser": {
+      "kiroAgentBrowser.blockedLiveUrl": "此页面已被网络域策略阻止",
+      "kiroAgentBrowser.fileNotAllowed": "本地文件只能从受信任的工作区文件夹内打开。",
+      "kiroAgentBrowser.unknownTab": "此页面已不可用。",
+      "kiroAgentBrowser.unusableUrl": "无法根据网络域策略检查此 URL。"
+    },
+    "vs/workbench/contrib/kiroStandalone/electron-browser/agentSettingsPane": {
+      "kiro.agentConfig.delete": "删除",
+      "kiro.agentConfig.domain.workflows": "工作流",
+      "kiro.agentConfig.experimental": "实验性",
+      "kiro.agentConfig.recipes": "配方",
+      "kiro.agentConfig.recipes.cardView": "卡片视图",
+      "kiro.agentConfig.recipes.col.actions": "操作",
+      "kiro.agentConfig.recipes.col.name": "名称",
+      "kiro.agentConfig.recipes.col.reviewMax": "审阅上限",
+      "kiro.agentConfig.recipes.col.steps": "步骤",
+      "kiro.agentConfig.recipes.listView": "列表视图",
+      "kiro.agentConfig.recipes.refresh": "刷新",
+      "kiro.agentConfig.recipes.viewMode": "视图模式",
+      "kiro.agentConfig.workflows.description": "配方是可复用的多步骤工作流定义。选择一项即可查看或编辑其步骤。"
+    },
+    "vs/workbench/contrib/kiroStandalone/electron-browser/kiroStandalone.contribution": {
+      "kiroStandalone.localWebPortalGate": "启用本地网页门户，向本地网络中通过 PIN 配对的浏览器提供聚焦智能体会话。仅限 Insider 版本。",
+      "kiroStandalone.localWebPortalPublicHosts": "本地网页门户额外响应的主机名，用于其前方的隧道或反向代理（例如 `my-portal.example.com`）。门户会拒绝无法识别的主机名，从而防止恶意网页操控它，因此必须在此列出隧道的主机名。接受端口和完整 URL，并会从中提取主机名；不支持通配符。下次启动门户时生效。仅列出名称并不会自行公开门户，仍需完成配对。"
+    },
+    "vs/workbench/contrib/kiroStandalone/electron-browser/kiroStandaloneSessionDetailsPanel": {
+      "kiroStandalone.hideSessionDetails": "隐藏会话详情",
+      "kiroStandalone.showSessionDetails": "显示会话详情"
+    },
+    "vs/workbench/contrib/kiroStandalone/electron-browser/kiroStandaloneSessions.contribution": {
+      "kiroStandalone.defaultSessionModel": "默认会话模型",
+      "kiroStandalone.defaultSessionModelDesc": "新会话启动时所使用的模型。已打开的会话会保留启动时所用的模型，也可在聊天视图中单独更改。",
+      "kiroStandalone.defaultSessionModelPending": "会话加载完成后可用",
+      "kiroStandalone.modelSelectionFailed": "无法更改默认会话模型。",
+      "kiroStandalone.portal.ariaOff": "启动本地网页门户",
+      "kiroStandalone.portal.ariaOn": "本地网页门户正在运行 - 管理",
+      "kiroStandalone.portal.copyPin": "复制 PIN：{0}",
+      "kiroStandalone.portal.copyUrl": "复制地址：{0}",
+      "kiroStandalone.portal.hoverOff": "本地网页门户",
+      "kiroStandalone.portal.hoverOn": "本地网页门户正在 {0} 运行",
+      "kiroStandalone.portal.loopbackOnly": "在网络接口上重新启动…",
+      "kiroStandalone.portal.loopbackTooltip": "当前仅对本机提供服务，因此其他设备无法访问。",
+      "kiroStandalone.portal.qrAria": "{0} 的二维码",
+      "kiroStandalone.portal.qrCaption": "扫描以打开，然后输入 PIN",
+      "kiroStandalone.portal.rotate": "轮换 PIN（取消浏览器配对）",
+      "kiroStandalone.portal.showQr": "显示配对二维码",
+      "kiroStandalone.portal.stop": "停止本地网页门户",
+      "kiroStandalone.portal.waiting": "正在等待会话桥接",
+      "kiroStandalone.portal.waitingTooltip": "浏览器会显示等待页面，直到聚焦智能体连接。",
+      "kiroStandalone.workflowStopConfirm": "要停止工作流吗？",
+      "kiroStandalone.workflowStopConfirmAction": "停止工作流",
+      "kiroStandalone.workflowStopConfirmCancel": "取消",
+      "kiroStandalone.workflowStopConfirmDetail": "停止“{0}”会立即中止此次运行。正在进行中的步骤将被中断，并可能留下部分更改。此操作无法撤销。"
+    },
+    "vs/workbench/contrib/kiroStandalone/electron-browser/kiroStandaloneWorkflowsSection": {
+      "kiroStandalone.loadMoreWorkflowRuns": "再加载 {0} 个",
+      "kiroStandalone.moreActions": "更多操作",
+      "kiroStandalone.noWorkflowRuns": "没有工作流运行记录",
+      "kiroStandalone.workflowOpenToResolve": "打开以处理",
+      "kiroStandalone.workflowPause": "暂停",
+      "kiroStandalone.workflowResume": "继续",
+      "kiroStandalone.workflowRunNotHere": "此运行的对话未在本窗口中打开",
+      "kiroStandalone.workflowStop": "停止",
+      "kiroStandalone.workflowsPreviewBadge": "预览"
+    },
+    "vs/workbench/contrib/mcp/browser/mcpCommands": {
+      "mcp.servers": "MCP 服务器"
+    },
+    "vs/workbench/contrib/terminalContrib/chatAgentTools/common/terminalChatAgentToolsConfiguration": {
+      "agentSandbox.enabled.deprecated": "请改用 {0}",
+      "agentSandbox.fileSystemLinux.deprecated": "请改用 {0}",
+      "agentSandbox.fileSystemMac.deprecated": "请改用 {0}"
+    },
+    "vs/workbench/contrib/update/browser/updateTooltip": {
+      "updateTooltip.meteredConnectionMessage": "当前网络按流量计费，已暂停自动更新。"
+    },
+    "vs/workbench/contrib/welcomeOnboarding/browser/onboardingVariationA": {
+      "onboarding.sessions.agentMode": "智能体",
+      "onboarding.sessions.agentMode.desc": "描述一个目标。智能体会规划做法、编辑文件、运行命令并自我纠正。你一路审阅并批准。",
+      "onboarding.sessions.agentsTutorial": "智能体教程",
+      "onboarding.sessions.customize": "自定义你的智能体",
+      "onboarding.sessions.customize.desc": "用自定义指令和智能体、技能、可复用提示，以及连到你常用工具和上下文的 MCP 服务器，把 Copilot 调成适合你的项目。",
+      "onboarding.sessions.group.chat": "为任务而生的智能体",
+      "onboarding.sessions.group.more": "按你的方式工作的智能体",
+      "onboarding.sessions.planMode": "计划",
+      "onboarding.sessions.planMode.desc": "先写出实现计划，再交给智能体去执行。",
+      "onboarding.sessions.runAnywhere": "随处运行智能体",
+      "onboarding.sessions.runAnywhere.desc": "可以在本地交互式运行智能体，用 Copilot CLI 在后台运行，或用云端智能体在云上运行，完成后会开出供团队审阅的拉取请求。",
+      "onboarding.step.agentSessions.subtitle.before": "随时用 "
+    },
+    "vs/workbench/contrib/welcomeOnboarding/common/onboardingTypes": {
+      "onboarding.step.agentSessions": "用 AI 智能体来构建",
+      "onboarding.step.agentSessions.subtitle": "随时用 {0} 打开聊天"
+    },
+    "vs/workbench/services/kiroStandalone/common/agentConfigModel": {
+      "kiro.agentConfig.recipes.reviewLoopMax": "审阅循环上限 {0}",
+      "kiro.agentConfig.recipes.step": "1 个步骤",
+      "kiro.agentConfig.recipes.steps": "{0} 个步骤"
+    },
+    "vs/workbench/services/kiroStandalone/common/workflowRuns": {
+      "kiroStandalone.workflowStateCompleted": "已完成",
+      "kiroStandalone.workflowStateFailed": "失败",
+      "kiroStandalone.workflowStateNeedsYou": "需要你",
+      "kiroStandalone.workflowStatePaused": "已暂停",
+      "kiroStandalone.workflowStateRunning": "正在运行",
+      "kiroStandalone.workflowStateStopped": "已停止"
+    }
+  }
+}

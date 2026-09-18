@@ -653,7 +653,7 @@
       "chatSessionsExtPoint.displayName": "該項的較長名稱，用於在選單中顯示。",
       "chatSessionsExtPoint.description": "聊天會話的描述，用於選單和工具提示。",
       "chatSessionsExtPoint.when": "顯示該項所需滿足的條件。",
-      "chatSessionsExtPoint.icon": "聊天會話編輯器選項卡的圖示識別符號（codicon ID），例如 \"$(github)\" 或 \"$(cloud)\"。",
+      "chatSessionsExtPoint.icon": "聊天會話編輯器選項卡的圖示識別符號（codicon ID），例如 \"{0}\" 或 \"{1}\"。",
       "icon.light": "使用淺色主題時的圖示路徑",
       "icon.dark": "使用深色主題時的圖示路徑",
       "chatSessionsExtPoint.order": "該項的顯示順序。",
