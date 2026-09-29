@@ -2,7 +2,7 @@
 
 Translation fixes, new languages and terminology proposals are welcome.
 
-Install / usage: [README.md](README.md) · [README.zh-CN.md](README.zh-CN.md).  
+Install / usage: [README.md](README.md) (简体中文) · [README.en.md](README.en.md).  
 Docs index: [docs/README.md](docs/README.md).
 
 ## Setup

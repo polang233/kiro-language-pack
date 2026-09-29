@@ -1,7 +1,7 @@
 # Kiro 界面语言包 — 调研结论与实现记录（历史文档）
 
 > **这不是安装指南，也不是当前产品说明。**
-> 想装语言包或了解用法 → [README.md](../README.md) / [README.zh-CN.md](../README.zh-CN.md)
+> 想装语言包或了解用法 → [README.md](../README.md) / [README.en.md](../README.en.md)
 > 想贡献译文或跑构建 → [CONTRIBUTING.md](../CONTRIBUTING.md)
 > 想看现行技术设计 → [architecture.md](architecture.md) /
 > [architecture.zh-CN.md](architecture.zh-CN.md)

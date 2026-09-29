@@ -2,7 +2,7 @@
 
 **This is optional.** Installing the language pack extension is the supported path. The
 patch rewrites files inside your Kiro installation to translate strings that no extension
-can reach. Read [README.md](../README.md) for the normal install flow first.
+can reach. Read [README.en.md](../README.en.md) for the normal install flow first.
 
 ## When you might need this
 

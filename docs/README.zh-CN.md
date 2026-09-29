@@ -1,6 +1,6 @@
 # 文档索引
 
-安装与使用见根目录 [README.zh-CN](../README.zh-CN.md) / [README](../README.md)。
+安装与使用见根目录 [README.md](../README.md)（简体中文）/ [README.en.md](../README.en.md)（English）。
 本目录下的内容面向贡献者与维护者。
 
 | 文档 | 语言 | 内容 |

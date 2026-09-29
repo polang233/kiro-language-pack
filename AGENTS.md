@@ -1,6 +1,7 @@
 # Agent notes (kiro-language-pack)
 
-Persistent instructions for coding agents. Human docs: [README.md](README.md),
+Persistent instructions for coding agents. Human docs: [README.md](README.md) (简体中文),
+[README.en.md](README.en.md),
 [docs/publishing.md](docs/publishing.md), [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Secrets — never write these to the repo

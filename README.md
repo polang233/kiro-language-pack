@@ -1,181 +1,88 @@
 # Kiro Language Pack
 
-Community language pack for [Kiro IDE](https://kiro.dev/) — it translates the editor
-workbench **and** Kiro's own interface (session list, Settings, Agent Focus, spec and
-steering toolbars).
+Kiro 的多语言工具包，目前支持简体中文和繁体中文。翻译编辑器，以及 Kiro 自己的界面：会话列表、设置、聚焦智能体、规格与指引。
 
-**English** · [简体中文](README.zh-CN.md)
+[英文文档在此打开](README.en.md)
+
+<img src="media/icon.png" width="96" height="96" alt="Kiro Language Pack 图标" />
 
 [![Open VSX](https://img.shields.io/open-vsx/v/polang233/kiro-language-pack?label=Open%20VSX)](https://open-vsx.org/extension/polang233/kiro-language-pack)
-[![Downloads](https://img.shields.io/open-vsx/dt/polang233/kiro-language-pack)](https://open-vsx.org/extension/polang233/kiro-language-pack)
+[![下载量](https://img.shields.io/open-vsx/dt/polang233/kiro-language-pack)](https://open-vsx.org/extension/polang233/kiro-language-pack)
 
-> 中文用户请看 [简体中文说明](README.zh-CN.md)。安装前请先卸载其他语言包，装完选显示语言后**重启** Kiro。
-
-<img src="media/icon.png" width="96" height="96" alt="Kiro Language Pack icon" />
-
-The project is built to hold any number of languages. **Today it ships Simplified Chinese
-and Traditional Chinese** — those are the two that have translators. Eleven more locales are
-already declared in `config.json` and waiting for someone to fill them in; see
-[Adding a language](#adding-a-language).
-
-## Preview
-
-| Before · English | After · 简体中文 |
+| 安装前 · English | 安装后 · 简体中文 |
 | --- | --- |
-| ![English](docs/images/before-en.png) | ![Simplified Chinese](docs/images/after-zh-cn.png) |
+| ![英文](docs/images/before-en.png) | ![简体中文](docs/images/after-zh-cn.png) |
 
-## Two ways to install it
+装扩展就能用。下载项目后打补丁，可以再翻掉一部分写死在程序里的英文。
 
-The extension is the normal, supported route. The patch is an extra step for people who
-want the last few strings translated too, and it is not free of consequences.
+## 安装扩展
 
-| | **Extension** | **Extension + install patch** |
-| --- | --- | --- |
-| How | Install one `.vsix` | Clone this repo, run `npm run patch -- --apply` |
-| Translates | Workbench + everything Kiro exposes to a language pack | The above, plus ~89 strings hard-coded inside the Kiro install |
-| Official VS Code language pack | You uninstall it yourself | The patcher offers to uninstall it |
-| Display language | You pick it after install | The patcher sets it for you |
-| Survives a Kiro update | Yes | No — re-run the patch after every update |
-| Supported by AWS | Yes, it is a normal extension | No, the install is modified |
-| Undo | Uninstall the extension | `npm run patch -- --restore`, then uninstall |
+1. 先卸载其他语言包。本扩展替代 VS Code 官方中文语言包，两个同时装，重启后翻译会乱。[原因](docs/architecture.zh-CN.md#单个自包含扩展)。
+2. 扩展里搜索 **Kiro Language Pack**、**汉化** 或 **中文语言包**，安装。商店页：[Open VSX](https://open-vsx.org/extension/polang233/kiro-language-pack)。也可以从 [GitHub Release](https://github.com/polang233/kiro-language-pack/releases) 下 `.vsix`，命令面板执行 **Extensions: Install from VSIX…**。Windows 不要双击 `.vsix`。
+3. 命令面板 → **Language Pack: Select Display Language** → 选 **中文（简体）** 或 **中文（繁體）** → **完全退出 Kiro 再打开**。重载窗口无效。
 
-## Install the extension
+之后换语言不用重装，仍然要重启：
 
-1. **Uninstall any other language pack first.** This pack replaces the official VS Code one —
-   [why](docs/architecture.md#one-self-contained-extension). Two packs installed together give
-   you a UI that is translated differently after each restart.
-2. Install the pack:
-   - **In Kiro (recommended):** Extensions view → search **Kiro Language Pack** (or 中文语言包) → Install.
-     Listing: [Open VSX](https://open-vsx.org/extension/polang233/kiro-language-pack)
-   - or from a [GitHub Release](https://github.com/polang233/kiro-language-pack/releases) `.vsix` —
-     Command Palette → **Extensions: Install from VSIX…**
-3. Command Palette → **Language Pack: Select Display Language** → pick a language → restart.
+- 命令面板 → **Language Pack: Select Display Language**
+- 设置 `kiroLanguagePack.language`：`auto`、`zh-cn`、`zh-tw`、`en`
+- Kiro 自带的 **Configure Display Language**
 
-On Windows, do not double-click the `.vsix`; Visual Studio may claim the file type. Install it
-from the Command Palette instead.
+选 `en` 回到英文，扩展还在。
 
-### Switching language later
+## 安装目录补丁
 
-Any of these work, and none of them require reinstalling — every bundled language is already
-on disk:
-
-- Command Palette → **Language Pack: Select Display Language**
-- Settings → `kiroLanguagePack.language` (`auto`, `zh-cn`, `zh-tw`, `en`)
-- The built-in **Configure Display Language** command
-
-Picking `en` returns the whole UI to English while the pack stays installed. All three write
-the `locale` field in `argv.json` and nothing else. The display language is a launch argument,
-so Kiro has to be restarted, not just reloaded.
-
-## Optional: patching the install
-
-Some Kiro strings are English literals compiled into the application — no language pack can
-reach them. The patcher rewrites them in place, then finishes the setup:
+聊天面板、钩子和能力编辑器、账户与用量弹窗里，有一批英文写在程序文件里，扩展改不到。补丁大约再翻 89 条，并会装上语言包、设好显示语言。Kiro 更新后这些改动会消失，要再执行一次。改过的安装 AWS 不支持。
 
 ```bash
 git clone https://github.com/polang233/kiro-language-pack
 cd kiro-language-pack
 npm install
-npm run package            # build the .vsix the patcher will install
-
-npm run patch -- --list    # which Kiro installs were found, which languages are patchable
-npm run patch              # dry run: prints every change, writes nothing
-npm run patch -- --apply   # do it
+npm run package
+npm run patch -- --apply
 ```
 
-`npm run patch` asks which install and which language when there is more than one option, so
-the flags are optional in a terminal. Name them explicitly in a script:
+先看会改什么：`npm run patch`。还原程序文件：`npm run patch -- --restore`。细节：[docs/advanced-patch.zh-CN.md](docs/advanced-patch.zh-CN.md)。
 
-```bash
-npm run patch -- --locale=zh-tw --install-dir="C:\Users\me\AppData\Local\Programs\Kiro" --apply
-```
+## 语言
 
-`--apply` performs four steps, each one skippable:
-
-| Step | Skip with |
+| 语言 | 状态 |
 | --- | --- |
-| Rewrite the unreachable strings, after backing up every file it touches | — |
-| Install the language pack `.vsix` into that same Kiro | `--no-extension`, or `--vsix=<path>` |
-| Uninstall language packs that conflict with this one | `--keep-official` |
-| Set `locale` in `argv.json` to the language you chose | `--no-set-locale` |
+| `zh-cn` 简体中文 | 已发布。Kiro 自有界面 1412 键（100%） |
+| `zh-tw` 繁體中文 | 已发布。数字与简体相同，用台湾用词 |
+| `ja` `ko` `fr` `de` `es` `it` `ru` `pt-br` `tr` `pl` `cs` | 已预留，尚无译文 |
 
-`npm run patch -- --status` reports whether an install is still patched — useful after a Kiro
-update, which silently replaces the patched files. `npm run patch -- --restore` puts the
-originals back.
+一个扩展包含已启用的语言。没翻的句子显示英文。
 
-Full detail, including the exact file list and the risks:
-[docs/advanced-patch.md](docs/advanced-patch.md).
+当前翻译对应 Kiro **1.1.70**（Code OSS 1.131.0），并兼容 **1.1.14**、**1.0.437**、**1.0.395**、**1.0.309**、**1.0.242**、**1.0.228**。更老的版本一般能用。更新的版本里，新增界面会先显示英文。
 
-## Language support
+上面那几处写死的英文，补丁也只覆盖其中一部分。界面语言和 AI 回复语言无关；想让模型说中文，用 `.kiro/steering/language.md` 这类指引文件。
 
-| Locale | Status |
-| --- | --- |
-| `zh-cn` 简体中文 | Shipped — workbench baseline plus all 1365 Kiro-specific strings (100%) |
-| `zh-tw` 繁體中文 | Shipped — same surface at 100%, Taiwan-oriented terminology |
-| `ja` `ko` `fr` `de` `es` `it` `ru` `pt-br` `tr` `pl` `cs` | Declared in `config.json`, `enabled: false`, no translations yet |
+### 添加语言
 
-One extension declares every enabled locale; Kiro loads the one matching `locale` in
-`argv.json`, and any key without a translation falls back to English. That means a language
-can ship at 40% and improve from there.
+1. 在 `config.json` 把该语言的 `enabled` 设为 `true`。[microsoft/vscode-loc](https://github.com/microsoft/vscode-loc) 没有这门语言时，把 `upstreamPackDir` 设为 `null`：编辑器保持英文，只翻 Kiro 的字符串。
+2. 添加 `src/i18n/<locale>/`，先写术语表，再写译文。
+3. `npm run build && npm run validate && npm run coverage`。
 
-### Adding a language
+细节：[CONTRIBUTING.md](CONTRIBUTING.md#adding-a-language)。
 
-Contributions are the only way this list grows — open a pull request:
+## 开发
 
-1. Set `enabled: true` for your locale in `config.json`. If
-   [microsoft/vscode-loc](https://github.com/microsoft/vscode-loc) has no pack for it, set
-   `upstreamPackDir: null`: the workbench stays English and only the Kiro strings get
-   translated, which is still more than exists today.
-2. Add `src/i18n/<locale>/` — glossary first, then the translation files.
-3. `npm run build && npm run validate && npm run coverage`.
-
-Step-by-step instructions, the translation rules that `validate` enforces, and how to find
-untranslated keys: [CONTRIBUTING.md](CONTRIBUTING.md#adding-a-language).
-
-## Known limits
-
-Still English, because Kiro has not externalized these strings at all — a language pack cannot
-reach them and the patcher only covers part:
-
-- the chat panel
-- the hook and powers editors
-- the account and usage popup
-
-`reports/manifest-audit-kiro.kiroAgent.json` documents the exact gap and is meant as evidence
-for an upstream i18n request. Please do not file translation issues for those surfaces here.
-
-The UI language does not change what language the AI answers in. For that, add a steering
-file such as `.kiro/steering/language.md`.
-
-Reconciled against Kiro **1.1.14** (Code OSS 1.131.0), **1.0.437**, **1.0.395** and **1.0.309** (Code OSS 1.109.5), **1.0.242** (Code OSS 1.108.2)
-and **1.0.228** — see `target.verifiedKiroVersions` in `config.json`. Other builds generally
-work; strings Kiro adds in between fall back to English until someone runs
-`npm run check-upgrade` and translates the additions.
-
-A Kiro update can also *move* strings rather than add them — 1.0.242 reorganised the chat
-modules, which silently took ~470 already-translated strings out of range. `npm run check-upgrade`
-reports those as orphaned keys; they are fixed by renaming the module path, not by retranslating.
-
-## Development
-
-Node.js 18.17 or newer. No compile step.
+Node.js 18.17+。
 
 ```bash
 npm install
-npm run detect          # find the local Kiro install
-npm run extract         # snapshot its localizable strings
-npm run sync            # download the vscode-loc workbench baseline
-npm run verify          # build + validate + coverage
-npm run package         # dist/kiro-language-pack-<version>.vsix
-npm run check-upgrade   # after a Kiro update: what changed, what needs translating
+npm run detect
+npm run extract
+npm run sync
+npm run verify
+npm run package
+npm run check-upgrade
 ```
 
-Docs: [architecture](docs/architecture.md) · [contributing](CONTRIBUTING.md) ·
-[publishing](docs/publishing.md) · [all documents](docs/README.md)
+文档：[架构](docs/architecture.zh-CN.md) · [贡献](CONTRIBUTING.md) · [发布](docs/publishing.zh-CN.md)
 
-## License
+## 许可
 
-MIT. Workbench strings are derived from the MIT-licensed
-[microsoft/vscode-loc](https://github.com/microsoft/vscode-loc); see [NOTICE](NOTICE).
+MIT。工作台译文来自 [microsoft/vscode-loc](https://github.com/microsoft/vscode-loc)；见 [NOTICE](NOTICE)。
 
-A community project. Not affiliated with, endorsed by, or supported by AWS or Microsoft.
+社区项目，与 AWS、Microsoft 无隶属关系。

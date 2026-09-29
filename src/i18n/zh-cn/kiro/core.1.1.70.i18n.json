@@ -1,0 +1,87 @@
+// Kiro 1.1.70 strings added since the 1.1.14 baseline.
+//
+// New UI: workflow activity pane, session overview card, and the workflows toggle.
+// Keys 1.1.70 removed stay in earlier core*.i18n.json; the build filters orphans.
+//
+// Rules: keep {0} placeholders, $(codicon) markers and (command:...) links intact.
+{
+  "version": "1.0.0",
+  "contents": {
+    "vs/workbench/contrib/kiroStandalone/common/workflowActivity": {
+      "kiroStandalone.workflowDurationHours": "{0} 小时 {1} 分",
+      "kiroStandalone.workflowDurationMinutes": "{0} 分 {1} 秒",
+      "kiroStandalone.workflowDurationSeconds": "{0} 秒"
+    },
+    "vs/workbench/contrib/kiroStandalone/electron-browser/agentSettingsPane": {
+      "kiro.agentConfig.recipes.create": "新建配方",
+      "kiro.agentConfig.workflows.toggle": "启用工作流",
+      "kiro.agentConfig.workflows.toggleDescription": "允许智能体在会话里创建并运行多步骤工作流。关闭后，智能体不会自行启动工作流，运行记录会从运行视图、聊天标题和聚焦智能体栏中隐藏；已经在进行的运行会继续，配方仍然可用。对新会话生效。"
+    },
+    "vs/workbench/contrib/kiroStandalone/electron-browser/kiroStandaloneSessionDetailsPanel": {
+      "kiroStandalone.collapseSessionDetails": "折叠会话详情",
+      "kiroStandalone.expandSessionDetails": "展开会话详情"
+    },
+    "vs/workbench/contrib/kiroStandalone/electron-browser/kiroStandaloneSessionOverviewCard": {
+      "kiroStandalone.expandSessionDetails": "展开会话详情",
+      "kiroStandalone.overviewArtifacts": "产物",
+      "kiroStandalone.overviewFiles": "文件",
+      "kiroStandalone.overviewSpecs": "规格",
+      "kiroStandalone.overviewWorkflows": "工作流",
+      "kiroStandalone.sessionOverview": "会话概览",
+      "kiroStandalone.sessionOverviewTitle": "会话",
+      "kiroStandalone.workflowPause": "暂停",
+      "kiroStandalone.workflowPausing": "正在暂停…",
+      "kiroStandalone.workflowResume": "继续",
+      "kiroStandalone.workflowStop": "停止"
+    },
+    "vs/workbench/contrib/kiroStandalone/electron-browser/kiroStandaloneSessions.contribution": {
+      "kiroStandalone.activityManager": "工作流",
+      "kiroStandalone.sessionDetails": "会话详情",
+      "kiroStandalone.workflowsDisabled": "已关闭",
+      "kiroStandalone.workflowsEnabled": "已启用",
+      "kiroStandalone.workflowsOffBody": "启用工作流后，Kiro 可以在你的会话里创建并运行多步骤工作流。",
+      "kiroStandalone.workflowsSetting": "工作流"
+    },
+    "vs/workbench/contrib/kiroStandalone/electron-browser/kiroStandaloneWorkflowsSection": {
+      "kiroStandalone.activityNeedsAttention": "需要关注：",
+      "kiroStandalone.activityOpenDetails": "{0}：打开详情和历史",
+      "kiroStandalone.activityStepProgress": "步骤 {0}/{1}",
+      "kiroStandalone.activitySummaryActive": "{0} 个进行中",
+      "kiroStandalone.activitySummaryAttention": "{0} 个需要关注",
+      "kiroStandalone.enableWorkflowsInSettings": "在设置中启用",
+      "kiroStandalone.noWorkflowActivity": "没有工作流活动",
+      "kiroStandalone.showAllActivity": "显示全部活动",
+      "kiroStandalone.workflowsOffBody": "启用工作流后，Kiro 可以在你的会话里创建并运行多步骤工作流。",
+      "kiroStandalone.workflowsOffTitle": "工作流已关闭"
+    },
+    "vs/workbench/contrib/kiroStandalone/electron-browser/workflowActivityControls": {
+      "kiroStandalone.workflowPause": "暂停",
+      "kiroStandalone.workflowPausing": "正在暂停…",
+      "kiroStandalone.workflowResume": "继续",
+      "kiroStandalone.workflowStop": "停止"
+    },
+    "vs/workbench/contrib/kiroStandalone/electron-browser/workflowActivityPane": {
+      "kiroStandalone.activityClose": "关闭",
+      "kiroStandalone.activityColActions": "操作",
+      "kiroStandalone.activityColCompleted": "已完成",
+      "kiroStandalone.activityColDuration": "耗时",
+      "kiroStandalone.activityColSession": "会话",
+      "kiroStandalone.activityColStarted": "开始时间",
+      "kiroStandalone.activityColStatus": "状态",
+      "kiroStandalone.activityColWorkflow": "工作流",
+      "kiroStandalone.activityCompleted": "已完成",
+      "kiroStandalone.activityCount": "（{0}）",
+      "kiroStandalone.activityGroupCount": "{0}（{1}）",
+      "kiroStandalone.activityInProgress": "进行中",
+      "kiroStandalone.activityLayout": "布局",
+      "kiroStandalone.activityLayoutCards": "卡片布局",
+      "kiroStandalone.activityLayoutTable": "表格布局",
+      "kiroStandalone.activityNoneCompleted": "没有已完成的运行",
+      "kiroStandalone.activityNoneInProgress": "没有进行中的运行",
+      "kiroStandalone.activityOpenDetails": "{0}：打开详情和历史",
+      "kiroStandalone.activityPaneTitle": "工作流",
+      "kiroStandalone.activityProgress": "{0}/{1}",
+      "kiroStandalone.workflowRunNotHere": "此运行的对话未在本窗口中打开"
+    }
+  }
+}
