@@ -1,0 +1,144 @@
+// Kiro 1.4.0 strings added or recovered since the 1.1.70 baseline.
+//
+// New UI: memory settings, managed agent settings, What's New, workflows
+// announcement, and feedback. remoteTrust moved from remoteExtensionHost to
+// remoteAuthorityTrust; the detail strings gained placeholders.
+// Keys 1.4.0 removed stay in earlier core*.i18n.json; the build filters orphans.
+//
+// Rules: keep {0} placeholders, $(codicon) markers and (command:...) links intact.
+{
+  "version": "1.0.0",
+  "contents": {
+    "vs/workbench/contrib/kiroConfig/common/memorySettings": {
+      "kiroAgent.memory": "選擇 Kiro 如何使用記憶並從中學習。開啟或關閉記憶，或切換到「僅使用」、從「僅使用」切換走，會對新會話生效。在「使用並學習」和「使用但不學習」之間切換，會立即作用於已開啟的本地會話。",
+      "kiroAgent.memory.off": "關閉",
+      "kiroAgent.memory.off.description": "不使用也不更改記憶。",
+      "kiroAgent.memory.useAndLearn": "使用並學習",
+      "kiroAgent.memory.useAndLearn.description": "使用已有記憶，並自動從會話中學習。",
+      "kiroAgent.memory.useOnly": "僅使用",
+      "kiroAgent.memory.useOnly.description": "使用已有記憶，但絕不建立、更新或刪除，即使你主動要求也不例外。",
+      "kiroAgent.memory.useWithoutLearning": "使用但不學習",
+      "kiroAgent.memory.useWithoutLearning.description": "使用已有記憶，但不會自動建立或更新。你主動要求時，Kiro 仍可以儲存一條記憶。",
+      "kiroSettingsTitle": "Kiro"
+    },
+    "vs/workbench/contrib/kiroStandalone/electron-browser/afmManagedSettings": {
+      "kiroStandalone.agentConfigurationDetail": "智慧體配置：{0}",
+      "kiroStandalone.agentConfigurationIncomplete": "智慧體配置可能不完整。不可用的來源：{0}。",
+      "kiroStandalone.agentConfigurationUnavailable": "智慧體配置不可用",
+      "kiroStandalone.autonomousAgents": "自主智慧體",
+      "kiroStandalone.mcpRegistryUrl": "MCP 登錄檔 URL",
+      "kiroStandalone.webTools": "Web 工具"
+    },
+    "vs/workbench/contrib/kiroStandalone/electron-browser/kiroStandaloneFeedback": {
+      "kiroStandalone.feedback.close": "關閉",
+      "kiroStandalone.feedback.loadFailed": "無法載入問卷。請稍後再試。",
+      "kiroStandalone.feedback.optional": "可選",
+      "kiroStandalone.feedback.regionNotServed": "無法從你配置檔案的 AWS 區域傳送反饋，因為反饋服務僅在 {0} 可用。",
+      "kiroStandalone.feedback.regionUnreadable": "暫時無法傳送反饋，因為 Kiro 讀不到你所選的配置檔案，沒法核對它的 AWS 區域。這通常是暫時的，請過一會兒再試。如果一直這樣，請從賬戶選單重新選擇配置檔案。",
+      "kiroStandalone.feedback.submitFailed": "無法提交反饋。請再試一次。",
+      "kiroStandalone.feedback.title": "提供反饋"
+    },
+    "vs/workbench/contrib/kiroStandalone/electron-browser/kiroStandaloneSessionOverviewCard": {
+      "kiroStandalone.collapseSessionDetails": "摺疊會話詳情",
+      "overview.stoppedRun": "{0}，已停止"
+    },
+    "vs/workbench/contrib/kiroStandalone/electron-browser/kiroStandaloneWorkflowsSection": {
+      "kiroStandalone.activityNeedsAttentionNoReason": "需要關注"
+    },
+    "vs/workbench/contrib/preferences/browser/managedSettingsView": {
+      "managedSettings.count": "{0} 項設定",
+      "managedSettings.degraded": "部分配置來源不可用：{0}。顯示的值可能不完整。",
+      "managedSettings.description": "此視窗的智慧體配置，位於工作區、自定義智慧體和會話選擇之前。此檢視中的值只讀。",
+      "managedSettings.empty": "沒有託管值作用於本視窗的智慧體配置。",
+      "managedSettings.filteredCount": "{0} / {1} 項設定",
+      "managedSettings.noActiveContributions": "沒有生效的值來源",
+      "managedSettings.noMatches": "沒有與搜尋匹配的託管設定。",
+      "managedSettings.search": "搜尋託管設定",
+      "managedSettings.sources": "來源：{0}",
+      "managedSettings.title": "託管設定",
+      "managedSettings.unavailable": "託管設定不可用。無法解析本視窗的智慧體配置。",
+      "managedSettings.values": "託管設定的值"
+    },
+    "vs/workbench/contrib/preferences/browser/preferencesWidgets": {
+      "managedSettings": "託管"
+    },
+    "vs/workbench/contrib/preferences/browser/settingsEditor2": {
+      "settingsDocsLink": "文件",
+      "settingsDocsLinkTitle": "在瀏覽器中開啟 Kiro 文件"
+    },
+    "vs/workbench/contrib/spec/browser/specToolbar": {
+      "reviewMarkdown": "審閱",
+      "reviewMarkdownAriaLabel": "審閱 Markdown 文件"
+    },
+    "vs/workbench/contrib/welcomeDialog/common/announcements": {
+      "announcementChangelog": "更新日誌",
+      "announcementDocs": "文件",
+      "announcementExternalLink": "{0}（在瀏覽器中開啟）"
+    },
+    "vs/workbench/contrib/welcomeDialog/electron-browser/announcementBrowser": {
+      "announcementDone": "完成",
+      "announcements": "公告",
+      "featureRequestFailed": "無法開啟功能請求。請再試一次。",
+      "readAnnouncement": "{0}。{1}",
+      "requestFeature": "請求一項新功能。",
+      "unreadAnnouncement": "{0}，未讀。{1}",
+      "whatsNew": "新增功能",
+      "whatsNewDescription": "Kiro 的最新功能和改進。有想法嗎？ "
+    },
+    "vs/workbench/contrib/welcomeDialog/electron-browser/welcomeChrome": {
+      "whatsNewUnread": "新增功能（{0}）",
+      "whatsNewWelcomeChrome": "新增功能"
+    },
+    "vs/workbench/contrib/welcomeDialog/electron-browser/welcomeDialog.contribution": {
+      "showWhatsNew": "新增功能",
+      "showWorkflowsFeedback": "工作流反饋",
+      "showWorkflowsWelcome": "工作流"
+    },
+    "vs/workbench/contrib/welcomeDialog/electron-browser/welcomeModal": {
+      "welcomeClose": "關閉"
+    },
+    "vs/workbench/contrib/welcomeDialog/electron-browser/welcomePresentationService": {
+      "afmFailed": "無法開啟聚焦智慧體。",
+      "welcomeBusy": "本視窗無法開啟新增功能。請再試一次。",
+      "welcomeDescription": "Kiro 的最新功能和改進。有想法嗎？",
+      "welcomeReleasePending": "新增功能未能完成關閉。請再試一次。",
+      "whatsNew": "新增功能",
+      "workflowsFeedback": "工作流反饋"
+    },
+    "vs/workbench/contrib/welcomeDialog/electron-browser/workflowsAnnouncement": {
+      "announcementMediaUnavailable": "媒體不可用：{0}",
+      "checkingAvailability": "正在檢查是否可用…",
+      "disableFailed": "無法關閉工作流。請再試一次。",
+      "enableFailed": "無法啟用工作流。請再試一次。",
+      "feedbackFailed": "無法開啟反饋表。請再試一次。",
+      "giveFeedback": "提供反饋",
+      "managed": "工作流由你的組織託管。",
+      "memoryLabel": "記憶設定",
+      "memoryManaged": "記憶由你的組織託管。",
+      "memoryUpdateFailed": "無法更新記憶。請再試一次。",
+      "notEligible": "此版本或此使用者無法使用工作流。",
+      "resourceFailed": "無法開啟資源。請再試一次。",
+      "retryWorkflows": "重新檢查是否可用",
+      "unavailable": "無法確認工作流是否可用。",
+      "workflowsDisabled": "工作流：已關閉",
+      "workflowsEnabled": "工作流：已啟用",
+      "workflowsFeedbackPrompt": "幫助我們改進工作流。 ",
+      "workflowsHelper": "對新會話生效。關閉後，智慧體不會啟動新的工作流，已有的執行和配方仍然可用。可隨時在「設定 → 擴充套件 → Kiro」中更改。",
+      "workflowsResources": "資源",
+      "workflowsSwitch": "工作流"
+    },
+    "vs/workbench/services/extensions/common/remoteAuthorityTrust": {
+      "remoteTrust.cancel": "不連線",
+      "remoteTrust.declined": "已取消連線：遠端主機“{0}”未被信任。",
+      "remoteTrust.detail": "安裝在此遠端主機上的擴充套件會在你連線時自動執行，並且可以在本地計算機上執行程式碼（例如開啟本地終端）。請只連線到你信任的遠端主機。\n\n連線型別：{0}\n遠端機構：{1}",
+      "remoteTrust.detailAuthorityOnly": "安裝在此遠端主機上的擴充套件會在你連線時自動執行，並且可以在本地計算機上執行程式碼（例如開啟本地終端）。請只連線到你信任的遠端主機。\n\n遠端機構：{0}",
+      "remoteTrust.message": "是否信任遠端主機“{0}”？",
+      "remoteTrust.remember": "始終信任此遠端主機",
+      "remoteTrust.trust": "信任並連線"
+    },
+    "vs/workbench/services/kiroStandalone/common/kiroCloudTarget": {
+      "kiroStandalone.openInIde.badSessionId": "此雲端會話的 ID 無法作為遠端視窗開啟：{0}",
+      "kiroStandalone.openInIde.failed": "無法在 IDE 中開啟此雲端會話。"
+    }
+  }
+}

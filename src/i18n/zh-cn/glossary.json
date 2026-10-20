@@ -38,6 +38,7 @@
     { "en": "Agent autonomy", "zh": "自主程度", "keepEnglish": false },
     { "en": "Automation", "zh": "自动化", "keepEnglish": false, "note": "定时跑智能体会话的 Automations 面板" },
     { "en": "Recipe", "zh": "配方", "keepEnglish": false, "note": "可复用的多步骤工作流定义；Settings 里与工作流并列" },
+    { "en": "Memory", "zh": "记忆", "keepEnglish": false, "note": "智能体跨会话记住的内容；设置项用「记忆」" },
     { "en": "Plugin", "zh": "插件", "keepEnglish": false, "note": "智能体插件；勿与 VS Code 扩展混称" },
     { "en": "Gateway", "zh": "网关", "keepEnglish": false, "note": "Kiro gateway：本地网页门户背后的服务" },
     { "en": "Local web portal", "zh": "本地网页门户", "keepEnglish": false, "note": "向局域网浏览器提供聚焦智能体会话；Insider" }

@@ -1,0 +1,144 @@
+// Kiro 1.4.0 strings added or recovered since the 1.1.70 baseline.
+//
+// New UI: memory settings, managed agent settings, What's New, workflows
+// announcement, and feedback. remoteTrust moved from remoteExtensionHost to
+// remoteAuthorityTrust; the detail strings gained placeholders.
+// Keys 1.4.0 removed stay in earlier core*.i18n.json; the build filters orphans.
+//
+// Rules: keep {0} placeholders, $(codicon) markers and (command:...) links intact.
+{
+  "version": "1.0.0",
+  "contents": {
+    "vs/workbench/contrib/kiroConfig/common/memorySettings": {
+      "kiroAgent.memory": "选择 Kiro 如何使用记忆并从中学习。打开或关闭记忆，或切换到「仅使用」、从「仅使用」切换走，会对新会话生效。在「使用并学习」和「使用但不学习」之间切换，会立即作用于已打开的本地会话。",
+      "kiroAgent.memory.off": "关闭",
+      "kiroAgent.memory.off.description": "不使用也不更改记忆。",
+      "kiroAgent.memory.useAndLearn": "使用并学习",
+      "kiroAgent.memory.useAndLearn.description": "使用已有记忆，并自动从会话中学习。",
+      "kiroAgent.memory.useOnly": "仅使用",
+      "kiroAgent.memory.useOnly.description": "使用已有记忆，但绝不创建、更新或删除，即使你主动要求也不例外。",
+      "kiroAgent.memory.useWithoutLearning": "使用但不学习",
+      "kiroAgent.memory.useWithoutLearning.description": "使用已有记忆，但不会自动创建或更新。你主动要求时，Kiro 仍可以保存一条记忆。",
+      "kiroSettingsTitle": "Kiro"
+    },
+    "vs/workbench/contrib/kiroStandalone/electron-browser/afmManagedSettings": {
+      "kiroStandalone.agentConfigurationDetail": "智能体配置：{0}",
+      "kiroStandalone.agentConfigurationIncomplete": "智能体配置可能不完整。不可用的来源：{0}。",
+      "kiroStandalone.agentConfigurationUnavailable": "智能体配置不可用",
+      "kiroStandalone.autonomousAgents": "自主智能体",
+      "kiroStandalone.mcpRegistryUrl": "MCP 注册表 URL",
+      "kiroStandalone.webTools": "Web 工具"
+    },
+    "vs/workbench/contrib/kiroStandalone/electron-browser/kiroStandaloneFeedback": {
+      "kiroStandalone.feedback.close": "关闭",
+      "kiroStandalone.feedback.loadFailed": "无法加载问卷。请稍后再试。",
+      "kiroStandalone.feedback.optional": "可选",
+      "kiroStandalone.feedback.regionNotServed": "无法从你配置文件的 AWS 区域发送反馈，因为反馈服务仅在 {0} 可用。",
+      "kiroStandalone.feedback.regionUnreadable": "暂时无法发送反馈，因为 Kiro 读不到你所选的配置文件，没法核对它的 AWS 区域。这通常是暂时的，请过一会儿再试。如果一直这样，请从账户菜单重新选择配置文件。",
+      "kiroStandalone.feedback.submitFailed": "无法提交反馈。请再试一次。",
+      "kiroStandalone.feedback.title": "提供反馈"
+    },
+    "vs/workbench/contrib/kiroStandalone/electron-browser/kiroStandaloneSessionOverviewCard": {
+      "kiroStandalone.collapseSessionDetails": "折叠会话详情",
+      "overview.stoppedRun": "{0}，已停止"
+    },
+    "vs/workbench/contrib/kiroStandalone/electron-browser/kiroStandaloneWorkflowsSection": {
+      "kiroStandalone.activityNeedsAttentionNoReason": "需要关注"
+    },
+    "vs/workbench/contrib/preferences/browser/managedSettingsView": {
+      "managedSettings.count": "{0} 项设置",
+      "managedSettings.degraded": "部分配置来源不可用：{0}。显示的值可能不完整。",
+      "managedSettings.description": "此窗口的智能体配置，位于工作区、自定义智能体和会话选择之前。此视图中的值只读。",
+      "managedSettings.empty": "没有托管值作用于本窗口的智能体配置。",
+      "managedSettings.filteredCount": "{0} / {1} 项设置",
+      "managedSettings.noActiveContributions": "没有生效的值来源",
+      "managedSettings.noMatches": "没有与搜索匹配的托管设置。",
+      "managedSettings.search": "搜索托管设置",
+      "managedSettings.sources": "来源：{0}",
+      "managedSettings.title": "托管设置",
+      "managedSettings.unavailable": "托管设置不可用。无法解析本窗口的智能体配置。",
+      "managedSettings.values": "托管设置的值"
+    },
+    "vs/workbench/contrib/preferences/browser/preferencesWidgets": {
+      "managedSettings": "托管"
+    },
+    "vs/workbench/contrib/preferences/browser/settingsEditor2": {
+      "settingsDocsLink": "文档",
+      "settingsDocsLinkTitle": "在浏览器中打开 Kiro 文档"
+    },
+    "vs/workbench/contrib/spec/browser/specToolbar": {
+      "reviewMarkdown": "审阅",
+      "reviewMarkdownAriaLabel": "审阅 Markdown 文档"
+    },
+    "vs/workbench/contrib/welcomeDialog/common/announcements": {
+      "announcementChangelog": "更新日志",
+      "announcementDocs": "文档",
+      "announcementExternalLink": "{0}（在浏览器中打开）"
+    },
+    "vs/workbench/contrib/welcomeDialog/electron-browser/announcementBrowser": {
+      "announcementDone": "完成",
+      "announcements": "公告",
+      "featureRequestFailed": "无法打开功能请求。请再试一次。",
+      "readAnnouncement": "{0}。{1}",
+      "requestFeature": "请求一项新功能。",
+      "unreadAnnouncement": "{0}，未读。{1}",
+      "whatsNew": "新增功能",
+      "whatsNewDescription": "Kiro 的最新功能和改进。有想法吗？ "
+    },
+    "vs/workbench/contrib/welcomeDialog/electron-browser/welcomeChrome": {
+      "whatsNewUnread": "新增功能（{0}）",
+      "whatsNewWelcomeChrome": "新增功能"
+    },
+    "vs/workbench/contrib/welcomeDialog/electron-browser/welcomeDialog.contribution": {
+      "showWhatsNew": "新增功能",
+      "showWorkflowsFeedback": "工作流反馈",
+      "showWorkflowsWelcome": "工作流"
+    },
+    "vs/workbench/contrib/welcomeDialog/electron-browser/welcomeModal": {
+      "welcomeClose": "关闭"
+    },
+    "vs/workbench/contrib/welcomeDialog/electron-browser/welcomePresentationService": {
+      "afmFailed": "无法打开聚焦智能体。",
+      "welcomeBusy": "本窗口无法打开新增功能。请再试一次。",
+      "welcomeDescription": "Kiro 的最新功能和改进。有想法吗？",
+      "welcomeReleasePending": "新增功能未能完成关闭。请再试一次。",
+      "whatsNew": "新增功能",
+      "workflowsFeedback": "工作流反馈"
+    },
+    "vs/workbench/contrib/welcomeDialog/electron-browser/workflowsAnnouncement": {
+      "announcementMediaUnavailable": "媒体不可用：{0}",
+      "checkingAvailability": "正在检查是否可用…",
+      "disableFailed": "无法关闭工作流。请再试一次。",
+      "enableFailed": "无法启用工作流。请再试一次。",
+      "feedbackFailed": "无法打开反馈表。请再试一次。",
+      "giveFeedback": "提供反馈",
+      "managed": "工作流由你的组织托管。",
+      "memoryLabel": "记忆设置",
+      "memoryManaged": "记忆由你的组织托管。",
+      "memoryUpdateFailed": "无法更新记忆。请再试一次。",
+      "notEligible": "此版本或此用户无法使用工作流。",
+      "resourceFailed": "无法打开资源。请再试一次。",
+      "retryWorkflows": "重新检查是否可用",
+      "unavailable": "无法确认工作流是否可用。",
+      "workflowsDisabled": "工作流：已关闭",
+      "workflowsEnabled": "工作流：已启用",
+      "workflowsFeedbackPrompt": "帮助我们改进工作流。 ",
+      "workflowsHelper": "对新会话生效。关闭后，智能体不会启动新的工作流，已有的运行和配方仍然可用。可随时在「设置 → 扩展 → Kiro」中更改。",
+      "workflowsResources": "资源",
+      "workflowsSwitch": "工作流"
+    },
+    "vs/workbench/services/extensions/common/remoteAuthorityTrust": {
+      "remoteTrust.cancel": "不连接",
+      "remoteTrust.declined": "已取消连接：远程主机“{0}”未被信任。",
+      "remoteTrust.detail": "安装在此远程主机上的扩展会在你连接时自动运行，并且可以在本地计算机上执行代码（例如打开本地终端）。请只连接到你信任的远程主机。\n\n连接类型：{0}\n远程机构：{1}",
+      "remoteTrust.detailAuthorityOnly": "安装在此远程主机上的扩展会在你连接时自动运行，并且可以在本地计算机上执行代码（例如打开本地终端）。请只连接到你信任的远程主机。\n\n远程机构：{0}",
+      "remoteTrust.message": "是否信任远程主机“{0}”？",
+      "remoteTrust.remember": "始终信任此远程主机",
+      "remoteTrust.trust": "信任并连接"
+    },
+    "vs/workbench/services/kiroStandalone/common/kiroCloudTarget": {
+      "kiroStandalone.openInIde.badSessionId": "此云端会话的 ID 无法作为远程窗口打开：{0}",
+      "kiroStandalone.openInIde.failed": "无法在 IDE 中打开此云端会话。"
+    }
+  }
+}

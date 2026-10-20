@@ -47,13 +47,13 @@ Preview with `npm run patch`. Restore the app files with `npm run patch -- --res
 
 | Locale | Status |
 | --- | --- |
-| `zh-cn` 简体中文 | Shipped. 1412 Kiro-authored strings (100%) |
+| `zh-cn` 简体中文 | Shipped. 1449 Kiro-authored strings (100%) |
 | `zh-tw` 繁體中文 | Shipped. Same numbers, Taiwan terminology |
 | `ja` `ko` `fr` `de` `es` `it` `ru` `pt-br` `tr` `pl` `cs` | Reserved, no translations yet |
 
 One extension holds every enabled locale. Anything not translated stays English.
 
-The current translation matches Kiro **1.1.70** (Code OSS 1.131.0), and also **1.1.14**, **1.0.437**, **1.0.395**, **1.0.309**, **1.0.242**, and **1.0.228**. Older versions generally work. On newer versions, newly added text stays English until we translate it.
+The current translation matches Kiro **1.4.0** (Code OSS 1.131.0), and also **1.1.70**, **1.1.14**, **1.0.437**, **1.0.395**, **1.0.309**, **1.0.242**, and **1.0.228**. Older versions generally work. On newer versions, newly added text stays English until we translate it.
 
 The patch covers only part of the compiled English above. The UI language does not change the language the AI replies in. For that, add a steering file such as `.kiro/steering/language.md`.
 

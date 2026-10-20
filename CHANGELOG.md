@@ -9,6 +9,17 @@ Aligning with a new Kiro IDE build is a patch bump.
 
 ## [Unreleased]
 
+## [1.1.5]
+
+Verified against Kiro **1.4.0** (Code OSS 1.131.0), in addition to **1.1.70**, **1.1.14**, **1.0.437**, **1.0.395**, **1.0.309**, **1.0.242** and **1.0.228**.
+`engines.vscode` stays `^1.107.0` so the pack still installs on the older builds.
+
+### Kiro 1.4.0
+
+- Translated 95 new Kiro-authored core strings: memory settings, managed agent settings, What's New, the workflows announcement, and feedback. Recovered the remote-trust prompt onto its new module, including the added connection-type placeholders. `kiro core` coverage is **1449/1449 (100%)** for both `zh-cn` and `zh-tw`; `kiro.kiroAgent` is **83/83 (100%)**.
+- Translated 3 new `kiro.kiroAgent` commands: user sandbox config and finding available powers.
+- Keys 1.4.0 removed are left in place: the build filters them out.
+
 ## [1.1.4]
 
 Verified against Kiro **1.1.70** (Code OSS 1.131.0), in addition to **1.1.14**, **1.0.437**, **1.0.395**, **1.0.309**, **1.0.242** and **1.0.228**.
@@ -147,6 +158,7 @@ upgrading.
   (no longer `--extension=false`), so it is not confused with `--no-extension`.
 - The patcher no longer falls back to the first enabled locale when `--locale` is omitted.
 
+[1.1.5]: https://github.com/polang233/kiro-language-pack/releases/tag/v1.1.5
 [1.1.4]: https://github.com/polang233/kiro-language-pack/releases/tag/v1.1.4
 [1.1.3]: https://github.com/polang233/kiro-language-pack/releases/tag/v1.1.3
 [1.1.2]: https://github.com/polang233/kiro-language-pack/releases/tag/v1.1.2

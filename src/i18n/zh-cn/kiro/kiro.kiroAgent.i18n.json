@@ -174,7 +174,13 @@
       // Ask Kiro to Fix
       "KiroAgent.command.editorActions.fixDiagnostic": "让 Kiro 修复",
       // Select Files as Context
-      "KiroAgent.command.selectFilesAsContext": "将文件选为上下文"
+      "KiroAgent.command.selectFilesAsContext": "将文件选为上下文",
+      // Open User Sandbox Config (JSON)
+      "KiroAgent.command.openGlobalSandboxConfig": "打开用户沙盒配置 (JSON)",
+      // Sandbox Config
+      "KiroAgent.command.openGlobalSandboxConfig.short": "沙盒配置",
+      // Find Available Powers
+      "KiroAgent.powers.findAvailable": "查找可用能力"
     },
     "bundle": {}
   }
