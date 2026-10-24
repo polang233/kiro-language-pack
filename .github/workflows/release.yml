@@ -179,3 +179,24 @@ jobs:
         env:
           TARBALL: ${{ needs.release.outputs.tgz }}
         run: npm publish "$TARBALL" --access public --provenance --registry https://registry.npmjs.org
+
+  verify-published:
+    name: Verify public npx (${{ matrix.os }})
+    needs: npm-publish
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Verify the public registry package and README npx commands
+        run: npm run test:published

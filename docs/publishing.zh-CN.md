@@ -2,7 +2,7 @@
 
 [English](publishing.md) · [npm 维护](npm.md)
 
-计划首次发布 `@polang233/kiro-language-pack@1.2.0`，目前尚未发布。扩展 id 仍为 `polang233.kiro-language-pack`。
+npm 包 `@polang233/kiro-language-pack` 已公开发布。扩展 id 仍为 `polang233.kiro-language-pack`。
 
 ## 准备版本
 
@@ -43,7 +43,7 @@ npm run package:npm
 
 npm job 使用 Node 24，检查 npm ≥11.5.1，设置 job 级 `id-token: write` 与 `registry-url: https://registry.npmjs.org`，发布已测试的 TGZ。仅在 registry 确认同名同版本已存在时跳过；网络错误、非 404 HTTP 错误和异常响应都会失败。并发导致版本已存在时，发布失败也不会被吞掉。
 
-npm 自动发布初始关闭。首次发布及 trusted publisher、变量配置需要后续明确授权，用户也可授权代理完成。首发后配置每个包的 trusted publisher，最后开启仓库变量。具体 owner、repo 和 workflow 见 [npm.md](npm.md)。文档/CI 修改不包含注册账号、设置 secret、配置 trusted publisher 或开启变量的授权。
+npm 首发及可信发布已配置完成，`NPM_PUBLISH_ENABLED` 为 `true`，权限限定为当前仓库的 `release.yml`。修改远程权限仍需明确授权，字段见 [npm.md](npm.md)。npm 发布后在三平台运行 `npm run test:published`，验收公开 registry 中的版本和 npx 安装。
 
 ## 扩展市场
 

@@ -16,16 +16,16 @@ Kiro 中文语言包，支持简体中文和使用台湾用词的繁体中文，
 
 推荐 Node.js 22+，最低 18.17。先完全退出 Kiro。
 
-npm 包尚未首次发布，以下 npx 入口在首发后可用。
-
 ```bash
 npx @polang233/kiro-language-pack@latest
 ```
 
-默认执行 `install`，安装语言包并翻译程序内的文案。包内自带本版本 VSIX，无需下载源码或构建。指定语言和安装目录：
+默认执行 `install`，安装语言包并翻译程序内的文案。包内自带本版本 VSIX，无需下载源码或构建。手动切换语言，或指定安装目录：
 
 ```bash
-npx @polang233/kiro-language-pack@latest --locale=zh-tw --dir="安装目录"
+npx @polang233/kiro-language-pack@latest --locale=zh-cn
+npx @polang233/kiro-language-pack@latest --locale=zh-tw
+npx @polang233/kiro-language-pack@latest --dir="安装目录"
 ```
 
 | 子命令 | 用途 |

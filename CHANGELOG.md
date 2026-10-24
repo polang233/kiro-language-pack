@@ -7,7 +7,14 @@ The version number tracks the language pack itself, not the Kiro release it targ
 verified Kiro versions are listed in `config.json` under `target.verifiedKiroVersions`.
 Aligning with a new Kiro IDE build is a patch bump.
 
-## [Unreleased]
+## [1.2.1] - 2026-10-25
+
+- Use a new patch version because Open VSX permanently reserved the previously removed 1.2.0 identity.
+- Replace first-publication notices with working npm instructions and document both locale overrides.
+- Verify public-registry tarballs and actual npx installs, automatic locale selection, manual switching and restore.
+- Enable the authorized GitHub Actions trusted publisher and verify public npx installs on Windows, macOS and Linux after each npm release.
+
+## [1.2.0] - 2026-10-25
 
 - Verify Kiro 1.4.26 and update the workflow message to retain its long-running and additional-credit notice.
 - Backfill 14 workbench messages per locale and two TypeScript walkthroughs; Simplified and Traditional Chinese now cover the entire localizable workbench and built-in manifests.

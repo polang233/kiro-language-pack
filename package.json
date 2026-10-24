@@ -1,6 +1,6 @@
 {
   "name": "@polang233/kiro-language-pack",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Kiro 简体/繁体中文汉化工具，自动选择系统语言，支持一键安装与恢复。",
   "type": "module",
   "license": "MIT",
@@ -36,7 +36,8 @@
     "package:npm": "node scripts/package-npm.mjs",
     "test:cli": "node --test scripts/test-cli.mjs",
     "test:package": "node scripts/test-package.mjs",
-    "test:upgrade": "node --test scripts/test-upgrade.mjs"
+    "test:upgrade": "node --test scripts/test-upgrade.mjs",
+    "test:published": "node scripts/test-package.mjs --published"
   },
   "devDependencies": {
     "@vscode/vsce": "3.2.1",

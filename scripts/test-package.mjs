@@ -5,6 +5,8 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import zlib from 'node:zlib';
+import { createHash } from 'node:crypto';
+import { pathToFileURL } from 'node:url';
 import { spawnSync } from 'node:child_process';
 import { p, readJson, writeJson } from './lib/util.mjs';
 import { npmCommand } from './lib/npm-tooling.mjs';
@@ -41,9 +43,10 @@ const pkg = readJson(p('package.json'));
 const product = config.namePrefix.startsWith('cursor') ? 'cursor' : 'kiro';
 const name = product === 'cursor' ? 'Cursor' : 'Kiro';
 const given = process.argv.slice(2).find((arg) => arg.startsWith('--tarball='))?.slice('--tarball='.length);
+const published = process.argv.includes('--published');
 const filename = `${pkg.name.replace(/^@/, '').replace('/', '-')}-${pkg.version}.tgz`;
-const tarball = path.resolve(given ?? p('dist', filename));
-if (!fs.existsSync(tarball)) throw new Error('Build the npm tarball first: npm run package:npm');
+let tarball = path.resolve(given ?? p('dist', filename));
+if (!published && !fs.existsSync(tarball)) throw new Error('Build the npm tarball first: npm run package:npm');
 const temp = fs.mkdtempSync(path.join(os.tmpdir(), 'language-pack-npm-'));
 assert.equal(path.dirname(temp), path.resolve(os.tmpdir()));
 const home = path.join(temp, 'user');
@@ -61,6 +64,33 @@ fs.writeFileSync(env.npm_config_userconfig, '');
 fs.writeFileSync(env.npm_config_globalconfig, '');
 
 try {
+  if (published) {
+    let registry;
+    for (let attempt = 0; attempt < 18; attempt++) {
+      const response = await fetch('https://registry.npmjs.org/' + encodeURIComponent(pkg.name) + '/latest',
+        { signal: AbortSignal.timeout(30_000) });
+      assert.ok(response.status === 200 || response.status === 404, 'npm metadata HTTP ' + response.status);
+      if (response.status === 200) {
+        registry = await response.json();
+        assert.equal(registry.name, pkg.name);
+        if (registry.version === pkg.version) break;
+      }
+      if (attempt < 17) {
+        console.log(`Waiting for npm latest ${pkg.version}; registry reports ${registry?.version ?? 'not found'}.`);
+        await new Promise((resolve) => setTimeout(resolve, 10_000));
+      }
+    }
+    assert.equal(registry?.version, pkg.version, 'latest must select the version under test');
+    const url = new URL(registry.dist.tarball);
+    assert.equal(url.origin, 'https://registry.npmjs.org');
+    const download = await fetch(url, { signal: AbortSignal.timeout(30_000) });
+    assert.equal(download.status, 200, 'published npm tarball');
+    const bytes = Buffer.from(await download.arrayBuffer());
+    assert.equal('sha512-' + createHash('sha512').update(bytes).digest('base64'), registry.dist.integrity);
+    tarball = path.join(temp, filename);
+    fs.writeFileSync(tarball, bytes);
+    console.log(`${pkg.name}@${registry.version}: downloaded from the public registry; integrity verified.`);
+  }
   npmCommand(['install', '--prefix', runtime, '--offline', '--ignore-scripts', '--omit=dev',
     '--no-audit', '--no-fund', '--package-lock=false', tarball], { env, cwd: temp });
   const installed = path.join(runtime, 'node_modules', ...pkg.name.split('/'));
@@ -147,7 +177,10 @@ if(args[0] === '--install-extension') {
     target = path.join(ext, 'package.json');
     original = JSON.stringify({ name: 'kiroAgent', publisher: 'kiro', contributes: { commands: [{ command: 'kiro.test', title: 'SPECS' }] } }, null, 2) + '\n';
     const dictionary = readJson(path.join(installed, 'src', 'i18n', 'zh-cn', 'patch', 'kiro.kiroAgent.json'));
-    const title = Object.keys(dictionary.manifest).find((key) => dictionary.manifest[key] !== key);
+    const traditionalDictionary = readJson(path.join(installed, 'src', 'i18n', 'zh-tw', 'patch', 'kiro.kiroAgent.json'));
+    const title = Object.keys(dictionary.manifest).find((key) => dictionary.manifest[key] !== key
+      && traditionalDictionary.manifest[key] !== dictionary.manifest[key]);
+    assert.ok(title, 'the fixture needs a command whose Simplified and Traditional translations differ');
     original = original.replace('SPECS', title);
     fs.mkdirSync(path.join(ext, 'dist'), { recursive: true });
     fs.writeFileSync(path.join(ext, 'dist', 'extension.js'), 'const workflow=' + JSON.stringify(Object.keys(dictionary.extension)[0]) + ';\n');
@@ -216,6 +249,63 @@ if(args[0] === '--install-extension') {
   // Exercise npx's one-off tarball install and generated command, outside the repository.
   const npx = npmCommand(['exec', '--offline', '--yes', `--package=${tarball}`, '--', config.namePrefix, '--version'], { env, cwd: temp });
   assert.equal(npx.stdout.trim(), pkg.version);
+  if (published) {
+    const npmEntry = [process.env.npm_execpath,
+      path.join(path.dirname(process.execPath), 'node_modules', 'npm', 'bin', 'npm-cli.js'),
+      path.resolve(path.dirname(process.execPath), '..', 'lib', 'node_modules', 'npm', 'bin', 'npm-cli.js')]
+      .find((file) => file && fs.existsSync(file));
+    assert.ok(npmEntry, 'run the published check through npm run');
+    const npxEntry = path.join(path.dirname(npmEntry), 'npx-cli.js');
+    assert.ok(fs.existsSync(npxEntry), 'the actual npx CLI is available');
+    const localeStub = path.join(temp, 'system-locale-fixture.cjs');
+    // Simulate only the OS language query. The downloaded package and its CLI stay intact.
+    fs.writeFileSync(localeStub, `
+const cp = require('node:child_process');
+const original = cp.spawnSync;
+cp.spawnSync = function (command, args, options) {
+  if (args?.includes('(Get-UICulture).Name')) return {status: 0, stdout: process.env.LANGUAGE_PACK_TEST_LOCALE};
+  if (command === '/usr/bin/defaults' && args?.includes('AppleLanguages'))
+    return {status: 0, stdout: '(' + process.env.LANGUAGE_PACK_TEST_LOCALE + ')'};
+  return original.call(this, command, args, options);
+};
+require('node:module').syncBuiltinESMExports();
+`);
+    const runNpx = (cliArgs, simulatedLocale) => {
+      const testEnv = { ...env };
+      if (simulatedLocale) {
+        testEnv.LANGUAGE_PACK_TEST_LOCALE = simulatedLocale;
+        testEnv.LC_ALL = simulatedLocale;
+        testEnv.NODE_OPTIONS = [env.NODE_OPTIONS, '--import=' + pathToFileURL(localeStub).href].filter(Boolean).join(' ');
+      }
+      const result = spawnSync(process.execPath, [npxEntry, '--yes', pkg.name + '@latest', ...cliArgs],
+        { cwd: temp, env: testEnv, encoding: 'utf8', windowsHide: true, timeout: 120_000 });
+      assert.equal(result.error, undefined);
+      assert.equal(result.status, 0, result.stdout + result.stderr);
+      return result.stdout + result.stderr;
+    };
+    assert.equal(runNpx(['--version']).trim(), pkg.version);
+    const beforeNpx = fs.readFileSync(target);
+    const selectedLocale = () => JSON.parse(fs.readFileSync(path.join(data, 'argv.json'), 'utf8')
+      .replace(/^\s*\/\/.*$/gm, '')).locale;
+    runNpx(args);
+    assert.equal(selectedLocale(), automaticLocale, 'README default command uses the real OS display language');
+    console.log(`npx ${pkg.name}@latest: real system ${systemLocale()} selected ${automaticLocale}.`);
+    for (const [tag, expected] of [['zh-TW', 'zh-tw'], ['zh-HK', 'zh-tw'], ['zh-MO', 'zh-tw'],
+      ['zh-Hant', 'zh-tw'], ['zh-CN', 'zh-cn'], ['en-US', 'zh-cn'], ['zh-Hans-HK', 'zh-cn']]) {
+      runNpx(args, tag);
+      assert.equal(selectedLocale(), expected, 'npx default for simulated system ' + tag);
+    }
+    runNpx([...args, '--locale=zh-tw'], 'zh-CN');
+    assert.equal(selectedLocale(), 'zh-tw', 'manual Traditional Chinese overrides the system');
+    const traditionalNpx = fs.readFileSync(target);
+    runNpx([...args, '--locale=zh-cn'], 'zh-HK');
+    assert.equal(selectedLocale(), 'zh-cn', 'manual Simplified Chinese overrides the system');
+    assert.notDeepEqual(fs.readFileSync(target), traditionalNpx, 'switching locales changes the app translations');
+    runNpx(['status', ...args]);
+    runNpx(['restore', ...args]);
+    assert.deepEqual(fs.readFileSync(target), beforeNpx, 'published npx restores the original app bytes');
+    console.log('Published npx: default installation, TW/HK/MO/Hant/CN/English/script precedence, manual locale overrides and restore passed.');
+  }
   console.log(`${pkg.name}: tarball install, npx entry, VSIX, preview, retries, language switch, restore and app upgrade passed.`);
 } finally {
   assert.equal(path.dirname(temp), path.resolve(os.tmpdir()));

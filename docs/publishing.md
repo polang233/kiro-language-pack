@@ -2,7 +2,7 @@
 
 [简体中文](publishing.zh-CN.md) · [npm maintenance](npm.md)
 
-The planned first npm release is `@polang233/kiro-language-pack@1.2.0`. It has not been published yet. The extension id stays `polang233.kiro-language-pack`.
+The npm package `@polang233/kiro-language-pack` is public. The extension id stays `polang233.kiro-language-pack`.
 
 ## Prepare a version
 
@@ -43,7 +43,7 @@ Manual dispatch defaults to `publish=false`. It builds and uploads workflow arti
 
 The npm job uses Node 24, checks npm ≥11.5.1, grants job-level `id-token: write` and sets `registry-url: https://registry.npmjs.org`. It publishes the tested TGZ. It skips only after the registry confirms the exact package/version already exists; network errors, non-404 HTTP errors and malformed replies fail the job. A concurrent duplicate publish also fails rather than hiding an error.
 
-npm automation starts disabled. First publication and trusted publisher/variable setup require later explicit user authorization; the user may authorize an agent to complete them. After first publication, configure the package's trusted publisher and then enable the repository variable. Exact owner/repository/workflow fields are in [npm.md](npm.md). Do not configure accounts, secrets, trusted publishers or variables as part of a documentation/CI change.
+npm publication and its trusted publisher are configured. `NPM_PUBLISH_ENABLED` is `true`; the publisher is limited to this repository and `release.yml`. Changes to remote permissions still require explicit authorization. Exact fields are in [npm.md](npm.md). After npm publication, the workflow runs `npm run test:published` on Windows, macOS and Linux against the public registry and actual npx entry point.
 
 ## Extension registries
 

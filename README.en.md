@@ -16,16 +16,16 @@ Chinese translations for Kiro, including the editor, sessions, Settings, specs a
 
 Node.js 22+ is recommended; the minimum is 18.17. Quit Kiro completely first.
 
-The npm package is awaiting its first publication; these npx commands become available then.
-
 ```bash
 npx @polang233/kiro-language-pack@latest
 ```
 
-The default command is `install`. It installs the language pack and translates text in the app files. Each npm version includes its matching VSIX, so users do not need to download or build the source. To specify the language and install directory:
+The default command is `install`. It installs the language pack and translates text in the app files. Each npm version includes its matching VSIX, so users do not need to download or build the source. To switch languages or specify the install directory:
 
 ```bash
-npx @polang233/kiro-language-pack@latest --locale=zh-tw --dir="path/to/install"
+npx @polang233/kiro-language-pack@latest --locale=zh-cn
+npx @polang233/kiro-language-pack@latest --locale=zh-tw
+npx @polang233/kiro-language-pack@latest --dir="path/to/install"
 ```
 
 | Subcommand | Purpose |
