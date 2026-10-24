@@ -63,6 +63,21 @@ for (const build of builds) {
     continue;
   }
 
+  if (registry === 'ovsx') {
+    const url = 'https://open-vsx.org/api/' + [config.publisher, build.name, config.version]
+      .map(encodeURIComponent).join('/');
+    const response = await fetch(url, { signal: AbortSignal.timeout(30_000) });
+    if (response.status === 200) {
+      const published = await response.json();
+      if (published.namespace !== config.publisher || published.name !== build.name || published.version !== config.version) {
+        fail('Open VSX returned a different extension identity or version.');
+      }
+      log.ok(`Open VSX confirms ${config.publisher}.${build.name}@${config.version}; already published.`);
+      continue;
+    }
+    if (response.status !== 404) fail(`Open VSX lookup failed: HTTP ${response.status}`);
+  }
+
   log.info(`${registry} ${args.join(' ')}`);
   const result = spawnSync(process.execPath, [entry, ...args], { stdio: 'inherit', env: process.env });
   if (result.error) fail(result.error.message);

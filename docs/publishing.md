@@ -36,7 +36,7 @@ Only commit, tag, push or publish with explicit authorization. An authorized `v<
 - Check scoped package identity, extension identity, config/package/lock versions and tag.
 - Run `npm ci`, `npm test`, API sync, `package:npm` and manifest validation. `package:npm` includes the full tarball fixture suite.
 - Upload the exact current-version VSIX and TGZ as workflow artifacts and GitHub Release assets. Older files in `dist/` are excluded.
-- Publish to Open VSX when `OVSX_PAT` is available.
+- Publish to Open VSX when `OVSX_PAT` is available. A rerun skips only when the public API confirms the exact namespace, name and version; lookup failures remain errors.
 - Run the separate npm OIDC job only when `NPM_PUBLISH_ENABLED == 'true'` and the event is a tag push or manual dispatch with `publish=true`.
 
 Manual dispatch defaults to `publish=false`. It builds and uploads workflow artifacts without publishing to any registry, including when a tag is selected. Missing extension-registry secrets skip that registry; test, packaging and publishing failures remain failures.

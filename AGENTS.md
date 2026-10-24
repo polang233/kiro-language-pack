@@ -48,7 +48,7 @@ Do not commit, tag, push, publish, register namespaces, change remote secrets, c
 
 Never write or print tokens. Inspect secret names only. Do not commit `.cursor/` or local IDE state.
 
-[release.yml](.github/workflows/release.yml) tests before sync/package and validates manifests; package:npm runs the full real-tarball fixture suite. GitHub Releases attach only the exact current-version VSIX and TGZ. Preserve existing Open VSX publishing behavior and secret handling.
+[release.yml](.github/workflows/release.yml) tests before sync/package and validates manifests; package:npm runs the full real-tarball fixture suite. GitHub Releases attach only the exact current-version VSIX and TGZ. Open VSX retries skip only after the public API confirms the exact namespace, name and version. npm tarball paths must start with `./` or be absolute; bare `dist/name.tgz` is parsed as a GitHub repository shorthand. Preserve existing Open VSX publishing behavior and secret handling.
 
 npm automation runs only when `vars.NPM_PUBLISH_ENABLED == 'true'` and the event is a tag push or manual `publish=true`. Manual `publish=false` must never publish to any registry, even when a tag is selected. The npm job uses Node 24, npm ≥11.5.1, `registry-url: https://registry.npmjs.org` and job-level `id-token: write`. Skip an existing version only after confirming the exact package/version; registry/network errors must fail.
 

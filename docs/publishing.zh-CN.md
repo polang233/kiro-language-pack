@@ -36,7 +36,7 @@ npm run package:npm
 - 校验 scoped npm 包名、扩展身份、config/package/lock 版本和 tag。
 - 执行 `npm ci`、`npm test`、API sync、`package:npm` 和 manifest 校验，package:npm 已包含完整 tarball fixture 测试。
 - 将本版本确定路径的 VSIX 和 TGZ 上传到 workflow artifact 与 GitHub Release，不匹配 dist 中的旧版本。
-- 存在 `OVSX_PAT` 时发布 Open VSX。
+- 存在 `OVSX_PAT` 时发布 Open VSX。重跑时仅在公共 API 确认 namespace、名称与版本完全一致后跳过，查询异常仍报错。
 - 仅在 `NPM_PUBLISH_ENABLED == 'true'`，且为 tag push 或手动 `publish=true` 时运行独立的 npm OIDC job。
 
 手动 dispatch 默认 `publish=false`，只构建并上传 workflow artifact，即使选择 tag 也不会发布到任何 registry。缺少扩展市场 secret 时跳过对应市场；测试、打包或发布失败仍然报错。
