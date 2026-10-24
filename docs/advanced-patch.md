@@ -11,24 +11,23 @@ unless you patch:
 
 | Surface | Why the extension cannot reach it |
 | --- | --- |
-| SPECS view title, tree view welcome text and buttons, most MCP commands, Kiro settings descriptions | 76 manifest strings are inline English literals with no `%key%` indirection |
+| SPECS view title, tree view welcome text and buttons, most MCP commands, Kiro settings descriptions | Some manifest strings are inline English literals with no `%key%` indirection |
 | Workflow descriptions in the welcome view | Plain literals in `dist/extension.js`, not routed through `vscode.l10n.t()` |
 | Chat UI phrases like `Let's build`, the Autopilot tooltip, the changed-files bar | Webview bundles compiled without an i18n layer |
 
-For Chinese this adds **89 strings** across exactly three files. Reports from
-`npm run audit` list every unreachable string and are meant for upstream i18n requests.
+The number of matching strings and bundles depends on the Kiro version. Use the preview output for the current install. Reports from `npm run audit` list unreachable strings.
 
 ## Commands
 
 ```bash
 npm run patch -- --list        # Kiro installs found, and which languages are patchable
-npm run patch                  # dry run, writes nothing
+npm run patch                  # preview, writes a report in the user profile
 npm run patch -- --apply       # do it
 npm run patch -- --status      # is this install patched, and is the patch still intact
 npm run patch -- --restore     # put the originals back (does not uninstall the extension)
 ```
 
-Requires Node.js 18.17+, a clone of this repository, and a local Kiro install.
+These are source-checkout commands. For the npm CLI with automatic language detection, use the README. Source use requires Node.js 18.17+, this repository and an installed Kiro.
 
 ## Choosing the install and the language
 
@@ -82,8 +81,7 @@ The last step writes the same single field the extension's language picker write
 same code (`scripts/lib/argv.mjs` loads it from `src/extension/main.cjs`). Restart Kiro
 afterwards: the display language is a launch argument, so reloading the window is not enough.
 
-If `dist/*.vsix` is missing, the rewrite still succeeds and the step is skipped with a warning.
-Run `npm run package` first for the one-shot path.
+If the current VSIX is missing or installation fails, the command returns a failure while retaining the patch and recovery data. Build it with `npm run package`, then rerun the same apply command. Repeated installation, language changes and patch updates recalculate from the verified originals; no prior restore is required.
 
 Two more flags reduce the scope of the rewrite itself, mostly for debugging:
 `--no-webview` leaves the chat UI bundles alone, `--no-extension-strings` leaves
@@ -91,23 +89,19 @@ Two more flags reduce the scope of the rewrite itself, mostly for debugging:
 
 ## What gets changed (Chinese)
 
-| File | Strings | What |
-| --- | --- | --- |
-| `extensions/kiro.kiro-agent/package.json` | 72 | the `SPECS` title, the three tree view welcome blocks and their buttons, the MCP commands, the trust and tool-card settings |
-| `extensions/kiro.kiro-agent/dist/extension.js` | 4 | the workflow descriptions in the welcome view |
-| `extensions/kiro.kiro-agent/packages/kiro-ui-agent-chat/dist/assets/*.js` | 13 | `Let's build`, the Autopilot tooltip, the changed-files bar |
+| File | Contents |
+| --- | --- |
+| `extensions/kiro.kiro-agent/package.json` | View titles, welcome text, commands and setting descriptions |
+| `extensions/kiro.kiro-agent/dist/extension.js` | Workflow descriptions |
+| `extensions/kiro.kiro-agent/packages/*/dist/**/*.js` | Chat and session UI text |
 
-Nothing outside that list is read, written, moved or deleted. The dry run prints the file
-list and writes `reports/patch-plan-<locale>.json` with every before/after pair, so the
-change is reviewable in full before you apply it. After applying, the same list is stored in
-`extensions/kiro.kiro-agent/.kiro-language-pack-patch.json` next to the hashes.
+The preview lists application files and every before/after pair. Reports live under `~/.kiro/kiro-language-pack/installs/<install>/builds/<build>/reports/`; `patch.json` and `backup/` in the same build directory retain the hashes and originals. The CLI also installs the extension, resolves conflicting packs and changes the display-language field in `argv.json`.
 
 ## Risks and limitations
 
 - **A Kiro update overwrites the patched files.** Re-run after every upgrade; `--status`
   tells you when that happened.
-- It edits the application directory. Originals are copied to
-  `extensions/kiro.kiro-agent/.kiro-language-pack-backup/` and recorded with their hashes.
+- It edits the application directory. Originals stay in the user profile, separated by installation and application build. Existing install-directory backups are imported when needed. A failed restore preserves unresolved recovery data.
 - AWS does not support a modified install. Restore before filing a bug against Kiro.
 - Nothing here goes into the `.vsix`. The language pack remains the supported path, and the
   patch is additive on top of it. `--apply` installs that pack when `dist/*.vsix` is present.

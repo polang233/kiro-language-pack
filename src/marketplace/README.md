@@ -23,7 +23,7 @@
 
 ## 安装目录补丁
 
-写死在程序文件里的英文，扩展改不到。完全退出 Kiro，下载 [仓库](https://github.com/polang233/kiro-language-pack) 后执行 `npm install`、`npm run package` 和 `npm run patch -- --apply`，再打开。Kiro 更新后要再执行一次。改过的安装 AWS 不支持。
+写死在程序文件里的英文，扩展改不到。完全退出 Kiro，按 [README 的命令行安装说明](https://github.com/polang233/kiro-language-pack#readme) 操作，再重新打开。Kiro 更新后重跑安装命令。改过的安装 AWS 不支持。
 
 ## 其他语言 / Other languages
 

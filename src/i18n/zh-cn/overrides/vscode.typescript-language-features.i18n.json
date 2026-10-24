@@ -1,0 +1,9 @@
+{
+  "version": "1.0.0",
+  "contents": {
+    "package": {
+      "walkthroughs.nodejsWelcome.makeJsFile.description": "让我们来编写第一个 JavaScript 文件。需要创建一个新文件，并在文件名末尾使用 ``.js`` 扩展名保存。\n[创建 JavaScript 文件](command:javascript-walkthrough.commands.createJsFile)",
+      "walkthroughs.nodejsWelcome.debugJsFile.description": "安装 Node.js 后，可以在终端中输入 ``node 你的文件名.js`` 来运行 JavaScript 程序。\n运行 Node.js 程序的另一个简单方法是使用 VS Code 的调试器，它可以运行你的代码、在不同的点暂停，并帮助你逐步了解发生了什么。\n[开始调试](command:javascript-walkthrough.commands.debugJsFile)"
+    }
+  }
+}

@@ -1,117 +1,67 @@
-# 发布语言包
+# 发布 Kiro Language Pack
 
-Kiro 的扩展市场默认走 **[Open VSX](https://open-vsx.org/)**。请**先上 Open VSX**，用户才能在
-Kiro 里搜到 **Kiro Language Pack**。VS Code Marketplace 是可选渠道，**不会**出现在 Kiro
-默认搜索里。
+[English](publishing.md) · [npm 维护](npm.md)
 
-[`config.json`](../config.json) 里的 `publisher` 当前是 `polang233`。这个字符串必须同时等于
-Open VSX 的**命名空间（namespace）**，以及（若也上 VS Marketplace）那边的**出版商
-（publisher）**名。
+计划首次发布 `@polang233/kiro-language-pack@1.2.0`，目前尚未发布。扩展 id 仍为 `polang233.kiro-language-pack`。
 
-## 两个市场，两套账号（先读这段）
+## 准备版本
 
-| | Open VSX（Kiro 用户需要） | VS Code Marketplace（可选） |
-| --- | --- | --- |
-| 运营方 | Eclipse Foundation | Microsoft |
-| 扩展地址 | `open-vsx.org/extension/<命名空间>/<名>` | `marketplace.visualstudio.com/items?itemName=<出版商>.<名>` |
-| 你的 id 叫什么 | **Namespace（命名空间）** | **Publisher（出版商）** |
-| 登录 | [open-vsx.org](https://open-vsx.org/)，用 **Eclipse** 账号 | [出版商管理页](https://marketplace.visualstudio.com/manage)，用 **Microsoft** 账号 |
-| 令牌环境变量 | `OVSX_PAT` | `VSCE_PAT` |
-| 一次性创建 id | `npx ovsx create-namespace polang233` | 在管理页创建出版商 `polang233` |
-| 发布命令 | `npm run publish:ovsx` | `npm run publish:vsce` |
-
-二者**互不相通**：Open VSX 声明了命名空间，**不会**自动给你 VS Marketplace 出版商，反过来也一样。两边尽量用同一个 id（`polang233`），扩展身份就一直是 `polang233.kiro-language-pack`。
-
-**命名空间 / 出版商** ≈ 你发布扩展时的品牌前缀。用户看到的是 `polang233.kiro-language-pack`。
-用**你本人控制的账号**申请一次即可（个人 Eclipse / Microsoft 账号完全可以，不必先注册公司）。选一个长期能用的 id，事后改名很麻烦。
-
-## 准备
+1. 若应用已升级，先核对新增、删除和移动的键，见[应用升级](#应用升级)。
+2. 对齐 `config.json.version`、`package.json.version`、`package-lock.json.version` 和 `package-lock.json.packages[""].version`。npm 包名与 lock 中的包名使用上述 scope；扩展 publisher/name 保持原样。
+3. 在已提取本机 Kiro 元数据的环境执行覆盖率和产物检查：
 
 ```bash
-npm install
-npm run package          # 产出 dist/kiro-language-pack-<version>.vsix
+npm ci
+npm run sync -- --strategy=api
+npm run verify
+npm test
+npm run package:npm
 ```
 
-确认 `config.json` 的 `version` 与即将打的 tag 一致（CI 在 `v*` tag 上会校验）。
+`verify` 保留原有构建、manifest 与覆盖率检查，需要本机应用元数据。托管 CI 不安装应用，打包后继续执行 manifest 校验。`npm test` 包含现有运行时测试与 `test:cli`。`package:npm` 构建当前 VSIX、准备包内 assets、用 `npm pack` 生成 `dist/*.tgz` 并验证真实 tarball。按需可用 `npm run test:package` 对 dist 中本版本已有的 TGZ 重跑同一套完整 fixture 测试。
 
-市场页面的内容分别来自哪里，改文案时对着看：
+每个版本应生成：
 
-| 页面上的位置 | 来源 |
+| 产物 | 路径 |
 | --- | --- |
-| 页面正文 | `src/marketplace/README.md`，`npm run build` 时复制进 `.vsix` |
-| 标题与简介 | `config.json` 的 `pack.displayName`、`pack.description` |
-| 搜索关键词 | `src/manifest.template.json` 的 `keywords`，再加上打包进去的 locale id |
+| 扩展 | `dist/kiro-language-pack-<version>.vsix` |
+| npm 包 | `dist/polang233-kiro-language-pack-<version>.tgz` |
 
-不管包里带了几种语言，两个市场都只显示一个页面，并且都会检索页面文字——这就是那个页面写成多语言的原因。
+归档应包含 CLI、所需运行时文件与译文，以及同版本 VSIX。必须在仓库外安装真实 TGZ，用隔离的应用和用户配置 fixture 测试，见 [npm.md](npm.md)。
 
-## Open VSX（Kiro 用户能搜到，优先）
+## Release 工作流
 
-1. 用 **GitHub** 登录 [open-vsx.org](https://open-vsx.org/)（至少登录一次，管理员才能在库里找到你）。
-2. 在 Eclipse / Open VSX 侧签好 **Publisher Agreement**（未签署时无法成为 Owner，发布也可能被拦）。
-3. 在个人资料里创建 **Personal Access Token**，这就是 `OVSX_PAT`。
-4. 一次性创建命名空间（须与 `config.json` 的 `publisher` 一致）：
+提交、打 tag、推送及发布都需要明确授权。经授权推送 `v<version>` tag 后，[release.yml](../.github/workflows/release.yml) 会：
 
-```powershell
-$env:OVSX_PAT = "你的令牌"
-npx ovsx create-namespace polang233
-```
+- 校验 scoped npm 包名、扩展身份、config/package/lock 版本和 tag。
+- 执行 `npm ci`、`npm test`、API sync、`package:npm` 和 manifest 校验，package:npm 已包含完整 tarball fixture 测试。
+- 将本版本确定路径的 VSIX 和 TGZ 上传到 workflow artifact 与 GitHub Release，不匹配 dist 中的旧版本。
+- 存在 `OVSX_PAT` 时发布 Open VSX。
+- 仅在 `NPM_PUBLISH_ENABLED == 'true'`，且为 tag push 或手动 `publish=true` 时运行独立的 npm OIDC job。
 
-此时你通常是 **contributor**（可以发版），但命名空间仍可能显示为 **unverified**。  
-若该名字已被别人占用，先改 `config.json` 的 `publisher`，再用新名字创建。
+手动 dispatch 默认 `publish=false`，只构建并上传 workflow artifact，即使选择 tag 也不会发布到任何 registry。缺少扩展市场 secret 时跳过对应市场；测试、打包或发布失败仍然报错。
 
-5. （推荐）申请 **Owner / verified**：用 GitHub 账号 `polang233` 开 Issue  
-   [Claim namespace ownership](https://github.com/EclipseFdn/open-vsx.org/issues/new?template=claim-namespace-ownership.yml)。  
-   对个人发布者最省事的填法：Namespace = `polang233`；勾选「未被占用」与「GitHub 满 12 个月」；选 **Option 3**（不是 VS Marketplace 出版商）→ 勾「命名空间与提出申请的 GitHub ID 一致」。  
-   管理员通过后命名空间会显示为 verified；**没通过前一般仍可先 `publish:ovsx` 上架**。
+npm job 使用 Node 24，检查 npm ≥11.5.1，设置 job 级 `id-token: write` 与 `registry-url: https://registry.npmjs.org`，发布已测试的 TGZ。仅在 registry 确认同名同版本已存在时跳过；网络错误、非 404 HTTP 错误和异常响应都会失败。并发导致版本已存在时，发布失败也不会被吞掉。
 
-6. 本机发布：
+npm 自动发布初始关闭。首次发布及 trusted publisher、变量配置需要后续明确授权，用户也可授权代理完成。首发后配置每个包的 trusted publisher，最后开启仓库变量。具体 owner、repo 和 workflow 见 [npm.md](npm.md)。文档/CI 修改不包含注册账号、设置 secret、配置 trusted publisher 或开启变量的授权。
 
-```powershell
-$env:OVSX_PAT = "你的令牌"
-npm run publish:ovsx
-```
+## 扩展市场
 
-试运行：`npm run publish:ovsx -- --dry-run`。
+| 市场 | 身份 | 凭据 |
+| --- | --- | --- |
+| [Open VSX](https://open-vsx.org/extension/polang233/kiro-language-pack) | `polang233.kiro-language-pack` | `OVSX_PAT` |
+| [VS Marketplace](https://marketplace.visualstudio.com/items?itemName=polang233.kiro-language-pack) | 相同扩展 id，可选上架 | `VSCE_PAT` |
 
-7. **CI：** 仓库 Secrets 里已经有 `OVSX_PAT`。打与 `config.json` 一致的 tag 即可：
+Kiro 内置搜索使用 Open VSX。工作流保留 Open VSX，Marketplace 仍可按需执行 `npm run publish:vsce` 发布。令牌只放环境变量或仓库 secret，不能写入或打印。现有 `publish:ovsx` / `publish:vsce` 命令发布当前版本 VSIX。Open VSX 的 `polang233` namespace、Marketplace publisher 和 npm scope 互相独立。
 
-```bash
-git tag v1.1.0
-git push origin v1.1.0
-```
+商店正文来自 `src/marketplace/README.md`，标题与简介来自 `config.json` 的 `pack.displayName` / `pack.description`，关键词来自 `src/manifest.template.json` 的 `keywords`，图标为 `media/icon.png`。保持扩展身份及汉化、中文翻译等搜索词。
 
-[`.github/workflows/release.yml`](../.github/workflows/release.yml) 会打包、挂到 GitHub
-Release，并执行 `npm run publish:ovsx`。若日志出现 `OVSX_PAT secret is not set`，说明
-secret 被删了：用 `gh secret set OVSX_PAT` 从 stdin 重新写入（令牌不要进仓库）。只核
-对名字：`gh secret list`。
+## 应用升级
 
-发布后页面为：
+1. 对更新后的应用运行 `npm run check-upgrade`、`npm run detect`、`npm run extract`。
+2. 核对新增、删除、英文原文变更和移动的键。补齐 `src/i18n/zh-cn/`，移动模块时复用译文，审查过时键。
+3. 运行 `node scripts/convert-zh-tw.mjs` 并检查结果，保留台湾用词。
+4. 同步上游，执行 `npm run verify`、`npm test`、`npm run package:npm`，按需用 `npm run test:package` 复测，核对归档内容和隔离安装。
+5. 更新 `target.verifiedKiroVersions`、文档及所有版本字段。授权后让 npm 包与 VSIX 按相同版本一起发布。
 
-https://open-vsx.org/extension/polang233/kiro-language-pack
-
-## VS Code Marketplace（可选）
-
-Kiro 默认不用这个源。只有当你也想出现在
-[marketplace.visualstudio.com](https://marketplace.visualstudio.com/) 时才需要（例如给原版
-VS Code 用户装，或额外曝光）。
-
-1. 打开 [Marketplace 发布者管理](https://marketplace.visualstudio.com/manage)，用 Microsoft
-   账号登录。
-2. 创建 **Publisher**，名称尽量与 `config.json` 的 `publisher` 相同（`polang233`）。
-   这就是常说的「VS Code 出版商账户」：挂在你 Microsoft 登录下的发布者资料，本身不等于要买
-   Azure 订阅；向导可能会让你关联一个 Azure DevOps 组织，按页面提示即可。
-3. 在 Azure DevOps 创建具有 **Marketplace → Manage** 权限的 Personal Access Token。
-   这是 `VSCE_PAT`（和 `OVSX_PAT` 不是同一个）。
-4. 发布：
-
-```powershell
-$env:VSCE_PAT = "你的令牌"
-npm run publish:vsce
-```
-
-## 发布之后
-
-- 提醒用户先卸载冲突的官方 VS Code 语言包再装本包。
-- 下一版发布前先 bump `config.json` 与 `package.json` 的 `version`。
-
-English: [publishing.md](publishing.md).
+提醒用户在应用更新后重跑安装并完全重启。`restore` 只恢复程序文件；扩展和显示语言在 Kiro 内切换。

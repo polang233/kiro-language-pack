@@ -1,15 +1,43 @@
 {
-  // Corrections layered on top of the vscode-loc baseline for the core workbench.
-  // Only used by `full` mode builds.
-  //
-  // Keys are `<module path>` -> `<nls key>`, exactly as they appear in
-  // <kiro>/resources/app/out/nls.keys.json. Run `npm run extract` and grep
-  // metadata/kiro.json to find the module a string belongs to.
-  //
-  // Use this file when the upstream VS Code wording clashes with Kiro's own
-  // terminology (for example if Kiro reuses a workbench string with a different
-  // meaning). Keep it small - every entry here is a divergence from a translation
-  // that Microsoft maintains for free.
   "version": "1.0.0",
-  "contents": {}
+  "contents": {
+    "vs/platform/agentHost/common/agentHostEnablementService": {
+      "chat.defaultToCopilotHarness": "啟用後，新的編輯器與面板對話預設使用智慧體主機的 Copilot CLI，而非本機執行環境。需要啟用 `#{0}#`。"
+    },
+    "vs/platform/dialogs/electron-browser/dialog": {
+      "aboutDetail": "版本：{0}\nVSCode 版本：{1}\n提交：{2}\n日期：{3}\nElectron：{4}\nChromium：{5}\nNode.js：{6}\nV8：{7}\n作業系統：{8}"
+    },
+    "vs/platform/extensionManagement/common/abstractExtensionManagementService": {
+      "notFoundCompatibleDependency": "無法安裝擴充套件「{0}」，因為它與目前版本的 {1} 不相容（版本 {2}，VSCode 版本 {3}）。"
+    },
+    "vs/workbench/browser/parts/dialogs/dialog": {
+      "aboutDetail": "版本：{0}\nVSCode 版本：{1}\n提交：{2}\n日期：{3}\n瀏覽器：{4}"
+    },
+    "vs/workbench/contrib/agentsVoice/browser/agentsVoice.contribution": {
+      "agents.voice.voice": "助理朗讀回覆時使用的聲音。在語音模式連線期間變更此設定會立即生效。"
+    },
+    "vs/workbench/contrib/chat/browser/actions/chatAccessibilityHelp": {
+      "chat.vscodePet": "輸入 /vscode-pet 可顯示或隱藏輸入框上方的 VS Code 寵物。可水平拖曳調整位置，或按 Tab 聚焦後使用左右方向鍵移動。按 Enter 或空白鍵與它互動。"
+    },
+    "vs/workbench/contrib/chat/browser/agentSessions/agentHost/agentHostPromptCacheNotification": {
+      "promptCacheExpiration.description": "下一則提示的費用會增加。建議開始新對話。"
+    },
+    "vs/workbench/contrib/chat/browser/chat.shared.contribution": {
+      "chat.plugins.extraMarketplaces": "企業管理的額外外掛程式市集，與 {0} 合併使用。",
+      "dictation.experimental.llmCleanup": "實驗性功能：口述時定期調整已確定的文字，完成後透過小型語言模型恢復標點、大小寫、段落與清單。需要啟用 Copilot；轉寫文字會傳送給語言模型進行整理。沒有可用模型時保留原始轉寫文字。"
+    },
+    "vs/workbench/contrib/chat/browser/widget/chatContentParts/chatTurnPillsPart": {
+      "chat.turnChanges.viewAllAccessible": "檢視所有檔案變更，新增 {0} 行，刪除 {1} 行"
+    },
+    "vs/workbench/contrib/chat/electron-browser/toggleRemoteConnectionsActionViewItem": {
+      "tunnelHost.hover.idle": "允許存取遠端工作階段"
+    },
+    "vs/workbench/services/extensionManagement/electron-browser/remoteExtensionManagementService": {
+      "notFoundCompatibleDependency": "無法安裝擴充套件「{0}」，因為它與目前版本的 {1} 不相容（版本 {2}，VSCode 版本 {3}）。"
+    },
+    "vs/workbench/contrib/remoteTunnel/electron-browser/remoteTunnel.contribution": {
+      "initialize.progress.title": "[正在尋找遠端通道](command:{0})",
+      "progress.turnOn.final": "現在可以隨時透過安全通道 [{0}](command:{4}) 存取這部電腦。若要從其他電腦連線，請使用產生的 [{1}]({2}) 連結，或使用桌面版或網頁版的 [{6}]({7}) 擴充套件。可以透過 VS Code 的「帳戶」功能表[設定](command:{3})或[關閉](command:{5})此存取。"
+    }
+  }
 }

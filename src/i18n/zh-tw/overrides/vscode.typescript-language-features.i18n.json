@@ -1,0 +1,9 @@
+{
+  "version": "1.0.0",
+  "contents": {
+    "package": {
+      "walkthroughs.nodejsWelcome.makeJsFile.description": "讓我們來編寫第一個 JavaScript 檔案。需要建立一個新檔案，並在檔案名稱結尾使用 ``.js`` 副檔名儲存。\n[建立 JavaScript 檔案](command:javascript-walkthrough.commands.createJsFile)",
+      "walkthroughs.nodejsWelcome.debugJsFile.description": "安裝 Node.js 後，可以在終端機中輸入 ``node 你的檔案名稱.js`` 來執行 JavaScript 程式。\n執行 Node.js 程式的另一個簡單方法是使用 VS Code 的偵錯工具，它可以執行你的程式碼、在不同的點暫停，並幫助你逐步了解發生了什麼事。\n[開始偵錯](command:javascript-walkthrough.commands.debugJsFile)"
+    }
+  }
+}

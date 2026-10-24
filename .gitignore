@@ -34,3 +34,7 @@ Thumbs.db
 *.local.json
 .env
 .env.*
+
+# Generated npm runtime asset and tarballs
+assets/
+*.tgz

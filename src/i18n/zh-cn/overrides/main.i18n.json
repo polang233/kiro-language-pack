@@ -1,15 +1,43 @@
 {
-  // Corrections layered on top of the vscode-loc baseline for the core workbench.
-  // Only used by `full` mode builds.
-  //
-  // Keys are `<module path>` -> `<nls key>`, exactly as they appear in
-  // <kiro>/resources/app/out/nls.keys.json. Run `npm run extract` and grep
-  // metadata/kiro.json to find the module a string belongs to.
-  //
-  // Use this file when the upstream VS Code wording clashes with Kiro's own
-  // terminology (for example if Kiro reuses a workbench string with a different
-  // meaning). Keep it small - every entry here is a divergence from a translation
-  // that Microsoft maintains for free.
   "version": "1.0.0",
-  "contents": {}
+  "contents": {
+    "vs/platform/agentHost/common/agentHostEnablementService": {
+      "chat.defaultToCopilotHarness": "启用后，新的编辑器和面板对话默认使用智能体主机的 Copilot CLI，而非本地运行环境。需要启用 `#{0}#`。"
+    },
+    "vs/platform/dialogs/electron-browser/dialog": {
+      "aboutDetail": "版本：{0}\nVSCode 版本：{1}\n提交：{2}\n日期：{3}\nElectron：{4}\nChromium：{5}\nNode.js：{6}\nV8：{7}\n操作系统：{8}"
+    },
+    "vs/platform/extensionManagement/common/abstractExtensionManagementService": {
+      "notFoundCompatibleDependency": "无法安装扩展“{0}”，因为它与当前版本的 {1} 不兼容（版本 {2}，VSCode 版本 {3}）。"
+    },
+    "vs/workbench/browser/parts/dialogs/dialog": {
+      "aboutDetail": "版本：{0}\nVSCode 版本：{1}\n提交：{2}\n日期：{3}\n浏览器：{4}"
+    },
+    "vs/workbench/contrib/agentsVoice/browser/agentsVoice.contribution": {
+      "agents.voice.voice": "助手朗读回复时使用的声音。语音模式连接期间更改此设置会立即生效。"
+    },
+    "vs/workbench/contrib/chat/browser/actions/chatAccessibilityHelp": {
+      "chat.vscodePet": "输入 /vscode-pet 可显示或隐藏输入框上方的 VS Code 宠物。可水平拖动它来调整位置，或按 Tab 聚焦后使用左右方向键移动。按 Enter 或空格键与它互动。"
+    },
+    "vs/workbench/contrib/chat/browser/agentSessions/agentHost/agentHostPromptCacheNotification": {
+      "promptCacheExpiration.description": "下一条提示的费用会增加。建议开始新对话。"
+    },
+    "vs/workbench/contrib/chat/browser/chat.shared.contribution": {
+      "chat.plugins.extraMarketplaces": "企业管理的额外插件市场，与 {0} 合并使用。",
+      "dictation.experimental.llmCleanup": "实验性功能：口述时定期优化已确定的文本，并在完成后通过小型语言模型恢复标点、大小写、段落和列表。需要启用 Copilot；转写文本会发送给语言模型进行整理。没有可用模型时保留原始转写文本。"
+    },
+    "vs/workbench/contrib/chat/browser/widget/chatContentParts/chatTurnPillsPart": {
+      "chat.turnChanges.viewAllAccessible": "查看所有文件更改，新增 {0} 行，删除 {1} 行"
+    },
+    "vs/workbench/contrib/chat/electron-browser/toggleRemoteConnectionsActionViewItem": {
+      "tunnelHost.hover.idle": "允许访问远程会话"
+    },
+    "vs/workbench/services/extensionManagement/electron-browser/remoteExtensionManagementService": {
+      "notFoundCompatibleDependency": "无法安装扩展“{0}”，因为它与当前版本的 {1} 不兼容（版本 {2}，VSCode 版本 {3}）。"
+    },
+    "vs/workbench/contrib/remoteTunnel/electron-browser/remoteTunnel.contribution": {
+      "initialize.progress.title": "[正在查找远程隧道](command:{0})",
+      "progress.turnOn.final": "现在可以随时通过安全隧道 [{0}](command:{4}) 访问此计算机。要从其他计算机连接，请使用生成的 [{1}]({2}) 链接，或使用桌面版或网页版的 [{6}]({7}) 扩展。可以通过 VS Code 的“帐户”菜单[配置](command:{3})或[关闭](command:{5})此访问。"
+    }
+  }
 }

@@ -1,88 +1,61 @@
 # Kiro Language Pack
 
-Kiro 的多语言工具包，目前支持简体中文和繁体中文。翻译编辑器，以及 Kiro 自己的界面：会话列表、设置、聚焦智能体、规格与指引。
+Kiro 中文语言包，支持简体中文和使用台湾用词的繁体中文，覆盖编辑器、会话、设置、规格与指引界面。
 
-[英文文档在此打开](README.en.md)
+[English](README.en.md)
 
 <img src="media/icon.png" width="96" height="96" alt="Kiro Language Pack 图标" />
 
 [![Open VSX](https://img.shields.io/open-vsx/v/polang233/kiro-language-pack?label=Open%20VSX)](https://open-vsx.org/extension/polang233/kiro-language-pack)
-[![下载量](https://img.shields.io/open-vsx/dt/polang233/kiro-language-pack)](https://open-vsx.org/extension/polang233/kiro-language-pack)
 
 | 安装前 · English | 安装后 · 简体中文 |
 | --- | --- |
 | ![英文](docs/images/before-en.png) | ![简体中文](docs/images/after-zh-cn.png) |
 
-装扩展就能用。下载项目后打补丁，可以再翻掉一部分写死在程序里的英文。
+## 命令行安装
 
-## 安装扩展
+推荐 Node.js 22+，最低 18.17。先完全退出 Kiro。
 
-1. 先卸载其他语言包。本扩展替代 VS Code 官方中文语言包，两个同时装，重启后翻译会乱。[原因](docs/architecture.zh-CN.md#单个自包含扩展)。
-2. 扩展里搜索 **Kiro Language Pack**、**汉化** 或 **中文语言包**，安装。商店页：[Open VSX](https://open-vsx.org/extension/polang233/kiro-language-pack)。也可以从 [GitHub Release](https://github.com/polang233/kiro-language-pack/releases) 下 `.vsix`，命令面板执行 **Extensions: Install from VSIX…**。Windows 不要双击 `.vsix`。
-3. 命令面板 → **Language Pack: Select Display Language** → 选 **中文（简体）** 或 **中文（繁體）** → **完全退出 Kiro 再打开**。重载窗口无效。
-
-之后换语言不用重装，仍然要重启：
-
-- 命令面板 → **Language Pack: Select Display Language**
-- 设置 `kiroLanguagePack.language`：`auto`、`zh-cn`、`zh-tw`、`en`
-- Kiro 自带的 **Configure Display Language**
-
-选 `en` 回到英文，扩展还在。
-
-## 安装目录补丁
-
-聊天面板、钩子和能力编辑器、账户与用量弹窗里，有一批英文写在程序文件里，扩展改不到。补丁大约再翻 89 条，并会装上语言包、设好显示语言。Kiro 更新后这些改动会消失，要再执行一次。改过的安装 AWS 不支持。
+npm 包尚未首次发布，以下 npx 入口在首发后可用。
 
 ```bash
-git clone https://github.com/polang233/kiro-language-pack
-cd kiro-language-pack
-npm install
-npm run package
-npm run patch -- --apply
+npx @polang233/kiro-language-pack@latest
 ```
 
-先看会改什么：`npm run patch`。还原程序文件：`npm run patch -- --restore`。细节：[docs/advanced-patch.zh-CN.md](docs/advanced-patch.zh-CN.md)。
+默认执行 `install`，安装语言包并翻译程序内的文案。包内自带本版本 VSIX，无需下载源码或构建。指定语言和安装目录：
 
-## 语言
+```bash
+npx @polang233/kiro-language-pack@latest --locale=zh-tw --dir="安装目录"
+```
 
-| 语言 | 状态 |
+| 子命令 | 用途 |
 | --- | --- |
-| `zh-cn` 简体中文 | 已发布。Kiro 自有界面 1449 键（100%） |
-| `zh-tw` 繁體中文 | 已发布。数字与简体相同，用台湾用词 |
-| `ja` `ko` `fr` `de` `es` `it` `ru` `pt-br` `tr` `pl` `cs` | 已预留，尚无译文 |
+| `preview` | 预览改动 |
+| `status` | 查看状态 |
+| `restore` | 只恢复程序文件 |
 
-一个扩展包含已启用的语言。没翻的句子显示英文。
+系统语言为 TW/HK/MO 或 zh-Hant 时自动选 `zh-tw`，沿用台湾用词；其他选 `zh-cn`。可用 `--locale` 指定。`--dir` 指向含 `resources/app` 的安装目录，macOS 为 `Kiro.app/Contents`。
 
-当前翻译对应 Kiro **1.4.0**（Code OSS 1.131.0），并兼容 **1.1.70**、**1.1.14**、**1.0.437**、**1.0.395**、**1.0.309**、**1.0.242**、**1.0.228**。更老的版本一般能用。更新的版本里，新增界面会先显示英文。
+安装后重新打开 Kiro；应用更新后重跑安装命令。扩展和显示语言可在应用内切换，`restore` 不会卸载扩展或重置显示语言。
 
-上面那几处写死的英文，补丁也只覆盖其中一部分。界面语言和 AI 回复语言无关；想让模型说中文，用 `.kiro/steering/language.md` 这类指引文件。
-
-### 添加语言
-
-1. 在 `config.json` 把该语言的 `enabled` 设为 `true`。[microsoft/vscode-loc](https://github.com/microsoft/vscode-loc) 没有这门语言时，把 `upstreamPackDir` 设为 `null`：编辑器保持英文，只翻 Kiro 的字符串。
-2. 添加 `src/i18n/<locale>/`，先写术语表，再写译文。
-3. `npm run build && npm run validate && npm run coverage`。
-
-细节：[CONTRIBUTING.md](CONTRIBUTING.md#adding-a-language)。
-
-## 开发
-
-Node.js 18.17+。
+可在仓库内联调源码入口，准备步骤见 [npm 维护说明](docs/npm.md)：
 
 ```bash
-npm install
-npm run detect
-npm run extract
-npm run sync
-npm run verify
-npm run package
-npm run check-upgrade
+node bin/cli.mjs preview --locale=zh-tw
 ```
 
-文档：[架构](docs/architecture.zh-CN.md) · [贡献](CONTRIBUTING.md) · [发布](docs/publishing.zh-CN.md)
+## 扩展安装
 
-## 许可
+1. 卸载其他语言包，避免与官方 VS Code 中文包冲突。
+2. 在扩展中搜索 **Kiro Language Pack** 或 **汉化**，也可从 [GitHub Releases](https://github.com/polang233/kiro-language-pack/releases) 下载 VSIX，通过 **Extensions: Install from VSIX…** 安装。
+3. 命令面板运行 **Language Pack: Select Display Language**，选简体或繁体，完全退出 Kiro 后重新打开。
 
-MIT。工作台译文来自 [microsoft/vscode-loc](https://github.com/microsoft/vscode-loc)；见 [NOTICE](NOTICE)。
+扩展 id 保持 `polang233.kiro-language-pack`。也可用设置 `kiroLanguagePack.language` 选择 `auto`、`zh-cn`、`zh-tw` 或 `en`，切换后重启。仅安装扩展时，部分写死在程序里的英文需要命令行安装才能翻译。
 
-社区项目，与 AWS、Microsoft 无隶属关系。
+当前译文对应 Kiro **1.4.26**（Code OSS 1.131.0）。新增或未覆盖的文案会显示英文。界面语言不影响 AI 回复语言，可通过 `.kiro/steering/language.md` 指定回复语言。
+
+## 开发与许可
+
+[维护与源码测试](docs/npm.md) · [发布](docs/publishing.zh-CN.md) · [架构](docs/architecture.zh-CN.md) · [贡献](CONTRIBUTING.md)
+
+MIT。工作台译文来自 [microsoft/vscode-loc](https://github.com/microsoft/vscode-loc)，见 [NOTICE](NOTICE)。社区项目，与 AWS、Microsoft 无隶属关系。

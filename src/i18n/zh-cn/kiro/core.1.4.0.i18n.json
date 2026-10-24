@@ -1,11 +1,3 @@
-// Kiro 1.4.0 strings added or recovered since the 1.1.70 baseline.
-//
-// New UI: memory settings, managed agent settings, What's New, workflows
-// announcement, and feedback. remoteTrust moved from remoteExtensionHost to
-// remoteAuthorityTrust; the detail strings gained placeholders.
-// Keys 1.4.0 removed stay in earlier core*.i18n.json; the build filters orphans.
-//
-// Rules: keep {0} placeholders, $(codicon) markers and (command:...) links intact.
 {
   "version": "1.0.0",
   "contents": {
@@ -123,7 +115,7 @@
       "workflowsDisabled": "工作流：已关闭",
       "workflowsEnabled": "工作流：已启用",
       "workflowsFeedbackPrompt": "帮助我们改进工作流。 ",
-      "workflowsHelper": "对新会话生效。关闭后，智能体不会启动新的工作流，已有的运行和配方仍然可用。可随时在「设置 → 扩展 → Kiro」中更改。",
+      "workflowsHelper": "工作流可能运行较长时间，并消耗额外额度。此设置适用于新会话。关闭后，智能体不会启动新的工作流，已有运行和配方仍可使用。可随时在“设置 → 扩展 → Kiro”中更改。",
       "workflowsResources": "资源",
       "workflowsSwitch": "工作流"
     },

@@ -1,8 +1,7 @@
 {
-  "name": "kiro-language-pack",
-  "private": true,
-  "version": "1.1.5",
-  "description": "Community language pack for Kiro IDE (Simplified & Traditional Chinese) plus build tooling",
+  "name": "@polang233/kiro-language-pack",
+  "version": "1.2.0",
+  "description": "Kiro 简体/繁体中文汉化工具，自动选择系统语言，支持一键安装与恢复。",
   "type": "module",
   "license": "MIT",
   "repository": {
@@ -23,7 +22,7 @@
     "gap": "node scripts/gap.mjs",
     "check-upgrade": "node scripts/check-upgrade.mjs",
     "patch": "node scripts/patch-install.mjs",
-    "test": "node scripts/test-extension.mjs",
+    "test": "node scripts/test-extension.mjs && node --test scripts/test-cli.mjs scripts/test-upgrade.mjs && node scripts/test-patch.mjs",
     "sync": "node scripts/sync-upstream.mjs",
     "build": "node scripts/build.mjs",
     "coverage": "node scripts/coverage.mjs",
@@ -32,12 +31,46 @@
     "publish:ovsx": "node scripts/publish.mjs --registry=ovsx",
     "publish:vsce": "node scripts/publish.mjs --registry=vsce",
     "verify": "node scripts/build.mjs && node scripts/validate-dist.mjs && node scripts/coverage.mjs",
-    "clean": "node -e \"for (const d of ['dist','reports']) require('fs').rmSync(d,{recursive:true,force:true})\""
+    "clean": "node -e \"for (const d of ['dist','reports']) require('fs').rmSync(d,{recursive:true,force:true})\"",
+    "prepack": "node scripts/prepare-npm.mjs",
+    "package:npm": "node scripts/package-npm.mjs",
+    "test:cli": "node --test scripts/test-cli.mjs",
+    "test:package": "node scripts/test-package.mjs",
+    "test:upgrade": "node --test scripts/test-upgrade.mjs"
   },
   "devDependencies": {
     "@vscode/vsce": "3.2.1",
     "opencc-js": "1.4.1",
     "ovsx": "0.10.1"
   },
-  "$devDependencies": "opencc-js is only used by scripts/convert-zh-tw.mjs, which regenerates the zh-tw sources from zh-cn. It is declared so `npm ci` keeps it available."
+  "$devDependencies": "opencc-js is only used by scripts/convert-zh-tw.mjs, which regenerates the zh-tw sources from zh-cn. It is declared so `npm ci` keeps it available.",
+  "bin": {
+    "kiro-language-pack": "bin/cli.mjs"
+  },
+  "files": [
+    "bin/",
+    "scripts/lib/",
+    "scripts/patch-install.mjs",
+    "src/extension/main.cjs",
+    "src/i18n/zh-cn/patch/kiro.kiroAgent.json",
+    "src/i18n/zh-tw/patch/kiro.kiroAgent.json",
+    "assets/language-pack.vsix",
+    "config.json",
+    "LICENSE",
+    "NOTICE"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "keywords": [
+    "kiro",
+    "汉化",
+    "中文语言包",
+    "localization",
+    "cli",
+    "chinese",
+    "zh-cn",
+    "zh-tw"
+  ]
 }

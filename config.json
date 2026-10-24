@@ -4,7 +4,7 @@
   "publisher": "polang233",
   "$publisher": "Must match the Open VSX namespace you claim with `ovsx create-namespace`, and the Marketplace publisher id if you also publish there. Taken from the GitHub account this repository is authored from; change it here if you publish under an organisation instead.",
   "namePrefix": "kiro-language-pack",
-  "version": "1.1.5",
+  "version": "1.2.0",
   "license": "MIT",
   "repository": "https://github.com/polang233/kiro-language-pack",
   "homepage": "https://github.com/polang233/kiro-language-pack#readme",
@@ -26,7 +26,7 @@
   "target": {
     "kiroExtensionId": "kiro.kiroAgent",
     "$kiroExtensionId": "publisher.name from resources/app/extensions/kiro.kiro-agent/package.json. The folder name (kiro.kiro-agent) is NOT the extension id.",
-    "verifiedKiroVersions": ["1.0.228", "1.0.242", "1.0.309", "1.0.395", "1.0.437", "1.1.14", "1.1.70", "1.4.0"],
+    "verifiedKiroVersions": ["1.0.228", "1.0.242", "1.0.309", "1.0.395", "1.0.437", "1.1.14", "1.1.70", "1.4.0", "1.4.26"],
     "$verifiedKiroVersions": "Builds whose localizable surface this pack has been reconciled against: `npm run coverage` reports 100% for the Kiro-specific keys and `npm run validate` passes. `npm run check-upgrade` compares the installed Kiro against this list."
   },
 

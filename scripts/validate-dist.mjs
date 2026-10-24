@@ -156,6 +156,19 @@ for (const build of summary.builds) {
         }
       }
 
+      // Authored manifest backports must survive the build in the package map.
+      if (entry.id !== CORE_TRANSLATION_ID) {
+        const overrideFile = p('src', 'i18n', localization.languageId, 'overrides', entry.id + '.i18n.json');
+        const authored = readJson(overrideFile, null)?.contents;
+        if (authored && Object.hasOwn(authored, '')) {
+          error(label + ': ' + entry.id + ' override uses an empty section; package.nls keys belong in contents.package');
+        }
+        for (const [key, value] of Object.entries(authored?.package ?? {})) {
+          if (metadata && !(key in (metadata.extensions[entry.id]?.packageNls ?? {}))) continue;
+          if (data.contents.package?.[key] !== value) error(label + ': authored package translation missing from build: ' + entry.id + '/' + key);
+        }
+      }
+
       // --- compare against the English source --------------------------
       if (!metadata) continue;
 

@@ -1,20 +1,14 @@
 # Documentation
 
-Installing and using the pack: root [README.md](../README.md) (简体中文) /
-[README.en.md](../README.en.md) (English). Everything here is for contributors and maintainers.
+Installation: [简体中文](../README.md) / [English](../README.en.md). Contributor and maintainer references:
 
-| Document | Language | What it covers |
-| --- | --- | --- |
-| [architecture.md](architecture.md) · [zh-CN](architecture.zh-CN.md) | EN · 简体中文 | Why one self-contained extension, localization, build, runtime |
-| [advanced-patch.md](advanced-patch.md) · [zh-CN](advanced-patch.zh-CN.md) | EN · 简体中文 | Optional install-directory patch: CLI, file list, risks |
-| [publishing.md](publishing.md) · [zh-CN](publishing.zh-CN.md) | EN · 简体中文 | Open VSX, Marketplace, GitHub Releases |
-| [history.md](history.md) | 简体中文 | Research and decision log. Not an install guide |
-| [images/](images/README.md) | — | Screenshots used by the README |
+| Document | Contents |
+| --- | --- |
+| [npm.md](npm.md) | Source CLI tests, package scripts, real-tarball checks and first npm publication |
+| [publishing.md](publishing.md) · [简体中文](publishing.zh-CN.md) | Version alignment, release artifacts, registry gates and app upgrades |
+| [architecture.md](architecture.md) · [简体中文](architecture.zh-CN.md) | Localization, build and extension runtime |
+| [Contributing](../CONTRIBUTING.md) | Translation rules and adding a language |
+| [history.md](history.md) | Research and decision history |
+The npm entry point is awaiting its first publication. The CLI contract is documented in the installation README; maintenance commands are in [npm.md](npm.md).
 
-Also outside this folder:
-
-- **Adding a language** — [CONTRIBUTING.md](../CONTRIBUTING.md#adding-a-language)
-- **Extension marketplace page** — `src/marketplace/README.md` (copied into the `.vsix`)
-- **Agent / release notes** — root [AGENTS.md](../AGENTS.md) (Open VSX secret name, tag-and-push flow)
-
-Contributor workflow: [CONTRIBUTING.md](../CONTRIBUTING.md).
+The extension store page comes from `src/marketplace/README.md`. Agent instructions are in [AGENTS.md](../AGENTS.md); publishing and remote configuration require explicit authorization.

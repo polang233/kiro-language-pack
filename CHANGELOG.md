@@ -9,6 +9,14 @@ Aligning with a new Kiro IDE build is a patch bump.
 
 ## [Unreleased]
 
+- Verify Kiro 1.4.26 and update the workflow message to retain its long-running and additional-credit notice.
+- Backfill 14 workbench messages per locale and two TypeScript walkthroughs; Simplified and Traditional Chinese now cover the entire localizable workbench and built-in manifests.
+- Archive upgrade baselines and report changed English, module moves and built-in extension source changes.
+
+- Add the npm CLI `@polang233/kiro-language-pack`, with bundled VSIX, automatic system language selection, preview, status and restore commands.
+- Make repeated installation, language switching and application upgrades reuse verified originals stored in the user profile.
+- Build and test the npm tarball alongside the VSIX on release. Registry publication stays disabled until the npm publisher is configured.
+
 ## [1.1.5]
 
 Verified against Kiro **1.4.0** (Code OSS 1.131.0), in addition to **1.1.70**, **1.1.14**, **1.0.437**, **1.0.395**, **1.0.309**, **1.0.242** and **1.0.228**.

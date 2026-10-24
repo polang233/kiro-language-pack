@@ -1,140 +1,67 @@
-# Publishing the language pack
+# Publishing Kiro Language Pack
 
-Kiro’s extension gallery uses **[Open VSX](https://open-vsx.org/)** by default. Publish
-there first so users can search **Kiro Language Pack** inside Kiro. The VS Code
-Marketplace is optional and does **not** appear in Kiro’s default search.
+[简体中文](publishing.zh-CN.md) · [npm maintenance](npm.md)
 
-The id in [`config.json`](../config.json) → `publisher` is currently `polang233`. That same
-string must match the Open VSX **namespace** and (if you publish there) the VS Marketplace
-**publisher** name.
+The planned first npm release is `@polang233/kiro-language-pack@1.2.0`. It has not been published yet. The extension id stays `polang233.kiro-language-pack`.
 
-## Two registries, two accounts (read this first)
+## Prepare a version
 
-| | Open VSX (needed for Kiro) | VS Code Marketplace (optional) |
-| --- | --- | --- |
-| Who runs it | Eclipse Foundation | Microsoft |
-| URL of your extension | `open-vsx.org/extension/<namespace>/<name>` | `marketplace.visualstudio.com/items?itemName=<publisher>.<name>` |
-| Your id is called | **Namespace** | **Publisher** |
-| Sign-in | [open-vsx.org](https://open-vsx.org/) with an **Eclipse** account | [Marketplace publisher management](https://marketplace.visualstudio.com/manage) with a **Microsoft** account |
-| Token env var | `OVSX_PAT` | `VSCE_PAT` |
-| Create the id once | `npx ovsx create-namespace polang233` | Create publisher `polang233` in the manage UI |
-| Publish command | `npm run publish:ovsx` | `npm run publish:vsce` |
-
-They are **independent**. Claiming a namespace on Open VSX does **not** create a VS Marketplace
-publisher, and vice versa. Reuse the same id (`polang233`) on both so the extension identity
-stays `polang233.kiro-language-pack` everywhere.
-
-**Namespace / publisher** ≈ your brand prefix under which extensions are published. Users see
-`polang233.kiro-language-pack`. You create it **once with the account that owns the project**
-(your personal Eclipse / Microsoft login is fine; no separate “company approval” is required
-for a personal publisher). Pick an id you control long-term; renaming later is painful.
-
-## Prerequisites
+1. If Kiro has updated, reconcile added, removed and moved keys first. See [App upgrades](#app-upgrades).
+2. Align `config.json.version`, `package.json.version`, `package-lock.json.version` and `package-lock.json.packages[""].version`. The npm package name and lockfile names must use the scoped name above. Keep the extension publisher/name unchanged.
+3. With local app metadata available, run the coverage check and all package checks:
 
 ```bash
-npm install
-npm run package          # produces dist/kiro-language-pack-<version>.vsix
+npm ci
+npm run sync -- --strategy=api
+npm run verify
+npm test
+npm run package:npm
 ```
 
-Confirm `config.json` → `version` matches the tag you will push (CI enforces this on `v*`).
+`verify` keeps its existing build, manifest and coverage checks and requires metadata from a local Kiro install. Hosted CI has no app install; it retains manifest validation after packaging. `npm test` includes the existing runtime tests and `test:cli`. `package:npm` builds the current VSIX, prepares bundled assets, runs `npm pack` into `dist/` and validates the real tarball. For optional retesting, `npm run test:package` repeats the same full fixture suite against that version's existing TGZ.
 
-What the store page is built from, in case a listing needs fixing:
+Expected artifacts for each version:
 
-| Shown as | Source |
+| Artifact | Path |
 | --- | --- |
-| Page body | `src/marketplace/README.md`, copied into the `.vsix` by `npm run build` |
-| Title and short description | `config.json` → `pack.displayName`, `pack.description` |
-| Search keywords | `src/manifest.template.json` → `keywords`, plus the packaged locale ids |
+| Extension | `dist/kiro-language-pack-<version>.vsix` |
+| npm package | `dist/polang233-kiro-language-pack-<version>.tgz` |
 
-Both registries show one page per extension no matter how many locales the pack bundles, and
-both index its text - which is why that page is written in several languages.
+The archive must contain the CLI, its runtime files and translations, and the matching VSIX. Test the installed archive outside the checkout against temporary app/profile fixtures. See [npm.md](npm.md).
 
-## Open VSX (required for Kiro users)
+## Release workflow
 
-1. Sign in at [open-vsx.org](https://open-vsx.org/) with **GitHub** at least once (admins must
-   see your user in their database).
-2. Sign the Open VSX / Eclipse **Publisher Agreement** (required before ownership can be granted).
-3. Create a **Personal Access Token** (Access Tokens in your profile). This is `OVSX_PAT`.
-4. Create the namespace once (must match `publisher` in `config.json`):
+Only commit, tag, push or publish with explicit authorization. An authorized `v<version>` tag runs [release.yml](../.github/workflows/release.yml):
 
-```bash
-# PowerShell — set the token for this shell first
-$env:OVSX_PAT = "your-token"
-npx ovsx create-namespace polang233
-```
+- Check scoped package identity, extension identity, config/package/lock versions and tag.
+- Run `npm ci`, `npm test`, API sync, `package:npm` and manifest validation. `package:npm` includes the full tarball fixture suite.
+- Upload the exact current-version VSIX and TGZ as workflow artifacts and GitHub Release assets. Older files in `dist/` are excluded.
+- Publish to Open VSX when `OVSX_PAT` is available.
+- Run the separate npm OIDC job only when `NPM_PUBLISH_ENABLED == 'true'` and the event is a tag push or manual dispatch with `publish=true`.
 
-That usually makes you a **contributor** (you can publish). The namespace may still show as
-**unverified** until you are granted ownership. If the name is taken, change
-`config.json` → `publisher` and create that id instead.
+Manual dispatch defaults to `publish=false`. It builds and uploads workflow artifacts without publishing to any registry, including when a tag is selected. Missing extension-registry secrets skip that registry; test, packaging and publishing failures remain failures.
 
-5. (Recommended) Request **Owner / verified** via
-   [Claim namespace ownership](https://github.com/EclipseFdn/open-vsx.org/issues/new?template=claim-namespace-ownership.yml)
-   while logged into GitHub as `polang233`. Easiest personal path: Namespace `polang233`;
-   confirm it is unowned and your GitHub account is ≥12 months old; pick **Option 3**
-   (not a VS Marketplace publisher) → check that the namespace **matches your GitHub ID**.
-   You can usually `publish:ovsx` before the issue is granted; verification is separate.
+The npm job uses Node 24, checks npm ≥11.5.1, grants job-level `id-token: write` and sets `registry-url: https://registry.npmjs.org`. It publishes the tested TGZ. It skips only after the registry confirms the exact package/version already exists; network errors, non-404 HTTP errors and malformed replies fail the job. A concurrent duplicate publish also fails rather than hiding an error.
 
-6. Publish locally:
+npm automation starts disabled. First publication and trusted publisher/variable setup require later explicit user authorization; the user may authorize an agent to complete them. After first publication, configure the package's trusted publisher and then enable the repository variable. Exact owner/repository/workflow fields are in [npm.md](npm.md). Do not configure accounts, secrets, trusted publishers or variables as part of a documentation/CI change.
 
-```bash
-# Windows PowerShell
-$env:OVSX_PAT = "your-token"
-npm run publish:ovsx
+## Extension registries
 
-# macOS / Linux
-export OVSX_PAT=your-token
-npm run publish:ovsx
-```
+| Registry | Identity | Credentials |
+| --- | --- | --- |
+| [Open VSX](https://open-vsx.org/extension/polang233/kiro-language-pack) | `polang233.kiro-language-pack` | `OVSX_PAT` |
+| [VS Marketplace](https://marketplace.visualstudio.com/items?itemName=polang233.kiro-language-pack) | Same extension id; optional listing | `VSCE_PAT` |
 
-Or dry-run: `npm run publish:ovsx -- --dry-run`.
+Open VSX is Kiro's in-app gallery. The workflow retains Open VSX; Marketplace remains an optional manual `npm run publish:vsce` command. Keep tokens in environment variables or repository secrets; never write or print them. The existing `publish:ovsx` and `publish:vsce` commands publish the current-version VSIX. Namespace `polang233` and the Marketplace publisher are separate from the npm scope.
 
-7. **CI path:** repository secret `OVSX_PAT` is already configured on
-   `polang233/kiro-language-pack`. Push a matching tag:
+Store content comes from `src/marketplace/README.md`, `config.json` → `pack.displayName` / `pack.description`, `src/manifest.template.json` → `keywords` and `media/icon.png`. Preserve the extension identity and Chinese search terms.
 
-```bash
-git tag v1.1.0
-git push origin v1.1.0
-```
+## App upgrades
 
-[`.github/workflows/release.yml`](../.github/workflows/release.yml) builds the `.vsix`,
-attaches it to the GitHub Release, and runs `npm run publish:ovsx`. If the log says
-`OVSX_PAT secret is not set`, the secret was deleted — recreate it with
-`gh secret set OVSX_PAT` (token on stdin, never committed). Confirm the **name** only
-with `gh secret list`.
+1. Run `npm run check-upgrade`, `npm run detect` and `npm run extract` against the updated app.
+2. Review added and deleted keys, changed source text and moved module paths. Translate new keys in `src/i18n/zh-cn/`, reuse translations at moved paths and review obsolete keys.
+3. Run `node scripts/convert-zh-tw.mjs` and review the output, preserving Taiwan terminology.
+4. Sync upstream, run `npm run verify`, `npm test`, `npm run package:npm`. Use `npm run test:package` for optional retesting. Check the archive's contents and isolated installation.
+5. Update `target.verifiedKiroVersions`, documentation and all version fields together. After authorization, release npm and VSIX with the same version.
 
-After publish, the page is:
-
-https://open-vsx.org/extension/polang233/kiro-language-pack
-
-## VS Code Marketplace (optional)
-
-Kiro does not use this registry by default. Use it only if you also want the pack on
-[marketplace.visualstudio.com](https://marketplace.visualstudio.com/) (e.g. for people who
-install into stock VS Code, or for discoverability outside Kiro).
-
-1. Open [Visual Studio Marketplace publisher management](https://marketplace.visualstudio.com/manage)
-   and sign in with a Microsoft account.
-2. Create a **Publisher** whose name matches `config.json` → `publisher` when possible
-   (`polang233`). That is the “VS Code 出版商账户”: a publisher profile under your Microsoft
-   login, not a paid Azure subscription by itself. You may be asked to link an Azure DevOps
-   org; follow the Marketplace wizard.
-3. Create an Azure DevOps **Personal Access Token** with **Marketplace → Manage** scope.
-   That token is `VSCE_PAT` (different from `OVSX_PAT`).
-4. Publish:
-
-```bash
-# Windows PowerShell
-$env:VSCE_PAT = "your-token"
-npm run publish:vsce
-
-# macOS / Linux
-export VSCE_PAT=your-token
-npm run publish:vsce
-```
-
-## After publishing
-
-- Uninstall any conflicting official VS Code language pack in Kiro before installing this one.
-- Bump `config.json` → `version` (and `package.json`) before the next release.
-
-中文说明见 [publishing.zh-CN.md](publishing.zh-CN.md)。
+Tell users to rerun installation after an app update and fully restart the app. `restore` restores only app files; extensions and display language can be changed inside Kiro.

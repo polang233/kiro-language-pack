@@ -15,13 +15,14 @@
  * This edits the application directory. Consequences, in order of how likely they are to
  * bite: a Kiro update replaces the files and the translations are gone; a failed patch can
  * leave the editor in a broken state; AWS does not support a modified install. Originals
- * are backed up and `--restore` puts them back.
+ * are backed up under the user directory and `--restore` puts them back for the
+ * same application build. Re-running --apply recalculates from those originals.
  *
  * Nothing here affects the .vsix. The language pack remains the supported path.
  *
  * Usage:
  *   npm run patch                  pick the install and the language, then report what
- *                                  would change. Writes nothing.
+ *                                  would change. Writes only a report under the user directory.
  *   npm run patch -- --apply       the same, but write, after backing up every file
  *   npm run patch -- --list        detected installs and patchable languages
  *   npm run patch -- --status      is this install patched, and is the patch still intact
@@ -45,12 +46,12 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
-import crypto from 'node:crypto';
 import readline from 'node:readline/promises';
 import { spawnSync } from 'node:child_process';
-import { p, readJson, writeJson, log, fail, parseArgs, loadConfig } from './lib/util.mjs';
+import { p, readJson, log, fail, parseArgs, loadConfig } from './lib/util.mjs';
 import { findKiroInstalls, readKiroInfo, extensionsDir, argvJsonPath } from './lib/kiro-paths.mjs';
 import { argvLocale } from './lib/argv.mjs';
+import { PatchState, atomicWrite, sha256, writeJsonAtomic } from './lib/patch-state.mjs';
 
 const BACKUP_DIR = '.kiro-language-pack-backup';
 const RECORD_FILE = '.kiro-language-pack-patch.json';
@@ -70,6 +71,7 @@ const LOCALIZABLE_FIELDS = new Set([
 const MIN_LITERAL_LENGTH = 6;
 
 const { flags } = parseArgs();
+if (flags.preview && flags.restore) fail('--preview and --restore cannot be combined.');
 const config = loadConfig();
 
 /** Prompting needs a terminal on both ends, and --yes opts out of it. */
@@ -114,7 +116,20 @@ const asInstall = (root) => {
 };
 const looksLikeKiro = (candidate) => fs.existsSync(path.join(candidate.appRoot, 'package.json'));
 
-const detected = findKiroInstalls();
+const detected = flags['install-dir'] && !flags.list ? [] : findKiroInstalls();
+
+function patchState(install, info) {
+  const targetRoot = path.join(install.appRoot, 'extensions', 'kiro.kiro-agent');
+  return new PatchState({
+    installRoot: install.installRoot,
+    targetRoot,
+    dataFolderName: info.dataFolderName,
+    commit: info.commit,
+    version: info.kiroVersion,
+    legacyRecordPath: path.join(targetRoot, RECORD_FILE),
+    legacyBackupRoot: path.join(targetRoot, BACKUP_DIR)
+  });
+}
 
 // --- --list -----------------------------------------------------------------
 
@@ -125,13 +140,10 @@ if (flags.list) {
   }
   for (const candidate of detected) {
     const found = readKiroInfo(candidate.appRoot);
-    const record = readJson(
-      path.join(candidate.appRoot, 'extensions', 'kiro.kiro-agent', RECORD_FILE),
-      null
-    );
+    const record = patchState(candidate, found).record;
     log.plain(`  ${candidate.installRoot}`);
     log.plain(`    Kiro ${found.kiroVersion} (Code OSS ${found.vscodeVersion})`);
-    log.plain(`    ${record ? `patched with ${record.locale} on ${record.patchedAt}` : 'not patched'}`);
+    log.plain(`    ${record && record.status !== 'restored' ? `patched with ${record.locale} on ${record.patchedAt}` : 'not patched'}`);
   }
 
   log.step('Languages this patch can install');
@@ -191,14 +203,13 @@ const info = readKiroInfo(install.appRoot);
 const extDir = path.join(install.appRoot, 'extensions', 'kiro.kiro-agent');
 if (!fs.existsSync(extDir)) fail(`kiro.kiro-agent not found under ${install.appRoot}/extensions.`);
 
-const backupRoot = path.join(extDir, BACKUP_DIR);
-const recordPath = path.join(extDir, RECORD_FILE);
-
-const sha256 = (buf) => crypto.createHash('sha256').update(buf).digest('hex');
+const state = patchState(install, info);
+if (!flags.status && !flags.preview && (flags.restore || flags.apply === true)) state.lock();
+const { backupRoot, recordPath } = state.paths;
 const relative = (file) => path.relative(extDir, file).split(path.sep).join('/');
 
 function readRecord() {
-  return fs.existsSync(recordPath) ? readJson(recordPath, null) : null;
+  return state.record;
 }
 
 // --- status -----------------------------------------------------------------
@@ -206,11 +217,12 @@ function readRecord() {
 if (flags.status) {
   const record = readRecord();
   log.step(`Kiro ${info.kiroVersion} at ${install.installRoot}`);
-  if (!record) {
+  if (!record || record.status === 'restored') {
     log.plain('  not patched');
     process.exit(0);
   }
   log.plain(`  patched with ${record.locale} on ${record.patchedAt}`);
+  log.plain(`  state: ${record.status ?? 'legacy'}, record: ${recordPath}`);
   log.plain(`  against Kiro ${record.kiroVersion}${record.kiroVersion === info.kiroVersion ? '' : `  <- install is now ${info.kiroVersion}, the patch was probably overwritten`}`);
   let intact = 0;
   let changed = 0;
@@ -226,33 +238,16 @@ if (flags.status) {
 // --- restore ----------------------------------------------------------------
 
 if (flags.restore) {
-  const record = readRecord();
-  if (!record) fail(`Nothing to restore: ${relative(recordPath)} not found.`);
-
-  log.step(`Restoring ${Object.keys(record.files).length} file(s) in ${install.installRoot}`);
-  let restored = 0;
-  let skipped = 0;
-  for (const [rel, entry] of Object.entries(record.files)) {
-    const backup = path.join(backupRoot, rel);
-    const target = path.join(extDir, rel);
-    if (!fs.existsSync(backup)) {
-      log.warn(`  ${rel}: backup missing, leaving as is`);
-      skipped++;
-      continue;
-    }
-    const current = fs.existsSync(target) ? sha256(fs.readFileSync(target)) : null;
-    if (current && current !== entry.patched && current !== entry.original) {
-      log.warn(`  ${rel}: changed since the patch (a Kiro update?), leaving as is`);
-      skipped++;
-      continue;
-    }
-    fs.copyFileSync(backup, target);
-    restored++;
-    log.info(`  restored ${rel}`);
+  if (!readRecord()) {
+    log.ok('No patch record for this application build. Nothing to restore.');
+    process.exit(0);
   }
-  fs.rmSync(recordPath, { force: true });
-  fs.rmSync(backupRoot, { recursive: true, force: true });
-  log.ok(`${restored} restored, ${skipped} skipped. Restart Kiro.`);
+  log.step(`Restoring files in ${install.installRoot}`);
+  const { restored, problems } = state.restore();
+  for (const problem of problems) log.warn(problem);
+  log.plain(`  Originals and recovery record kept in ${state.paths.buildDir}`);
+  if (problems.length) fail(`${restored} restored, ${problems.length} unresolved. Backups and record were preserved; repair the reported files and retry --restore.`);
+  log.ok(`${restored} restored. Restart Kiro.`);
   process.exit(0);
 }
 
@@ -300,7 +295,7 @@ const patchFile = patchDataFile(localeId);
 const patch = readJson(patchFile);
 
 /**
- * `--no-x` and `--x=false` are the same request. parseArgs stores them under different
+ * `--no-x` and `--x=false` are the same request. Parsing stores them under different
  * keys, so both are accepted - a documented flag that silently does nothing is worse
  * than a redundant check.
  */
@@ -318,11 +313,9 @@ for (const [group, map] of [['extension', extensionMap], ['webview', webviewMap]
   }
 }
 
-const apply = flags.apply === true;
-/** @type {Record<string, {original: string, patched: string}>} */
-const record = {};
+const apply = flags.apply === true && flags.preview !== true;
 /**
- * Every change, in full. Written to reports/ on a dry run and into the record on apply,
+ * Every change, in full. Written under the user state directory on a dry run and into the record on apply,
  * so "what did this actually do to my install" has a file-level answer rather than a
  * summary line.
  * @type {{file: string, kind: string, replacements: {english: string, translated: string, count: number}[]}[]}
@@ -330,26 +323,16 @@ const record = {};
 const plan = [];
 let totalReplacements = 0;
 
-function backup(file) {
-  const dest = path.join(backupRoot, relative(file));
-  if (fs.existsSync(dest)) return;
-  fs.mkdirSync(path.dirname(dest), { recursive: true });
-  fs.copyFileSync(file, dest);
-}
-
 function commit(file, before, after, replacements) {
   totalReplacements += replacements;
-  if (!apply) return;
-  backup(file);
-  fs.writeFileSync(file, after, 'utf8');
-  record[relative(file)] = { original: sha256(Buffer.from(before, 'utf8')), patched: sha256(Buffer.from(after, 'utf8')) };
+  state.stage(file, after);
 }
 
 // --- 1. the extension manifest ----------------------------------------------
 
 function patchManifest() {
   const file = path.join(extDir, 'package.json');
-  const before = fs.readFileSync(file, 'utf8');
+  const before = state.source(file);
   const manifest = JSON.parse(before);
   let replaced = 0;
   const untouched = new Set(Object.keys(manifestMap));
@@ -405,17 +388,15 @@ function patchManifest() {
     log.warn(`  ${untouched.size} mapped string(s) not found in this build - Kiro may have changed them:`);
     for (const s of [...untouched].slice(0, 8)) log.plain(`    ${JSON.stringify(s.slice(0, 70))}`);
   }
-  if (!replaced) return;
-
-  plan.push({ file: relative(file), kind: 'manifest', replacements: [...applied.values()] });
-  const after = JSON.stringify(manifest, null, 2) + '\n';
+  if (replaced) plan.push({ file: relative(file), kind: 'manifest', replacements: [...applied.values()] });
+  const after = replaced ? JSON.stringify(manifest, null, 2) + '\n' : before;
   commit(file, before, after, replaced);
 }
 
 // --- 2 and 3. literals inside bundles ---------------------------------------
 
 function patchBundle(file, map, label) {
-  const before = fs.readFileSync(file, 'utf8');
+  const before = state.source(file);
   let after = before;
   let replaced = 0;
   const perString = [];
@@ -435,8 +416,7 @@ function patchBundle(file, map, label) {
     replacements.push({ english, translated, count: n });
   }
 
-  if (!replaced) return { replaced: 0, perString };
-  plan.push({ file: relative(file), kind: label, replacements });
+  if (replaced) plan.push({ file: relative(file), kind: label, replacements });
   commit(file, before, after, replaced);
   return { replaced, perString, label };
 }
@@ -455,7 +435,7 @@ function* bundleFiles(dir) {
 }
 
 function patchExtensionJs() {
-  if (!Object.keys(extensionMap).length) return;
+  if (off('extension-strings')) return;
   const file = path.join(extDir, 'dist', 'extension.js');
   if (!fs.existsSync(file)) {
     log.warn('dist/extension.js not found, skipping runtime strings.');
@@ -470,7 +450,7 @@ function patchExtensionJs() {
 }
 
 function patchWebviews() {
-  if (!Object.keys(webviewMap).length) return;
+  if (off('webview')) return;
   log.step('packages/*/dist - React chat UI');
   let files = 0;
   let replaced = 0;
@@ -501,14 +481,6 @@ const afterSteps = [
 ].filter(Boolean);
 log.plain(`  ${apply ? 'then:      ' : 'would then: '}${afterSteps.join(', ') || 'nothing else'}`);
 
-const existing = readRecord();
-if (existing && apply) {
-  fail(
-    `Already patched with ${existing.locale} on ${existing.patchedAt}.\n` +
-    '  Run `npm run patch -- --restore` first, then patch again.'
-  );
-}
-
 patchManifest();
 patchExtensionJs();
 patchWebviews();
@@ -518,11 +490,11 @@ log.plain(`  ${totalReplacements} replacement(s) in ${plan.length} file(s). Ever
 for (const entry of plan) {
   log.plain(`    ${entry.file}  (${entry.kind}, ${entry.replacements.reduce((n, r) => n + r.count, 0)} replacement(s))`);
 }
-log.plain('  Nothing outside this list is read, written, moved or deleted.');
+log.plain(`  Originals, patch record and reports: ${state.paths.buildDir}`);
 
 if (!apply) {
-  const report = p('reports', `patch-plan-${localeId}.json`);
-  writeJson(report, {
+  const report = path.join(state.paths.reportDir, `patch-plan-${localeId}.json`);
+  writeJsonAtomic(report, {
     generatedAt: new Date().toISOString(),
     locale: localeId,
     installRoot: install.installRoot,
@@ -531,7 +503,7 @@ if (!apply) {
     totalReplacements,
     files: plan
   });
-  log.plain(`\n  Full before/after list: ${path.relative(p('.'), report)}`);
+  log.plain(`\n  Full before/after list: ${report}`);
   log.plain('  Nothing was written to the install. To apply:');
   log.plain(`    npm run patch -- --locale=${localeId} --install-dir="${install.installRoot}" --apply`);
   log.plain('  Which then also installs dist/*.vsix, uninstalls conflicting language packs');
@@ -541,16 +513,16 @@ if (!apply) {
   process.exit(0);
 }
 
-writeJson(recordPath, {
+state.apply({
   locale: localeId,
   packVersion: config.version,
   kiroVersion: info.kiroVersion,
   vscodeVersion: info.vscodeVersion,
   patchedAt: new Date().toISOString(),
-  backupDir: BACKUP_DIR,
+  backupDir: backupRoot,
   totalReplacements,
-  files: record,
-  changes: plan
+  changes: plan,
+  setup: { extension: off('extension') ? 'skipped' : 'pending', locale: off('set-locale') ? 'skipped' : 'pending' }
 });
 
 // The host caches the scan of built-in extensions; editing package.json changes its
@@ -559,11 +531,15 @@ const cacheDir = process.env.APPDATA
   ? path.join(process.env.APPDATA, 'Kiro', 'CachedExtensions')
   : null;
 if (cacheDir && fs.existsSync(cacheDir)) {
-  fs.rmSync(cacheDir, { recursive: true, force: true });
-  log.info('cleared the built-in extension scan cache');
+  try {
+    fs.rmSync(cacheDir, { recursive: true, force: true });
+    log.info('cleared the built-in extension scan cache');
+  } catch (err) {
+    log.warn(`could not clear the built-in extension cache: ${err.message}`);
+  }
 }
 
-log.ok(`Patched. Originals are in ${relative(backupRoot)}/, the record in ${relative(recordPath)}.`);
+log.ok(`Patched. Originals are in ${backupRoot}, the record in ${recordPath}.`);
 
 /**
  * The rewrite above only covers what a language pack cannot reach. Three steps finish
@@ -574,24 +550,31 @@ log.ok(`Patched. Originals are in ${relative(backupRoot)}/, the record in ${rela
  *   setDisplayLanguage            points argv.json at the language just patched
  */
 function findKiroCli(installRoot) {
-  const names = process.platform === 'win32'
-    ? ['kiro.cmd', 'kiro.exe', 'Kiro.exe']
-    : ['kiro', 'Kiro'];
-  for (const name of names) {
-    const candidate = path.join(installRoot, 'bin', name);
-    if (fs.existsSync(candidate)) return candidate;
+  const script = path.join(installRoot, 'resources', 'app', 'out', 'cli.js');
+  const executables = process.platform === 'win32'
+    ? ['Kiro.exe', 'kiro.exe']
+    : process.platform === 'darwin' ? ['MacOS/Kiro', 'MacOS/kiro', 'kiro', 'Kiro'] : ['kiro', 'Kiro'];
+  if (fs.existsSync(script)) {
+    const executable = executables.map((name) => path.join(installRoot, name)).find((file) => fs.existsSync(file));
+    if (executable) return { executable, args: [script], env: { ...process.env, ELECTRON_RUN_AS_NODE: '1' } };
   }
-  // macOS app bundle: Contents/Resources/app/bin/... or Contents/MacOS
-  const mac = path.join(installRoot, 'MacOS', 'Kiro');
-  if (fs.existsSync(mac)) return mac;
+  // A native/Unix launcher is also usable without a command shell. Never spawn .cmd.
+  const names = process.platform === 'win32' ? ['kiro.exe', 'Kiro.exe'] : ['kiro', 'Kiro'];
+  for (const dir of ['bin', path.join('resources', 'app', 'bin')]) {
+    for (const name of names) {
+      const executable = path.join(installRoot, dir, name);
+      if (fs.existsSync(executable)) return { executable, args: [], env: process.env };
+    }
+  }
   return null;
 }
 
-/** Run the Kiro CLI. Never fatal: the install rewrite has already succeeded. */
+/** Child failures are reported to the caller, which keeps the patch retryable. */
 function runCli(cli, args, label) {
-  const result = spawnSync(cli, args, {
+  const result = spawnSync(cli.executable, [...cli.args, ...args], {
     stdio: 'inherit',
-    shell: process.platform === 'win32' && cli.endsWith('.cmd')
+    env: cli.env,
+    shell: false
   });
   if (result.error) {
     log.warn(`${label} failed: ${result.error.message}`);
@@ -607,36 +590,37 @@ function runCli(cli, args, label) {
 function installLanguagePackExtension() {
   if (off('extension')) {
     log.info('skipped the language-pack install (--no-extension)');
-    return;
+    return null;
   }
 
   const defaultVsix = p('dist', `${config.namePrefix}-${config.version}.vsix`);
   const vsixPath = typeof flags.vsix === 'string'
-    ? (path.isAbsolute(flags.vsix) ? flags.vsix : p(flags.vsix))
+    ? path.resolve(flags.vsix)
     : defaultVsix;
 
   if (!fs.existsSync(vsixPath)) {
     log.warn(
       `language pack .vsix not found at ${path.relative(p('.'), vsixPath)}.\n` +
-      '  Patch is applied. Run `npm run package` then re-run with --vsix=... or install the .vsix manually.\n' +
-      '  Or: npm run package && npm run patch -- --apply  (after restore if already patched)'
+      '  Patch is applied. Supply --vsix=<path> and re-run the same apply command.'
     );
-    return;
+    return false;
   }
 
   const cli = findKiroCli(install.installRoot);
   if (!cli) {
     log.warn(
-      `could not find kiro CLI under ${install.installRoot}/bin.\n` +
+      `could not find the Kiro executable and resources/app/out/cli.js under ${install.installRoot}.\n` +
       `  Install manually: Command Palette → Extensions: Install from VSIX… → ${path.relative(p('.'), vsixPath)}`
     );
-    return;
+    return false;
   }
 
   log.step(`Installing language pack: ${path.relative(p('.'), vsixPath)}`);
-  if (runCli(cli, ['--install-extension', vsixPath, '--force'], 'install-extension')) {
+  const installed = runCli(cli, ['--install-extension', vsixPath, '--force'], 'install-extension');
+  if (installed) {
     log.ok('language pack extension installed (or updated)');
   }
+  return installed;
 }
 
 /**
@@ -673,10 +657,10 @@ function conflictingPacks() {
 async function removeConflictingPacks() {
   if (flags['keep-official']) {
     log.info('left other language packs alone (--keep-official)');
-    return;
+    return true;
   }
   const conflicts = conflictingPacks();
-  if (!conflicts.length) return;
+  if (!conflicts.length) return true;
 
   log.step('Conflicting language packs');
   for (const pack of conflicts) log.plain(`  ${pack.id}`);
@@ -685,7 +669,7 @@ async function removeConflictingPacks() {
 
   if (!(await confirm('  Uninstall them?', true))) {
     log.warn('  left in place - expect a partly translated UI until one of them is removed');
-    return;
+    return true;
   }
 
   const cli = findKiroCli(install.installRoot);
@@ -694,13 +678,15 @@ async function removeConflictingPacks() {
       `  could not find the kiro CLI under ${install.installRoot}/bin.\n` +
       `  Uninstall manually: Extensions view -> search @installed ${conflicts[0].id} -> Uninstall.`
     );
-    return;
+    return false;
   }
+  let succeeded = true;
   for (const pack of conflicts) {
     if (runCli(cli, ['--uninstall-extension', pack.id], `uninstall-extension ${pack.id}`)) {
       log.ok(`uninstalled ${pack.id}`);
-    }
+    } else succeeded = false;
   }
+  return succeeded;
 }
 
 /**
@@ -712,35 +698,65 @@ async function removeConflictingPacks() {
 async function setDisplayLanguage() {
   if (off('set-locale')) {
     log.info('left the display language alone (--no-set-locale)');
-    return;
+    return true;
   }
   const file = argvJsonPath(info.dataFolderName);
-  const { readLocale, writeLocale } = argvLocale();
-  const current = readLocale(file);
-  if (current === localeId) {
-    log.info(`display language is already ${localeId} in ${file}`);
-    return;
-  }
-
-  log.step('Display language');
-  log.plain(`  ${file}`);
-  log.plain(`  locale: ${current ?? 'not set (English)'} -> ${localeId}`);
-  if (!(await confirm(`  Set the display language to ${locale.localizedLanguageName}?`, true))) {
-    log.warn(`  unchanged - run "Language Pack: Select Display Language" in Kiro, or set locale to "${localeId}" yourself`);
-    return;
-  }
   try {
-    writeLocale(file, localeId);
+    const { readLocale, writeLocale } = argvLocale();
+    const current = readLocale(file);
+    if (current === localeId) {
+      log.info(`display language is already ${localeId} in ${file}`);
+      return true;
+    }
+
+    log.step('Display language');
+    log.plain(`  ${file}`);
+    log.plain(`  locale: ${current ?? 'not set (English)'} -> ${localeId}`);
+    if (!(await confirm(`  Set the display language to ${locale.localizedLanguageName}?`, true))) {
+      log.warn(`  unchanged - run "Language Pack: Select Display Language" in Kiro, or set locale to "${localeId}" yourself`);
+      return true;
+    }
+    // Use the extension's JSONC edit on a scratch copy. Only a completed edit can
+    // replace argv.json, and a concurrent settings edit causes a retryable error.
+    fs.mkdirSync(path.dirname(file), { recursive: true });
+    let before = null;
+    try { before = fs.readFileSync(file); } catch (err) { if (err.code !== 'ENOENT') throw err; }
+    const mode = before === null ? 0o600 : fs.statSync(file).mode & 0o777;
+    const scratch = fs.mkdtempSync(path.join(path.dirname(file), '.kiro-locale-'));
+    try {
+      const temporary = path.join(scratch, 'argv.json');
+      if (before !== null) fs.writeFileSync(temporary, before);
+      writeLocale(temporary, localeId);
+      if (readLocale(temporary) !== localeId) throw new Error('locale verification failed after writing');
+      atomicWrite(file, fs.readFileSync(temporary), { expectedHash: before === null ? null : sha256(before), mode });
+    } finally {
+      fs.rmSync(scratch, { recursive: true, force: true });
+    }
     log.ok(`display language set to ${localeId}`);
+    return true;
   } catch (err) {
     log.warn(`could not write ${file}: ${err.message}`);
     log.plain('  Set it from Kiro instead: Command Palette -> Language Pack: Select Display Language.');
+    return false;
   }
 }
 
-installLanguagePackExtension();
-await removeConflictingPacks();
-await setDisplayLanguage();
+const extensionInstalled = installLanguagePackExtension();
+const conflictsRemoved = extensionInstalled === true ? await removeConflictingPacks() : true;
+const localeSet = await setDisplayLanguage();
+const incomplete = extensionInstalled === false || !conflictsRemoved || !localeSet;
+state.save({
+  ...state.record,
+  status: incomplete ? 'setup-incomplete' : 'patched',
+  setup: {
+    extension: extensionInstalled === null ? 'skipped' : extensionInstalled ? 'complete' : 'failed',
+    conflicts: extensionInstalled === true ? conflictsRemoved ? 'complete' : 'failed' : 'skipped',
+    locale: off('set-locale') ? 'skipped' : localeSet ? 'complete' : 'failed'
+  }
+});
+if (incomplete) {
+  fail('The patch is saved, but setup is incomplete. Re-run the same apply command to retry; no restore is needed.');
+}
 
 log.step('Done');
 log.plain('  Restart Kiro - the display language is a launch argument, so reloading the window is not enough.');

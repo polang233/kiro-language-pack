@@ -1,60 +1,58 @@
 # Agent notes (kiro-language-pack)
 
-Persistent instructions for coding agents. Human docs: [README.md](README.md) (简体中文),
-[README.en.md](README.en.md),
-[docs/publishing.md](docs/publishing.md), [CONTRIBUTING.md](CONTRIBUTING.md).
+User instructions define the authorized scope. Human docs: [README.md](README.md), [npm maintenance](docs/npm.md), [publishing](docs/publishing.md) / [简体中文](docs/publishing.zh-CN.md).
 
-## Secrets — never write these to the repo
+## Package and extension contract
 
-| Secret | Where it lives | Used by |
-| --- | --- | --- |
-| `OVSX_PAT` | GitHub Actions secret on `polang233/kiro-language-pack` | `.github/workflows/release.yml` → `npm run publish:ovsx` |
-| `VSCE_PAT` | not configured | optional VS Marketplace publish |
+- Planned first npm release: `@polang233/kiro-language-pack@1.2.0`. It is not published yet. Keep the pending-first-publication notice in all README copies and related docs until an explicitly authorized first publication succeeds and the registry confirms it. Only then update these notices together.
+- Extension id stays `polang233.kiro-language-pack`. Do not derive its publisher/name from the scoped npm name.
+- `npx @polang233/kiro-language-pack@latest` defaults to `install`. Also support `install/preview/status/restore`, `--locale=zh-cn/zh-tw` and `--dir=path`. Source entry point: `node bin/cli.mjs`.
+- Detect system locale: TW/HK/MO or zh-Hant selects `zh-tw` with the existing Taiwan terminology; everything else selects `zh-cn`.
+- Recommend Node 22+; runtime minimum is 18.17. Bundle this version's VSIX so end users need neither source checkout nor build.
+- After an app update, users rerun install. `restore` restores only app files; the extension and display language can be switched in the app.
 
-Do **not** commit tokens, put them in markdown, or print them. Confirm only the **name**:
-`gh secret list`. Rotate: Open VSX profile → new token → `gh secret set OVSX_PAT` (stdin).
+## Upgrade workflow
 
-Local publish (token from [open-vsx.org](https://open-vsx.org/) profile, not from git):
+1. Run `npm run check-upgrade`, `npm run detect` and `npm run extract` against the updated Kiro installation.
+2. `check-upgrade` archives the previous snapshot under `reports/baselines/`; use `--baseline=<snapshot>` to repeat a comparison. Review changed English even when a translation exists. Inspect added, deleted and moved keys and changed English text. Translate new keys in `src/i18n/zh-cn/`, reuse translations for moved module paths and review obsolete keys. Do not count filtered-out keys as translated.
+3. Run `node scripts/convert-zh-tw.mjs`, inspect the diff and preserve Taiwan terminology.
+4. Update `target.verifiedKiroVersions` and relevant documentation. Keep README, English README and Chinese copies in sync.
+5. Align versions in `config.json`, `package.json`, `package-lock.json` and `package-lock.json.packages[""]`. The scoped npm package and VSIX use the same version; keep package/lock names aligned too. Aligning with a new Kiro build is a patch bump; new pack capabilities, such as this CLI, justify a minor bump.
 
-```powershell
-$env:OVSX_PAT = "<token>"
-npm run package
-npm run publish:ovsx
-```
-
-## Shipping a release
-
-Versioning: aligning with a new Kiro IDE build (new or moved NLS keys) is a **patch**
-bump (`1.1.0` → `1.1.1`). Bump **minor** only when the pack itself gains a feature
-(new locale, new runtime capability, etc.).
-
-1. Bump **both** `config.json` → `version` and `package.json` / lockfile **root** version (same string).
-2. `npm run verify` against the local Kiro install (`npm run detect`).
-3. Commit, then `git tag v<version>` and push **main + the tag**.
-4. Tag `v*` runs [`.github/workflows/release.yml`](.github/workflows/release.yml): package, GitHub Release, Open VSX.
-5. Listing: https://open-vsx.org/extension/polang233/kiro-language-pack  
-   CLI “Published …” can precede the public page by several minutes. If it never appears, check
-   [user-settings/extensions](https://open-vsx.org/user-settings/extensions) for Inactive / Under review.
-
-Do not ask the maintainer for `OVSX_PAT` on a normal release — CI already has it.
-
-## After a Kiro IDE update
+## Required checks
 
 ```bash
-npm run check-upgrade
-# translate new keys in src/i18n/zh-cn/ (new core*.i18n.json is fine)
-node scripts/convert-zh-tw.mjs
-npm run sync && npm run verify
+npm ci
+npm run sync -- --strategy=api
+npm run verify
+npm test
+npm run package:npm
 ```
 
-Then add the Kiro version to `config.target.verifiedKiroVersions`, update README coverage
-numbers and `CHANGELOG.md`, bump the pack version, tag, push.
+- `verify` retains the original coverage/build/manifest checks and needs extracted local app metadata.
+- `test:cli` checks CLI/locale behavior; `npm test` also covers upgrade comparisons, extension runtime, and interrupted patch installation/restoration.
+- `package:npm` builds the current VSIX, prepares bundled assets, runs npm pack into dist and validates the actual tarball.
+- For optional retesting, `npm run test:package` retests dist's current-version TGZ. Install it outside the checkout and run the installed CLI against isolated app/profile fixtures. Check archive contents, matching VSIX, locale selection, preview/status/install/repeated install/restore and paths with spaces. Do not touch a real app or user profile.
+- CI runs npm ci, npm test, API sync, package:npm and manifest validation on Windows, macOS and Linux. The package:npm step already runs the full tarball fixture suite. Do not suppress failures or replace archive tests with source-only tests.
 
-Moved keys: rename the **module path**, do not retranslate. Orphans can stay; the build filters them.
+## Release authorization and credentials
 
-## Live product
+Do not commit, tag, push, publish, register namespaces, change remote secrets, configure trusted publishers or enable repository variables without explicit user authorization. A documentation/CI request does not grant release authorization.
 
-- Extension id: `polang233.kiro-language-pack`
-- Open VSX (Kiro’s gallery): https://open-vsx.org/extension/polang233/kiro-language-pack
-- GitHub Releases: https://github.com/polang233/kiro-language-pack/releases
-- Store page body: `src/marketplace/README.md` (copied into the `.vsix`)
+| Credential | Storage and use |
+| --- | --- |
+| `OVSX_PAT` | GitHub Actions secret for Open VSX, Kiro's in-app gallery |
+| `VSCE_PAT` | Optional VS Marketplace credential |
+| npm | OIDC trusted publishing; no long-lived publish token |
+
+Never write or print tokens. Inspect secret names only. Do not commit `.cursor/` or local IDE state.
+
+[release.yml](.github/workflows/release.yml) tests before sync/package and validates manifests; package:npm runs the full real-tarball fixture suite. GitHub Releases attach only the exact current-version VSIX and TGZ. Preserve existing Open VSX publishing behavior and secret handling.
+
+npm automation is disabled unless `vars.NPM_PUBLISH_ENABLED == 'true'` and the event is a tag push or manual `publish=true`. Manual `publish=false` must never publish to any registry, even when a tag is selected. The npm job uses Node 24, npm ≥11.5.1, `registry-url: https://registry.npmjs.org` and job-level `id-token: write`. Skip an existing version only after confirming the exact package/version; registry/network errors must fail.
+
+First npm publication and remote setup require later explicit user authorization; the user may authorize an agent to perform them. After first publication, bind the package trusted publisher to GitHub owner `polang233`, repository `kiro-language-pack` and `release.yml`, allow `npm publish` and finally enable the variable. See [docs/npm.md](docs/npm.md).
+
+Store body: `src/marketplace/README.md`; title/description: `config.json` → `pack.displayName` / `pack.description`; search terms: `src/manifest.template.json` → `keywords`. Keep Chinese search terms visible.
+
+When a commit is authorized, use a short Chinese message explaining why.

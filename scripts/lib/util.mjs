@@ -134,7 +134,9 @@ export function parseArgs(argv = process.argv.slice(2)) {
   const positional = [];
   for (const arg of argv) {
     if (arg.startsWith('--')) {
-      const [key, value] = arg.slice(2).split('=');
+      const equal = arg.indexOf('=');
+      const key = arg.slice(2, equal < 0 ? undefined : equal);
+      const value = equal < 0 ? undefined : arg.slice(equal + 1);
       flags[key] = value === undefined ? true : value === 'false' ? false : value;
     } else {
       positional.push(arg);

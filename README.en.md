@@ -1,88 +1,61 @@
 # Kiro Language Pack
 
-A multilingual language pack for Kiro. Simplified Chinese and Traditional Chinese are supported. It translates the editor and Kiro's own interface: the session list, Settings, Agent Focus, and the spec and steering toolbars.
+Chinese translations for Kiro, including the editor, sessions, Settings, specs and steering. Supports Simplified Chinese and Traditional Chinese with Taiwan terminology.
 
-[中文文档在此打开](README.md)
+[简体中文](README.md)
 
 <img src="media/icon.png" width="96" height="96" alt="Kiro Language Pack icon" />
 
 [![Open VSX](https://img.shields.io/open-vsx/v/polang233/kiro-language-pack?label=Open%20VSX)](https://open-vsx.org/extension/polang233/kiro-language-pack)
-[![Downloads](https://img.shields.io/open-vsx/dt/polang233/kiro-language-pack)](https://open-vsx.org/extension/polang233/kiro-language-pack)
 
 | Before · English | After · 简体中文 |
 | --- | --- |
 | ![English](docs/images/before-en.png) | ![Simplified Chinese](docs/images/after-zh-cn.png) |
 
-Installing the extension is enough. Clone the repo and run the patch to translate some English that is compiled into the app.
+## Command-line installation
 
-## Install the extension
+Node.js 22+ is recommended; the minimum is 18.17. Quit Kiro completely first.
 
-1. Uninstall any other language pack. This one replaces the official VS Code pack. Two packs together make the UI flip translations on every restart. [Why](docs/architecture.md#one-self-contained-extension).
-2. Extensions → search **Kiro Language Pack**, **汉化**, or **中文语言包** → Install. Listing: [Open VSX](https://open-vsx.org/extension/polang233/kiro-language-pack). Or download a [GitHub Release](https://github.com/polang233/kiro-language-pack/releases) `.vsix` and run **Extensions: Install from VSIX…**. Do not double-click the file on Windows.
-3. Command Palette → **Language Pack: Select Display Language** → pick **中文（简体）** or **中文（繁體）** → **quit Kiro and open it again**. Reload is not enough.
-
-To switch later, restart after any of these:
-
-- Command Palette → **Language Pack: Select Display Language**
-- Setting `kiroLanguagePack.language`: `auto`, `zh-cn`, `zh-tw`, `en`
-- Kiro's **Configure Display Language**
-
-`en` returns the UI to English. The extension stays installed.
-
-## Install patch
-
-The chat panel, the hook and powers editors, and the account and usage popup keep some English in the app files. The extension cannot change those. The patch translates about 89 more strings, installs this pack, and sets the display language. A Kiro update wipes the rewrite. Run it again. A modified install is not supported by AWS.
+The npm package is awaiting its first publication; these npx commands become available then.
 
 ```bash
-git clone https://github.com/polang233/kiro-language-pack
-cd kiro-language-pack
-npm install
-npm run package
-npm run patch -- --apply
+npx @polang233/kiro-language-pack@latest
 ```
 
-Preview with `npm run patch`. Restore the app files with `npm run patch -- --restore`. Details: [docs/advanced-patch.md](docs/advanced-patch.md).
+The default command is `install`. It installs the language pack and translates text in the app files. Each npm version includes its matching VSIX, so users do not need to download or build the source. To specify the language and install directory:
 
-## Languages
+```bash
+npx @polang233/kiro-language-pack@latest --locale=zh-tw --dir="path/to/install"
+```
 
-| Locale | Status |
+| Subcommand | Purpose |
 | --- | --- |
-| `zh-cn` 简体中文 | Shipped. 1449 Kiro-authored strings (100%) |
-| `zh-tw` 繁體中文 | Shipped. Same numbers, Taiwan terminology |
-| `ja` `ko` `fr` `de` `es` `it` `ru` `pt-br` `tr` `pl` `cs` | Reserved, no translations yet |
+| `preview` | Preview changes |
+| `status` | Report the current state |
+| `restore` | Restore only the app files |
 
-One extension holds every enabled locale. Anything not translated stays English.
+System locales with TW/HK/MO or zh-Hant select `zh-tw` with Taiwan terminology; all others select `zh-cn`. Override this with `--locale`. `--dir` selects the install directory containing `resources/app`, or `Kiro.app/Contents` on macOS.
 
-The current translation matches Kiro **1.4.0** (Code OSS 1.131.0), and also **1.1.70**, **1.1.14**, **1.0.437**, **1.0.395**, **1.0.309**, **1.0.242**, and **1.0.228**. Older versions generally work. On newer versions, newly added text stays English until we translate it.
+Reopen Kiro after installation. Rerun the install command after an app update. Switch extensions and display language inside the app; `restore` does not uninstall the extension or reset the display language.
 
-The patch covers only part of the compiled English above. The UI language does not change the language the AI replies in. For that, add a steering file such as `.kiro/steering/language.md`.
-
-### Adding a language
-
-1. Set `enabled: true` for that locale in `config.json`. If [microsoft/vscode-loc](https://github.com/microsoft/vscode-loc) has no pack for it, set `upstreamPackDir` to `null`: the workbench stays English and only the Kiro strings are translated.
-2. Add `src/i18n/<locale>/`: glossary first, then the translations.
-3. `npm run build && npm run validate && npm run coverage`.
-
-Details: [CONTRIBUTING.md](CONTRIBUTING.md#adding-a-language).
-
-## Development
-
-Node.js 18.17+.
+Test the source entry point from the repository. See [npm maintenance](docs/npm.md) for preparation:
 
 ```bash
-npm install
-npm run detect
-npm run extract
-npm run sync
-npm run verify
-npm run package
-npm run check-upgrade
+node bin/cli.mjs preview --locale=zh-tw
 ```
 
-Docs: [architecture](docs/architecture.md) · [contributing](CONTRIBUTING.md) · [publishing](docs/publishing.md)
+## Extension installation
 
-## License
+1. Uninstall other language packs to avoid conflicts with the official VS Code Chinese packs.
+2. Search Extensions for **Kiro Language Pack** or **汉化**, or download a VSIX from [GitHub Releases](https://github.com/polang233/kiro-language-pack/releases) and use **Extensions: Install from VSIX…**.
+3. Run **Language Pack: Select Display Language**, choose Simplified or Traditional Chinese, then quit Kiro completely and reopen it.
 
-MIT. Workbench strings come from [microsoft/vscode-loc](https://github.com/microsoft/vscode-loc); see [NOTICE](NOTICE).
+The extension id remains `polang233.kiro-language-pack`. The setting `kiroLanguagePack.language` also accepts `auto`, `zh-cn`, `zh-tw` and `en`; restart after changing it. Translating some text compiled into the app requires the command-line installation above.
 
-Not affiliated with AWS or Microsoft.
+The translations target Kiro **1.4.26** (Code OSS 1.131.0). New or untranslated text stays in English. UI language does not change AI reply language; use a steering file such as `.kiro/steering/language.md` for that.
+
+## Development and license
+
+[Maintenance and source tests](docs/npm.md) · [Publishing](docs/publishing.md) · [Architecture](docs/architecture.md) · [Contributing](CONTRIBUTING.md)
+
+MIT. Workbench translations come from [microsoft/vscode-loc](https://github.com/microsoft/vscode-loc); see [NOTICE](NOTICE). A community project, unaffiliated with AWS or Microsoft.

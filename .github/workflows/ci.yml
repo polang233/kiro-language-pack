@@ -11,8 +11,12 @@ permissions:
 
 jobs:
   build:
-    name: Build language packs
-    runs-on: ubuntu-latest
+    name: Build and test (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
 
@@ -25,7 +29,7 @@ jobs:
 
       # The runtime's argv.json editing needs no Kiro install to test, so it runs first:
       # a failure there is the one that could keep an editor from starting.
-      - name: Test the runtime
+      - name: Test the runtime and CLI
         run: npm test
 
       # No Kiro installation is available here, so metadata/kiro.json is absent and
@@ -36,18 +40,18 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build
-        run: npm run build
-
-      - name: Package
-        run: npm run package -- --skip-build
+      # Includes the VSIX build, bundled assets and tests of the real npm pack output.
+      - name: Build VSIX and npm tarball
+        run: npm run package:npm
 
       - name: Validate generated manifests
         run: node scripts/validate-dist.mjs
 
       - uses: actions/upload-artifact@v4
         with:
-          name: vsix
-          path: dist/*.vsix
+          name: packages-${{ runner.os }}
+          path: |
+            dist/*.vsix
+            dist/*.tgz
           if-no-files-found: error
           retention-days: 14

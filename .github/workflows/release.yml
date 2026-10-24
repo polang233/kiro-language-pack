@@ -6,17 +6,22 @@ on:
   workflow_dispatch:
     inputs:
       publish:
-        description: Publish to Open VSX after building
+        description: Publish to configured registries (npm also requires NPM_PUBLISH_ENABLED)
         type: boolean
         default: false
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   release:
-    name: Build, attach and publish
+    name: Test, package and release
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    outputs:
+      version: ${{ steps.artifacts.outputs.version }}
+      tgz: ${{ steps.artifacts.outputs.tgz }}
     steps:
       - uses: actions/checkout@v4
 
@@ -25,40 +30,79 @@ jobs:
           node-version: '22'
           cache: npm
 
+      - name: Check package, extension and tag versions
+        id: artifacts
+        run: |
+          node --input-type=module <<'NODE'
+          import assert from 'node:assert/strict';
+          import fs from 'node:fs';
+          const read = (file) => JSON.parse(fs.readFileSync(file, 'utf8'));
+          const pkg = read('package.json');
+          const config = read('config.json');
+          const lock = read('package-lock.json');
+          assert.equal(pkg.name, '@polang233/kiro-language-pack');
+          assert.equal(config.publisher + '.' + config.namePrefix, 'polang233.kiro-language-pack');
+          assert.match(pkg.version, /^\d+\.\d+\.\d+(?:-[\w.-]+)?$/);
+          assert.equal(config.version, pkg.version, 'config.json version');
+          assert.equal(lock.version, pkg.version, 'lockfile version');
+          assert.equal(lock.packages[''].version, pkg.version, 'lockfile root version');
+          assert.equal(lock.name, pkg.name, 'lockfile name');
+          assert.equal(lock.packages[''].name, pkg.name, 'lockfile root name');
+          if (process.env.GITHUB_REF.startsWith('refs/tags/v')) {
+            assert.equal(process.env.GITHUB_REF_NAME, 'v' + pkg.version, 'tag version');
+          }
+          const vsix = 'dist/' + config.namePrefix + '-' + pkg.version + '.vsix';
+          const tgz = 'dist/' + pkg.name.replace('@', '').replace('/', '-') + '-' + pkg.version + '.tgz';
+          fs.appendFileSync(process.env.GITHUB_OUTPUT,
+            'version=' + pkg.version + '\nvsix=' + vsix + '\ntgz=' + tgz + '\n');
+          NODE
+
       - run: npm ci
+
+      - name: Test the runtime and CLI
+        run: npm test
 
       - name: Sync upstream baseline
         run: npm run sync -- --strategy=api
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and package
-        run: npm run package
+      - name: Build VSIX and validate the npm tarball
+        run: npm run package:npm
 
       - name: Validate generated manifests
         run: node scripts/validate-dist.mjs
 
-      - name: Check tag matches config.json version
-        if: startsWith(github.ref, 'refs/tags/v')
+      - name: Check current release files
+        env:
+          VSIX: ${{ steps.artifacts.outputs.vsix }}
+          TARBALL: ${{ steps.artifacts.outputs.tgz }}
         run: |
-          tag="${GITHUB_REF_NAME#v}"
-          configured=$(node -p "require('./config.json').version")
-          if [ "$tag" != "$configured" ]; then
-            echo "Tag v$tag does not match config.json version $configured" >&2
-            exit 1
-          fi
+          test -s "$VSIX"
+          test -s "$TARBALL"
 
-      - name: Attach artifacts to the release
-        if: startsWith(github.ref, 'refs/tags/v')
+      - uses: actions/upload-artifact@v4
+        with:
+          name: release-packages
+          path: |
+            ${{ steps.artifacts.outputs.vsix }}
+            ${{ steps.artifacts.outputs.tgz }}
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Attach current artifacts to the release
+        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v2
         with:
-          files: dist/*.vsix
+          files: |
+            ${{ steps.artifacts.outputs.vsix }}
+            ${{ steps.artifacts.outputs.tgz }}
+          fail_on_unmatched_files: true
           generate_release_notes: true
 
-      # Open VSX is Kiro's default registry. Repo secret OVSX_PAT must be set
-      # (gh secret set OVSX_PAT). Skips cleanly when it is missing so a Release still ships.
+      # A manual run with publish=false never publishes, even when a tag is selected.
       - name: Publish to Open VSX
-        if: startsWith(github.ref, 'refs/tags/v') || inputs.publish
+        if: (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')) || (github.event_name == 'workflow_dispatch' && inputs.publish)
         run: |
           if [ -z "${OVSX_PAT:-}" ]; then
             echo "OVSX_PAT secret is not set; skipping Open VSX publish."
@@ -67,3 +111,71 @@ jobs:
           npm run publish:ovsx
         env:
           OVSX_PAT: ${{ secrets.OVSX_PAT }}
+
+  npm-publish:
+    name: Publish npm tarball with OIDC
+    needs: release
+    # Unset/false by default. Enable after authorized first publication and publisher setup.
+    if: >-
+      vars.NPM_PUBLISH_ENABLED == 'true' &&
+      ((github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')) ||
+       (github.event_name == 'workflow_dispatch' && inputs.publish))
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          registry-url: https://registry.npmjs.org
+
+      - name: Check npm supports trusted publishing
+        run: |
+          node --input-type=module <<'NODE'
+          import assert from 'node:assert/strict';
+          import { execFileSync } from 'node:child_process';
+          const version = execFileSync('npm', ['--version'], { encoding: 'utf8' }).trim();
+          const [major, minor, patch] = version.split('.').map(Number);
+          assert(major > 11 || (major === 11 && (minor > 5 || (minor === 5 && patch >= 1))),
+            'Trusted publishing requires npm >=11.5.1; found ' + version);
+          console.log('Publishing with npm ' + version);
+          NODE
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: release-packages
+          path: dist
+
+      - name: Check whether this npm version is already published
+        id: npm
+        env:
+          NPM_PACKAGE: '@polang233/kiro-language-pack'
+          NPM_VERSION: ${{ needs.release.outputs.version }}
+        run: |
+          node --input-type=module <<'NODE'
+          import assert from 'node:assert/strict';
+          import fs from 'node:fs';
+          const name = process.env.NPM_PACKAGE;
+          const version = process.env.NPM_VERSION;
+          const url = 'https://registry.npmjs.org/' + encodeURIComponent(name) + '/' + encodeURIComponent(version);
+          const response = await fetch(url, { signal: AbortSignal.timeout(30_000) });
+          if (response.status === 404) {
+            fs.appendFileSync(process.env.GITHUB_OUTPUT, 'publish=true\n');
+          } else {
+            if (!response.ok) throw new Error('npm registry lookup failed: HTTP ' + response.status);
+            const published = await response.json();
+            assert.equal(published.name, name, 'registry package name');
+            assert.equal(published.version, version, 'registry package version');
+            console.log(name + '@' + version + ' is already published; skipping.');
+            fs.appendFileSync(process.env.GITHUB_OUTPUT, 'publish=false\n');
+          }
+          NODE
+
+      - name: Publish the tested tarball
+        if: steps.npm.outputs.publish == 'true'
+        env:
+          TARBALL: ${{ needs.release.outputs.tgz }}
+        run: npm publish "$TARBALL" --access public --provenance --registry https://registry.npmjs.org

@@ -1,0 +1,223 @@
+#!/usr/bin/env node
+/** Exercise the shipped tarball against an isolated editor and user profile. */
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import zlib from 'node:zlib';
+import { spawnSync } from 'node:child_process';
+import { p, readJson, writeJson } from './lib/util.mjs';
+import { npmCommand } from './lib/npm-tooling.mjs';
+import { chineseLocale, systemLocale } from './lib/system-locale.mjs';
+
+// ZIP central directory reader for the VSIX built by vsce; no runtime dependency.
+function zipEntry(zip, name) {
+  let end = zip.length - 22;
+  while (end >= Math.max(0, zip.length - 65557) && zip.readUInt32LE(end) !== 0x06054b50) end--;
+  if (end < 0 || zip.readUInt32LE(end) !== 0x06054b50) throw new Error('Invalid VSIX ZIP');
+  let at = zip.readUInt32LE(end + 16);
+  const count = zip.readUInt16LE(end + 10);
+  for (let i = 0; i < count; i++) {
+    if (zip.readUInt32LE(at) !== 0x02014b50) throw new Error('Invalid ZIP directory');
+    const size = zip.readUInt32LE(at + 20);
+    const length = zip.readUInt16LE(at + 28);
+    const entryName = zip.subarray(at + 46, at + 46 + length).toString();
+    if (entryName === name) {
+      const local = zip.readUInt32LE(at + 42);
+      const start = local + 30 + zip.readUInt16LE(local + 26) + zip.readUInt16LE(local + 28);
+      const data = zip.subarray(start, start + size);
+      const method = zip.readUInt16LE(at + 10);
+      if (method === 0) return data;
+      if (method === 8) return zlib.inflateRawSync(data);
+      throw new Error('Unsupported ZIP compression');
+    }
+    at += 46 + length + zip.readUInt16LE(at + 30) + zip.readUInt16LE(at + 32);
+  }
+  throw new Error(`VSIX entry missing: ${name}`);
+}
+
+const config = readJson(p('config.json'));
+const pkg = readJson(p('package.json'));
+const product = config.namePrefix.startsWith('cursor') ? 'cursor' : 'kiro';
+const name = product === 'cursor' ? 'Cursor' : 'Kiro';
+const given = process.argv.slice(2).find((arg) => arg.startsWith('--tarball='))?.slice('--tarball='.length);
+const filename = `${pkg.name.replace(/^@/, '').replace('/', '-')}-${pkg.version}.tgz`;
+const tarball = path.resolve(given ?? p('dist', filename));
+if (!fs.existsSync(tarball)) throw new Error('Build the npm tarball first: npm run package:npm');
+const temp = fs.mkdtempSync(path.join(os.tmpdir(), 'language-pack-npm-'));
+assert.equal(path.dirname(temp), path.resolve(os.tmpdir()));
+const home = path.join(temp, 'user');
+const installRoot = path.join(temp, 'Apps & Tools', `${name}=test`);
+const app = path.join(installRoot, 'resources', 'app');
+const runtime = path.join(temp, 'runtime');
+const dataFolder = `.${product}-npm-test`;
+const data = path.join(home, dataFolder);
+const env = { ...process.env, HOME: home, USERPROFILE: home,
+  APPDATA: path.join(home, 'AppData', 'Roaming'), LOCALAPPDATA: path.join(home, 'AppData', 'Local'),
+  npm_config_cache: path.join(temp, 'npm-cache'), npm_config_userconfig: path.join(temp, 'npmrc'),
+  npm_config_globalconfig: path.join(temp, 'global-npmrc') };
+fs.mkdirSync(home, { recursive: true });
+fs.writeFileSync(env.npm_config_userconfig, '');
+fs.writeFileSync(env.npm_config_globalconfig, '');
+
+try {
+  npmCommand(['install', '--prefix', runtime, '--offline', '--ignore-scripts', '--omit=dev',
+    '--no-audit', '--no-fund', '--package-lock=false', tarball], { env, cwd: temp });
+  const installed = path.join(runtime, 'node_modules', ...pkg.name.split('/'));
+  const manifest = readJson(path.join(installed, 'package.json'));
+  assert.equal(manifest.version, config.version);
+  assert.equal(Object.keys(manifest.dependencies ?? {}).length, 0, 'no runtime dependencies');
+  for (const hook of ['preinstall', 'install', 'postinstall', 'prepare']) assert.equal(manifest.scripts?.[hook], undefined);
+  const asset = path.join(installed, 'assets', 'language-pack.vsix');
+  const extension = JSON.parse(zipEntry(fs.readFileSync(asset), 'extension/package.json'));
+  assert.equal(extension.version, pkg.version);
+  assert.equal(extension.name, config.namePrefix);
+  assert.equal(extension.publisher, config.publisher);
+  assert.deepEqual(extension.contributes.localizations.map((item) => item.languageId).sort(), ['zh-cn', 'zh-tw']);
+  for (const locale of extension.contributes.localizations) {
+    for (const item of locale.translations) {
+      const bytes = zipEntry(fs.readFileSync(asset), 'extension/' + item.path.replace(/^\.\//, ''));
+      assert.ok(bytes.length > 0);
+      if (item.id === 'vscode') continue;
+      const authored = readJson(p('src', 'i18n', locale.languageId, 'overrides', item.id + '.i18n.json'), null)?.contents;
+      const translations = JSON.parse(bytes).contents;
+      const localMetadata = readJson(p('metadata', product + '.json'), null);
+      for (const [key, value] of Object.entries(authored?.package ?? {})) {
+        if (localMetadata && !(key in (localMetadata.extensions[item.id]?.packageNls ?? {}))) continue;
+        assert.equal(translations.package?.[key], value, locale.languageId + ': shipped manifest translation ' + item.id + '/' + key);
+      }
+    }
+  }
+  fs.mkdirSync(path.join(app, 'out', 'vs', 'workbench'), { recursive: true });
+  writeJson(path.join(app, 'package.json'), { name: product, version: '1.131.0' });
+  const versions = product === 'cursor' ? config.target.verifiedCursorVersions : config.target.verifiedKiroVersions;
+  const productJson = { nameShort: name, version: versions.at(-1), vscodeVersion: '1.131.0', commit: 'fixture-a', dataFolderName: dataFolder };
+  writeJson(path.join(app, 'product.json'), productJson);
+  const executable = path.join(installRoot, process.platform === 'win32' ? `${name}.exe` : product);
+  try { fs.linkSync(process.execPath, executable); } catch { fs.copyFileSync(process.execPath, executable); }
+  // The real CLI protocol is exercised with a local stand-in for Electron/VS Code.
+  // It reads the actual bundled VSIX and records every install/uninstall request.
+  fs.writeFileSync(path.join(app, 'out', 'cli.js'), `
+const fs = require('node:fs'), path = require('node:path'), os = require('node:os'), zlib = require('node:zlib');
+const zipEntry = ${zipEntry.toString()};
+const args = process.argv.slice(2);
+const data = path.join(os.homedir(), ${JSON.stringify(dataFolder)});
+fs.mkdirSync(data, {recursive:true});
+fs.appendFileSync(path.join(data,'cli-calls.jsonl'), JSON.stringify(args)+'\\n');
+if(process.env.LANGUAGE_PACK_TEST_FAIL === 'install' && args[0] === '--install-extension') process.exit(17);
+const extDir = path.join(data,'extensions');
+fs.mkdirSync(extDir,{recursive:true});
+if(args[0] === '--install-extension') {
+  const m = JSON.parse(zipEntry(fs.readFileSync(args[1]), 'extension/package.json'));
+  const dir = path.join(extDir,m.publisher+'.'+m.name+'-'+m.version);
+  fs.mkdirSync(dir,{recursive:true});
+  fs.writeFileSync(path.join(dir,'package.json'),JSON.stringify(m));
+} else if(args[0] === '--uninstall-extension') {
+  for(const folder of fs.readdirSync(extDir)) {
+    const file = path.join(extDir,folder,'package.json');
+    const m = JSON.parse(fs.readFileSync(file,'utf8'));
+    if(m.publisher+'.'+m.name === args[1]) fs.rmSync(path.dirname(file),{recursive:true,force:true});
+  }
+} else process.exit(18);
+`);
+  const cli = path.join(installed, 'bin', 'cli.mjs');
+  const execute = (args, success = true, extraEnv = {}) => {
+    const result = spawnSync(process.execPath, [cli, ...args], { cwd: temp, env: { ...env, ...extraEnv }, encoding: 'utf8', windowsHide: true });
+    assert.equal(result.error, undefined);
+    if (success) assert.equal(result.status, 0, result.stdout + result.stderr);
+    else assert.notEqual(result.status, 0, 'operation should report failure');
+    return result.stdout + result.stderr;
+  };
+  assert.match(execute(['--help']), /--locale/);
+  assert.equal(execute(['--version']).trim(), pkg.version);
+  execute(['--locale=invalid'], false);
+  const args = ['--dir=' + installRoot];
+  const extRoot = path.join(data, 'extensions');
+  const official = path.join(extRoot, 'official-test');
+  writeJson(path.join(official, 'package.json'), { publisher: 'ms-ceintl', name: 'vscode-language-pack-zh-hans',
+    contributes: { localizations: [{ languageId: 'zh-cn', translations: [{ id: 'vscode', path: 'test.json' }] }] } });
+  fs.writeFileSync(path.join(data, 'argv.json'), '// user option\n{\n  "disable-hardware-acceleration": true\n}\n');
+  let target;
+  let original;
+  if (product === 'cursor') {
+    target = path.join(app, 'out', 'vs', 'workbench', 'workbench.desktop.main.js');
+    original = 'const ui={label:"Sign In",title:"General",id:"Sign In"};\n';
+  } else {
+    const ext = path.join(app, 'extensions', 'kiro.kiro-agent');
+    target = path.join(ext, 'package.json');
+    original = JSON.stringify({ name: 'kiroAgent', publisher: 'kiro', contributes: { commands: [{ command: 'kiro.test', title: 'SPECS' }] } }, null, 2) + '\n';
+    const dictionary = readJson(path.join(installed, 'src', 'i18n', 'zh-cn', 'patch', 'kiro.kiroAgent.json'));
+    const title = Object.keys(dictionary.manifest).find((key) => dictionary.manifest[key] !== key);
+    original = original.replace('SPECS', title);
+    fs.mkdirSync(path.join(ext, 'dist'), { recursive: true });
+    fs.writeFileSync(path.join(ext, 'dist', 'extension.js'), 'const workflow=' + JSON.stringify(Object.keys(dictionary.extension)[0]) + ';\n');
+  }
+  fs.mkdirSync(path.dirname(target), { recursive: true });
+  fs.writeFileSync(target, original);
+  const callsFile = path.join(data, 'cli-calls.jsonl');
+  const calls = () => fs.existsSync(callsFile) ? fs.readFileSync(callsFile, 'utf8').trim().split('\n').filter(Boolean).map(JSON.parse) : [];
+  execute(['preview', ...args, '--locale=zh-cn']);
+  assert.equal(fs.readFileSync(target, 'utf8'), original, 'preview preserves the install');
+  assert.equal(calls().length, 0, 'preview does not run the editor CLI');
+  execute(['install', ...args, '--locale=zh-cn'], false, { LANGUAGE_PACK_TEST_FAIL: 'install' });
+  assert.ok(fs.existsSync(path.join(official, 'package.json')), 'failed extension installation must preserve the working language pack');
+  assert.equal(calls().some((call) => call[0] === '--uninstall-extension'), false);
+  execute(['install', ...args, '--locale=zh-cn']);
+  assert.notEqual(fs.readFileSync(target, 'utf8'), original);
+  const simplified = fs.readFileSync(target, 'utf8');
+  assert.equal(fs.existsSync(official), false, 'conflicting pack removed after a successful install');
+  const argv = fs.readFileSync(path.join(data, 'argv.json'), 'utf8');
+  assert.match(argv, /"locale":\s*"zh-cn"/);
+  assert.match(argv, /disable-hardware-acceleration/);
+  assert.match(argv, /user option/);
+  execute(['install', ...args, '--locale=zh-cn']);
+  assert.equal(fs.readFileSync(target, 'utf8'), simplified, 'repeat install converges');
+  assert.ok(calls().filter((call) => call[0] === '--install-extension').length >= 3, 'repeat install retries extension setup');
+  const stateFiles = (dir) => fs.existsSync(dir) ? fs.readdirSync(dir, { withFileTypes: true })
+    .flatMap((entry) => entry.isDirectory() ? stateFiles(path.join(dir, entry.name)) : [path.join(dir, entry.name)]) : [];
+  const stateRoot = path.join(data, `${product}-language-pack`);
+  const backup = stateFiles(stateRoot).find((file) => path.basename(path.dirname(file)) === 'backup'
+    && fs.readFileSync(file).equals(Buffer.from(original)));
+  assert.ok(backup, 'original application bytes are backed up in the user profile');
+  const savedBackup = path.join(temp, 'saved-backup');
+  fs.renameSync(backup, savedBackup);
+  execute(['restore', ...args], false);
+  assert.equal(fs.readFileSync(target, 'utf8'), simplified, 'missing backup never overwrites the target');
+  assert.ok(stateFiles(stateRoot).some((file) => file.endsWith('.json')), 'incomplete restore keeps its state');
+  fs.renameSync(savedBackup, backup);
+  execute(['install', ...args, '--locale=zh-tw']);
+  const traditional = fs.readFileSync(target, 'utf8');
+  assert.notEqual(traditional, original);
+  assert.match(fs.readFileSync(path.join(data, 'argv.json'), 'utf8'), /"locale":\s*"zh-tw"/);
+  execute(['status', ...args]);
+  // External edits must survive both a refused reinstall and restore.
+  fs.appendFileSync(target, '\n// external change\n');
+  execute(['install', ...args, '--locale=zh-cn'], false);
+  execute(['restore', ...args], false);
+  assert.match(fs.readFileSync(target, 'utf8'), /external change/);
+  fs.writeFileSync(target, traditional);
+  execute(['restore', ...args]);
+  assert.equal(fs.readFileSync(target, 'utf8'), original, 'restore is byte-for-byte');
+  execute(['restore', ...args]);
+  execute(['install', ...args, '--locale=zh-cn']);
+  // An application update must use the new originals, including without a commit id.
+  const updated = original + (product === 'cursor' ? '// new build\n' : ' ');
+  fs.writeFileSync(target, updated);
+  productJson.commit = 'fixture-b';
+  productJson.version += '-fixture';
+  writeJson(path.join(app, 'product.json'), productJson);
+  execute(['install', ...args, '--locale=zh-tw']);
+  execute(['restore', ...args]);
+  assert.equal(fs.readFileSync(target, 'utf8'), updated, 'restore never reinstates an older application build');
+  execute(args);
+  const automaticLocale = chineseLocale(systemLocale());
+  assert.ok(fs.readFileSync(path.join(data, 'argv.json'), 'utf8').includes(`"${automaticLocale}"`), 'default install uses the detected OS language');
+  execute(['restore', ...args]);
+  // Exercise npx's one-off tarball install and generated command, outside the repository.
+  const npx = npmCommand(['exec', '--offline', '--yes', `--package=${tarball}`, '--', config.namePrefix, '--version'], { env, cwd: temp });
+  assert.equal(npx.stdout.trim(), pkg.version);
+  console.log(`${pkg.name}: tarball install, npx entry, VSIX, preview, retries, language switch, restore and app upgrade passed.`);
+} finally {
+  assert.equal(path.dirname(temp), path.resolve(os.tmpdir()));
+  fs.rmSync(temp, { recursive: true, force: true });
+}
