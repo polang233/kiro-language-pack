@@ -271,7 +271,7 @@ cp.spawnSync = function (command, args, options) {
 require('node:module').syncBuiltinESMExports();
 `);
     const runNpx = (cliArgs, simulatedLocale) => {
-      const testEnv = { ...env };
+      const testEnv = { ...env, npm_config_prefer_online: 'true' };
       if (simulatedLocale) {
         testEnv.LANGUAGE_PACK_TEST_LOCALE = simulatedLocale;
         testEnv.LC_ALL = simulatedLocale;
@@ -283,7 +283,16 @@ require('node:module').syncBuiltinESMExports();
       assert.equal(result.status, 0, result.stdout + result.stderr);
       return result.stdout + result.stderr;
     };
-    assert.equal(runNpx(['--version']).trim(), pkg.version);
+    let npxVersion;
+    for (let attempt = 0; attempt < 18; attempt++) {
+      npxVersion = runNpx(['--version']).trim();
+      if (npxVersion === pkg.version) break;
+      if (attempt < 17) {
+        console.log(`Waiting for npx latest ${pkg.version}; npx resolves ${npxVersion}.`);
+        await new Promise((resolve) => setTimeout(resolve, 10_000));
+      }
+    }
+    assert.equal(npxVersion, pkg.version, 'npx latest must resolve the version under test');
     const beforeNpx = fs.readFileSync(target);
     const selectedLocale = () => JSON.parse(fs.readFileSync(path.join(data, 'argv.json'), 'utf8')
       .replace(/^\s*\/\/.*$/gm, '')).locale;
