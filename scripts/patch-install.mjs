@@ -4,7 +4,7 @@
  * rewriting files inside the installed Kiro.
  *
  * Three sources of unreachable text, all confirmed by `npm run audit`:
- *   1. 76 of 183 localizable manifest strings in extensions/kiro.kiro-agent/package.json
+ *   1. Inline localizable manifest strings in extensions/kiro.kiro-agent/package.json
  *      are inline English literals with no `%key%` indirection - the SPECS view title,
  *      the tree view welcome text and its buttons, most MCP commands.
  *   2. Workflow names and descriptions in dist/extension.js. Kiro declares `"l10n"` but

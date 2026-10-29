@@ -30,6 +30,7 @@ npm run package:npm
 ```
 
 - `verify` retains the original coverage/build/manifest checks and needs extracted local app metadata.
+- `verify` also runs `audit-manifest.mjs --check-patch` against the installed client's inline manifest fields. Keep explicit unchanged brand values in the patch dictionary; new English literals must fail this check until reviewed. `package.nls.json` coverage alone does not cover these fields.
 - `test:cli` checks CLI/locale behavior; `npm test` also covers upgrade comparisons, extension runtime, and interrupted patch installation/restoration.
 - `package:npm` builds the current VSIX, prepares bundled assets, runs npm pack into dist and validates the actual tarball.
 - For optional retesting, `npm run test:package` retests dist's current-version TGZ. Install it outside the checkout and run the installed CLI against isolated app/profile fixtures. Check archive contents, matching VSIX, locale selection, preview/status/install/repeated install/restore and paths with spaces. Do not touch a real app or user profile.

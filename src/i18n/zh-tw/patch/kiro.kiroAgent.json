@@ -7,7 +7,7 @@
     "the .vsix.",
     "",
     "  manifest   values in extensions/kiro.kiro-agent/package.json that carry no %key% indirection",
-    "             (76 of 183 localizable manifest strings). Replaced structurally: only known",
+    "             (inline values without %key% indirection). Replaced structurally: only known",
     "             localizable fields are considered, so an English word here cannot leak into an id.",
     "  extension  literals in dist/extension.js. Runtime strings that would be translatable through",
     "             vscode.l10n.t if Kiro called it. Keep these long and unambiguous.",
@@ -18,7 +18,6 @@
     "punctuation, and must be specific enough not to appear anywhere else."
   ],
   "version": "1.0.0",
-
   "manifest": {
     "Kiro": "Kiro",
     "Kiro Agent": "Kiro",
@@ -91,22 +90,44 @@
     "Create a project plan to develop complex features and services\n\n[$(add) Create New Spec](command:kiro.spec.explorerCreateSpec)": "建立專案計劃，用於開發複雜的功能與服務\n\n[$(add) 新建規格](command:kiro.spec.explorerCreateSpec)",
     "Guide agent behavior and responses \n [Generate Steering Docs](command:kiro.steering.createInitialSteering)": "指引智慧體的行為與回覆 \n [生成指引文件](command:kiro.steering.createInitialSteering)",
     "Automate tasks like documentation, code cleanup, or language localization\n\n[$(add) Create New Hook](command:kiroAgent.hooks.createNew)": "自動化文件編寫、程式碼清理、介面本地化等任務\n\n[$(add) 新建鉤子](command:kiroAgent.hooks.createNew)",
-
     "Custom prompts for the Kiro editor context menu actions. Each value replaces the built-in prompt for that action.": "Kiro 編輯器右鍵選單動作的自定義提示。每一項都會替換該動作內建的提示。",
     "Override the prompt used by the \"Fix Grammar / Spelling\" editor action.": "覆蓋 \"修正語法 / 拼寫\" 動作使用的提示。",
     "Override the prompt used by the \"Write Comments for this Code\" editor action.": "覆蓋 \"為這段程式碼寫註釋\" 動作使用的提示。",
     "Override the prompt used by the \"Write a Docstring for this Code\" editor action.": "覆蓋 \"為這段程式碼寫文件字串\" 動作使用的提示。",
     "Override the prompt used by the \"Fix this Code\" editor action.": "覆蓋 \"修復這段程式碼\" 動作使用的提示。",
-    "Override the prompt used by the \"Optimize this Code\" editor action.": "覆蓋 \"最佳化這段程式碼\" 動作使用的提示。"
+    "Override the prompt used by the \"Optimize this Code\" editor action.": "覆蓋 \"最佳化這段程式碼\" 動作使用的提示。",
+    "Use installed Markdown renderer extensions in Review Markdown. Turn this off to use Kiro's local Markdown renderer.": "在 Markdown 檢閱中使用已安裝的 Markdown 轉譯器擴充套件。關閉後使用 Kiro 本機的 Markdown 轉譯器。",
+    "Default time in milliseconds that an agent-run terminal command may run before it times out, used when the agent does not name a timeout for the command. The minimum is 1000 ms; values above 1800000 ms are clamped to 1800000. When unset, the agent's built-in default (120000) applies. Applies to local sessions; changes take effect immediately in open local sessions. Cloud sessions use the agent's built-in default.": "智慧體未為終端機命令指定逾時時間時使用的預設執行時限，單位為毫秒。最小值為 1000 毫秒；超過 1800000 毫秒的值會限制為 1800000。未設定時，使用智慧體內建的預設值（120000）。此設定適用於本機工作階段，修改後會立即在已開啟的本機工作階段中生效。雲端工作階段使用智慧體內建的預設值。",
+    "Open the artifact panel automatically when Kiro produces an artifact. When off, new artifacts are still added to the panel — you open it yourself.": "Kiro 產生產出物時自動開啟產出物面板。關閉後，新產出物仍會新增至面板中，需要你自行開啟。",
+    "Ask for feedback on your experience with Kiro, using an occasional short survey in chat. When off, the survey never appears.": "偶爾在聊天中顯示簡短問卷，收集你使用 Kiro 的體驗回饋。關閉後將不再顯示問卷。",
+    "Let the agent create and run multi-step workflows in your sessions. Choose how often with Use workflows in the Workflows panel of a chat. When it's off, the agent won't start new workflows, but any existing workflow runs and recipes will stay available. Changes apply to new sessions.": "允許智慧體在工作階段中建立和執行多步驟工作流。可在聊天的工作流面板中透過「使用工作流」選擇使用頻率。關閉後，智慧體不會啟動新的工作流，但現有工作流執行記錄和配方仍然可用。修改對新工作階段生效。",
+    "This workspace folder only (the folder the request applies to).": "僅限此工作區資料夾（請求所針對的資料夾）。",
+    "New Recipe": "新增配方",
+    "Refresh Recipes": "重新整理配方",
+    "Refresh Memories": "重新整理記憶",
+    "Delete": "刪除",
+    "Edit in IDE": "在 IDE 中編輯",
+    "Delete Recipe": "刪除配方",
+    "Run Recipe": "執行配方",
+    "Enable Workflows": "啟用工作流",
+    "Disable Workflows": "停用工作流",
+    "Open Cloud Configuration (Read-only)": "開啟雲端設定（唯讀）",
+    "Edit in web": "在網頁中編輯",
+    "Review Markdown": "檢閱 Markdown",
+    "Show Source": "顯示原始碼",
+    "Find in Markdown Review": "在 Markdown 檢閱中尋找",
+    "Show Session Artifacts": "顯示工作階段產出物",
+    "Workflows": "工作流",
+    "Memories": "記憶",
+    "Workflow Runs": "工作流執行記錄",
+    "Recipes": "配方"
   },
-
   "extension": {
     "Structured feature development": "按步驟做功能",
     "Plan-only mode that helps break ideas down into an implementation plan without making any changes": "只做規劃的模式：把想法拆解成實施計劃，不做任何修改",
     "Structured bug-fix workflow: investigate, diagnose, and resolve bugs": "按步驟修 Bug：排查、定位、修復",
     "Fast spec workflow: clarify, then auto-generate requirements, design, and tasks": "快速 Spec 流程：先澄清，再自動生成需求、設計與任務"
   },
-
   "webview": {
     "Let's build": "開始構建",
     "New Workspace": "新建工作區",
@@ -120,6 +141,9 @@
     "Reverting...": "正在撤銷...",
     "files changed": "個檔案已更改",
     "file changed": "個檔案已更改",
-    "See all": "檢視全部"
+    "See all": "檢視全部",
+    "<p class=\"kiro-autonomy-tooltip-title\">Complete coding tasks with less intervention</p>": "<p class=\"kiro-autonomy-tooltip-title\">減少介入，完成程式設計任務</p>",
+    "<dt>On</dt><dd><strong>Autopilot mode.</strong> Kiro applies edits as it works. You can review or revert them once Kiro is done.</dd>": "<dt>開啟</dt><dd><strong>自動模式。</strong>Kiro 會在工作時套用編輯。完成後，你可以檢閱或還原這些修改。</dd>",
+    "<dt>Off</dt><dd><strong>Supervised mode.</strong> Kiro pauses after each turn that edits files so you can accept or reject each change.</dd>": "<dt>關閉</dt><dd><strong>確認模式。</strong>Kiro 會在每輪編輯檔案後暫停，讓你逐項接受或拒絕修改。</dd>"
   }
 }

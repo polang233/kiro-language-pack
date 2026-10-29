@@ -7,6 +7,13 @@ The version number tracks the language pack itself, not the Kiro release it targ
 verified Kiro versions are listed in `config.json` under `target.verifiedKiroVersions`.
 Aligning with a new Kiro IDE build is a patch bump.
 
+## [1.2.2] - 2026-10-29
+
+- Verify Kiro 1.4.62 and update two telemetry descriptions to reflect client-side usage data sent to AWS.
+- Add 25 Simplified and Traditional Chinese inline manifest translations covering workflows, recipes, memories, Markdown review, artifacts, feedback, command timeouts and workspace permissions.
+- Translate the revised autonomy tooltips while preserving their HTML structure and the difference between automatic edits and accepting or rejecting each change.
+- Check inline manifest coverage during local verification, including fields outside package.nls.json, and verify the shipped npm patch dictionaries.
+
 ## [1.2.1] - 2026-10-25
 
 - Use a new patch version because Open VSX permanently reserved the previously removed 1.2.0 identity.

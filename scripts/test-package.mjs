@@ -95,6 +95,10 @@ try {
     '--no-audit', '--no-fund', '--package-lock=false', tarball], { env, cwd: temp });
   const installed = path.join(runtime, 'node_modules', ...pkg.name.split('/'));
   const manifest = readJson(path.join(installed, 'package.json'));
+  for (const locale of ['zh-cn', 'zh-tw']) {
+    const relative = path.join('src', 'i18n', locale, 'patch', 'kiro.kiroAgent.json');
+    assert.deepEqual(readJson(path.join(installed, relative)), readJson(p(relative)), 'shipped patch translations: ' + locale);
+  }
   assert.equal(manifest.version, config.version);
   assert.equal(Object.keys(manifest.dependencies ?? {}).length, 0, 'no runtime dependencies');
   for (const hook of ['preinstall', 'install', 'postinstall', 'prepare']) assert.equal(manifest.scripts?.[hook], undefined);

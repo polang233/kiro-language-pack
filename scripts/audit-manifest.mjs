@@ -154,8 +154,28 @@ const report = {
   hardcodedStrings: hardcoded
 };
 
-const outFile = p('reports', `manifest-audit-${targetId}.json`);
+const outFile = typeof flags.report === 'string'
+  ? path.resolve(flags.report) : p('reports', `manifest-audit-${targetId}.json`);
+if (targetId === config.target.kiroExtensionId) {
+  report.patchCoverage = config.locales.filter(locale => locale.enabled !== false).map(locale => {
+    const file = p('src', 'i18n', locale.id, 'patch', 'kiro.kiroAgent.json');
+    const dictionary = readJson(file, {}).manifest ?? {};
+    const missing = hardcoded.filter(row => typeof dictionary[row.value] !== 'string' || !dictionary[row.value].trim());
+    return { locale: locale.id, totalFields: hardcoded.length, missingFields: missing.length, missing };
+  });
+}
 writeJson(outFile, report);
+
+if (flags['check-patch']) {
+  if (!report.patchCoverage?.length) fail('No patch dictionaries configured for this extension.');
+  for (const locale of report.patchCoverage) {
+    log.plain(`${locale.locale}: inline manifest ${locale.totalFields - locale.missingFields}/${locale.totalFields} covered`);
+    for (const row of locale.missing) log.err(`${row.path}: ${row.value}`);
+  }
+  if (report.patchCoverage.some(locale => locale.missingFields)) fail('Inline manifest translations are missing. See ' + outFile);
+  log.ok('All inline manifest fields have a maintained translation or an explicit unchanged value.');
+  process.exit(0);
+}
 
 if (flags.json) {
   console.log(JSON.stringify(report, null, 2));

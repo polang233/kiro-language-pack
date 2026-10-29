@@ -52,7 +52,7 @@ node bin/cli.mjs preview --locale=zh-tw
 
 The extension id remains `polang233.kiro-language-pack`. The setting `kiroLanguagePack.language` also accepts `auto`, `zh-cn`, `zh-tw` and `en`; restart after changing it. Translating some text compiled into the app requires the command-line installation above.
 
-The translations target Kiro **1.4.26** (Code OSS 1.131.0). New or untranslated text stays in English. UI language does not change AI reply language; use a steering file such as `.kiro/steering/language.md` for that.
+The translations target Kiro **1.4.62** (Code OSS 1.131.0). New or untranslated text stays in English. UI language does not change AI reply language; use a steering file such as `.kiro/steering/language.md` for that.
 
 ## Development and license
 

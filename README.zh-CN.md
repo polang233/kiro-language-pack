@@ -52,7 +52,7 @@ node bin/cli.mjs preview --locale=zh-tw
 
 扩展 id 保持 `polang233.kiro-language-pack`。也可用设置 `kiroLanguagePack.language` 选择 `auto`、`zh-cn`、`zh-tw` 或 `en`，切换后重启。仅安装扩展时，部分写死在程序里的英文需要命令行安装才能翻译。
 
-当前译文对应 Kiro **1.4.26**（Code OSS 1.131.0）。新增或未覆盖的文案会显示英文。界面语言不影响 AI 回复语言，可通过 `.kiro/steering/language.md` 指定回复语言。
+当前译文对应 Kiro **1.4.62**（Code OSS 1.131.0）。新增或未覆盖的文案会显示英文。界面语言不影响 AI 回复语言，可通过 `.kiro/steering/language.md` 指定回复语言。
 
 ## 开发与许可
 

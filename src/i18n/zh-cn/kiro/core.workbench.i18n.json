@@ -56,7 +56,7 @@
       "internal": "IndexedDB 文件系统提供程序发生内部错误。（{0}）"
     },
     "vs/platform/telemetry/common/telemetryService": {
-      "telemetry.usageAnalytics.description": "允许 Kiro 向你所属组织的 AWS 账户发送使用数据和性能指标，以了解各功能的使用情况以及 Kiro 的运行表现。详见我们的[文档](https://kiro.dev/docs/privacy-and-security/data-protection/#service-improvement)。",
+      "telemetry.usageAnalytics.description": "允许 Kiro 向 AWS 发送客户端使用数据和性能指标，帮助我们了解各功能的使用情况以及 Kiro 的运行表现。详见我们的[文档](https://kiro.dev/docs/privacy-and-security/data-protection/#service-improvement)。",
       "telemetry.usageAnalytics.policyDescription": "控制是否发送使用情况分析数据。",
       "telemetry.contentCollection.description": "允许 Kiro 向 AWS 发送内容以改进服务。\n\n这些内容有助于我们为常见问题提供更好的回答、修复 Kiro 的运行问题并改进服务。详见我们的[文档](https://kiro.dev/docs/privacy-and-security/data-protection/#service-improvement)和[服务条款](https://aws.amazon.com/service-terms/)。",
       "telemetry.contentCollection.policyDescription": "控制是否为改进服务启用内容收集。",

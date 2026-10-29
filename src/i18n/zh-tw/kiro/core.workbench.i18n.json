@@ -56,7 +56,7 @@
       "internal": "IndexedDB 檔案系統提供程式發生內部錯誤。（{0}）"
     },
     "vs/platform/telemetry/common/telemetryService": {
-      "telemetry.usageAnalytics.description": "允許 Kiro 向你所屬組織的 AWS 賬戶傳送使用資料和效能指標，以瞭解各功能的使用情況以及 Kiro 的執行表現。詳見我們的[文件](https://kiro.dev/docs/privacy-and-security/data-protection/#service-improvement)。",
+      "telemetry.usageAnalytics.description": "允許 Kiro 向 AWS 傳送用戶端使用資料和效能指標，協助我們瞭解各功能的使用情況以及 Kiro 的執行表現。詳見我們的[文件](https://kiro.dev/docs/privacy-and-security/data-protection/#service-improvement)。",
       "telemetry.usageAnalytics.policyDescription": "控制是否傳送使用情況分析資料。",
       "telemetry.contentCollection.description": "允許 Kiro 向 AWS 傳送內容以改進服務。\n\n這些內容有助於我們為常見問題提供更好的回答、修復 Kiro 的執行問題並改進服務。詳見我們的[文件](https://kiro.dev/docs/privacy-and-security/data-protection/#service-improvement)和[服務條款](https://aws.amazon.com/service-terms/)。",
       "telemetry.contentCollection.policyDescription": "控制是否為改進服務啟用內容收集。",

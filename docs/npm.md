@@ -20,7 +20,7 @@ node bin/cli.mjs status
 开发时也可用本地 TGZ 联调 npx，以下命令运行本地产物：
 
 ```bash
-npx --yes --package="./dist/polang233-kiro-language-pack-1.2.1.tgz" kiro-language-pack preview
+npx --yes --package="./dist/polang233-kiro-language-pack-1.2.2.tgz" kiro-language-pack preview
 ```
 
 源码入口与 npx 使用相同参数：默认 `install`，也支持 `install/preview/status/restore`、`--locale=zh-cn/zh-tw` 和 `--dir="路径"`。实际安装前退出应用；联调安装与恢复时使用隔离 fixture。系统语言含 TW/HK/MO 或 zh-Hant 时选 `zh-tw`，沿用台湾用词；其余选 `zh-cn`。
@@ -29,7 +29,7 @@ npx --yes --package="./dist/polang233-kiro-language-pack-1.2.1.tgz" kiro-languag
 | --- | --- |
 | `npm run test:cli` | 纯 CLI/locale 测试，不构建、不要求真实应用 |
 | `npm test` | 扩展运行时、CLI/语言检测与补丁安装恢复的隔离测试 |
-| `npm run verify` | 原有构建、manifest、覆盖率检查，需要先 detect/extract 本机应用 |
+| `npm run verify` | 构建、manifest、覆盖率及内联硬编码清单检查，需要先 detect/extract 本机应用 |
 | `npm run package:npm` | 构建本版本 VSIX、准备包内 assets、执行 npm pack 到 dist，再验证真实 TGZ |
 | `npm run test:published` | 下载并校验公开 latest 包，实际运行 npx，检查自动语言、手动切换和恢复 |
 | `npm run test:package` | 重新测试 dist 中本版本已有 TGZ，可重复运行，不依赖重新打包 |

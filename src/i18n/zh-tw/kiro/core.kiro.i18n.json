@@ -158,7 +158,7 @@
       "kiroStandalone.configureMCPDesc": "允許在 Kiro 中使用 Model Context Protocol (MCP) 伺服器。啟用 MCP 伺服器意味著你將訪問受獨立條款約束的第三方內容。我們對此類第三方內容不加控制，並不承擔任何責任。",
       "kiroStandalone.privacy": "隱私與資料",
       "kiroStandalone.usageAnalytics": "使用情況分析",
-      "kiroStandalone.usageAnalyticsDesc": "允許 Kiro 向你所屬組織的 AWS 賬戶傳送使用資料和效能指標，以瞭解各功能的使用情況以及 Kiro 的執行表現。",
+      "kiroStandalone.usageAnalyticsDesc": "允許 Kiro 向 AWS 傳送用戶端使用資料和效能指標，協助我們瞭解各功能的使用情況以及 Kiro 的執行表現。",
       "kiroStandalone.contentCollection": "內容收集",
       "kiroStandalone.contentCollectionDesc": "允許 Kiro 向 AWS 傳送內容以改進服務。這些內容有助於我們為常見問題提供更好的回答、修復 Kiro 的執行問題並改進服務。",
       "kiroStandalone.promptLogging": "提示日誌",
