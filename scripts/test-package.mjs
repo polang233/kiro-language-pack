@@ -44,6 +44,7 @@ const product = config.namePrefix.startsWith('cursor') ? 'cursor' : 'kiro';
 const name = product === 'cursor' ? 'Cursor' : 'Kiro';
 const given = process.argv.slice(2).find((arg) => arg.startsWith('--tarball='))?.slice('--tarball='.length);
 const published = process.argv.includes('--published');
+const propagationAttempts = 36;
 const filename = `${pkg.name.replace(/^@/, '').replace('/', '-')}-${pkg.version}.tgz`;
 let tarball = path.resolve(given ?? p('dist', filename));
 if (!published && !fs.existsSync(tarball)) throw new Error('Build the npm tarball first: npm run package:npm');
@@ -66,7 +67,7 @@ fs.writeFileSync(env.npm_config_globalconfig, '');
 try {
   if (published) {
     let registry;
-    for (let attempt = 0; attempt < 18; attempt++) {
+    for (let attempt = 0; attempt < propagationAttempts; attempt++) {
       const response = await fetch('https://registry.npmjs.org/' + encodeURIComponent(pkg.name) + '/latest',
         { signal: AbortSignal.timeout(30_000) });
       assert.ok(response.status === 200 || response.status === 404, 'npm metadata HTTP ' + response.status);
@@ -75,7 +76,7 @@ try {
         assert.equal(registry.name, pkg.name);
         if (registry.version === pkg.version) break;
       }
-      if (attempt < 17) {
+      if (attempt < propagationAttempts - 1) {
         console.log(`Waiting for npm latest ${pkg.version}; registry reports ${registry?.version ?? 'not found'}.`);
         await new Promise((resolve) => setTimeout(resolve, 10_000));
       }
@@ -274,7 +275,7 @@ cp.spawnSync = function (command, args, options) {
 };
 require('node:module').syncBuiltinESMExports();
 `);
-    const runNpx = (cliArgs, simulatedLocale) => {
+    const runNpx = (cliArgs, simulatedLocale, waitingForVersion = false) => {
       const testEnv = { ...env, npm_config_prefer_online: 'true' };
       if (simulatedLocale) {
         testEnv.LANGUAGE_PACK_TEST_LOCALE = simulatedLocale;
@@ -284,14 +285,17 @@ require('node:module').syncBuiltinESMExports();
       const result = spawnSync(process.execPath, [npxEntry, '--yes', pkg.name + '@latest', ...cliArgs],
         { cwd: temp, env: testEnv, encoding: 'utf8', windowsHide: true, timeout: 120_000 });
       assert.equal(result.error, undefined);
+      // npm's version and dist-tag endpoints can propagate at different times.
+      // Retry ETARGET only during the initial version probe; install failures stay errors.
+      if (waitingForVersion && result.status !== 0 && /\bETARGET\b/.test(result.stdout + result.stderr)) return null;
       assert.equal(result.status, 0, result.stdout + result.stderr);
       return result.stdout + result.stderr;
     };
     let npxVersion;
-    for (let attempt = 0; attempt < 18; attempt++) {
-      npxVersion = runNpx(['--version']).trim();
+    for (let attempt = 0; attempt < propagationAttempts; attempt++) {
+      npxVersion = runNpx(['--version'], undefined, true)?.trim() ?? '(ETARGET: metadata not propagated)';
       if (npxVersion === pkg.version) break;
-      if (attempt < 17) {
+      if (attempt < propagationAttempts - 1) {
         console.log(`Waiting for npx latest ${pkg.version}; npx resolves ${npxVersion}.`);
         await new Promise((resolve) => setTimeout(resolve, 10_000));
       }

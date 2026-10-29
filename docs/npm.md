@@ -60,4 +60,6 @@ npm 首发已完成。该包已配置 GitHub Actions 可信发布，仓库变量
 
 ## 发布后验收
 
-发布工作流会在 Windows、macOS、Linux 自动运行 `npm run test:published`。也可在本地手动运行。它分别最多等待约 3 分钟，确认 registry 元数据和 npx 的 `latest` 都指向当前版本；npx 查询会重新验证缓存。该检查从官方 registry 下载并核对完整性，在仓库外安装实际 tarball，再用官方 npx 入口按包名运行默认安装、手动简繁体切换和恢复。它验证本机系统语言，也通过隔离的系统查询模拟 TW/HK/MO/Hant/CN/英文及明确字形优先级；不会修改电脑语言或真实应用。`--dir` 使用带空格的临时安装目录。
+发布工作流会在 Windows、macOS、Linux 自动运行 `npm run test:published`。也可在本地手动运行。它分别最多等待约 6 分钟，确认 registry 元数据和 npx 的 `latest` 都指向当前版本；npx 查询会重新验证缓存。该检查从官方 registry 下载并核对完整性，在仓库外安装实际 tarball，再用官方 npx 入口按包名运行默认安装、手动简繁体切换和恢复。它验证本机系统语言，也通过隔离的系统查询模拟 TW/HK/MO/Hant/CN/英文及明确字形优先级；不会修改电脑语言或真实应用。`--dir` 使用带空格的临时安装目录。
+
+npm 刚接收发布时，版本元数据可能暂未传到所有查询入口。首次 npx 版本探测遇到 `ETARGET` 时会等待重试；后续安装、切换和恢复的错误仍立即失败。
