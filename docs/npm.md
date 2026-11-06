@@ -23,7 +23,7 @@ node bin/cli.mjs status
 npx --yes --package="./dist/polang233-kiro-language-pack-1.2.2.tgz" kiro-language-pack preview
 ```
 
-源码入口与 npx 使用相同参数：默认 `install`，也支持 `install/preview/status/restore`、`--locale=zh-cn/zh-tw` 和 `--dir="路径"`。实际安装前退出应用；联调安装与恢复时使用隔离 fixture。系统语言含 TW/HK/MO 或 zh-Hant 时选 `zh-tw`，沿用台湾用词；其余选 `zh-cn`。
+源码入口与 npx 使用相同参数：默认 `install`，也支持 `install/preview/status/restore`、`--locale=zh-cn/zh-tw` 和 `--dir="路径"`。实际安装前退出应用；联调安装与恢复时使用隔离 fixture。系统语言含 TW/HK/MO 或 zh-Hant 时选 `zh-tw`，其余选 `zh-cn`。
 
 | 命令 | 职责 |
 | --- | --- |

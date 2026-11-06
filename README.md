@@ -1,16 +1,22 @@
 # Kiro Language Pack
 
-Kiro 中文语言包，支持简体中文和使用台湾用词的繁体中文，覆盖编辑器、会话、设置、规格与指引界面。
+Kiro 中文语言包，支持简体中文和繁体中文，覆盖编辑器、会话、设置、规格与指引界面。
 
-[English](README.en.md)
+[English](https://github.com/polang233/kiro-language-pack/blob/main/README.en.md)
 
-<img src="media/icon.png" width="96" height="96" alt="Kiro Language Pack 图标" />
-
-[![Open VSX](https://img.shields.io/open-vsx/v/polang233/kiro-language-pack?label=Open%20VSX)](https://open-vsx.org/extension/polang233/kiro-language-pack)
+<p align="center">
+  <img src="https://raw.githubusercontent.com/polang233/kiro-language-pack/main/media/icon.png" width="96" height="96" alt="Kiro Language Pack 图标" />
+</p>
+<p align="center">
+  <a href="https://open-vsx.org/extension/polang233/kiro-language-pack"><img alt="Open VSX 下载量" src="https://img.shields.io/open-vsx/dt/polang233/kiro-language-pack?label=Open%20VSX&color=C160EF" /></a>
+  <a href="https://www.npmjs.com/package/@polang233/kiro-language-pack"><img alt="npm 下载量" src="https://img.shields.io/npm/dt/%40polang233%2Fkiro-language-pack?logo=npm&logoColor=white&label=npm&color=CB3837" /></a>
+  <a href="https://github.com/polang233/kiro-language-pack/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/polang233/kiro-language-pack?logo=github&label=stars&color=181717" /></a>
+  <a href="https://github.com/polang233/kiro-language-pack/releases/latest"><img alt="当前版本" src="https://img.shields.io/github/v/release/polang233/kiro-language-pack?label=version&color=1f6feb" /></a>
+</p>
 
 | 安装前 · English | 安装后 · 简体中文 |
 | --- | --- |
-| ![英文](docs/images/before-en.png) | ![简体中文](docs/images/after-zh-cn.png) |
+| ![英文](https://raw.githubusercontent.com/polang233/kiro-language-pack/main/docs/images/before-en.png) | ![简体中文](https://raw.githubusercontent.com/polang233/kiro-language-pack/main/docs/images/after-zh-cn.png) |
 
 ## 命令行安装
 
@@ -34,11 +40,11 @@ npx @polang233/kiro-language-pack@latest --dir="安装目录"
 | `status` | 查看状态 |
 | `restore` | 只恢复程序文件 |
 
-系统语言为 TW/HK/MO 或 zh-Hant 时自动选 `zh-tw`，沿用台湾用词；其他选 `zh-cn`。可用 `--locale` 指定。`--dir` 指向含 `resources/app` 的安装目录，macOS 为 `Kiro.app/Contents`。
+系统语言为 TW/HK/MO 或 zh-Hant 时自动选 `zh-tw`，其他选 `zh-cn`。可用 `--locale` 指定。`--dir` 指向含 `resources/app` 的安装目录，macOS 为 `Kiro.app/Contents`。
 
 安装后重新打开 Kiro；应用更新后重跑安装命令。扩展和显示语言可在应用内切换，`restore` 不会卸载扩展或重置显示语言。
 
-可在仓库内联调源码入口，准备步骤见 [npm 维护说明](docs/npm.md)：
+可在仓库内联调源码入口，准备步骤见 [npm 维护说明](https://github.com/polang233/kiro-language-pack/blob/main/docs/npm.md)：
 
 ```bash
 node bin/cli.mjs preview --locale=zh-tw
@@ -56,6 +62,6 @@ node bin/cli.mjs preview --locale=zh-tw
 
 ## 开发与许可
 
-[维护与源码测试](docs/npm.md) · [发布](docs/publishing.zh-CN.md) · [架构](docs/architecture.zh-CN.md) · [贡献](CONTRIBUTING.md)
+[维护与源码测试](https://github.com/polang233/kiro-language-pack/blob/main/docs/npm.md) · [发布](https://github.com/polang233/kiro-language-pack/blob/main/docs/publishing.zh-CN.md) · [架构](https://github.com/polang233/kiro-language-pack/blob/main/docs/architecture.zh-CN.md) · [贡献](https://github.com/polang233/kiro-language-pack/blob/main/CONTRIBUTING.md)
 
-MIT。工作台译文来自 [microsoft/vscode-loc](https://github.com/microsoft/vscode-loc)，见 [NOTICE](NOTICE)。社区项目，与 AWS、Microsoft 无隶属关系。
+MIT。工作台译文来自 [microsoft/vscode-loc](https://github.com/microsoft/vscode-loc)，见 [NOTICE](https://github.com/polang233/kiro-language-pack/blob/main/NOTICE)。社区项目，与 AWS、Microsoft 无隶属关系。
