@@ -1,9 +1,14 @@
 # Kiro Language Pack — 简体中文 / 繁體中文
 
-[![Open VSX](https://img.shields.io/open-vsx/v/polang233/kiro-language-pack?label=Open%20VSX)](https://open-vsx.org/extension/polang233/kiro-language-pack)
-[![Downloads](https://img.shields.io/open-vsx/dt/polang233/kiro-language-pack)](https://open-vsx.org/extension/polang233/kiro-language-pack)
-
-![Kiro Language Pack](../../media/icon.png)
+<p align="center">
+  <img src="../../media/icon.png" width="96" height="96" alt="Kiro Language Pack" />
+</p>
+<p align="center">
+  <a href="https://open-vsx.org/extension/polang233/kiro-language-pack"><img alt="Open VSX 下载量" src="https://img.shields.io/open-vsx/dt/polang233/kiro-language-pack?label=Open%20VSX&color=C160EF" /></a>
+  <a href="https://www.npmjs.com/package/@polang233/kiro-language-pack"><img alt="npm 下载量" src="https://img.shields.io/npm/dt/%40polang233%2Fkiro-language-pack?logo=npm&logoColor=white&label=npm&color=CB3837" /></a>
+  <a href="https://github.com/polang233/kiro-language-pack/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/polang233/kiro-language-pack?logo=github&label=stars&color=181717" /></a>
+  <a href="https://github.com/polang233/kiro-language-pack/releases/latest"><img alt="当前版本" src="https://img.shields.io/github/v/release/polang233/kiro-language-pack?label=version&color=1f6feb" /></a>
+</p>
 
 **Kiro 的多语言工具包（汉化 / 中文翻译）。** 目前支持简体中文和繁体中文。
 

@@ -1,16 +1,22 @@
 # Kiro Language Pack
 
-Chinese translations for Kiro, including the editor, sessions, Settings, specs and steering. Supports Simplified Chinese and Traditional Chinese with Taiwan terminology.
+Chinese translations for Kiro, including the editor, sessions, Settings, specs and steering. Supports Simplified Chinese and Traditional Chinese.
 
 [简体中文](README.md)
 
-<img src="media/icon.png" width="96" height="96" alt="Kiro Language Pack icon" />
-
-[![Open VSX](https://img.shields.io/open-vsx/v/polang233/kiro-language-pack?label=Open%20VSX)](https://open-vsx.org/extension/polang233/kiro-language-pack)
+<p align="center">
+  <img src="https://raw.githubusercontent.com/polang233/kiro-language-pack/main/media/icon.png" width="96" height="96" alt="Kiro Language Pack icon" />
+</p>
+<p align="center">
+  <a href="https://open-vsx.org/extension/polang233/kiro-language-pack"><img alt="Open VSX downloads" src="https://img.shields.io/open-vsx/dt/polang233/kiro-language-pack?label=Open%20VSX&color=C160EF" /></a>
+  <a href="https://www.npmjs.com/package/@polang233/kiro-language-pack"><img alt="npm downloads" src="https://img.shields.io/npm/dt/%40polang233%2Fkiro-language-pack?logo=npm&logoColor=white&label=npm&color=CB3837" /></a>
+  <a href="https://github.com/polang233/kiro-language-pack/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/polang233/kiro-language-pack?logo=github&label=stars&color=181717" /></a>
+  <a href="https://github.com/polang233/kiro-language-pack/releases/latest"><img alt="version" src="https://img.shields.io/github/v/release/polang233/kiro-language-pack?label=version&color=1f6feb" /></a>
+</p>
 
 | Before · English | After · 简体中文 |
 | --- | --- |
-| ![English](docs/images/before-en.png) | ![Simplified Chinese](docs/images/after-zh-cn.png) |
+| ![English](https://raw.githubusercontent.com/polang233/kiro-language-pack/main/docs/images/before-en.png) | ![Simplified Chinese](https://raw.githubusercontent.com/polang233/kiro-language-pack/main/docs/images/after-zh-cn.png) |
 
 ## Command-line installation
 
@@ -34,7 +40,7 @@ npx @polang233/kiro-language-pack@latest --dir="path/to/install"
 | `status` | Report the current state |
 | `restore` | Restore only the app files |
 
-System locales with TW/HK/MO or zh-Hant select `zh-tw` with Taiwan terminology; all others select `zh-cn`. Override this with `--locale`. `--dir` selects the install directory containing `resources/app`, or `Kiro.app/Contents` on macOS.
+System locales with TW/HK/MO or zh-Hant select `zh-tw`; all others select `zh-cn`. Override this with `--locale`. `--dir` selects the install directory containing `resources/app`, or `Kiro.app/Contents` on macOS.
 
 Reopen Kiro after installation. Rerun the install command after an app update. Switch extensions and display language inside the app; `restore` does not uninstall the extension or reset the display language.
 
