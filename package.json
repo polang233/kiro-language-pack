@@ -1,6 +1,6 @@
 {
   "name": "@polang233/kiro-language-pack",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Kiro 简体/繁体中文汉化工具，自动选择系统语言，支持一键安装与恢复。",
   "type": "module",
   "license": "MIT",

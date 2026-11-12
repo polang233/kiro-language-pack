@@ -7,6 +7,12 @@ The version number tracks the language pack itself, not the Kiro release it targ
 verified Kiro versions are listed in `config.json` under `target.verifiedKiroVersions`.
 Aligning with a new Kiro IDE build is a patch bump.
 
+## [1.2.3] - 2026-11-13
+
+- 适配 Kiro 1.4.154，补齐会话中心、项目管理、云端会话和信任提示的 149 条简繁体译文。
+- 补齐“代我批准”命令、组织 MCP 设置提示及“记忆设置”入口，更新“关于”窗口的 Kiro Agent 版本信息。
+- 统一 README 与扩展商店页面的展示及安装说明。
+
 ## [1.2.2] - 2026-10-29
 
 - Verify Kiro 1.4.62 and update two telemetry descriptions to reflect client-side usage data sent to AWS.

@@ -15,6 +15,11 @@
   "version": "1.0.0",
   "contents": {
     "package": {
+      "KiroAgent.command.approveForMe.disable": "停用“代我核准”（使用者）",
+      "KiroAgent.command.approveForMe.disableWorkspace": "停用“代我核准”（工作區）",
+      "KiroAgent.command.approveForMe.enable": "啟用“代我核准”（使用者）",
+      "KiroAgent.command.approveForMe.enableWorkspace": "啟用“代我核准”（工作區）",
+      "KiroAgent.treeview.welcome.mcp.governanceReadFailed": "無法載入組織的 MCP 設定，MCP 暫時停用。Kiro 將自動重試。\n\n[重新載入視窗](command:workbench.action.reloadWindow)",
       // Kiro
       "KiroAgent.title": "Kiro",
       // Kiro Debug

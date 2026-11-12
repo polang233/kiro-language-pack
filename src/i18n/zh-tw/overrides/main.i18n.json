@@ -5,7 +5,7 @@
       "chat.defaultToCopilotHarness": "啟用後，新的編輯器與面板對話預設使用智慧體主機的 Copilot CLI，而非本機執行環境。需要啟用 `#{0}#`。"
     },
     "vs/platform/dialogs/electron-browser/dialog": {
-      "aboutDetail": "版本：{0}\nVSCode 版本：{1}\n提交：{2}\n日期：{3}\nElectron：{4}\nChromium：{5}\nNode.js：{6}\nV8：{7}\n作業系統：{8}"
+      "aboutDetail": "版本：{0}\nVSCode 版本：{1}\n提交：{2}\n日期：{3}\nKiro Agent：{4}\nElectron：{5}\nChromium：{6}\nNode.js：{7}\nV8：{8}\n作業系統：{9}"
     },
     "vs/platform/extensionManagement/common/abstractExtensionManagementService": {
       "notFoundCompatibleDependency": "無法安裝擴充套件「{0}」，因為它與目前版本的 {1} 不相容（版本 {2}，VSCode 版本 {3}）。"

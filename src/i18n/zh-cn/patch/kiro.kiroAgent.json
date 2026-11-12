@@ -19,6 +19,7 @@
   ],
   "version": "1.0.0",
   "manifest": {
+    "Memory Settings": "记忆设置",
     "Kiro": "Kiro",
     "Kiro Agent": "Kiro",
     "Context provider type": "上下文提供程序类型",

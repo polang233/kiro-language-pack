@@ -1,0 +1,192 @@
+{
+  "version": "1.0.0",
+  "contents": {
+    "vs/platform/kiroProjects/common/kiroProjects": {
+      "kiroProjects.badKind": "專案成員必須是工作階段或工作區。",
+      "kiroProjects.badSource": "工作階段成員的來源必須是 'local' 或 'remote'。",
+      "kiroProjects.badUri": "專案成員欄位「{0}」不是有效的 URI。",
+      "kiroProjects.duplicateId": "已存在使用此 ID 的專案。",
+      "kiroProjects.fieldControlCharacters": "專案成員欄位「{0}」不能包含控制字元。",
+      "kiroProjects.fieldNotText": "專案成員欄位「{0}」必須是非空文字。",
+      "kiroProjects.fieldTooLong": "專案成員欄位「{0}」不能超過 {1} 個字元。",
+      "kiroProjects.foldersNotArray": "工作區成員必須列出其資料夾。",
+      "kiroProjects.membersNotArray": "專案成員必須以清單形式提供。",
+      "kiroProjects.nameControlCharacters": "專案名稱不能包含控制字元。",
+      "kiroProjects.nameEmpty": "專案名稱不能為空。",
+      "kiroProjects.nameNotString": "專案名稱必須是文字。",
+      "kiroProjects.nameTooLong": "專案名稱不能超過 {0} 個字元。",
+      "kiroProjects.resourceNotObject": "專案成員必須是物件。",
+      "kiroProjects.tooManyFolders": "工作區成員列出的資料夾不能超過 {0} 個。",
+      "kiroProjects.tooManyMembers": "專案最多可包含 {0} 個成員。",
+      "kiroProjects.tooManyProjects": "專案數量不能超過 {0} 個。",
+      "kiroProjects.unknownProject": "此專案已不存在。",
+      "kiroProjects.workspaceNoFolders": "工作區引用必須至少包含一個資料夾。"
+    },
+    "vs/platform/kiroProjects/electron-main/kiroProjectsMainService": {
+      "kiroProjects.badProjectId": "專案 ID 必須是非空文字。",
+      "kiroProjects.badResourceKey": "成員索引鍵必須是非空文字。",
+      "kiroProjects.storageCorrupt": "無法讀取已儲存的專案，將保留原有資料。",
+      "kiroProjects.storageUnsupported": "專案由較新版本的 Kiro 儲存，目前版本無法修改。"
+    },
+    "vs/workbench/contrib/kiroStandalone/common/kiroHubCloudCreate": {
+      "kiroHub.cloudCreateFailed": "無法啟動雲端工作階段：{0}"
+    },
+    "vs/workbench/contrib/kiroStandalone/common/kiroHubCloudOpen": {
+      "kiroHub.cloudSwitchRefused": "Kiro 無法在此視窗開啟該雲端工作階段。",
+      "kiroHub.reloadFailed": "Kiro 無法重新載入該雲端工作階段。",
+      "kiroHub.reloadNoAck": "聊天沒有回應，請重試。",
+      "kiroHub.reloadNoSurface": "Kiro 無法在此視窗開啟聊天。",
+      "kiroHub.reloadRejected": "工作階段正忙，請在目前操作完成後重試。",
+      "kiroHub.reloadUnsupported": "目前版本的 Kiro 智慧體擴充套件不支援重新載入工作階段。"
+    },
+    "vs/workbench/contrib/kiroStandalone/common/kiroHubIds": {
+      "kiroHub.availableContext": "此版本是否包含工作階段中心。"
+    },
+    "vs/workbench/contrib/kiroStandalone/common/kiroHubTree": {
+      "kiroHub.anotherWorkspace": "其他工作區",
+      "kiroHub.cloudReconnecting": "正在重新連線雲端工作階段…",
+      "kiroHub.cloudReconnectingTooltip": "Kiro 與負責列出雲端工作階段的智慧體斷開了連線，正在重試。下方工作階段資訊可能已過時。",
+      "kiroHub.cloudSection": "雲端工作階段",
+      "kiroHub.cloudSessionGeneric": "雲端工作階段",
+      "kiroHub.cloudSessionLoading": "雲端，正在載入…",
+      "kiroHub.cloudSessionNoCloud": "雲端，此視窗不可用",
+      "kiroHub.cloudSessionNotListed": "雲端，不在你的工作階段清單中",
+      "kiroHub.cloudSessionSignedOut": "登入後檢視",
+      "kiroHub.cloudSessionUnreachable": "雲端，無法連線",
+      "kiroHub.cloudSignedOut": "登入以檢視雲端工作階段",
+      "kiroHub.cloudUnreachable": "無法連線雲端工作階段",
+      "kiroHub.cloudUnreachableTooltip": "智慧體正在執行，但無法連線雲端工作階段服務。下方工作階段資訊可能已過時。",
+      "kiroHub.currentWorkspace": "目前工作區",
+      "kiroHub.empty": "沒有活動工作階段。",
+      "kiroHub.emptyProject": "將工作階段或資料夾拖到此處，或使用「新增工作階段或資料夾」。",
+      "kiroHub.folderNoSessions": "沒有工作階段",
+      "kiroHub.folderNotOpen": "未開啟",
+      "kiroHub.less": "收起",
+      "kiroHub.loading": "正在載入…",
+      "kiroHub.more": "另有 {0} 項",
+      "kiroHub.noCloudSessions": "沒有雲端工作階段。",
+      "kiroHub.noFolder": "無資料夾",
+      "kiroHub.noLooseCloudSessions": "專案外沒有雲端工作階段。",
+      "kiroHub.sessionFolderNotOpen": "{0}，未開啟",
+      "kiroHub.sessionNotOpen": "未開啟",
+      "kiroHub.untitledSession": "工作階段"
+    },
+    "vs/workbench/contrib/kiroStandalone/common/kiroSessionRoster": {
+      "kiroHub.deleteCloudDetail": "此雲端工作階段將從你的帳號中刪除，之後將無法在任何位置的 Kiro 中存取。此操作無法復原。",
+      "kiroHub.deleteLocalDetail": "此工作階段的記錄將從本機刪除。此操作無法復原。",
+      "kiroHub.deleteSessionConfirm": "刪除",
+      "kiroHub.deleteSessionNamed": "刪除「{0}」？",
+      "kiroHub.deleteSessionUnnamed": "刪除此工作階段？"
+    },
+    "vs/workbench/contrib/kiroStandalone/electron-browser/agentSettingsPane": {
+      "kiro.agentConfig.organizationTooltip": "由你的組織提供",
+      "kiro.agentConfig.source.organization": "組織",
+      "kiro.agentConfig.viewIde": "在 IDE 中檢視"
+    },
+    "vs/workbench/contrib/kiroStandalone/electron-browser/kiroHubDragAndDrop": {
+      "kiroHub.dragCount": "{0} 項"
+    },
+    "vs/workbench/contrib/kiroStandalone/electron-browser/kiroHubMenus": {
+      "kiroHub.addFolder": "新增資料夾…",
+      "kiroHub.addResources": "新增工作階段或資料夾…",
+      "kiroHub.addToProject": "新增到專案…",
+      "kiroHub.deleteProject": "刪除專案",
+      "kiroHub.deleteSessionAction": "刪除工作階段",
+      "kiroHub.newCloudSession": "新增雲端工作階段",
+      "kiroHub.newSession": "新增工作階段",
+      "kiroHub.pin": "固定工作階段",
+      "kiroHub.refreshCloudSessions": "重新整理雲端工作階段",
+      "kiroHub.reloadCloudSession": "重新載入工作階段",
+      "kiroHub.removeFromProject": "從專案中移除",
+      "kiroHub.renameProject": "重新命名專案…",
+      "kiroHub.retryCloudSessions": "重試",
+      "kiroHub.revealWindow": "前往視窗",
+      "kiroHub.unpin": "取消固定工作階段"
+    },
+    "vs/workbench/contrib/kiroStandalone/electron-browser/kiroHubProjectStart": {
+      "kiroHub.newProject": "新增專案",
+      "kiroHub.projectStart": "將工作階段和工作區歸入一個專案，或先建立空專案。",
+      "kiroHub.projectStartDismiss": "關閉"
+    },
+    "vs/workbench/contrib/kiroStandalone/electron-browser/kiroHubProjects": {
+      "kiroHub.projects.addResourcesPlaceholder": "選擇要新增到「{0}」的內容",
+      "kiroHub.projects.addResourcesTitle": "新增到「{0}」",
+      "kiroHub.projects.addToProjectPlaceholder": "為「{0}」選擇專案",
+      "kiroHub.projects.addToProjectTitle": "新增到專案",
+      "kiroHub.projects.changeFailed": "Kiro 無法修改你的專案：{0}",
+      "kiroHub.projects.cloudSession": "雲端工作階段",
+      "kiroHub.projects.createTitle": "新增專案",
+      "kiroHub.projects.defaultName": "新增專案",
+      "kiroHub.projects.loadFailed": "Kiro 無法載入你的專案：{0}",
+      "kiroHub.projects.localSession": "工作階段",
+      "kiroHub.projects.memberCount": "{0} 項",
+      "kiroHub.projects.namePlaceholder": "專案名稱",
+      "kiroHub.projects.namePrompt": "輸入專案名稱",
+      "kiroHub.projects.newProjectPick": "新增專案…",
+      "kiroHub.projects.nothingToAdd": "工作階段中心的所有內容都已包含在「{0}」中。",
+      "kiroHub.projects.oneMember": "1 項",
+      "kiroHub.projects.renameTitle": "重新命名專案",
+      "kiroHub.projects.workspace": "工作區"
+    },
+    "vs/workbench/contrib/kiroStandalone/electron-browser/kiroHubSessionOpener": {
+      "kiroHub.newSessionFailed": "Kiro 無法在此視窗啟動新工作階段。",
+      "kiroHub.openSessionFailed": "Kiro 無法在此視窗開啟該工作階段。",
+      "kiroHub.openTargetNotOwned": "Kiro 無法開啟該工作階段，因為它不屬於此視窗。",
+      "kiroHub.openTargetUnavailable": "Kiro 無法開啟該工作階段，因為此視窗不接受其他視窗的工作階段。",
+      "kiroHub.ownerWindowGone": "Kiro 無法開啟該工作階段，因為其所屬視窗已關閉。",
+      "kiroHub.workspaceWindowGone": "Kiro 無法前往該工作區，因為其視窗已關閉。"
+    },
+    "vs/workbench/contrib/kiroStandalone/electron-browser/kiroHubTreeWidget": {
+      "kiroHub.ariaLabel": "工作階段中心",
+      "kiroHub.cloudListedAt": "截至 {0}",
+      "kiroHub.connectionInterrupted": "連線中斷",
+      "kiroHub.kindCloud": "雲端工作階段",
+      "kiroHub.kindFolder": "資料夾",
+      "kiroHub.kindLocal": "本機工作階段",
+      "kiroHub.kindProject": "專案",
+      "kiroHub.openInChat": "在聊天中開啟",
+      "kiroHub.staleRow": "可能已過時"
+    },
+    "vs/workbench/contrib/kiroStandalone/electron-browser/kiroSessionRoster.contribution": {
+      "kiroHub.addExistingWorkspace": "新增現有工作區…",
+      "kiroHub.addFolderToProject": "將資料夾新增到專案",
+      "kiroHub.addMenu": "新增",
+      "kiroHub.addWorkspaceFailed": "Kiro 無法開啟該工作區。",
+      "kiroHub.badgeAsking": "1 個工作階段正在等待你處理",
+      "kiroHub.badgeAskingMany": "{0} 個工作階段正在等待你處理",
+      "kiroHub.badgeDone": "自你上次檢視後已有任務完成",
+      "kiroHub.cloudAvailableContext": "此視窗的工作階段中心是否可以啟動雲端工作階段。",
+      "kiroHub.find": "在工作階段中心中尋找",
+      "kiroHub.hasRowsContext": "此視窗的工作階段中心是否列出了專案、資料夾或工作階段。",
+      "kiroHub.newCloudSession": "新增雲端工作階段",
+      "kiroHub.newProject": "新增專案…",
+      "kiroHub.newSessionInThisWindow": "新增工作階段",
+      "kiroHub.oneWorkspaceOnly": "選擇一個工作區檔案，或一個或多個資料夾。工作區檔案已定義其包含的資料夾。",
+      "kiroHub.openAgentFocus": "開啟聚焦智慧體",
+      "kiroHub.refresh": "重新整理工作階段中心",
+      "kiroHub.selectWorkspace": "選擇資料夾或工作區",
+      "kiroHub.workspaceFilter": "工作區",
+      "kiroSessionRoster.title": "工作階段中心",
+      "kiroSessionRoster.viewName": "工作階段中心",
+      "kiroSessionRosterViewIcon": "工作階段中心的檢視圖示。"
+    },
+    "vs/workbench/contrib/kiroStandalone/electron-browser/kiroStandaloneTrustForwarding.contribution": {
+      "kiroStandalone.trustPrompt.cancel": "取消",
+      "kiroStandalone.trustPrompt.manage": "在 IDE 中管理",
+      "kiroStandalone.trustPrompt.question": "是否信任 {0} 中檔案的作者？",
+      "kiroStandalone.trustPrompt.trust": "信任資料夾並繼續"
+    },
+    "vs/workbench/contrib/welcomeDialog/electron-browser/workflowsAnnouncement": {
+      "approveForMeDefault": "預設使用「代我核准」",
+      "approveForMeDefaultHelper": "套用至所有工作區中的新聊天。你也可以透過命令面板更改此設定。",
+      "approveForMeFailed": "無法更新「代我核准」，請重試。",
+      "approveForMeManaged": "「代我核准」由你的組織管理。"
+    },
+    "vs/workbench/electron-browser/parts/dialogs/dialog.contribution": {
+      "kiroAgentNotLoaded": "尚未載入"
+    },
+    "vs/workbench/services/kiroStandalone/common/projectAdd": {
+      "kiroStandalone.addProjectFailed": "無法開啟 {0}"
+    }
+  }
+}
