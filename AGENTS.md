@@ -7,7 +7,7 @@ User instructions define the authorized scope. Human docs: [README.md](README.md
 - The npm package `@polang233/kiro-language-pack` is public. Keep npm, VSIX and lockfile versions aligned.
 - Extension id stays `polang233.kiro-language-pack`. Do not derive its publisher/name from the scoped npm name.
 - `npx @polang233/kiro-language-pack@latest` defaults to `install`. Also support `install/preview/status/restore`, `--locale=zh-cn/zh-tw` and `--dir=path`. Source entry point: `node bin/cli.mjs`.
-- Detect system locale: TW/HK/MO or zh-Hant selects `zh-tw` with the existing Taiwan terminology; everything else selects `zh-cn`.
+- Detect system locale: TW/HK/MO or zh-Hant selects `zh-tw`; everything else selects `zh-cn`.
 - Recommend Node 22+; runtime minimum is 18.17. Bundle this version's VSIX so end users need neither source checkout nor build.
 - After an app update, users rerun install. `restore` restores only app files; the extension and display language can be switched in the app.
 
@@ -15,7 +15,7 @@ User instructions define the authorized scope. Human docs: [README.md](README.md
 
 1. Run `npm run check-upgrade`, `npm run detect` and `npm run extract` against the updated Kiro installation.
 2. `check-upgrade` archives the previous snapshot under `reports/baselines/`; use `--baseline=<snapshot>` to repeat a comparison. Review changed English even when a translation exists. Inspect added, deleted and moved keys and changed English text. Translate new keys in `src/i18n/zh-cn/`, reuse translations for moved module paths and review obsolete keys. Do not count filtered-out keys as translated.
-3. Run `node scripts/convert-zh-tw.mjs`, inspect the diff and preserve Taiwan terminology.
+3. Run `node scripts/convert-zh-tw.mjs`, inspect the diff and preserve reviewed terminology.
 4. Update `target.verifiedKiroVersions` and relevant documentation. Keep README, English README and Chinese copies in sync.
 5. Align versions in `config.json`, `package.json`, `package-lock.json` and `package-lock.json.packages[""]`. The scoped npm package and VSIX use the same version; keep package/lock names aligned too. Aligning with a new Kiro build is a patch bump; new pack capabilities, such as this CLI, justify a minor bump.
 
