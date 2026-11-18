@@ -789,7 +789,7 @@ if (incomplete) {
 
 try {
   const removed = pruneBuilds({ root: path.dirname(state.paths.buildDir), current: state.paths.buildDir,
-    recordName: 'patch.json', installRoot: install.installRoot, targetRoot: extDir, keep: keepBackups });
+    recordName: 'patch.json', installRoot: state.paths.installRoot, targetRoot: extDir, keep: keepBackups });
   if (removed.length) log.plain(`已清理 ${removed.length} 份旧版本备份，保留当前版本和最近的备份。`);
 } catch (err) { log.warn('旧备份清理未完成，备份已保留：' + err.message); }
 log.step('Done');

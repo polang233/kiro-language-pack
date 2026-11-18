@@ -342,6 +342,9 @@ require('node:module').syncBuiltinESMExports();
   const sources = cleanAppFiles;
   const baseVersion = productJson.version;
   const retentionOutput = [];
+  const alias = path.join(temp, 'install-alias');
+  fs.symlinkSync(installRoot, alias, process.platform === 'win32' ? 'junction' : 'dir');
+  const aliasArgs = [`--dir=${alias}`];
   let lastOriginal;
   for (let build = 0; build < 4; build++) {
     for (const [file, bytes] of sources) fs.writeFileSync(file, bytes);
@@ -353,7 +356,7 @@ require('node:module').syncBuiltinESMExports();
     const status = execute(['restore', ...args]);
     assert.match(status, /旧版本记录/, 'restore distinguishes older builds from missing records');
     assert.equal(fs.readFileSync(target, 'utf8'), lastOriginal, 'old backups never overwrite a new build');
-    retentionOutput.push(execute(['install', ...args, '--locale=zh-cn', '--keep-backups=2']));
+    retentionOutput.push(execute(['install', ...aliasArgs, '--locale=zh-cn', '--keep-backups=2']));
   }
   const recordName = product === 'cursor' ? 'rewrite.json' : 'patch.json';
   assert.equal(stateFiles(stateRoot).filter(file => path.basename(file) === recordName).length, 2,
