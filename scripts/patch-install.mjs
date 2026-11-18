@@ -52,6 +52,7 @@ import { p, readJson, log, fail, parseArgs, loadConfig } from './lib/util.mjs';
 import { findKiroInstalls, readKiroInfo, extensionsDir, argvJsonPath } from './lib/kiro-paths.mjs';
 import { argvLocale } from './lib/argv.mjs';
 import { PatchState, atomicWrite, sha256, writeJsonAtomic } from './lib/patch-state.mjs';
+import { backupLimit, leftoverMessage, leftoverPatches, pruneBuilds, reportPreviousBuilds, reportAppProcesses } from './lib/install-maintenance.mjs';
 
 const BACKUP_DIR = '.kiro-language-pack-backup';
 const RECORD_FILE = '.kiro-language-pack-patch.json';
@@ -204,13 +205,29 @@ const extDir = path.join(install.appRoot, 'extensions', 'kiro.kiro-agent');
 if (!fs.existsSync(extDir)) fail(`kiro.kiro-agent not found under ${install.appRoot}/extensions.`);
 
 const state = patchState(install, info);
-if (!flags.status && !flags.preview && (flags.restore || flags.apply === true)) state.lock();
+const keepBackups = backupLimit(flags['keep-backups']);
+const writes = !flags.status && !flags.preview && (flags.restore || flags.apply === true);
+const historyRoot = path.dirname(state.paths.buildDir);
+let leftovers = [];
+if (writes) {
+  state.lock();
+  const legacy = readJson(state.legacyRecordPath, null);
+  const legacyIsCurrent = legacy && legacy.kiroVersion === info.kiroVersion && (!legacy.commit || legacy.commit === info.commit);
+  leftovers = leftoverPatches({ root: historyRoot, current: state.paths.buildDir, recordName: 'patch.json',
+    targetRoot: extDir, currentFiles: state.record?.files, legacyRecords: legacy && !legacyIsCurrent ? [legacy] : [] });
+}
+if (writes && !flags.restore) {
+  if (leftovers.length) fail(leftoverMessage(leftovers));
+  reportAppProcesses('kiro', state.paths.installRoot, { writing: true });
+}
 const { backupRoot, recordPath } = state.paths;
 const relative = (file) => path.relative(extDir, file).split(path.sep).join('/');
 
 function readRecord() {
   return state.record;
 }
+const reportHistory = () => reportPreviousBuilds(path.dirname(state.paths.buildDir), state.paths.buildDir,
+  'patch.json', [readJson(state.legacyRecordPath, null)]);
 
 // --- status -----------------------------------------------------------------
 
@@ -219,6 +236,8 @@ if (flags.status) {
   log.step(`Kiro ${info.kiroVersion} at ${install.installRoot}`);
   if (!record || record.status === 'restored') {
     log.plain('  not patched');
+    if (!record) reportHistory();
+    reportAppProcesses('kiro', state.paths.installRoot);
     process.exit(0);
   }
   log.plain(`  patched with ${record.locale} on ${record.patchedAt}`);
@@ -232,21 +251,31 @@ if (flags.status) {
     sha256(fs.readFileSync(file)) === entry.patched ? intact++ : changed++;
   }
   log.plain(`  ${intact} file(s) still carry the patch, ${changed} no longer do`);
+  reportAppProcesses('kiro', state.paths.installRoot);
   process.exit(0);
 }
 
 // --- restore ----------------------------------------------------------------
 
 if (flags.restore) {
+  if (leftovers.length) log.warn(leftoverMessage(leftovers));
+  if (leftovers.length && (!readRecord() || readRecord().status === 'restored')) process.exit(1);
   if (!readRecord()) {
     log.ok('No patch record for this application build. Nothing to restore.');
+    reportHistory();
+    process.exit(0);
+  }
+  if (readRecord().status === 'restored') {
+    log.ok('当前版本已恢复。');
     process.exit(0);
   }
   log.step(`Restoring files in ${install.installRoot}`);
-  const { restored, problems } = state.restore();
+  reportAppProcesses('kiro', state.paths.installRoot, { writing: true });
+  const { restored, problems } = state.restore(leftovers);
   for (const problem of problems) log.warn(problem);
   log.plain(`  Originals and recovery record kept in ${state.paths.buildDir}`);
   if (problems.length) fail(`${restored} restored, ${problems.length} unresolved. Backups and record were preserved; repair the reported files and retry --restore.`);
+  if (leftovers.length) fail(`已恢复 ${restored} 个当前版本文件，旧版本补丁文件已保留。`);
   log.ok(`${restored} restored. Restart Kiro.`);
   process.exit(0);
 }
@@ -758,6 +787,11 @@ if (incomplete) {
   fail('The patch is saved, but setup is incomplete. Re-run the same apply command to retry; no restore is needed.');
 }
 
+try {
+  const removed = pruneBuilds({ root: path.dirname(state.paths.buildDir), current: state.paths.buildDir,
+    recordName: 'patch.json', installRoot: install.installRoot, targetRoot: extDir, keep: keepBackups });
+  if (removed.length) log.plain(`已清理 ${removed.length} 份旧版本备份，保留当前版本和最近的备份。`);
+} catch (err) { log.warn('旧备份清理未完成，备份已保留：' + err.message); }
 log.step('Done');
 log.plain('  Restart Kiro - the display language is a launch argument, so reloading the window is not enough.');
 log.plain('  `npm run patch -- --restore` undoes the rewrite of the install (not the extension, not argv.json).');

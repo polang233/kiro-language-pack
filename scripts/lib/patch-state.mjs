@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import crypto from 'node:crypto';
+import { acquireInstallLock } from './install-maintenance.mjs';
 
 export const sha256 = (data) => crypto.createHash('sha256').update(data).digest('hex');
 
@@ -142,35 +143,10 @@ export class PatchState {
 
   /** Serialize writers for this install, including writers targeting different builds. */
   lock() {
-    fs.mkdirSync(this.paths.installDir, { recursive: true });
-    const token = crypto.randomUUID();
-    const owner = { pid: process.pid, token };
-    for (let attempt = 0; attempt < 2; attempt++) {
-      try {
-        fs.writeFileSync(this.paths.lockPath, JSON.stringify(owner), { flag: 'wx', mode: 0o600 });
-        break;
-      } catch (err) {
-        if (err.code !== 'EEXIST') throw err;
-        let other;
-        try { other = readJson(this.paths.lockPath); } catch { /* An interrupted lock write. */ }
-        let alive = true;
-        if (Number.isInteger(other?.pid) && other.pid > 0) {
-          try { process.kill(other.pid, 0); } catch (probe) { if (probe.code === 'ESRCH') alive = false; }
-        } else {
-          alive = Date.now() - fs.statSync(this.paths.lockPath).mtimeMs < 30000;
-        }
-        if (alive || attempt) throw new Error(`Another patch may be running. Retry after it exits: ${this.paths.lockPath}`);
-        fs.rmSync(this.paths.lockPath);
-      }
-    }
-    const release = () => {
-      try {
-        if (readJson(this.paths.lockPath)?.token === token) fs.rmSync(this.paths.lockPath, { force: true });
-      } catch { /* Preserve an unreadable lock instead of removing someone else's. */ }
-    };
-    process.once('exit', release);
-    this.load();
-    return () => { release(); process.removeListener('exit', release); };
+    const release = acquireInstallLock(this.paths.lockPath);
+    try { this.load(); }
+    catch (err) { release(); throw err; }
+    return release;
   }
 
   relative(file) {
@@ -266,12 +242,16 @@ export class PatchState {
     this.save({ ...this.record, status: 'patched', files: completed });
   }
 
-  restore() {
+  restore(skip = []) {
     if (!this.record) return { restored: 0, problems: [] };
     const files = structuredClone(this.record.files);
     const candidates = [];
     const problems = [];
     for (const [rel, entry] of Object.entries(files)) {
+      if (skip.includes(rel)) {
+        problems.push(`${rel}: 原始备份仍含旧版本补丁，已保留文件与记录。`);
+        continue;
+      }
       try {
         const original = this.original(rel, entry);
         const file = within(this.targetRoot, rel);

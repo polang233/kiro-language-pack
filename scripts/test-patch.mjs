@@ -12,7 +12,7 @@ import { patchStatePaths, sha256 } from './lib/patch-state.mjs';
 const repo = fileURLToPath(new URL('../', import.meta.url));
 const sources = [
   'scripts/patch-install.mjs', 'scripts/lib/patch-state.mjs', 'scripts/lib/util.mjs',
-  'scripts/lib/kiro-paths.mjs', 'scripts/lib/argv.mjs', 'src/extension/main.cjs'
+  'scripts/lib/kiro-paths.mjs', 'scripts/lib/argv.mjs', 'scripts/lib/install-maintenance.mjs', 'src/extension/main.cjs'
 ];
 const version = '1.0.0';
 const commit = 'fixture-build-one';

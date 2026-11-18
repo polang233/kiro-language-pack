@@ -192,6 +192,9 @@ if(args[0] === '--install-extension') {
   }
   fs.mkdirSync(path.dirname(target), { recursive: true });
   fs.writeFileSync(target, original);
+  const stateFiles = (dir) => fs.existsSync(dir) ? fs.readdirSync(dir, { withFileTypes: true })
+    .flatMap((entry) => entry.isDirectory() ? stateFiles(path.join(dir, entry.name)) : [path.join(dir, entry.name)]) : [];
+  const cleanAppFiles = stateFiles(app).map(file => [file, fs.readFileSync(file)]);
   const callsFile = path.join(data, 'cli-calls.jsonl');
   const calls = () => fs.existsSync(callsFile) ? fs.readFileSync(callsFile, 'utf8').trim().split('\n').filter(Boolean).map(JSON.parse) : [];
   execute(['preview', ...args, '--locale=zh-cn']);
@@ -211,8 +214,6 @@ if(args[0] === '--install-extension') {
   execute(['install', ...args, '--locale=zh-cn']);
   assert.equal(fs.readFileSync(target, 'utf8'), simplified, 'repeat install converges');
   assert.ok(calls().filter((call) => call[0] === '--install-extension').length >= 3, 'repeat install retries extension setup');
-  const stateFiles = (dir) => fs.existsSync(dir) ? fs.readdirSync(dir, { withFileTypes: true })
-    .flatMap((entry) => entry.isDirectory() ? stateFiles(path.join(dir, entry.name)) : [path.join(dir, entry.name)]) : [];
   const stateRoot = path.join(data, `${product}-language-pack`);
   const backup = stateFiles(stateRoot).find((file) => path.basename(path.dirname(file)) === 'backup'
     && fs.readFileSync(file).equals(Buffer.from(original)));
@@ -244,6 +245,20 @@ if(args[0] === '--install-extension') {
   productJson.commit = 'fixture-b';
   productJson.version += '-fixture';
   writeJson(path.join(app, 'product.json'), productJson);
+  const oldPatchedFile = path.join(app, 'extensions', 'kiro.kiro-agent', 'dist', 'extension.js');
+  const obsolete = fs.readFileSync(oldPatchedFile);
+  assert.match(execute(['install', ...args, '--locale=zh-tw'], false), /旧版本补丁残留/);
+  assert.match(execute(['restore', ...args], false), /旧版本补丁残留/);
+  assert.deepEqual(fs.readFileSync(oldPatchedFile), obsolete, 'mixed builds preserve old patched bytes for recovery');
+  assert.equal(fs.readFileSync(target, 'utf8'), updated, 'mixed builds never overwrite the updated file');
+  const pristine = cleanAppFiles.find(([file]) => file === oldPatchedFile)[1];
+  fs.writeFileSync(oldPatchedFile, 'const unrelated = true;\n');
+  execute(['install', ...args, '--locale=zh-tw']);
+  fs.writeFileSync(oldPatchedFile, obsolete);
+  assert.match(execute(['restore', ...args], false), /旧版本补丁残留/);
+  assert.equal(fs.readFileSync(target, 'utf8'), updated, 'restore continues with safe files in a mixed install');
+  assert.deepEqual(fs.readFileSync(oldPatchedFile), obsolete, 'restore never touches leftover old patches');
+  fs.writeFileSync(oldPatchedFile, pristine);
   execute(['install', ...args, '--locale=zh-tw']);
   execute(['restore', ...args]);
   assert.equal(fs.readFileSync(target, 'utf8'), updated, 'restore never reinstates an older application build');
@@ -323,7 +338,32 @@ require('node:module').syncBuiltinESMExports();
     assert.deepEqual(fs.readFileSync(target), beforeNpx, 'published npx restores the original app bytes');
     console.log('Published npx: default installation, TW/HK/MO/Hant/CN/English/script precedence, manual locale overrides and restore passed.');
   }
-  console.log(`${pkg.name}: tarball install, npx entry, VSIX, preview, retries, language switch, restore and app upgrade passed.`);
+  // Exercise retention through the shipped CLI over several actual build changes.
+  const sources = cleanAppFiles;
+  const baseVersion = productJson.version;
+  let lastOriginal;
+  for (let build = 0; build < 4; build++) {
+    for (const [file, bytes] of sources) fs.writeFileSync(file, bytes);
+    lastOriginal = fs.readFileSync(target, 'utf8') + ' '.repeat(build + 1);
+    fs.writeFileSync(target, lastOriginal);
+    productJson.commit = 'retention-' + build;
+    productJson.version = baseVersion + '-retention-' + build;
+    writeJson(path.join(app, 'product.json'), productJson);
+    const status = execute(['restore', ...args]);
+    assert.match(status, /旧版本记录/, 'restore distinguishes older builds from missing records');
+    assert.equal(fs.readFileSync(target, 'utf8'), lastOriginal, 'old backups never overwrite a new build');
+    execute(['install', ...args, '--locale=zh-cn', '--keep-backups=2']);
+  }
+  const recordName = product === 'cursor' ? 'rewrite.json' : 'patch.json';
+  assert.equal(stateFiles(stateRoot).filter(file => path.basename(file) === recordName).length, 2,
+    'the packaged CLI retains the requested number of completed builds: ' + JSON.stringify(stateFiles(stateRoot)
+      .filter(file => path.basename(file) === recordName).map(file => {
+        const record = readJson(file);
+        return { version: record.version, status: record.status, files: Object.keys(record.files) };
+      })));
+  execute(['restore', ...args]);
+  assert.equal(fs.readFileSync(target, 'utf8'), lastOriginal, 'current build restores after old backup cleanup');
+  console.log(`${pkg.name}: tarball install, npx entry, VSIX, preview, retries, language switch, restore, app upgrade and backup retention passed.`);
 } finally {
   assert.equal(path.dirname(temp), path.resolve(os.tmpdir()));
   fs.rmSync(temp, { recursive: true, force: true });

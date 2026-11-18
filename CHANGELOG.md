@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0] - 2026-11-18
+
+- 安装成功后按版本保留备份，默认保留当前版本与最近两个版本，支持 `--keep-backups=N`。
+- 改进安装与恢复的写入锁，检测并处理已被复用的进程编号。
+- 识别应用更新后残留的旧补丁，恢复时继续处理有可靠备份的文件，并提示未完成的部分。
+- 确认目标应用正在运行时暂停安装或恢复，退出应用后可重试。
+
 All notable changes to this project are documented here.
 This project follows [Semantic Versioning](https://semver.org/).
 
