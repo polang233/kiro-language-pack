@@ -229,6 +229,7 @@ export function pruneBuilds({ root, current, recordName, installRoot, targetRoot
   root = path.resolve(root);
   current = path.resolve(current);
   const builds = buildHistory(root, recordName).sort((a, b) => b.modified - a.modified);
+  const physicalRoot = fs.realpathSync.native(root);
   const currentRecord = builds.find(item => item.dir === current)?.record;
   const old = builds.filter(item => item.dir !== current);
   const removed = [];
@@ -262,8 +263,9 @@ export function pruneBuilds({ root, current, recordName, installRoot, targetRoot
     });
     if (!safe || hasSymlink(dir)) continue;
     // 最终绝对路径必须是本安装状态目录的直接子目录。
-    if (path.dirname(fs.realpathSync(dir)) !== fs.realpathSync(root)) continue;
-    fs.rmSync(dir, { recursive: true });
+    const physicalDir = fs.realpathSync.native(dir);
+    if (path.relative(physicalRoot, path.dirname(physicalDir)) !== '') continue;
+    fs.rmSync(dir, { recursive: true, maxRetries: 3 });
     removed.push(dir);
   }
   return removed;

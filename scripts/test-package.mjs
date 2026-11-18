@@ -341,6 +341,7 @@ require('node:module').syncBuiltinESMExports();
   // Exercise retention through the shipped CLI over several actual build changes.
   const sources = cleanAppFiles;
   const baseVersion = productJson.version;
+  const retentionOutput = [];
   let lastOriginal;
   for (let build = 0; build < 4; build++) {
     for (const [file, bytes] of sources) fs.writeFileSync(file, bytes);
@@ -352,7 +353,7 @@ require('node:module').syncBuiltinESMExports();
     const status = execute(['restore', ...args]);
     assert.match(status, /旧版本记录/, 'restore distinguishes older builds from missing records');
     assert.equal(fs.readFileSync(target, 'utf8'), lastOriginal, 'old backups never overwrite a new build');
-    execute(['install', ...args, '--locale=zh-cn', '--keep-backups=2']);
+    retentionOutput.push(execute(['install', ...args, '--locale=zh-cn', '--keep-backups=2']));
   }
   const recordName = product === 'cursor' ? 'rewrite.json' : 'patch.json';
   assert.equal(stateFiles(stateRoot).filter(file => path.basename(file) === recordName).length, 2,
@@ -360,7 +361,7 @@ require('node:module').syncBuiltinESMExports();
       .filter(file => path.basename(file) === recordName).map(file => {
         const record = readJson(file);
         return { version: record.version, status: record.status, files: Object.keys(record.files) };
-      })));
+      })) + '\n' + retentionOutput.join('\n'));
   execute(['restore', ...args]);
   assert.equal(fs.readFileSync(target, 'utf8'), lastOriginal, 'current build restores after old backup cleanup');
   console.log(`${pkg.name}: tarball install, npx entry, VSIX, preview, retries, language switch, restore, app upgrade and backup retention passed.`);
